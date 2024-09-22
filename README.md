@@ -10,3 +10,7 @@ https://robotology.github.io/idyntree/classiDynTree_1_1KinDynComputations.html
 
 https://github.com/GNOME/libxml2
 
+https://github.com/idiap/ttgo
+
+https://sites.google.com/view/ttgo/home
+

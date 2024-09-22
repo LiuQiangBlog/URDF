@@ -1,0 +1,9 @@
+install(
+    FILES
+        PositionController.hpp
+        PositionController.hxx
+    DESTINATION
+        ${${PROJECT_NAME}_PREFIX_INCLUDE}/${PROJECT_NAME}/position
+    COMPONENT
+        Devel
+)

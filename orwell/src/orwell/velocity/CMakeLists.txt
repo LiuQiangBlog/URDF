@@ -1,0 +1,9 @@
+install(
+    FILES
+        VelocityController.hpp
+        VelocityController.hxx
+    DESTINATION
+        ${${PROJECT_NAME}_PREFIX_INCLUDE}/${PROJECT_NAME}/velocity
+    COMPONENT
+        Devel
+)

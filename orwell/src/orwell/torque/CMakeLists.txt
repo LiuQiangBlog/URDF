@@ -1,0 +1,17 @@
+install(
+    FILES
+        TorqueController.hpp
+        TorqueController.hxx
+        CompliantController.hpp
+        CompliantController.hxx
+        CartesianImpedanceController.hpp
+        CartesianImpedanceController.hxx
+        JointImpedanceController.hpp
+        JointImpedanceController.hxx
+        AdmittanceController.hpp
+        AdmittanceController.hxx
+    DESTINATION
+        ${${PROJECT_NAME}_PREFIX_INCLUDE}/${PROJECT_NAME}/torque
+    COMPONENT
+        Devel
+)
