@@ -1,0 +1,2 @@
+add_executable(tutorial_rbdl_ur5 tutorial_rbdl_ur5.cpp)
+target_link_libraries(tutorial_rbdl_ur5 rbdl)
