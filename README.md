@@ -20,4 +20,6 @@ https://github.com/rballester/tthresh
 
 https://rexlab.ri.cmu.edu/RobotDynamics.jl/dev/
 
+https://github.com/HighTorque-Robotics/livelybot_dynamic_control
+
 
