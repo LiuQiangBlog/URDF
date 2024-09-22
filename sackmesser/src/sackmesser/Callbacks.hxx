@@ -75,13 +75,7 @@ namespace sackmesser
     {
         return dynamic_cast<Type *>(this);
     }
-
-    template <class... Arguments>
-    Callbacks::CallbackQueue<Arguments...>::CallbackQueue() = default;
-
-    template <class... Arguments>
-    Callbacks::CallbackQueue<Arguments...>::~CallbackQueue() = default;
-
+    
     template <class... Arguments>
     void Callbacks::CallbackQueue<Arguments...>::addCallback(const Callback &callback)
     {

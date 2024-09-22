@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(URDF)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/eigen-3.4.0)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tinyxml2)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/orocos_kdl/src)
