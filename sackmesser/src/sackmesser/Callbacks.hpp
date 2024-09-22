@@ -132,13 +132,13 @@ namespace sackmesser
              * @brief default constructor
              * @details
              */
-            CallbackQueue();
+            CallbackQueue() = default;
 
             /**
              * @brief default destructor
              * @details
              */
-            virtual ~CallbackQueue();
+            virtual ~CallbackQueue() = default;
 
             /**
              * @brief add a callback to this queue
