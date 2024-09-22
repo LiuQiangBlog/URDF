@@ -18,4 +18,6 @@ https://github.com/VMML/vmmlib/tree/master/vmmlib
 
 https://github.com/rballester/tthresh
 
+https://rexlab.ri.cmu.edu/RobotDynamics.jl/dev/
+
 
