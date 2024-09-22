@@ -1,0 +1,123 @@
+--- 10-13-2018 ---
+Add note in kinematics module noting that kinematics must be updated before using reference frame objects
+
+--- 10-13-2018 ---
+Add Eigen stl vector specialization for Vector4d and Quaternion objects
+
+--- 10-13-2018 ---
+Add explicit keyword to a number of the classes constructors
+
+--- 10-14-2018 ---
+Remove temp data structures in Model struct.
+Deprecate forwardDynamicsLagrangian that uses pointers and could result in memory allocations
+
+--- 10-14-2018 ---
+Add functions to calc the jacobians and their time derivatives in single functions instead of requiring two separate calls
+which will be faster if you want to compute them both.
+
+--- 12-08-2018 ---
+Add optional bool arg to dynamics functions to not compute kinematics quantities if they've already been computed
+
+--- 12-10-2018 ---
+Add FixedReferenceFrame class to improve the API of fixed reference frames and to remove the requirement that you call frame->update() each tic 
+for frames whose transformFromParent never changes after construction.
+
+--- 12-31-2018 ---
+In previous fix regarding the reference frame transforms before kinematics have been updated, I didn't account for the case where the parent frame is a 
+fixed frame. Added bugfix here to account for that
+
+--- 01-17-2019 ---
+Fix bug with FrameOriention where operation was incorrect when calling changeFrame
+
+--- 03-07-2019 ---
+Add rdl_ros_tools package and rdl_msgs for the beginning of a set of ROS tools
+
+--- 03-17-2019 ---
+Fix issues making rdl incompatible with melodic
+
+--- 04-05-2019 ---
+Removed a bunch of deprecated functions
+
+--- 04-06-2019 ---
+Reworked FrameOrientation inheritance so it inherits from Quaternion instead of having a Quaternion
+
+--- 04-07-2019 ---
+Added Model::mass variable where you can get the mass of the model
+
+--- 05-11-2019 ---
+Remove the use of raw pointers and replace them with typedef'd std::shared_ptr's
+Remove ReferenceFrameHolder
+Minor rework to ReferenceFrame internal functionality to improve efficiency
+
+--- 05-11-2019 ---
+Create types.hpp file that auto generates shared_ptr typedef's
+
+--- 05-11-2019 ---
+Remove framepoint and point3d API's for adding other points bc it's not a defined operation kinematically
+
+--- 05-12-2019 ---
+Add center of mass reference frame
+
+--- 11-02-2019 ---
+Add missing dependency on tinyxml
+
+--- 11-02-2019 ---
+Replace some map/vector accessors in Model with .at accessor to help find index bugs that would instead segfault
+
+--- 12-06-2019 ---
+Modify how the center of mass frame is updated. Now it's done by separate functions. Also add function for computing gravity wrench on the center of mass
+
+--- 12-09-2019 ---
+Add com frame update function that accepts a quaternion
+
+--- 12-21-2019 ---
+Add functions for computing the center of mass velocity by itself
+
+--- 1-10-2020 ---
+Added function to quaternion class to perform quaternion sanitize
+
+--- 1-17-2020 ---
+Add ability to decompose quaternions into swing-twist quaternions
+
+--- 4-2-2020 ---
+Add com velocity functions that don't require q or qdot
+
+--- 4-6-2020 ---
+Add utility functions for q indices w.r.t urdf parsing
+
+--- 6-1-2020 ---
+Fix transform/transform_copy mechanics so transform call doesn't doesnt make useless copies
+Make some model member variables that should be force types use SpatialForce instead of spatial vector
+Remove some unnecessary functionality regarding transformTranspose of inverse transforms
+Now allow rotated inertial inertia in urdfreader
+Add coriolisEffects function to dynamics functions
+
+--- 9-24-2020 ---
+Improve Api for rotation conversions to/from euler angles
+
+--- 9-30-2020 ---
+Fixed some API issues with point3d/vector3d/framepoint/framevector operator overloads
+
+--- 1-25-2020 ---
+Improve setters/constructors to geometry types to make it easier to interchange types
+
+--- 1-26-2020 ---
+Add a transform_copy to Point3d class
+
+--- 4-17-2021 ---
+Update model class to be no-copy
+
+--- 4-17-2021 ---
+Adding parallel kinematics option
+
+--- 10-5-2021 ---
+Removed ros tools and cmake packages
+Updated to build with ament
+
+--- 05-2023 ---
+ros parameters for runtime modification of model parameters
+primitive hydro dynamics
+
+
+--- 10-25-2023 ---
+fix bug where ros parameters loaded from a file were not handled porperly

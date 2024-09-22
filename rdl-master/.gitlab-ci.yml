@@ -1,0 +1,66 @@
+image: registry.gitlab.com/jlack/rdl:ci-humble
+
+variables:
+  WS_NAME: "rdl_ws"
+
+stages:
+  - test
+  - pages
+
+build_and_test:
+  variables:
+      GIT_STRATEGY: none
+  stage: test
+  retry: 1
+  script:
+    - apt-get update -qq -y
+    - apt-get upgrade -y
+    - rosdep update
+    - mkdir -p $WS_NAME/src && cd $WS_NAME/src
+    - git clone -b ${CI_COMMIT_REF_NAME} ${CI_REPOSITORY_URL}
+    - cp rdl/.clang-format $HOME
+    - cd .. && rosdep install --from-paths src -i -y --as-root apt:false
+    - colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_CXX_OUTPUT_EXTENSION_REPLACE=ON
+    - colcon test
+    - colcon test-result --verbose
+    - cd src/$CI_PROJECT_NAME && doxygen Doxyfile
+    - cd $CI_PROJECT_DIR/$WS_NAME
+    - mv src/$CI_PROJECT_NAME/doxygen/ $CI_PROJECT_DIR
+    - export LCOVDIR=$CI_PROJECT_DIR/$WS_NAME/lcov
+    - mkdir -p $LCOVDIR
+    # Generate initial zero-coverage data. This adds files that were otherwise not run to the report
+    - lcov -c --exclude "install" --initial --directory build --output-file ${LCOVDIR}/initialcoverage.info
+    # Capture executed code data.
+    - lcov -c --directory build --output-file ${LCOVDIR}/testcoverage.info
+    # Combine the initial zero-coverage report with the executed lines report
+    - lcov -a ${LCOVDIR}/initialcoverage.info -a ${LCOVDIR}/testcoverage.info --o ${LCOVDIR}/fullcoverage.info
+    # Only include files that are within this workspace (eg filter out stdio.h etc)
+    - lcov -e ${LCOVDIR}/fullcoverage.info "$CI_PROJECT_DIR/$WS_NAME/src/*" --output-file ${LCOVDIR}/projectcoverage.info
+    - genhtml $LCOVDIR/projectcoverage.info --output-directory $LCOVDIR/coverage --branch-coverage -p $CI_PROJECT_DIR/$WS_NAME
+    - mv $LCOVDIR/coverage $CI_PROJECT_DIR
+    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary -o $CI_PROJECT_DIR/coverage.xml --root $CI_PROJECT_DIR/$WS_NAME
+    - cd $CI_PROJECT_DIR
+  coverage: /^\s*lines:\s*\d+.\d+\%/
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    paths:
+    - coverage/
+    - doxygen/
+    expire_in: 1 day
+
+pages:
+  stage: pages
+  dependencies:
+  - build_and_test
+  script:
+  - mkdir public
+  - mv coverage $CI_PROJECT_DIR/public/
+  - mv doxygen $CI_PROJECT_DIR/public/
+  artifacts:
+    paths:
+    - public/
+  only:
+  - master

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<robot name="test_arm" xmlns:xacro="beep">
+    <link name="link1">
+        <inertial>
+            <mass value="10."/>
+            <origin rpy="0 0 1.57079632679" xyz="0.5 0 0"/>
+            <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.02"/>
+        </inertial>
+    </link>
+
+    <joint name="joint2" type="prismatic">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin rpy="1. 0.0 0.0" xyz="0.0 0.0 0.1273"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="330.0" lower="-6.2831853" upper="6.2831853" velocity="2.16"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="link2">
+        <inertial>
+            <mass value="10."/>
+            <origin rpy="1.57079632679 0 0" xyz="0.5 0 0"/>
+            <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.02"/>
+        </inertial>
+    </link>
+
+    <joint name="joint3" type="prismatic">
+        <parent link="link2"/>
+        <child link="link3"/>
+        <origin rpy="1. 0.0 0.0" xyz="0.0 0.0 0.1273"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="330.0" lower="-6.2831853" upper="6.2831853" velocity="2.16"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="link3">
+        <inertial>
+            <mass value="10."/>
+            <origin rpy="0 1.57079632679 0" xyz="0.5 0 0"/>
+            <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.02"/>
+        </inertial>
+    </link>
+</robot>

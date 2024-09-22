@@ -1,0 +1,32 @@
+<robot name="test_arm" xmlns:xacro="beep">
+    <!--    robot name is: test_arm -->
+    <!--    root Link: test_robot_base_link has 1 child(ren) -->
+    <!--    child(1):  test_robot_shoulder_link -->
+    <link name="world"/>
+    <link name="test_robot_base_link">
+        <inertial>
+            <mass value="4.0"/>
+            <origin rpy="0 0 0" xyz="0.3 0.2 0.1"/>
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.2" iyz="0.0" izz="0.3"/>
+        </inertial>
+    </link>
+    <joint name="floating_joint" type="floating">
+        <parent link="world"/>
+        <child link="test_robot_base_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1273"/>
+    </joint>
+    <joint name="test_robot_shoulder_pan_joint" type="revolute">
+        <parent link="test_robot_base_link"/>
+        <child link="test_robot_shoulder_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1273"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="330.0" lower="-6.2831853" upper="6.2831853" velocity="2.16"/>
+    </joint>
+    <link name="test_robot_shoulder_link">
+        <inertial>
+            <mass value="7.778"/>
+            <origin rpy="0 0 0" xyz="0.0 0.01 0.0"/>
+            <inertia ixx="0.0314743125769" ixy="0.0" ixz="0.0" iyy="0.0314743125769" iyz="0.0" izz="0.021875625"/>
+        </inertial>
+    </link>
+</robot>

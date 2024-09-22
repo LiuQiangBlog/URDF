@@ -1,0 +1,738 @@
+<?xml version="1.0" ?>
+<robot name="test_centroidal_momentum_robot">
+  <link name="base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-1.65 0 -0.0587"/>
+      <mass value="3697.7"/>
+      <inertia ixx="1299.099143" ixy="-16.243531" ixz="-19.235748" iyy="23463.178046" iyz="10.491054" izz="24147.394567"/>
+    </inertial>
+    <hydro>
+      <drag>
+        <linear_damping>-10 -10 -10 -10 -10 -10</linear_damping>
+        <quadratic_damping>-10 -10 -10 -10 -10 -10</quadratic_damping>
+      </drag>
+      <buoyancy>
+        <volume>3.8788</volume>
+        <origin rpy="0 0 0" xyz="-1.64 0 -0.04"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <link name="follower_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.472 0 0"/>
+      <mass value="8.386781"/>
+      <inertia ixx="5.10849" ixy="0" ixz="0" iyy="7.688305" iyz="0" izz="2.589063"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0037699</volume>
+        <origin rpy="0 0 0" xyz="0.478621 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="follower" type="revolute">
+    <origin rpy="-1.5707963267949 -0.981922237172019 0" xyz="-0.4446 0 -0.00370000000000889"/>
+    <parent link="base_link"/>
+    <child link="follower_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" lower="-3.14" upper="3.14" velocity="1000"/>
+    <dynamics damping="10.0" friction="0.0"/>
+  </joint>
+  <link name="frunk_driving_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.028063 0.092891 0.002698"/>
+      <mass value="5.653219"/>
+      <inertia ixx="0.337988" ixy="0.011629" ixz="0.00018" iyy="0.258471" iyz="0.002688" izz="0.093971"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0020956</volume>
+        <origin rpy="0 0 0" xyz="0.027875 0.094302 0.002644"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="frunk_driving" type="revolute">
+    <origin rpy="1.5708 -0.69808 3.1416" xyz="-0.7596 0.02 0.3363"/>
+    <parent link="base_link"/>
+    <child link="frunk_driving_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" lower="0" upper="2.39" velocity="1000"/>
+    <dynamics damping="50.0" friction="50.0"/>
+  </joint>
+  <link name="frunk_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.619581 0.343047 -0.002541"/>
+      <mass value="42.898018"/>
+      <inertia ixx="21.849301" ixy="12.769933" ixz="0.006369" iyy="34.659622" iyz="-0.02148" izz="30.232214"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0230998</volume>
+        <origin rpy="0 0 0" xyz="0.618203 0.330443 -0.002768"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="frunk" type="revolute">
+    <origin rpy="0 0 1.7017" xyz="0.26622 -0.030815 -0.02"/>
+    <parent link="frunk_driving_link"/>
+    <child link="frunk_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100000" lower="-3.14" upper="3.14" velocity="1000"/>
+    <dynamics damping="50.0" friction="10.0"/>
+  </joint>
+  <link name="head_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.043683 -0.266402 -0.070015"/>
+      <mass value="118.756291"/>
+      <inertia ixx="14.684942" ixy="0.684278" ixz="0.403945" iyy="10.99808" iyz="2.234715" izz="16.5451"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.1435364</volume>
+        <origin rpy="0 0 0" xyz="0.00524500 -0.27206000 -0.07056300"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="head" type="revolute">
+    <origin rpy="1.5708 0 0" xyz="0.0204 -0.073 -0.1537"/>
+    <parent link="base_link"/>
+    <child link="head_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" lower="0" upper="1.57" velocity="1000"/>
+  </joint>
+  <link name="trim_weight_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.000022 0.01299 0.338587"/>
+      <mass value="190.013493"/>
+      <inertia ixx="27.133622" ixy="0.000117" ixz="-0.000856" iyy="40.167571" iyz="0.837187" izz="14.715123"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0180929</volume>
+        <origin rpy="0 0 0" xyz="-0.000053 0.01242 0.336266"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="trim_weight" type="prismatic">
+    <origin rpy="1.5707963267949 0 1.5707963267949" xyz="-1.71266 0 -0.2537"/>
+    <parent link="base_link"/>
+    <child link="trim_weight_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" lower="-0.906" upper="0.604" velocity="1000"/>
+  </joint>
+  <link name="bottom_port_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="bottom_port_thruster" type="continuous">
+    <origin rpy="-0.790858490339258 0.904827089415785 0" xyz="-0.384262656127795 0.600948013549979 -0.412620658386134"/>
+    <parent link="base_link"/>
+    <child link="bottom_port_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="top_port_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="top_port_thruster" type="continuous">
+    <origin rpy="2.35073416325054 0.904827089415786 3.14159265358979" xyz="-0.862063767238907 0.607118013549979 0.161450102830561"/>
+    <parent link="base_link"/>
+    <child link="top_port_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="bottom_stbd_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="bottom_stbd_thruster" type="continuous">
+    <origin rpy="0.790858490339256 0.904827089415787 0" xyz="-0.384262656127795 -0.600948013549979 -0.412620658386133"/>
+    <parent link="base_link"/>
+    <child link="bottom_stbd_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="top_stbd_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="top_stbd_thruster" type="continuous">
+    <origin rpy="2.04176078220175 -0.292497473006441 0.515265464311309" xyz="-0.862063767238907 -0.607118013549979 0.161450102830561"/>
+    <parent link="base_link"/>
+    <child link="top_stbd_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="lateral_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="lateral_thruster" type="continuous">
+    <origin rpy="-1.5707963267949 0 -3.14159265358979" xyz="-2.9514 0.0244049999999724 -0.123700000000007"/>
+    <parent link="base_link"/>
+    <child link="lateral_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="vert_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="vert_thruster" type="continuous">
+    <origin rpy="3.14159265358978 0 0" xyz="-3.35780000000001 0 -0.282584000000009"/>
+    <parent link="base_link"/>
+    <child link="vert_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="70"/>
+  </joint>
+  <link name="port_transit_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="port_transit_thruster" type="continuous">
+    <origin rpy="3.14159265358979 -1.5707963267949 0" xyz="-4.00346899999999 0.831564470418859 -0.123700000000042"/>
+    <parent link="base_link"/>
+    <child link="port_transit_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="100"/>
+  </joint>
+  <link name="stbd_transit_thruster_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.160216"/>
+      <inertia ixx="0.003881" ixy="0" ixz="0" iyy="0.003881" iyz="0" izz="0.003879"/>
+    </inertial>
+    <hydro>
+      <buoyancy>
+        <volume>0.0004297</volume>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </buoyancy>
+    </hydro>
+  </link>
+  <joint name="stbd_transit_thruster" type="continuous">
+    <origin rpy="3.14159265358979 -1.5707963267949 0" xyz="-4.003469 -0.831564470418728 -0.1237"/>
+    <parent link="base_link"/>
+    <child link="stbd_transit_thruster_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10000" velocity="100"/>
+  </joint>
+  <link name="frunk_end_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="frunk_end" type="fixed">
+    <origin rpy="0 0 0" xyz="0.960014 0.504967 0"/>
+    <parent link="frunk_link"/>
+    <child link="frunk_end_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="follower_end_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="follower_end" type="fixed">
+    <origin rpy="0 0 0" xyz="0.918545 0 0"/>
+    <parent link="follower_link"/>
+    <child link="follower_end_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="status_light_port_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="status_light_port" type="fixed">
+    <origin rpy="0 0 0" xyz="-1.9818 0.42635 0.446075999999991"/>
+    <parent link="base_link"/>
+    <child link="status_light_port_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="status_light_stbd_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="status_light_stbd" type="fixed">
+    <origin rpy="0 0 3.14159265358979" xyz="-2.0178 -0.42635 0.446075999999991"/>
+    <parent link="base_link"/>
+    <child link="status_light_stbd_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="ui_box_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="ui_box" type="fixed">
+    <origin rpy="1.5707963267949 -1.5707963267949 0" xyz="-1.9078 0.314 0.400990999999991"/>
+    <parent link="base_link"/>
+    <child link="ui_box_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="optical_modem_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="optical_modem" type="fixed">
+    <origin rpy="3.14159265358979 -1.5707963267949 0" xyz="-2.617950500022 0.42545 0.361281249999991"/>
+    <parent link="base_link"/>
+    <child link="optical_modem_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="mast_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="mast" type="fixed">
+    <origin rpy="0 0 0" xyz="-2.57493598115238 0 0.418681837919536"/>
+    <parent link="base_link"/>
+    <child link="mast_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="antenna_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="antenna" type="fixed">
+    <origin rpy="-2.79989192119919 -1.51875268555206 2.79946393697786" xyz="-0.0766812529076222 -0.020087516086 0.394966562462455"/>
+    <parent link="mast_link"/>
+    <child link="antenna_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="emergency-beacon_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="emergency-beacon" type="fixed">
+    <origin rpy="-3.14159265358965 -1.52176401769977 3.14159265358965" xyz="-0.250664301435622 0.000232758742 0.465899439900455"/>
+    <parent link="mast_link"/>
+    <child link="emergency-beacon_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="dolphin_modem_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="dolphin_modem" type="fixed">
+    <origin rpy="3.14159265358979 -1.5707963267949 0" xyz="-2.647242742428 -0.280042742682 0.390649999999991"/>
+    <parent link="base_link"/>
+    <child link="dolphin_modem_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="subnero_transducer_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="subnero_transducer" type="fixed">
+    <origin rpy="3.14159265358979 -1.5707963267949 0" xyz="-2.621189351558 -0.381113889282 0.370800000075991"/>
+    <parent link="base_link"/>
+    <child link="subnero_transducer_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="drop_weight_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="drop_weight" type="fixed">
+    <origin rpy="0 0 1.5707963267949" xyz="-2.554154 -0.288341 -0.576023000000009"/>
+    <parent link="base_link"/>
+    <child link="drop_weight_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="stbd_bottom_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="stbd_bottom_light" type="fixed">
+    <origin rpy="-2.2105497335664 1.13885132970231 0.708626272127634" xyz="-1.84065861 -0.146621669926 -0.639961099810009"/>
+    <parent link="base_link"/>
+    <child link="stbd_bottom_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="port_bottom_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="port_bottom_light" type="fixed">
+    <origin rpy="-0.931042920023389 1.13885132970231 -0.708626272127634" xyz="-1.840658614934 0.146621669926 -0.639961099810009"/>
+    <parent link="base_link"/>
+    <child link="port_bottom_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="ins_dvl_mount"/>
+  <joint name="ins_dvl_mount_joint" type="fixed">
+    <origin rpy="3.14159265358979 0 2.35619449019234" xyz="-1.241827182424 -0.097227182482 -0.529575000034009"/>
+    <parent link="base_link"/>
+    <child link="ins_dvl_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="ins_mfg">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="ins_mfg_joint" type="fixed">
+    <origin rpy="3.14159 0 2.3562" xyz="0.0047 0.1242 -0.1159"/>
+    <parent link="ins_dvl_mount"/>
+    <child link="ins_mfg"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="dvl">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="dvl_joint" type="fixed">
+    <origin rpy="0 0 2.3562" xyz="0 0.1375 0.0481"/>
+    <parent link="ins_dvl_mount"/>
+    <child link="dvl"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="dvl_beam0">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="dvl_beam0_joint" type="fixed">
+    <origin rpy="-0.332681 0.287762 -0.0977584" xyz="0.02327533 0.02327533 0.07054550"/>
+    <axis xyz="0 0 1"/>
+    <parent link="dvl"/>
+    <child link="dvl_beam0"/>
+  </joint>
+  <link name="dvl_beam1">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="dvl_beam1_joint" type="fixed">
+    <origin rpy="0.436332 0 0.785398" xyz="0.02327533 -0.02327533 0.07054550"/>
+    <axis xyz="0 0 1"/>
+    <parent link="dvl"/>
+    <child link="dvl_beam1"/>
+  </joint>
+  <link name="dvl_beam2">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="dvl_beam2_joint" type="fixed">
+    <origin rpy="0.436332 0 -0.785398" xyz="-0.02327533 -0.02327533 0.07054550"/>
+    <axis xyz="0 0 1"/>
+    <parent link="dvl"/>
+    <child link="dvl_beam2"/>
+  </joint>
+  <link name="dvl_beam3">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-05" ixy="0" ixz="0" iyy="1e-05" iyz="0" izz="1e-05"/>
+    </inertial>
+  </link>
+  <joint name="dvl_beam3_joint" type="fixed">
+    <origin rpy="0.436332 0 -2.35619" xyz="-0.02327533 0.02327533 0.07054550"/>
+    <axis xyz="0 0 1"/>
+    <parent link="dvl"/>
+    <child link="dvl_beam3"/>
+  </joint>
+  <link name="aml_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="aml" type="fixed">
+    <origin rpy="0 1.5707963267949 0" xyz="-1.069600000082 0.350000000024 -0.380700000096009"/>
+    <parent link="base_link"/>
+    <child link="aml_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="aft_single_camera_cowling_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="aft_single_camera_cowling" type="fixed">
+    <origin rpy="-3.14159265358979 0 3.14159265358684" xyz="-2.939307128072 0 -0.615185167904009"/>
+    <parent link="base_link"/>
+    <child link="aft_single_camera_cowling_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="inductive_charger_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="inductive_charger" type="fixed">
+    <origin rpy="0 0 3.14159265358979" xyz="-2.5958 0 -0.754890000000009"/>
+    <parent link="base_link"/>
+    <child link="inductive_charger_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="port_fwd_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="port_fwd_light" type="fixed">
+    <origin rpy="0 0.392699081693426 0" xyz="0.542051932564 0.47499999996 -0.426455320828009"/>
+    <parent link="base_link"/>
+    <child link="port_fwd_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="stbd_fwd_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="stbd_fwd_light" type="fixed">
+    <origin rpy="0 0.392699081698725 0" xyz="0.542051939676 -0.47499999996 -0.426455303810009"/>
+    <parent link="base_link"/>
+    <child link="stbd_fwd_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="port_downward_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="port_downward_light" type="fixed">
+    <origin rpy="0 1.5707963267949 0" xyz="0.42045 0.4953 -0.505899999886009"/>
+    <parent link="base_link"/>
+    <child link="port_downward_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="stbd_downward_light_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="stbd_downward_light" type="fixed">
+    <origin rpy="0 1.5707963267949 0" xyz="0.420450018288 -0.4953 -0.505899999886009"/>
+    <parent link="base_link"/>
+    <child link="stbd_downward_light_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="head_stereo_camera_mount"/>
+  <joint name="head_stereo_camera" type="fixed">
+    <origin rpy="-1.57079632679489 0 -1.5707963267949" xyz="-0.356273046935889 -0.183155890391674 -0.0430000000000026"/>
+    <parent link="head_link"/>
+    <child link="head_stereo_camera_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="head_structured_light_mount"/>
+  <joint name="head_structured_light" type="fixed">
+    <origin rpy="-1.57079632679489 0 -1.5707963267949" xyz="-0.202632163957564 -0.173155890385511 -0.0729800000000023"/>
+    <parent link="head_link"/>
+    <child link="head_structured_light_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="bottom_laser_scanner_mount"/>
+  <joint name="bottom_laser_scanner" type="fixed">
+    <origin rpy="0 1.5707963267949 0" xyz="-2.2726  0.4062  -0.5267"/>
+    <parent link="base_link"/>
+    <child link="bottom_laser_scanner_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="bottom_single_camera_mount"/>
+  <joint name="bottom_single_camera" type="fixed">
+    <origin rpy="0 1.5707963267949 0" xyz="-0.612681457482 0.05900000011 -0.396575000096009"/>
+    <parent link="base_link"/>
+    <child link="bottom_single_camera_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="aft_single_camera_mount"/>
+  <joint name="aft_single_camera" type="fixed">
+    <origin rpy="3.14159 0 0" xyz="0 0 0"/>
+    <parent link="aft_single_camera_cowling_link"/>
+    <child link="aft_single_camera_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="forward_long_range_sonar_mount"/>
+  <joint name="forward_long_range_sonar" type="fixed">
+    <origin rpy="0 0 0" xyz="0.517574031812 -0.62128100026 -0.433043598990009"/>
+    <parent link="base_link"/>
+    <child link="forward_long_range_sonar_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="forward_short_range_sonar_mount"/>
+  <joint name="forward_short_range_sonar" type="fixed">
+    <origin rpy="0 0 0" xyz="0.477382788344 0.62818823562 -0.457526423786009"/>
+    <parent link="base_link"/>
+    <child link="forward_short_range_sonar_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="head_imaging_sonar_mount"/>
+  <joint name="head_imaging_sonar" type="fixed">
+    <origin rpy="-1.57079632679489 0 -1.83259571459404" xyz="0.213186043239582 -0.316159481224033 -0.209500000000001"/>
+    <parent link="head_link"/>
+    <child link="head_imaging_sonar_mount"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="vert_scanning_oas_link">
+  </link>
+  <joint name="vert_scanning_oas" type="fixed">
+    <origin rpy="1.5707963267949 -1.5707963267949 0" xyz="-2.583200000054 -0.149087000022 0.390975000111991"/>
+    <parent link="base_link"/>
+    <child link="vert_scanning_oas_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="port_scanning_oas_link">
+  </link>
+  <joint name="port_scanning_oas" type="fixed">
+    <origin rpy="0 0 1.5707963267949" xyz="-1.206599999894 0.965474999958 -0.152918500110009"/>
+    <parent link="base_link"/>
+    <child link="port_scanning_oas_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="stbd_scanning_oas_link">
+  </link>
+  <joint name="stbd_scanning_oas" type="fixed">
+    <origin rpy="0 0 -1.5707963267949" xyz="-1.206599999894 -0.965474999958 -0.152918500110009"/>
+    <parent link="base_link"/>
+    <child link="stbd_scanning_oas_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="port_side_sonar_link">
+  </link>
+  <joint name="port_side_sonar" type="fixed">
+    <origin rpy="0 0.174532925199419 1.5707963267949" xyz="-1.887649999996 0.845000000116 -0.465698493294009"/>
+    <parent link="base_link"/>
+    <child link="port_side_sonar_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+  <link name="stbd_side_sonar_link">
+  </link>
+  <joint name="stbd_side_sonar" type="fixed">
+    <origin rpy="3.14159265358979 0.174532925199426 -1.5707963267949" xyz="-1.88764999898 -0.845000000116 -0.465698493294009"/>
+    <parent link="base_link"/>
+    <child link="stbd_side_sonar_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+</robot>
+

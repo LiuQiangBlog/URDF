@@ -9,6 +9,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tinyurdf)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tinyurdf/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/gtest/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lua/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/rdl-master/rdl_dynamics/include)
 
 add_subdirectory(lua)
 add_subdirectory(orocos_kdl)
@@ -17,4 +18,5 @@ add_subdirectory(rbdl-3.3.1/addons/urdfreader)
 add_subdirectory(rbdl-3.3.1/tutorial)
 add_subdirectory(tinyxml2)
 add_subdirectory(tinyurdf)
+add_subdirectory(rdl-master/rdl_dynamics)
 

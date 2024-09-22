@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<robot name="start_with_fixed_joint_non_trivial_xform" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name="world"/>
+  <link name="j1_link">
+    <inertial>
+      <mass value="2.65"/>
+      <inertia ixx="0.013718167" ixy="0.0" ixz="0.0" iyy="0.010502833" iyz="0.0" izz="0.014806433"/>
+    </inertial>
+  </link>
+  <joint name="j1" type="revolute">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="j1_link"/>
+    <limit effort="4" lower="-0.576" upper="5.288" velocity="0.3"/>
+  </joint>
+  <link name="base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="1.2792E-06 0.000719 0.55334"/>
+      <mass value="65.16"/>
+      <inertia ixx="5.4628" ixy="4.6095E-07" ixz="-2.3222E-05" iyy="5.7057" iyz="-0.016145" izz="1.0182"/>
+    </inertial>
+  </link>
+  <joint name="world_base_link_joint" type="fixed">
+    <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0.16 0.8376982"/>
+    <axis xyz="0 0 1"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+</robot>

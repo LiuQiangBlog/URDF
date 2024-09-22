@@ -1,0 +1,5 @@
+---
+load_ros_params_from_file:
+  ros__parameters:
+    test_robot_base_link_mass: 10.
+    test_robot_base_link_volume: 1.1
