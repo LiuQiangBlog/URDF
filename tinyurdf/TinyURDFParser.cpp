@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-only
 
-#include <tinyxml2/tinyxml2.h>
+#include <tinyxml2.h>
 #include <map>
 
 #include "TinyURDFParser.hpp"
