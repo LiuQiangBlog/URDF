@@ -414,7 +414,7 @@ public:
     /**
       @return (optional) user-defined-id
     */
-    unsigned int getUserDefinedId()
+    unsigned int getUserDefinedId() const
     {
         return id;
     }
@@ -462,7 +462,7 @@ public:
       @param derrConstraint: a reference to this constraint's entry within the
                           system constraint velocity error.
     */
-    void getVelocityError(const Math::VectorNd &derrSys, Math::VectorNd &derrConstraint)
+    void getVelocityError(const Math::VectorNd &derrSys, Math::VectorNd &derrConstraint) const
     {
         derrConstraint = derrSys.block(rowInSystem, 0, sizeOfConstraint, 1);
     }

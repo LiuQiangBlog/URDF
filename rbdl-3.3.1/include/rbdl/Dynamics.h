@@ -8,7 +8,7 @@
 #ifndef RBDL_DYNAMICS_H
 #define RBDL_DYNAMICS_H
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 
 #include "rbdl/rbdl_math.h"
@@ -48,7 +48,7 @@ RBDL_DLLAPI void InverseDynamics(Model                            &model,
                                  const Math::VectorNd             &QDot,
                                  const Math::VectorNd             &QDDot,
                                  Math::VectorNd                   &Tau,
-                                 std::vector<Math::SpatialVector> *f_ext = NULL);
+                                 std::vector<Math::SpatialVector> *f_ext = nullptr);
 
 /** \brief Computes the coriolis forces
  *
@@ -66,7 +66,7 @@ RBDL_DLLAPI void NonlinearEffects(Model                            &model,
                                   const Math::VectorNd             &Q,
                                   const Math::VectorNd             &QDot,
                                   Math::VectorNd                   &Tau,
-                                  std::vector<Math::SpatialVector> *f_ext = NULL);
+                                  std::vector<Math::SpatialVector> *f_ext = nullptr);
 
 /** \brief Computes the joint space inertia matrix by using the Composite Rigid Body Algorithm
  *
@@ -106,7 +106,7 @@ RBDL_DLLAPI void ForwardDynamics(Model                            &model,
                                  const Math::VectorNd             &QDot,
                                  const Math::VectorNd             &Tau,
                                  Math::VectorNd                   &QDDot,
-                                 std::vector<Math::SpatialVector> *f_ext = NULL);
+                                 std::vector<Math::SpatialVector> *f_ext = nullptr);
 
 /** \brief Computes forward dynamics by building and solving the full Lagrangian equation
  *
@@ -133,9 +133,9 @@ RBDL_DLLAPI void ForwardDynamicsLagrangian(Model                &model,
                                            const Math::VectorNd &Tau,
                                            Math::VectorNd       &QDDot,
                                            Math::LinearSolver    linear_solver = Math::LinearSolverColPivHouseholderQR,
-                                           std::vector<Math::SpatialVector> *f_ext = NULL,
-                                           Math::MatrixNd                   *H     = NULL,
-                                           Math::VectorNd                   *C     = NULL);
+                                           std::vector<Math::SpatialVector> *f_ext = nullptr,
+                                           Math::MatrixNd                   *H     = nullptr,
+                                           Math::VectorNd                   *C     = nullptr);
 
 /** \brief Computes the effect of multiplying the inverse of the joint
  * space inertia matrix with a vector in linear time.
