@@ -51,3 +51,9 @@ https://github.com/jrl-umi3218/mc_udp
 https://github.com/arntanguy/icp
 
 https://github.com/jrl-umi3218/mesh_sampling
+
+https://github.com/enricoros/fotowall ’’∆¨«Ω
+
+https://github.com/rohanpsingh/mc_mujoco
+
+https://github.com/rohanpsingh/LearningHumanoidWalking
