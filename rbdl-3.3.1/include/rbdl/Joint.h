@@ -257,8 +257,8 @@ static const AxisMapEntry AxisMap[] = {{0, "Rx"}, {1, "Ry"}, {2, "Rz"}, {3, "Tx"
  */
 struct RBDL_DLLAPI Joint
 {
-    Joint() : mJointAxes(NULL), mJointType(JointTypeUndefined), mDoFCount(0), q_index(0), custom_joint_index(-1){};
-    Joint(JointType type) : mJointAxes(NULL), mJointType(type), mDoFCount(0), q_index(0), custom_joint_index(-1)
+    Joint() : mJointAxes(nullptr), mJointType(JointTypeUndefined), mDoFCount(0), q_index(0), custom_joint_index(-1){};
+    Joint(JointType type) : mJointAxes(nullptr), mJointType(type), mDoFCount(0), q_index(0), custom_joint_index(-1)
     {
         if (type == JointTypeRevoluteX)
         {

@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
     auto model = new Model();
     model->gravity = Vector3d(0., -9.81, 0.);
+
     auto body_a  = Body(1., Vector3d(0.5, 0., 0.0), Vector3d(1., 1., 1.));
     auto joint_a = Joint(JointTypeRevolute, Vector3d(0., 0., 1.));
     auto body_a_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);

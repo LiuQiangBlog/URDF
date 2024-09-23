@@ -31,7 +31,7 @@ Model::Model()
     // structural information
     lambda.push_back(0);
     lambda_q.push_back(0);
-    mu.push_back(std::vector<unsigned int>());
+    mu.emplace_back();
     dof_count                = 0;
     q_size                   = 0;
     qdot_size                = 0;
@@ -46,21 +46,21 @@ Model::Model()
     // Joints
     mJoints.push_back(root_joint);
     S.push_back(zero_spatial);
-    X_T.push_back(SpatialTransform());
+    X_T.emplace_back();
 
     v_J.push_back(zero_spatial);
     c_J.push_back(zero_spatial);
 
     // Spherical joints
-    multdof3_S.push_back(Matrix63::Zero());
-    multdof3_U.push_back(Matrix63::Zero());
-    multdof3_Dinv.push_back(Matrix3d::Zero());
-    multdof3_u.push_back(Vector3d::Zero());
+    multdof3_S.emplace_back(Matrix63::Zero());
+    multdof3_U.emplace_back(Matrix63::Zero());
+    multdof3_Dinv.emplace_back(Matrix3d::Zero());
+    multdof3_u.emplace_back(Vector3d::Zero());
     multdof3_w_index.push_back(0);
 
     // Dynamic variables
     c.push_back(zero_spatial);
-    IA.push_back(SpatialMatrix::Identity());
+    IA.emplace_back(SpatialMatrix::Identity());
     pA.push_back(zero_spatial);
     U.push_back(zero_spatial);
 
@@ -75,8 +75,8 @@ Model::Model()
     hdotc.push_back(zero_spatial);
 
     // Bodies
-    X_lambda.push_back(SpatialTransform());
-    X_base.push_back(SpatialTransform());
+    X_lambda.emplace_back();
+    X_base.emplace_back();
 
     mBodies.push_back(root_body);
     mBodyNameMap["ROOT"] = 0;
@@ -260,9 +260,9 @@ unsigned int Model::AddBody(const unsigned int      parent_id,
                             const SpatialTransform &joint_frame,
                             const Joint            &joint,
                             const Body             &body,
-                            std::string             body_name)
+                            const std::string      &body_name)
 {
-    assert(lambda.size() > 0);
+    assert(!lambda.empty());
     assert(joint.mJointType != JointTypeUndefined);
 
     if (joint.mJointType == JointTypeFixed)

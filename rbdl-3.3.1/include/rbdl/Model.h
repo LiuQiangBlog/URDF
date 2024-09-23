@@ -297,11 +297,11 @@ struct RBDL_DLLAPI Model
      *
      * \returns id of the added body
      */
-    unsigned int AddBody(const unsigned int            parent_id,
+    unsigned int AddBody(unsigned int                  parent_id,
                          const Math::SpatialTransform &joint_frame,
                          const Joint                  &joint,
                          const Body                   &body,
-                         std::string                   body_name = "");
+                         const std::string            &body_name = "");
 
     unsigned int AddBodySphericalJoint(const unsigned int            parent_id,
                                        const Math::SpatialTransform &joint_frame,
@@ -320,7 +320,7 @@ struct RBDL_DLLAPI Model
                             const Body                   &body,
                             std::string                   body_name = "");
 
-    unsigned int AddBodyCustomJoint(const unsigned int            parent_id,
+    unsigned int AddBodyCustomJoint(unsigned int                  parent_id,
                                     const Math::SpatialTransform &joint_frame,
                                     CustomJoint                  *custom_joint,
                                     const Body                   &body,
@@ -350,7 +350,7 @@ struct RBDL_DLLAPI Model
     /** \brief Returns the name of a body for a given body id */
     std::string GetBodyName(unsigned int body_id) const
     {
-        std::map<std::string, unsigned int>::const_iterator iter = mBodyNameMap.begin();
+        auto iter = mBodyNameMap.begin();
 
         while (iter != mBodyNameMap.end())
         {
