@@ -24,5 +24,7 @@ add_subdirectory(yaml-cpp)
 add_subdirectory(sackmesser)
 add_subdirectory(orwell)
 add_subdirectory(gafro)
+add_subdirectory(SpaceVecAlg)
+add_subdirectory(RBDyn)
 
 
