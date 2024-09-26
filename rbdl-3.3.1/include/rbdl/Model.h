@@ -171,7 +171,7 @@ struct RBDL_DLLAPI Model
     std::vector<Math::SpatialVector> a;
 
     ////////////////////////////////////
-    // Joints
+    /// Joints
 
     /// \brief All joints
 
@@ -179,21 +179,21 @@ struct RBDL_DLLAPI Model
     /// \brief The joint axis for joint i
     std::vector<Math::SpatialVector> S;
 
-    // Joint state variables
+    /// Joint state variables
     std::vector<Math::SpatialVector> v_J;
     std::vector<Math::SpatialVector> c_J;
 
     std::vector<unsigned int> mJointUpdateOrder;
 
     /// \brief Transformations from the parent body to the frame of the joint.
-    // It is expressed in the coordinate frame of the parent.
+    /// It is expressed in the coordinate frame of the parent.
     std::vector<Math::SpatialTransform> X_T;
     /// \brief The number of fixed joints that have been declared before
     ///  each joint.
     std::vector<unsigned int>           mFixedJointCount;
 
     ////////////////////////////////////
-    // Special variables for joints with 3 degrees of freedom
+    /// Special variables for joints with 3 degrees of freedom
     /// \brief Motion subspace for joints with 3 degrees of freedom
     std::vector<Math::Matrix63> multdof3_S;
     std::vector<Math::Matrix63> multdof3_U;

@@ -62,16 +62,18 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s, c;
         sincosp(q[model.mJoints[joint_id].q_index], &s, &c);
 
-        model.X_lambda[joint_id].E =
-            Matrix3d(model.X_T[joint_id].E(0, 0), model.X_T[joint_id].E(0, 1), model.X_T[joint_id].E(0, 2),
+        model.X_lambda[joint_id].E = Matrix3d(
+            model.X_T[joint_id].E(0, 0),
+            model.X_T[joint_id].E(0, 1),
+            model.X_T[joint_id].E(0, 2),
 
-                     c * model.X_T[joint_id].E(1, 0) + s * model.X_T[joint_id].E(2, 0),
-                     c * model.X_T[joint_id].E(1, 1) + s * model.X_T[joint_id].E(2, 1),
-                     c * model.X_T[joint_id].E(1, 2) + s * model.X_T[joint_id].E(2, 2),
+            c * model.X_T[joint_id].E(1, 0) + s * model.X_T[joint_id].E(2, 0),
+            c * model.X_T[joint_id].E(1, 1) + s * model.X_T[joint_id].E(2, 1),
+            c * model.X_T[joint_id].E(1, 2) + s * model.X_T[joint_id].E(2, 2),
 
-                     -s * model.X_T[joint_id].E(1, 0) + c * model.X_T[joint_id].E(2, 0),
-                     -s * model.X_T[joint_id].E(1, 1) + c * model.X_T[joint_id].E(2, 1),
-                     -s * model.X_T[joint_id].E(1, 2) + c * model.X_T[joint_id].E(2, 2));
+            -s * model.X_T[joint_id].E(1, 0) + c * model.X_T[joint_id].E(2, 0),
+            -s * model.X_T[joint_id].E(1, 1) + c * model.X_T[joint_id].E(2, 1),
+            -s * model.X_T[joint_id].E(1, 2) + c * model.X_T[joint_id].E(2, 2));
 
         model.X_lambda[joint_id].r = model.X_T[joint_id].r;
 
@@ -82,16 +84,19 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s, c;
         sincosp(q[model.mJoints[joint_id].q_index], &s, &c);
 
-        model.X_lambda[joint_id].E =
-            Matrix3d(c * model.X_T[joint_id].E(0, 0) + -s * model.X_T[joint_id].E(2, 0),
-                     c * model.X_T[joint_id].E(0, 1) + -s * model.X_T[joint_id].E(2, 1),
-                     c * model.X_T[joint_id].E(0, 2) + -s * model.X_T[joint_id].E(2, 2),
+        model.X_lambda[joint_id].E = Matrix3d(
+                c * model.X_T[joint_id].E(0, 0) + -s * model.X_T[joint_id].E(2, 0),
+                c * model.X_T[joint_id].E(0, 1) + -s * model.X_T[joint_id].E(2, 1),
+                c * model.X_T[joint_id].E(0, 2) + -s * model.X_T[joint_id].E(2, 2),
 
-                     model.X_T[joint_id].E(1, 0), model.X_T[joint_id].E(1, 1), model.X_T[joint_id].E(1, 2),
+                model.X_T[joint_id].E(1, 0),
+                model.X_T[joint_id].E(1, 1),
+                model.X_T[joint_id].E(1, 2),
 
-                     s * model.X_T[joint_id].E(0, 0) + c * model.X_T[joint_id].E(2, 0),
-                     s * model.X_T[joint_id].E(0, 1) + c * model.X_T[joint_id].E(2, 1),
-                     s * model.X_T[joint_id].E(0, 2) + c * model.X_T[joint_id].E(2, 2));
+                s * model.X_T[joint_id].E(0, 0) + c * model.X_T[joint_id].E(2, 0),
+                s * model.X_T[joint_id].E(0, 1) + c * model.X_T[joint_id].E(2, 1),
+                s * model.X_T[joint_id].E(0, 2) + c * model.X_T[joint_id].E(2, 2)
+                );
 
         model.X_lambda[joint_id].r = model.X_T[joint_id].r;
 
@@ -102,16 +107,19 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s, c;
         sincosp(q[model.mJoints[joint_id].q_index], &s, &c);
 
-        model.X_lambda[joint_id].E =
-            Matrix3d(c * model.X_T[joint_id].E(0, 0) + s * model.X_T[joint_id].E(1, 0),
-                     c * model.X_T[joint_id].E(0, 1) + s * model.X_T[joint_id].E(1, 1),
-                     c * model.X_T[joint_id].E(0, 2) + s * model.X_T[joint_id].E(1, 2),
+        model.X_lambda[joint_id].E = Matrix3d(
+            c * model.X_T[joint_id].E(0, 0) + s * model.X_T[joint_id].E(1, 0),
+            c * model.X_T[joint_id].E(0, 1) + s * model.X_T[joint_id].E(1, 1),
+            c * model.X_T[joint_id].E(0, 2) + s * model.X_T[joint_id].E(1, 2),
 
-                     -s * model.X_T[joint_id].E(0, 0) + c * model.X_T[joint_id].E(1, 0),
-                     -s * model.X_T[joint_id].E(0, 1) + c * model.X_T[joint_id].E(1, 1),
-                     -s * model.X_T[joint_id].E(0, 2) + c * model.X_T[joint_id].E(1, 2),
+            -s * model.X_T[joint_id].E(0, 0) + c * model.X_T[joint_id].E(1, 0),
+            -s * model.X_T[joint_id].E(0, 1) + c * model.X_T[joint_id].E(1, 1),
+            -s * model.X_T[joint_id].E(0, 2) + c * model.X_T[joint_id].E(1, 2),
 
-                     model.X_T[joint_id].E(2, 0), model.X_T[joint_id].E(2, 1), model.X_T[joint_id].E(2, 2));
+            model.X_T[joint_id].E(2, 0),
+            model.X_T[joint_id].E(2, 1),
+            model.X_T[joint_id].E(2, 2)
+            );
 
         model.X_lambda[joint_id].r = model.X_T[joint_id].r;
 
@@ -201,9 +209,11 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s2 = sin(q2);
         Scalar c2 = cos(q2);
 
-        SpatialTransform X_J(Matrix3d(c2 * c1, s2 * c0 + c2 * s1 * s0, s2 * s0 - c2 * s1 * c0, -s2 * c1,
-                                      c2 * c0 - s2 * s1 * s0, c2 * s0 + s2 * s1 * c0, s1, -c1 * s0, c1 * c0),
-                             Vector3d::Zero());
+        SpatialTransform X_J(Matrix3d(
+                             c2 * c1, s2 * c0 + c2 * s1 * s0, s2 * s0 - c2 * s1 * c0, -s2 * c1,
+                             c2 * c0 - s2 * s1 * s0, c2 * s0 + s2 * s1 * c0, s1, -c1 * s0, c1 * c0),
+                             Vector3d::Zero()
+                             );
 
         model.multdof3_S[joint_id](0, 0) = c2 * c1;
         model.multdof3_S[joint_id](0, 1) = s2;
@@ -238,9 +248,11 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s2 = sin(q2);
         Scalar c2 = cos(q2);
 
-        SpatialTransform X_J(Matrix3d(c2 * c0 + s2 * s1 * s0, s2 * c1, -c2 * s0 + s2 * s1 * c0, -s2 * c0 + c2 * s1 * s0,
-                                      c2 * c1, s2 * s0 + c2 * s1 * c0, c1 * s0, -s1, c1 * c0),
-                             Vector3d::Zero());
+        SpatialTransform X_J(Matrix3d(
+                             c2 * c0 + s2 * s1 * s0, s2 * c1, -c2 * s0 + s2 * s1 * c0, -s2 * c0 + c2 * s1 * s0,
+                             c2 * c1, s2 * s0 + c2 * s1 * c0, c1 * s0, -s1, c1 * c0),
+                             Vector3d::Zero()
+                             );
 
         model.multdof3_S[joint_id](0, 0) = s2 * c1;
         model.multdof3_S[joint_id](0, 1) = c2;
@@ -275,11 +287,11 @@ RBDL_DLLAPI void jcalc(Model &model, unsigned int joint_id, const VectorNd &q, c
         Scalar s2 = sin(q2);
         Scalar c2 = cos(q2);
 
-        model.X_lambda[joint_id] =
-            SpatialTransform(Matrix3d(-s0 * s1 * s2 + c0 * c2, s0 * c2 + s1 * s2 * c0, -s2 * c1, -s0 * c1, c0 * c1, s1,
-                                      s0 * s1 * c2 + s2 * c0, s0 * s2 - s1 * c0 * c2, c1 * c2),
-                             Vector3d::Zero()) *
-            model.X_T[joint_id];
+        model.X_lambda[joint_id] = SpatialTransform(Matrix3d(
+                                                    -s0 * s1 * s2 + c0 * c2, s0 * c2 + s1 * s2 * c0, -s2 * c1, -s0 * c1, c0 * c1, s1,
+                                                    s0 * s1 * c2 + s2 * c0, s0 * s2 - s1 * c0 * c2, c1 * c2),
+                                                    Vector3d::Zero()
+                                                    ) * model.X_T[joint_id];
 
         model.multdof3_S[joint_id](0, 0) = -s2 * c1;
         model.multdof3_S[joint_id](0, 1) = c2;

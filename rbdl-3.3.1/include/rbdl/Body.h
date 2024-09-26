@@ -274,8 +274,7 @@ struct RBDL_DLLAPI FixedBody
 
     /// \brief Id of the movable body that this fixed body is attached to.
     unsigned int           mMovableParent;
-    /// \brief Transforms spatial quantities expressed for the parent to the
-    // fixed body.
+    /// \brief Transforms spatial quantities expressed for the parent to the fixed body.
     Math::SpatialTransform mParentTransform;
     Math::SpatialTransform mBaseTransform;
 

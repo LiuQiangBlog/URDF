@@ -365,7 +365,7 @@ struct RBDL_DLLAPI Joint
         }
     }
     Joint(JointType type, int degreesOfFreedom)
-        : mJointAxes(NULL), mJointType(type), mDoFCount(0), q_index(0), custom_joint_index(-1)
+        : mJointAxes(nullptr), mJointType(type), mDoFCount(0), q_index(0), custom_joint_index(-1)
     {
         if (type == JointTypeCustom)
         {
@@ -736,8 +736,8 @@ struct RBDL_DLLAPI Joint
     /// \brief Type of joint
     JointType            mJointType;
     /// \brief Number of degrees of freedom of the joint. Note: CustomJoints
-    // have here a value of 0 and their actual numbers of degrees of freedom
-    // can be obtained using the CustomJoint structure.
+    /// have here a value of 0 and their actual numbers of degrees of freedom
+    /// can be obtained using the CustomJoint structure.
     unsigned int         mDoFCount;
     unsigned int         q_index;
     unsigned int         custom_joint_index;
@@ -750,7 +750,9 @@ struct RBDL_DLLAPI Joint
  *
  * \param model    the rigid body model
  * \param joint_id the id of the joint we are interested in. This will be used to determine the type of joint and also
- * the entries of \f[ q, \dot{q} \f]. \param q        joint state variables \param qdot     joint velocity variables
+ * the entries of \f[ q, \dot{q} \f].
+ * \param q        joint state variables
+ * \param qdot     joint velocity variables
  */
 RBDL_DLLAPI
 void jcalc(Model &model, unsigned int joint_id, const Math::VectorNd &q, const Math::VectorNd &qdot);
