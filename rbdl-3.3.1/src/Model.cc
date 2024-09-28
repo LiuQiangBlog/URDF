@@ -122,7 +122,7 @@ unsigned int AddBodyFixedJoint(Model                  &model,
         throw Errors::RBDLError(errormsg.str());
     }
 
-    if (body_name.size() != 0)
+    if (!body_name.empty())
     {
         if (model.mBodyNameMap.find(body_name) != model.mBodyNameMap.end())
         {
