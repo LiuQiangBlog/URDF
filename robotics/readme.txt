@@ -19,8 +19,15 @@ Reference Resource
 7. 交流伺服系统设计指南
 8. https://github.com/kamchatka-volcano/figcone [配置解析]pugixml
 9. https://github.com/dpilger26/NumCpp
-10. https://github.com/alandefreitas/matplotplusplus
-11. https://sourceforge.net/projects/gnuplot/files/gnuplot
+10. https://github.com/epezent/implot [进行2D图像绘制]
+11.https://github.com/jkriege2/JKQtPlotter [基于QT进行2D图像和公式绘制]
+12. https://github.com/thedmd/imgui-node-editor
+[使用imgui-node-editor开发一个类似matlab simulink的C++版本的仿真库，可以仿真动力学和控制算法]
+13. https://github.com/Immediate-Mode-UI/Nuklear [只有一个头文件的2D图形库]
+https://github.com/john-chapman/im3d
+https://github.com/tpecholt/imrad [实现了类似QtCreator的GUI交互式创建方式]
+https://github.com/hosseinmoein/Tiger [C++ Matrix -- High performance and accurate (e.g. edge cases) matrix math library with expression template arithmetic operators]
+https://github.com/hosseinmoein/Leopard [C++ light-weight Thread Pool library]
 
 Robotic Module
 1. https://www.elephantrobotics.com/robotic-module/

@@ -28,4 +28,6 @@ add_subdirectory(gafro)
 add_subdirectory(SpaceVecAlg)
 add_subdirectory(RBDyn)
 
+add_executable(main main.cpp)
+
 
