@@ -28,6 +28,13 @@ https://github.com/john-chapman/im3d
 https://github.com/tpecholt/imrad [实现了类似QtCreator的GUI交互式创建方式]
 https://github.com/hosseinmoein/Tiger [C++ Matrix -- High performance and accurate (e.g. edge cases) matrix math library with expression template arithmetic operators]
 https://github.com/hosseinmoein/Leopard [C++ light-weight Thread Pool library]
+https://github.com/hosseinmoein/DataFrame [C++版本的Pandas库，用于对数据进行切分和存储]
+git@github.com:OTT123/screw_based_robot_dynamic.git
+https://github.com/Walid-khaled/6DOF-Robot-Dynamics
+https://github.com/OTT123/RBDL_a_mini_demo
+https://github.com/Walid-khaled/7DOF-KUKA-Linear-Axis-Forward-and-Inverse-Kinematics
+https://github.com/SCLiao47/Robot-Modeling-and-Control/tree/master/Controller
+
 
 Robotic Module
 1. https://www.elephantrobotics.com/robotic-module/
