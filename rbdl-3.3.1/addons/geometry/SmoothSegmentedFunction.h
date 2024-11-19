@@ -146,13 +146,13 @@ public:
      */
     SmoothSegmentedFunction(const RigidBodyDynamics::Math::MatrixNd &mX,
                             const RigidBodyDynamics::Math::MatrixNd &mY,
-                            double                                   x0,
-                            double                                   x1,
-                            double                                   y0,
-                            double                                   y1,
-                            double                                   dydx0,
-                            double                                   dydx1,
-                            const std::string                       &name);
+                            double x0,
+                            double x1,
+                            double y0,
+                            double y1,
+                            double dydx0,
+                            double dydx1,
+                            const std::string &name);
 
     /**
      Updates the Bezier curve conrol points. The updated curve must have
@@ -195,13 +195,13 @@ public:
     */
     void updSmoothSegmentedFunction(const RigidBodyDynamics::Math::MatrixNd &mX,
                                     const RigidBodyDynamics::Math::MatrixNd &mY,
-                                    double                                   x0,
-                                    double                                   x1,
-                                    double                                   y0,
-                                    double                                   y1,
-                                    double                                   dydx0,
-                                    double                                   dydx1,
-                                    const std::string                       &name);
+                                    double x0,
+                                    double x1,
+                                    double y0,
+                                    double y1,
+                                    double dydx0,
+                                    double dydx1,
+                                    const std::string &name);
 
     /**
      This function will shift the entire SmoothSegmentedFunction by xShift
@@ -424,8 +424,8 @@ public:
     */
     void printCurveToCSVFile(const std::string &path,
                              const std::string &fileNameWithoutExtension,
-                             double             domainMin,
-                             double             domainMax) const;
+                             double domainMin,
+                             double domainMax) const;
 
     /**
     @param maxOrder The maximum derivative order to compute
@@ -529,9 +529,9 @@ private:
        because the path doesn't exist.
     */
     void printMatrixToFile(RigidBodyDynamics::Math::MatrixNd &data,
-                           std::vector<std::string>          &colnames,
-                           const std::string                 &path,
-                           const std::string                 &filename) const;
+                           std::vector<std::string> &colnames,
+                           const std::string &path,
+                           const std::string &filename) const;
 
     /**
     Refer to the documentation for calcValue(double x)

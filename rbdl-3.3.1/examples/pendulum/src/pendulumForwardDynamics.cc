@@ -32,7 +32,7 @@ using namespace RigidBodyDynamics::Math;
 
 typedef std::vector<double> state_type;
 
-typedef runge_kutta_cash_karp54<state_type>        error_stepper_type;
+typedef runge_kutta_cash_karp54<state_type> error_stepper_type;
 typedef controlled_runge_kutta<error_stepper_type> controlled_stepper_type;
 
 class rbdlToBoost
@@ -41,8 +41,8 @@ class rbdlToBoost
 public:
     rbdlToBoost(Model *model) : model(model)
     {
-        q   = VectorNd::Zero(model->dof_count);
-        qd  = VectorNd::Zero(model->dof_count);
+        q = VectorNd::Zero(model->dof_count);
+        qd = VectorNd::Zero(model->dof_count);
         qdd = VectorNd::Zero(model->dof_count);
         tau = VectorNd::Zero(model->dof_count);
     }
@@ -95,14 +95,14 @@ public:
     }
 
 private:
-    Model   *model;
+    Model *model;
     VectorNd q, qd, qdd, tau;
 };
 
 struct pushBackStateAndTime
 {
     std::vector<state_type> &states;
-    std::vector<double>     &times;
+    std::vector<double> &times;
 
     pushBackStateAndTime(std::vector<state_type> &states, std::vector<double> &times) : states(states), times(times) {}
 
@@ -121,9 +121,9 @@ int main(int argc, char *argv[])
     rbdl_check_api_version(RBDL_API_VERSION);
 
     // problem specific constants
-    int    nPts = 100;
-    double t0   = 0;
-    double t1   = 3;
+    int nPts = 100;
+    double t0 = 0;
+    double t1 = 3;
 
     // Integration settings
     double absTolVal = 1e-10;
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     VectorNd q, qd;
 
     Model *model = NULL;
-    model        = new Model();
+    model = new Model();
 
     // 3a. The Lua model is read in here, and turned into a series of
     //     vectors and matricies in model which RBDL uses to evaluate
@@ -143,11 +143,11 @@ int main(int argc, char *argv[])
         abort();
     }
 
-    q  = VectorNd::Zero(model->dof_count);
+    q = VectorNd::Zero(model->dof_count);
     qd = VectorNd::Zero(model->dof_count);
 
-    double t     = 0;                // time
-    double ts    = 0;                // scaled time
+    double t = 0;                    // time
+    double ts = 0;                   // scaled time
     double dtsdt = M_PI / (t1 - t0); // dertivative scaled time
                                      // w.r.t. time
 
@@ -158,10 +158,10 @@ int main(int argc, char *argv[])
     // 3b. Here we instantiate a wrapper class which is needed so that
     //     Boost can evaluate the state derivative of the model.
     rbdlToBoost rbdlModel(model);
-    state_type  xState(2);
-    int         steps = 0;
-    xState[0]         = -M_PI / 4.0;
-    xState[1]         = 0;
+    state_type xState(2);
+    int steps = 0;
+    xState[0] = -M_PI / 4.0;
+    xState[1] = 0;
 
     double dt = (t1 - t0) / ((double)nPts);
 
@@ -169,14 +169,14 @@ int main(int argc, char *argv[])
 
     std::vector<std::vector<double>> matrixData;
     std::vector<std::vector<double>> matrixErrorData;
-    std::vector<double>              rowData(model->dof_count + 1);
-    std::vector<double>              rowErrorData(2);
+    std::vector<double> rowData(model->dof_count + 1);
+    std::vector<double> rowErrorData(2);
 
-    double                  a_x = 1.0, a_dxdt = 1.0;
+    double a_x = 1.0, a_dxdt = 1.0;
     controlled_stepper_type controlled_stepper(
         default_error_checker<double, range_algebra, default_operations>(absTolVal, relTolVal, a_x, a_dxdt));
 
-    double tp  = 0;
+    double tp = 0;
     rowData[0] = 0;
     for (int z = 0; z < model->dof_count; z++)
     {
@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
         //     potential energy should be constant. Any error that accumulates
         //     is due to the cumulation of integration error.
 
-        q[0]  = xState[0];
+        q[0] = xState[0];
         qd[0] = xState[1];
 
         pe = Utils::CalcPotentialEnergy(*model, q, true);
@@ -230,11 +230,11 @@ int main(int argc, char *argv[])
 
     // 3j. Now the data we have accumulated is written to file
     std::string header = "";
-    std::string fname  = "../output/meshup.csv";
+    std::string fname = "../output/meshup.csv";
     printMatrixToFile(matrixData, header, fname);
     printf("Wrote: ../output/meshup.csv (meshup animation file)\n");
 
-    fname  = "../output/kepe.csv";
+    fname = "../output/kepe.csv";
     header = "time,systemEnergy,";
     printMatrixToFile(matrixErrorData, header, fname);
     printf("Wrote: ../output/kepe.csv (simulation data)\n");

@@ -27,14 +27,14 @@ ContactConstraint::ContactConstraint()
 }
 
 //==============================================================================
-ContactConstraint::ContactConstraint(const unsigned int    bodyId,
+ContactConstraint::ContactConstraint(const unsigned int bodyId,
                                      const Math::Vector3d &bodyPoint,
                                      const Math::Vector3d &groundConstraintUnitVector,
-                                     const char           *contactConstraintName,
-                                     unsigned int          userDefinedIdNumber,
-                                     bool                  enableBaumgarteStabilization,
-                                     double                stabilizationTimeConstant,
-                                     bool                  velocityLevelConstraint)
+                                     const char *contactConstraintName,
+                                     unsigned int userDefinedIdNumber,
+                                     bool enableBaumgarteStabilization,
+                                     double stabilizationTimeConstant,
+                                     bool velocityLevelConstraint)
     : Constraint(contactConstraintName, ConstraintTypeContact, unsigned(int(1)), userDefinedIdNumber)
 {
 
@@ -73,13 +73,13 @@ void ContactConstraint::bind(const Model &model)
 
 //==============================================================================
 
-void ContactConstraint::calcConstraintJacobian(Model                &model,
-                                               const double          time,
+void ContactConstraint::calcConstraintJacobian(Model &model,
+                                               const double time,
                                                const Math::VectorNd &Q,
                                                const Math::VectorNd &QDot,
-                                               Math::MatrixNd       &GSysUpd,
-                                               ConstraintCache      &cache,
-                                               bool                  updateKinematics)
+                                               Math::MatrixNd &GSysUpd,
+                                               ConstraintCache &cache,
+                                               bool updateKinematics)
 {
     cache.mat3NA.setZero();
     CalcPointJacobian(model, Q, bodyIds[0], bodyFrames[0].r, cache.mat3NA, updateKinematics);
@@ -92,14 +92,14 @@ void ContactConstraint::calcConstraintJacobian(Model                &model,
 
 //==============================================================================
 
-void ContactConstraint::calcGamma(Model                &model,
-                                  const double          time,
+void ContactConstraint::calcGamma(Model &model,
+                                  const double time,
                                   const Math::VectorNd &Q,
                                   const Math::VectorNd &QDot,
                                   const Math::MatrixNd &GSys,
-                                  Math::VectorNd       &gammaSysUpd,
-                                  ConstraintCache      &cache,
-                                  bool                  updateKinematics)
+                                  Math::VectorNd &gammaSysUpd,
+                                  ConstraintCache &cache,
+                                  bool updateKinematics)
 {
 
     cache.vec3A = CalcPointAcceleration(model, Q, QDot, cache.vecNZeros, bodyIds[0], bodyFrames[0].r, updateKinematics);
@@ -112,12 +112,12 @@ void ContactConstraint::calcGamma(Model                &model,
 
 //==============================================================================
 
-void ContactConstraint::calcPositionError(Model                &model,
-                                          const double          time,
+void ContactConstraint::calcPositionError(Model &model,
+                                          const double time,
                                           const Math::VectorNd &Q,
-                                          Math::VectorNd       &errSysUpd,
-                                          ConstraintCache      &cache,
-                                          bool                  updateKinematics)
+                                          Math::VectorNd &errSysUpd,
+                                          ConstraintCache &cache,
+                                          bool updateKinematics)
 {
     cache.vec3A = CalcBodyToBaseCoordinates(model, Q, bodyIds[0], bodyFrames[0].r, updateKinematics) - groundPoint;
     for (unsigned int i = 0; i < sizeOfConstraint; ++i)
@@ -135,14 +135,14 @@ void ContactConstraint::calcPositionError(Model                &model,
 
 //==============================================================================
 
-void ContactConstraint::calcVelocityError(Model                &model,
-                                          const double          time,
+void ContactConstraint::calcVelocityError(Model &model,
+                                          const double time,
                                           const Math::VectorNd &Q,
                                           const Math::VectorNd &QDot,
                                           const Math::MatrixNd &GSys,
-                                          Math::VectorNd       &derrSysUpd,
-                                          ConstraintCache      &cache,
-                                          bool                  updateKinematics)
+                                          Math::VectorNd &derrSysUpd,
+                                          ConstraintCache &cache,
+                                          bool updateKinematics)
 {
     cache.vec3A = CalcPointVelocity(model, Q, QDot, bodyIds[0], bodyFrames[0].r, updateKinematics);
     for (unsigned int i = 0; i < sizeOfConstraint; ++i)
@@ -160,29 +160,29 @@ void ContactConstraint::calcVelocityError(Model                &model,
 
 //==============================================================================
 
-void ContactConstraint::calcConstraintForces(Model                               &model,
-                                             const double                         time,
-                                             const Math::VectorNd                &Q,
-                                             const Math::VectorNd                &QDot,
-                                             const Math::MatrixNd                &GSys,
-                                             const Math::VectorNd                &LagrangeMultipliersSys,
-                                             std::vector<unsigned int>           &constraintBodiesUpd,
+void ContactConstraint::calcConstraintForces(Model &model,
+                                             const double time,
+                                             const Math::VectorNd &Q,
+                                             const Math::VectorNd &QDot,
+                                             const Math::MatrixNd &GSys,
+                                             const Math::VectorNd &LagrangeMultipliersSys,
+                                             std::vector<unsigned int> &constraintBodiesUpd,
                                              std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                                             std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                                             ConstraintCache                     &cache,
-                                             bool                                 resolveAllInRootFrame,
-                                             bool                                 updateKinematics)
+                                             std::vector<Math::SpatialVector> &constraintForcesUpd,
+                                             ConstraintCache &cache,
+                                             bool resolveAllInRootFrame,
+                                             bool updateKinematics)
 {
 
     // Size the vectors of bodies, local frames, and spatial vectors
-    constraintBodiesUpd     = bodyIds;
+    constraintBodiesUpd = bodyIds;
     constraintBodyFramesUpd = bodyFrames;
 
     cache.vec3A = CalcBodyToBaseCoordinates(model, Q, bodyIds[0], bodyFrames[0].r, updateKinematics);
 
     if (resolveAllInRootFrame)
     {
-        constraintBodiesUpd[0]       = constraintBodiesUpd[1];
+        constraintBodiesUpd[0] = constraintBodiesUpd[1];
         constraintBodyFramesUpd[0].r = cache.vec3A;
         constraintBodyFramesUpd[0].E = constraintBodyFramesUpd[1].E;
     }
@@ -208,7 +208,7 @@ void ContactConstraint::calcConstraintForces(Model                              
     }
     else
     {
-        cache.mat3A                              = CalcBodyWorldOrientation(model, Q, bodyIds[0], false);
+        cache.mat3A = CalcBodyWorldOrientation(model, Q, bodyIds[0], false);
         constraintForcesUpd[0].block(3, 0, 3, 1) = cache.mat3A * cache.vec3A;
     }
 
@@ -239,12 +239,12 @@ void ContactConstraint::appendNormalVector(const Math::Vector3d &normal, bool ve
 
 //==============================================================================
 
-void ContactConstraint::calcPointAccelerations(Model                       &model,
-                                               const Math::VectorNd        &Q,
-                                               const Math::VectorNd        &QDot,
-                                               const Math::VectorNd        &QDDot,
+void ContactConstraint::calcPointAccelerations(Model &model,
+                                               const Math::VectorNd &Q,
+                                               const Math::VectorNd &QDot,
+                                               const Math::VectorNd &QDDot,
                                                std::vector<Math::Vector3d> &pointAccelerationsSysUpd,
-                                               bool                         updateKinematics)
+                                               bool updateKinematics)
 {
     pointAccelerationsSysUpd[rowInSystem] =
         CalcPointAcceleration(model, Q, QDot, QDDot, bodyIds[0], bodyFrames[0].r, updateKinematics);
@@ -256,12 +256,12 @@ void ContactConstraint::calcPointAccelerations(Model                       &mode
 
 //==============================================================================
 
-void ContactConstraint::calcPointAccelerations(Model                &model,
+void ContactConstraint::calcPointAccelerations(Model &model,
                                                const Math::VectorNd &Q,
                                                const Math::VectorNd &QDot,
                                                const Math::VectorNd &QDDot,
-                                               Math::Vector3d       &pointAccelerationsUpd,
-                                               bool                  updateKinematics)
+                                               Math::Vector3d &pointAccelerationsUpd,
+                                               bool updateKinematics)
 {
     pointAccelerationsUpd = CalcPointAcceleration(model, Q, QDot, QDDot, bodyIds[0], bodyFrames[0].r, updateKinematics);
 }
@@ -269,7 +269,7 @@ void ContactConstraint::calcPointAccelerations(Model                &model,
 //==============================================================================
 
 void ContactConstraint::calcPointAccelerationError(const std::vector<Math::Vector3d> &pointAccelerationsSys,
-                                                   Math::VectorNd                    &ddErrSysUpd)
+                                                   Math::VectorNd &ddErrSysUpd)
 {
     for (unsigned int i = 0; i < sizeOfConstraint; ++i)
     {
@@ -277,23 +277,23 @@ void ContactConstraint::calcPointAccelerationError(const std::vector<Math::Vecto
     }
 }
 
-void ContactConstraint::calcPointForceJacobian(Model                            &model,
-                                               const Math::VectorNd             &Q,
-                                               ConstraintCache                  &cache,
+void ContactConstraint::calcPointForceJacobian(Model &model,
+                                               const Math::VectorNd &Q,
+                                               ConstraintCache &cache,
                                                std::vector<Math::SpatialVector> &fExtSysUpd,
-                                               bool                              updateKinematics)
+                                               bool updateKinematics)
 {
     cache.vec3A = CalcBodyToBaseCoordinates(model, Q, bodyIds[0], bodyFrames[0].r, updateKinematics);
     cache.stA.E.Identity();
-    cache.stA.r    = -cache.vec3A;
+    cache.stA.r = -cache.vec3A;
     cache.svecA[0] = 0.;
     cache.svecA[1] = 0.;
     cache.svecA[2] = 0.;
     for (unsigned int i = 0; i < sizeOfConstraint; ++i)
     {
-        cache.svecA[3]              = -T[i][0];
-        cache.svecA[4]              = -T[i][1];
-        cache.svecA[5]              = -T[i][2];
+        cache.svecA[3] = -T[i][0];
+        cache.svecA[4] = -T[i][1];
+        cache.svecA[5] = -T[i][2];
         fExtSysUpd[rowInSystem + i] = cache.stA.applyAdjoint(cache.svecA);
     }
 }

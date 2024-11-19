@@ -35,7 +35,7 @@ struct ModelVelocitiesFixture
 
         body_c_id = model->AddBody(2, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        Q    = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Q = VectorNd::Constant((size_t)model->dof_count, 0.);
         QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
 
         point_position = Vector3d::Zero(3);
@@ -52,8 +52,8 @@ struct ModelVelocitiesFixture
     Model *model;
 
     unsigned int body_a_id, body_b_id, body_c_id, ref_body_id;
-    Body         body_a, body_b, body_c;
-    Joint        joint_a, joint_b, joint_c;
+    Body body_a, body_b, body_c;
+    Joint joint_a, joint_b, joint_c;
 
     VectorNd Q;
     VectorNd QDot;
@@ -63,8 +63,8 @@ struct ModelVelocitiesFixture
 
 TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointSimple", "")
 {
-    ref_body_id    = 1;
-    QDot[0]        = 1.;
+    ref_body_id = 1;
+    QDot[0] = 1.;
     point_position = Vector3d(1., 0., 0.);
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
 
@@ -78,9 +78,9 @@ TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointRotatedBaseSimp
 {
     // rotated first joint
 
-    ref_body_id    = 1;
-    Q[0]           = M_PI * 0.5;
-    QDot[0]        = 1.;
+    ref_body_id = 1;
+    Q[0] = M_PI * 0.5;
+    QDot[0] = 1.;
     point_position = Vector3d(1., 0., 0.);
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
 
@@ -92,8 +92,8 @@ TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointRotatingBodyB",
 {
     // rotating second joint, point at third body
 
-    ref_body_id    = 3;
-    QDot[1]        = 1.;
+    ref_body_id = 3;
+    QDot[1] = 1.;
     point_position = Vector3d(1., 0., 0.);
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
 
@@ -107,9 +107,9 @@ TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointRotatingBaseXAx
     // also rotate the first joint and take a point that is
     // on the X direction
 
-    ref_body_id    = 3;
-    QDot[0]        = 1.;
-    QDot[1]        = 1.;
+    ref_body_id = 3;
+    QDot[0] = 1.;
+    QDot[1] = 1.;
     point_position = Vector3d(1., -1., 0.);
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
 
@@ -124,12 +124,12 @@ TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointRotatedBaseXAxi
     // upwards
     ClearLogOutput();
 
-    ref_body_id    = 3;
+    ref_body_id = 3;
     point_position = Vector3d(1., -1., 0.);
 
-    Q[0]           = M_PI * 0.5;
-    QDot[0]        = 1.;
-    QDot[1]        = 1.;
+    Q[0] = M_PI * 0.5;
+    QDot[0] = 1.;
+    QDot[1] = 1.;
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
 
     //	cout << LogOutput.str() << endl;
@@ -142,10 +142,10 @@ TEST_CASE_METHOD(ModelVelocitiesFixture, __FILE__ "_TestCalcPointBodyOrigin", ""
     // Checks whether the computation is also correct for points at the origin
     // of a body
 
-    ref_body_id    = body_b_id;
+    ref_body_id = body_b_id;
     point_position = Vector3d(0., 0., 0.);
 
-    Q[0]    = 0.;
+    Q[0] = 0.;
     QDot[0] = 1.;
 
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
@@ -166,10 +166,10 @@ TEST_CASE(__FILE__ "_ FixedJointCalcPointVelocity", "")
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
 
-    SpatialTransform transform     = Xtrans(Vector3d(1., 0., 0.));
-    unsigned int     fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body, "fixed_body");
+    SpatialTransform transform = Xtrans(Vector3d(1., 0., 0.));
+    unsigned int fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body, "fixed_body");
 
-    VectorNd Q    = VectorNd::Zero(model.dof_count);
+    VectorNd Q = VectorNd::Zero(model.dof_count);
     VectorNd QDot = VectorNd::Zero(model.dof_count);
 
     QDot[0] = 1.;
@@ -194,13 +194,13 @@ TEST_CASE(__FILE__ "_ FixedJointCalcPointVelocityRotated", "")
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
 
-    SpatialTransform transform     = Xtrans(Vector3d(1., 0., 0.));
-    unsigned int     fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body, "fixed_body");
+    SpatialTransform transform = Xtrans(Vector3d(1., 0., 0.));
+    unsigned int fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body, "fixed_body");
 
-    VectorNd Q    = VectorNd::Zero(model.dof_count);
+    VectorNd Q = VectorNd::Zero(model.dof_count);
     VectorNd QDot = VectorNd::Zero(model.dof_count);
 
-    Q[0]    = M_PI * 0.5;
+    Q[0] = M_PI * 0.5;
     QDot[0] = 1.;
 
     ClearLogOutput();

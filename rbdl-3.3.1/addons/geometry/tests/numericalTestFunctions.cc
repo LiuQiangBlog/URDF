@@ -62,7 +62,7 @@ using namespace std;
 
 void printMatrixToFile(const RigidBodyDynamics::Math::VectorNd &col0,
                        const RigidBodyDynamics::Math::MatrixNd &data,
-                       string                                  &filename)
+                       string &filename)
 {
 
     ofstream datafile;
@@ -105,26 +105,26 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, RigidBodyDynamics::M
 {
 
     RigidBodyDynamics::Math::VectorNd dy(x.size());
-    double                            dx1, dx2;
-    double                            dy1, dy2;
-    int                               size = x.size();
+    double dx1, dx2;
+    double dy1, dy2;
+    int size = x.size();
     for (int i = 1; i < size - 1; i++)
     {
-        dx1   = x[i] - x[i - 1];
-        dx2   = x[i + 1] - x[i];
-        dy1   = y[i] - y[i - 1];
-        dy2   = y[i + 1] - y[i];
+        dx1 = x[i] - x[i - 1];
+        dx2 = x[i + 1] - x[i];
+        dy1 = y[i] - y[i - 1];
+        dy2 = y[i + 1] - y[i];
         dy[i] = 0.5 * dy1 / dx1 + 0.5 * dy2 / dx2;
     }
 
     if (extrap_endpoints == true)
     {
-        dy1   = dy[2] - dy[1];
-        dx1   = x[2] - x[1];
+        dy1 = dy[2] - dy[1];
+        dx1 = x[2] - x[1];
         dy[0] = dy[1] + (dy1 / dx1) * (x[0] - x[1]);
 
-        dy2          = dy[size - 2] - dy[size - 3];
-        dx2          = x[size - 2] - x[size - 3];
+        dy2 = dy[size - 2] - dy[size - 3];
+        dx2 = x[size - 2] - x[size - 3];
         dy[size - 1] = dy[size - 2] + (dy2 / dx2) * (x[size - 1] - x[size - 2]);
     }
     return dy;
@@ -137,17 +137,17 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, SmoothSegmentedFunct
     RigidBodyDynamics::Math::VectorNd dyV(x.size());
     RigidBodyDynamics::Math::VectorNd yV(x.size());
 
-    double y     = 0;
-    double dy    = 0;
+    double y = 0;
+    double dy = 0;
     double dyNUM = 0;
-    double err   = 0;
-    double h     = 0;
-    double xL    = 0;
-    double xR    = 0;
+    double err = 0;
+    double h = 0;
+    double xL = 0;
+    double xR = 0;
 
-    double c3      = 0;
-    double fL      = 0;
-    double fR      = 0;
+    double c3 = 0;
+    double fL = 0;
+    double fR = 0;
     double rootEPS = sqrt(EPSILON);
 
     double y_C3min = 1e-10;
@@ -176,12 +176,12 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, SmoothSegmentedFunct
         if (y / c3 < y_C3min)
         {
             c3 = 1;
-            y  = y_C3min;
+            y = y_C3min;
         }
         if (y / c3 > y_C3max)
         {
             c3 = 1;
-            y  = y_C3max;
+            y = y_C3max;
         }
 
         h = pow(((EPSILON * y * 2.0) / (c3)), 1.0 / 3.0);
@@ -196,8 +196,8 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, SmoothSegmentedFunct
 
         // Just for convenience checking ...
         dyNUM = (fR - fL) / h;
-        dy    = mcf.calcDerivative(x[i], order);
-        err   = abs(dy - dyNUM);
+        dy = mcf.calcDerivative(x[i], order);
+        err = abs(dy - dyNUM);
 
         /*if(err > tol && abs(dy) > rootEPS && order <= 2){
          err = err/abs(dy);
@@ -212,17 +212,17 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, SmoothSegmentedFunct
 }
 
 bool isFunctionContinuous(RigidBodyDynamics::Math::VectorNd &xV,
-                          SmoothSegmentedFunction           &yV,
-                          int                                order,
-                          double                             minValueSecondDerivative,
-                          double                             taylorErrorMult)
+                          SmoothSegmentedFunction &yV,
+                          int order,
+                          double minValueSecondDerivative,
+                          double taylorErrorMult)
 {
     bool flag_continuous = true;
 
-    double xL    = 0; // left shoulder point
-    double xR    = 0; // right shoulder point
-    double yL    = 0; // left shoulder point function value
-    double yR    = 0; // right shoulder point function value
+    double xL = 0;    // left shoulder point
+    double xR = 0;    // right shoulder point
+    double yL = 0;    // left shoulder point function value
+    double yR = 0;    // right shoulder point function value
     double dydxL = 0; // left shoulder point derivative value
     double dydxR = 0; // right shoulder point derivative value
 
@@ -282,8 +282,8 @@ bool isFunctionContinuous(RigidBodyDynamics::Math::VectorNd &xV,
 
 bool isVectorMonotonic(RigidBodyDynamics::Math::VectorNd &y, int multEPS)
 {
-    double dir         = y[y.size() - 1] - y[0];
-    bool   isMonotonic = true;
+    double dir = y[y.size() - 1] - y[0];
+    bool isMonotonic = true;
 
     if (dir < 0)
     {
@@ -329,7 +329,7 @@ RigidBodyDynamics::Math::VectorNd calcTrapzIntegral(RigidBodyDynamics::Math::Vec
     // inty = 0;
 
     int startIdx = 1;
-    int endIdx   = y.size() - 1;
+    int endIdx = y.size() - 1;
 
     if (flag_TrueIntForward_FalseIntBackward == true)
     {
@@ -337,7 +337,7 @@ RigidBodyDynamics::Math::VectorNd calcTrapzIntegral(RigidBodyDynamics::Math::Vec
         double width = 0;
         for (int i = 1; i <= endIdx; i = i + 1)
         {
-            width   = abs(x[i] - x[i - 1]);
+            width = abs(x[i] - x[i - 1]);
             inty[i] = inty[i - 1] + width * (0.5) * (y[i] + y[i - 1]);
         }
     }
@@ -347,7 +347,7 @@ RigidBodyDynamics::Math::VectorNd calcTrapzIntegral(RigidBodyDynamics::Math::Vec
         double width = 0;
         for (int i = endIdx - 1; i >= 0; i = i - 1)
         {
-            width   = abs(x[i] - x[i + 1]);
+            width = abs(x[i] - x[i + 1]);
             inty[i] = inty[i + 1] + width * (0.5) * (y[i] + y[i + 1]);
         }
     }
@@ -357,7 +357,7 @@ RigidBodyDynamics::Math::VectorNd calcTrapzIntegral(RigidBodyDynamics::Math::Vec
 
 double calcMaximumVectorError(RigidBodyDynamics::Math::VectorNd &a, RigidBodyDynamics::Math::VectorNd &b)
 {
-    double error  = 0;
+    double error = 0;
     double cerror = 0;
     for (int i = 0; i < a.size(); i++)
     {
@@ -370,9 +370,9 @@ double calcMaximumVectorError(RigidBodyDynamics::Math::VectorNd &a, RigidBodyDyn
     return error;
 }
 
-bool isCurveC2Continuous(SmoothSegmentedFunction           &mcf,
+bool isCurveC2Continuous(SmoothSegmentedFunction &mcf,
                          RigidBodyDynamics::Math::MatrixNd &mcfSample,
-                         double                             continuityTol)
+                         double continuityTol)
 {
     // cout << "   TEST: C2 Continuity " << endl;
 
@@ -417,9 +417,9 @@ bool isCurveMontonic(RigidBodyDynamics::Math::MatrixNd mcfSample)
     // cout << endl;
 }
 
-bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction           &mcf,
+bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction &mcf,
                                                   RigidBodyDynamics::Math::MatrixNd &mcfSample,
-                                                  double                             tol)
+                                                  double tol)
 {
     // cout << "   TEST: Derivative correctness " << endl;
     int maxDer = 4; // mcf.getMaxDerivativeOrder() - 2;
@@ -456,7 +456,7 @@ bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction       
 
     double absTol = 5 * tol;
 
-    bool                              flagError12    = false;
+    bool flagError12 = false;
     RigidBodyDynamics::Math::VectorNd tolExceeded12V = RigidBodyDynamics::Math::VectorNd::Zero(mcfSample.rows());
 
     int tolExceeded12 = 0;
@@ -472,7 +472,7 @@ bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction       
                 {
                     tolExceeded12++;
                     tolExceeded12V[i] = 1;
-                    flagError12       = true;
+                    flagError12 = true;
                 }
                 if (j >= 2)
                     tolExceeded34++;
@@ -489,7 +489,7 @@ bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction       
                 {
                     tolExceeded12++;
                     tolExceeded12V[i] = 1;
-                    flagError12       = true;
+                    flagError12 = true;
                 }
                 if (j >= 2)
                     tolExceeded34++;

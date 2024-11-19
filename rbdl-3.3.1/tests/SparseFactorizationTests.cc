@@ -123,7 +123,7 @@ TEST_CASE(__FILE__ "_TestSparseFactorizationMultiDof", "")
     Model model_emulated;
     Model model_3dof;
 
-    Body  body(1., Vector3d(1., 2., 1.), Matrix3d(1., 0., 0, 0., 1., 0., 0., 0., 1.));
+    Body body(1., Vector3d(1., 2., 1.), Matrix3d(1., 0., 0, 0., 1., 0., 0., 0., 1.));
     Joint joint_emulated(SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.),
                          SpatialVector(0., 0., 1., 0., 0., 0.));
     Joint joint_3dof(JointTypeEulerYXZ);
@@ -154,11 +154,11 @@ TEST_CASE(__FILE__ "_TestSparseFactorizationMultiDof", "")
 
     for (int i = 0; i < q.size(); i++)
     {
-        q[i]              = 1.1 * (static_cast<double>(i + 1));
-        qdot[i]           = 0.55 * (static_cast<double>(i + 1));
+        q[i] = 1.1 * (static_cast<double>(i + 1));
+        qdot[i] = 0.55 * (static_cast<double>(i + 1));
         qddot_emulated[i] = 0.23 * (static_cast<double>(i + 1));
-        qddot_3dof[i]     = 0.22 * (static_cast<double>(i + 1));
-        tau[i]            = 2.1 * (static_cast<double>(i + 1));
+        qddot_3dof[i] = 0.22 * (static_cast<double>(i + 1));
+        tau[i] = 2.1 * (static_cast<double>(i + 1));
     }
 
     MatrixNd H_emulated(MatrixNd::Zero(q.size(), q.size()));
@@ -202,7 +202,7 @@ TEST_CASE(__FILE__ "_TestSparseFactorizationMultiDofAndFixed", "")
     Model model_emulated;
     Model model_3dof;
 
-    Body  body(1., Vector3d(1., 2., 1.), Matrix3d(1., 0., 0, 0., 1., 0., 0., 0., 1.));
+    Body body(1., Vector3d(1., 2., 1.), Matrix3d(1., 0., 0, 0., 1., 0., 0., 0., 1.));
     Joint joint_emulated(SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.),
                          SpatialVector(0., 0., 1., 0., 0., 0.));
     Joint joint_3dof(JointTypeEulerYXZ);
@@ -231,11 +231,11 @@ TEST_CASE(__FILE__ "_TestSparseFactorizationMultiDofAndFixed", "")
 
     for (int i = 0; i < q.size(); i++)
     {
-        q[i]              = 1.1 * (static_cast<double>(i + 1));
-        qdot[i]           = 0.55 * (static_cast<double>(i + 1));
+        q[i] = 1.1 * (static_cast<double>(i + 1));
+        qdot[i] = 0.55 * (static_cast<double>(i + 1));
         qddot_emulated[i] = 0.23 * (static_cast<double>(i + 1));
-        qddot_3dof[i]     = 0.22 * (static_cast<double>(i + 1));
-        tau[i]            = 2.1 * (static_cast<double>(i + 1));
+        qddot_3dof[i] = 0.22 * (static_cast<double>(i + 1));
+        tau[i] = 2.1 * (static_cast<double>(i + 1));
     }
 
     MatrixNd H_emulated(MatrixNd::Zero(q.size(), q.size()));

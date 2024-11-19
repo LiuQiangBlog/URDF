@@ -4,15 +4,15 @@ Language:        Cpp
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros:
-  Enabled: true
+  Enabled: false
   AcrossEmptyLines: true
   AcrossComments: true
 AlignConsecutiveAssignments:
-  Enabled: true
+  Enabled: false
   AlignCompound: true
   PadOperators: true
 AlignConsecutiveDeclarations:
-  Enabled: true
+  Enabled: false
   AcrossComments: true
 AlignEscapedNewlines: Left
 AlignOperands: true

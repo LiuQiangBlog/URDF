@@ -177,7 +177,7 @@ public:
         for (std::map<std::string, LinkSharedPtr>::const_iterator l = this->links_.begin(); l != this->links_.end();
              l++)
         {
-            std::map<std::string, std::string>::const_iterator parent = parent_link_tree.find(l->first);
+            auto parent = parent_link_tree.find(l->first);
             if (parent == parent_link_tree.end())
             {
                 // store root link

@@ -81,9 +81,9 @@ TEST_CASE(__FILE__ "_tendonCurve", "")
 {
     // cout <<"**************************************************"<<endl;
     // cout <<"TENDON CURVE TESTING            "<<endl;
-    double e0   = 0.04;
+    double e0 = 0.04;
     double kiso = 1.5 / e0;
-    double c    = 0.5; // 0.75;
+    double c = 0.5; // 0.75;
     double ftoe = 1.0 / 3.0;
 
     SmoothSegmentedFunction tendonCurve = SmoothSegmentedFunction();
@@ -137,13 +137,13 @@ TEST_CASE(__FILE__ "_activeForceLengthCurve", "")
     // cout << endl;
     // cout <<"**************************************************"<<endl;
     // cout <<"FIBER ACTIVE FORCE LENGTH CURVE TESTING     "<<endl;
-    double                  lce0          = 0.4;
-    double                  lce1          = 0.75;
-    double                  lce2          = 1;
-    double                  lce3          = 1.6;
-    double                  shoulderVal   = 0.05;
-    double                  plateauSlope  = 0.75; // 0.75;
-    double                  curviness     = 0.75;
+    double lce0 = 0.4;
+    double lce1 = 0.75;
+    double lce2 = 1;
+    double lce3 = 1.6;
+    double shoulderVal = 0.05;
+    double plateauSlope = 0.75; // 0.75;
+    double curviness = 0.75;
     SmoothSegmentedFunction fiberfalCurve = SmoothSegmentedFunction();
 
     MuscleFunctionFactory::createFiberActiveForceLengthCurve(lce0, lce1, lce2, lce3, shoulderVal, plateauSlope,
@@ -201,14 +201,14 @@ TEST_CASE(__FILE__ "_ForceVelocityCurve", "")
     // cout <<"**************************************************"<<endl;
     // cout <<"FIBER FORCE VELOCITY CURVE TESTING       "<<endl;
 
-    double fmaxE         = 1.8;
-    double dydxC         = 0.1;
-    double dydxNearC     = 0.15;
-    double dydxE         = 0.1;
-    double dydxNearE     = 0.1 + 0.0001;
-    double dydxIso       = 5;
+    double fmaxE = 1.8;
+    double dydxC = 0.1;
+    double dydxNearC = 0.15;
+    double dydxE = 0.1;
+    double dydxNearE = 0.1 + 0.0001;
+    double dydxIso = 5;
     double concCurviness = 0.1;
-    double eccCurviness  = 0.75;
+    double eccCurviness = 0.75;
 
     SmoothSegmentedFunction fiberFVCurve = SmoothSegmentedFunction();
     MuscleFunctionFactory::createFiberForceVelocityCurve(fmaxE, dydxC, dydxNearC, dydxIso, dydxE, dydxNearE,
@@ -262,14 +262,14 @@ TEST_CASE(__FILE__ "_ForceVelocityInverseCurve", "")
 {
     // cout <<"**************************************************"<<endl;
     // cout <<"FIBER FORCE VELOCITY INVERSE CURVE TESTING     "<<endl;
-    double fmaxE         = 1.8;
-    double dydxC         = 0.1;
-    double dydxNearC     = 0.15;
-    double dydxE         = 0.1;
-    double dydxNearE     = 0.1 + 0.0001;
-    double dydxIso       = 5;
+    double fmaxE = 1.8;
+    double dydxC = 0.1;
+    double dydxNearC = 0.15;
+    double dydxE = 0.1;
+    double dydxNearE = 0.1 + 0.0001;
+    double dydxIso = 5;
     double concCurviness = 0.1;
-    double eccCurviness  = 0.75;
+    double eccCurviness = 0.75;
 
     SmoothSegmentedFunction fiberFVInvCurve = SmoothSegmentedFunction();
     MuscleFunctionFactory::createFiberForceVelocityInverseCurve(fmaxE, dydxC, dydxNearC, dydxIso, dydxE, dydxNearE,
@@ -321,17 +321,17 @@ TEST_CASE(__FILE__ "_ForceVelocityInverseCurve", "")
     // 5. Testing the inverse of the curve - is it really an inverse?
     // cout << endl;
     // cout << "   TEST: Inverse correctness:fv(fvinv(fv)) = fv" << endl;
-    double fv       = 0;
-    double dlce     = 0;
-    double fvCalc   = 0;
-    double fvErr    = 0;
+    double fv = 0;
+    double dlce = 0;
+    double fvCalc = 0;
+    double fvErr = 0;
     double fvErrMax = 0;
     for (int i = 0; i < fiberFVInvCurveSample.rows(); i++)
     {
-        fv     = fiberFVCurveSample(i, 0);
-        dlce   = fiberFVInvCurve.calcValue(fv);
+        fv = fiberFVCurveSample(i, 0);
+        dlce = fiberFVInvCurve.calcValue(fv);
         fvCalc = fiberFVCurve.calcValue(dlce);
-        fvErr  = abs(fv - fvCalc);
+        fvErr = abs(fv - fvCalc);
         if (fvErrMax < fvErr)
             fvErrMax = fvErr;
 
@@ -348,10 +348,10 @@ TEST_CASE(__FILE__ "_ForceVelocityInverseCurve", "")
 
 TEST_CASE(__FILE__ "_passiveForceLengthCurve", "")
 {
-    double e0f   = 0.6;
+    double e0f = 0.6;
     double kisof = 8.389863790885878;
-    double cf    = 0.65;
-    double klow  = 0.5 * (1.0 / e0f);
+    double cf = 0.65;
+    double klow = 0.5 * (1.0 / e0f);
 
     SmoothSegmentedFunction fiberFLCurve = SmoothSegmentedFunction();
     MuscleFunctionFactory::createFiberForceLengthCurve(0.0, e0f, klow, kisof, cf, "test_fiberForceLength",
@@ -405,8 +405,8 @@ TEST_CASE(__FILE__ "_compressiveForceLengthCurve", "")
     // cout <<"FIBER COMPRESSIVE FORCE LENGTH CURVE TESTING   "<<endl;
 
     double lmax = 0.6;
-    double kce  = -8.389863790885878;
-    double cce  = 0.5; // 0.0;
+    double kce = -8.389863790885878;
+    double cce = 0.5; // 0.0;
 
     SmoothSegmentedFunction fiberCECurve = SmoothSegmentedFunction();
     MuscleFunctionFactory::createFiberCompressiveForceLengthCurve(
@@ -515,9 +515,9 @@ TEST_CASE(__FILE__ "_compressiveCosPhiCurve", "")
     // cout <<"**************************************************"<<endl;
     // cout <<"FIBER COMPRESSIVE FORCE COSPHI CURVE TESTING   "<<endl;
 
-    double                  cosPhi0            = cos((80.0 / 90.0) * M_PI / 2);
-    double                  kcosPhi            = -1.2 / (cosPhi0);
-    double                  ccosPhi            = 0.5;
+    double cosPhi0 = cos((80.0 / 90.0) * M_PI / 2);
+    double kcosPhi = -1.2 / (cosPhi0);
+    double ccosPhi = 0.5;
     SmoothSegmentedFunction fiberCECosPhiCurve = SmoothSegmentedFunction();
 
     MuscleFunctionFactory::createFiberCompressiveForceCosPennationCurve(

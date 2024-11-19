@@ -35,9 +35,9 @@ void readMatrixFromFile(const std::string &filename, int startingRow, std::vecto
     {
         std::string line;
         std::string entry;
-        int         row = 0;
+        int row = 0;
         // int matrixRowNum = 0;
-        int         matrixColNum = 1;
+        int matrixColNum = 1;
 
         // 1. Size the matrix
 
@@ -82,7 +82,7 @@ void readMatrixFromFile(const std::string &filename, int startingRow, std::vecto
                 if (pos2 == std::string::npos)
                     pos2 = line.length();
                 entry = line.substr(pos1, pos2 - pos1);
-                pos1  = pos2 + 1;
+                pos1 = pos2 + 1;
                 // data(row,i) = atof(entry.c_str());
                 rowVector[i] = atof(entry.c_str());
             }
@@ -104,8 +104,8 @@ void readMatrixFromFile(const std::string &filename, int startingRow, std::vecto
 }
 
 void printMatrixToFile(const std::vector<std::vector<double>> &dataMatrix,
-                       const std::string                      &header,
-                       const std::string                      &filename)
+                       const std::string &header,
+                       const std::string &filename)
 {
 
     std::ofstream datafile;
@@ -133,8 +133,8 @@ void printMatrixToFile(const std::vector<std::vector<double>> &dataMatrix,
 }
 
 void printMatrixToFile(const std::vector<std::vector<int>> &dataMatrix,
-                       const std::string                   &header,
-                       const std::string                   &filename)
+                       const std::string &header,
+                       const std::string &filename)
 {
 
     std::ofstream datafile;

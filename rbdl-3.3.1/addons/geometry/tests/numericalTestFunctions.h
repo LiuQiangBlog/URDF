@@ -59,16 +59,16 @@ using namespace RigidBodyDynamics::Addons::Geometry;
 
 using namespace std;
 
-static double EPSILON     = numeric_limits<double>::epsilon();
+static double EPSILON = numeric_limits<double>::epsilon();
 static double SQRTEPSILON = sqrt(EPSILON);
-static double TOL         = std::numeric_limits<double>::epsilon() * 1e4;
+static double TOL = std::numeric_limits<double>::epsilon() * 1e4;
 
-static bool   FLAG_PLOT_CURVES = false;
-static string FILE_PATH        = "";
-static double TOL_DX           = 5e-3;
-static double TOL_DX_BIG       = 1e-2;
-static double TOL_BIG          = 1e-6;
-static double TOL_SMALL        = 1e-12;
+static bool FLAG_PLOT_CURVES = false;
+static string FILE_PATH = "";
+static double TOL_DX = 5e-3;
+static double TOL_DX_BIG = 1e-2;
+static double TOL_BIG = 1e-6;
+static double TOL_SMALL = 1e-12;
 
 /**
 This function will print cvs file of the column vector col0 and the matrix
@@ -81,7 +81,7 @@ This function will print cvs file of the column vector col0 and the matrix
 */
 void printMatrixToFile(const RigidBodyDynamics::Math::VectorNd &col0,
                        const RigidBodyDynamics::Math::MatrixNd &data,
-                       string                                  &filename);
+                       string &filename);
 
 /**
 This function will print cvs file of the matrix
@@ -109,7 +109,7 @@ void printMatrixToFile(const RigidBodyDynamics::Math::MatrixNd &data, string &fi
 */
 RigidBodyDynamics::Math::VectorNd calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x,
                                                         RigidBodyDynamics::Math::VectorNd &y,
-                                                        bool                               extrap_endpoints);
+                                                        bool extrap_endpoints);
 
 /**
     This function computes a standard central difference dy/dx at each point in
@@ -181,10 +181,10 @@ calcCentralDifference(RigidBodyDynamics::Math::VectorNd &x, SmoothSegmentedFunct
              way between the sampled points)
 */
 bool isFunctionContinuous(RigidBodyDynamics::Math::VectorNd &xV,
-                          SmoothSegmentedFunction           &yV,
-                          int                                order,
-                          double                             minValueSecondDerivative,
-                          double                             taylorErrorMult);
+                          SmoothSegmentedFunction &yV,
+                          int order,
+                          double minValueSecondDerivative,
+                          double taylorErrorMult);
 
 /**
 This function will scan through a vector and determine if it is monotonic or
@@ -237,9 +237,9 @@ isFunctionContinuous.
 @return bool: true if the curve is C2 continuous to the desired tolernace
 
 */
-bool isCurveC2Continuous(SmoothSegmentedFunction           &mcf,
+bool isCurveC2Continuous(SmoothSegmentedFunction &mcf,
                          RigidBodyDynamics::Math::MatrixNd &mcfSample,
-                         double                             continuityTol);
+                         double continuityTol);
 
 /*
  4. The MuscleCurveFunctions which are supposed to be monotonic will be
@@ -267,6 +267,6 @@ the (i-1)^th derivative of the function. This function first checks the
               within a relative tolerance of tol w.r.t. to the numerically
               computed derivatives
 */
-bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction           &mcf,
+bool areCurveDerivativesCloseToNumericDerivatives(SmoothSegmentedFunction &mcf,
                                                   RigidBodyDynamics::Math::MatrixNd &mcfSample,
-                                                  double                             tol);
+                                                  double tol);

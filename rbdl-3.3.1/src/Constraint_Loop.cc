@@ -29,17 +29,17 @@ LoopConstraint::LoopConstraint()
 //==============================================================================
 LoopConstraint::LoopConstraint(
     // const unsigned int rowInSystem,
-    const unsigned int            bodyIdPredecessor,
-    const unsigned int            bodyIdSuccessor,
+    const unsigned int bodyIdPredecessor,
+    const unsigned int bodyIdSuccessor,
     const Math::SpatialTransform &bodyFramePredecessor,
     const Math::SpatialTransform &bodyFrameSuccessor,
-    const Math::SpatialVector    &constraintAxis,
-    bool                          enableBaumgarteStabilization,
-    double                        stabilizationTimeConstant,
-    const char                   *loopConstraintName,
-    unsigned int                  userDefinedIdNumber,
-    bool                          positionLevelConstraint,
-    bool                          velocityLevelConstraint)
+    const Math::SpatialVector &constraintAxis,
+    bool enableBaumgarteStabilization,
+    double stabilizationTimeConstant,
+    const char *loopConstraintName,
+    unsigned int userDefinedIdNumber,
+    bool positionLevelConstraint,
+    bool velocityLevelConstraint)
     : Constraint(loopConstraintName, ConstraintTypeLoop, unsigned(int(1)), userDefinedIdNumber)
 {
 
@@ -73,13 +73,13 @@ void LoopConstraint::bind(const Model &model)
 
 //==============================================================================
 
-void LoopConstraint::calcConstraintJacobian(Model                &model,
-                                            const double          time,
+void LoopConstraint::calcConstraintJacobian(Model &model,
+                                            const double time,
                                             const Math::VectorNd &Q,
                                             const Math::VectorNd &QDot,
-                                            Math::MatrixNd       &GSysUpd,
-                                            ConstraintCache      &cache,
-                                            bool                  updateKinematics)
+                                            Math::MatrixNd &GSysUpd,
+                                            ConstraintCache &cache,
+                                            bool updateKinematics)
 {
     // Please refer to Ch. 8 of Featherstone's Rigid Body Dynamics for details
 
@@ -107,14 +107,14 @@ void LoopConstraint::calcConstraintJacobian(Model                &model,
 
 //==============================================================================
 
-void LoopConstraint::calcGamma(Model                &model,
-                               const double          time,
+void LoopConstraint::calcGamma(Model &model,
+                               const double time,
                                const Math::VectorNd &Q,
                                const Math::VectorNd &QDot,
                                const Math::MatrixNd &GSys,
-                               Math::VectorNd       &gammaSysUpd,
-                               ConstraintCache      &cache,
-                               bool                  updateKinematics)
+                               Math::VectorNd &gammaSysUpd,
+                               ConstraintCache &cache,
+                               bool updateKinematics)
 {
     // Please refer to Ch. 8 of Featherstone's Rigid Body Dynamics text for details
 
@@ -154,12 +154,12 @@ void LoopConstraint::calcGamma(Model                &model,
 
 //==============================================================================
 
-void LoopConstraint::calcPositionError(Model                &model,
-                                       const double          time,
+void LoopConstraint::calcPositionError(Model &model,
+                                       const double time,
                                        const Math::VectorNd &Q,
-                                       Math::VectorNd       &errSysUpd,
-                                       ConstraintCache      &cache,
-                                       bool                  updateKinematics)
+                                       Math::VectorNd &errSysUpd,
+                                       ConstraintCache &cache,
+                                       bool updateKinematics)
 {
 
     // Constraints computed in the predecessor body frame.
@@ -213,14 +213,14 @@ void LoopConstraint::calcPositionError(Model                &model,
 
 //==============================================================================
 
-void LoopConstraint::calcVelocityError(Model                &model,
-                                       const double          time,
+void LoopConstraint::calcVelocityError(Model &model,
+                                       const double time,
                                        const Math::VectorNd &Q,
                                        const Math::VectorNd &QDot,
                                        const Math::MatrixNd &GSys,
-                                       Math::VectorNd       &derrSysUpd,
-                                       ConstraintCache      &cache,
-                                       bool                  updateKinematics)
+                                       Math::VectorNd &derrSysUpd,
+                                       ConstraintCache &cache,
+                                       bool updateKinematics)
 {
     // SimpleMath cannot handle multiplying a block matrix by a vector
     // Using a for loop here to maintain backwards compatibility.
@@ -245,18 +245,18 @@ void LoopConstraint::calcVelocityError(Model                &model,
 
 //==============================================================================
 
-void LoopConstraint::calcConstraintForces(Model                               &model,
-                                          const double                         time,
-                                          const Math::VectorNd                &Q,
-                                          const Math::VectorNd                &QDot,
-                                          const Math::MatrixNd                &GSys,
-                                          const Math::VectorNd                &LagMultSys,
-                                          std::vector<unsigned int>           &constraintBodiesUpd,
+void LoopConstraint::calcConstraintForces(Model &model,
+                                          const double time,
+                                          const Math::VectorNd &Q,
+                                          const Math::VectorNd &QDot,
+                                          const Math::MatrixNd &GSys,
+                                          const Math::VectorNd &LagMultSys,
+                                          std::vector<unsigned int> &constraintBodiesUpd,
                                           std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                                          std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                                          ConstraintCache                     &cache,
-                                          bool                                 resolveAllInRootFrame,
-                                          bool                                 updateKinematics)
+                                          std::vector<Math::SpatialVector> &constraintForcesUpd,
+                                          ConstraintCache &cache,
+                                          bool resolveAllInRootFrame,
+                                          bool updateKinematics)
 {
     constraintBodiesUpd.resize(2);
     constraintBodyFramesUpd.resize(2);
@@ -275,7 +275,7 @@ void LoopConstraint::calcConstraintForces(Model                               &m
     cache.svecB.setZero();
     for (unsigned int i = 0; i < sizeOfConstraint; ++i)
     {
-        cache.svecA  = cache.stA.apply(T[i]);
+        cache.svecA = cache.stA.apply(T[i]);
         cache.svecB += cache.svecA * LagMultSys[rowInSystem + i];
     }
 
@@ -302,7 +302,7 @@ void LoopConstraint::calcConstraintForces(Model                               &m
     else
     {
 
-        constraintBodiesUpd     = bodyIds;
+        constraintBodiesUpd = bodyIds;
         constraintBodyFramesUpd = bodyFrames;
 
         constraintForcesUpd[0].block(0, 0, 3, 1) = -cache.stA.E.transpose() * cache.svecB.block(0, 0, 3, 1);
@@ -314,8 +314,8 @@ void LoopConstraint::calcConstraintForces(Model                               &m
 }
 //==============================================================================
 void LoopConstraint::appendConstraintAxis(const Math::SpatialVector &constraintAxis,
-                                          bool                       positionLevelConstraint,
-                                          bool                       velocityLevelConstraint)
+                                          bool positionLevelConstraint,
+                                          bool velocityLevelConstraint)
 {
 
     dblA = 10.0 * std::numeric_limits<double>::epsilon();

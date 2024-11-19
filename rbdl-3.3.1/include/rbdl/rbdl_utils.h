@@ -52,17 +52,17 @@ RBDL_DLLAPI std::string GetNamedBodyOriginsOverview(Model &model);
  * momentum one has to provide qddot. In all other cases one can use NULL
  * as argument for qddot.
  */
-RBDL_DLLAPI void CalcCenterOfMass(Model                &model,
+RBDL_DLLAPI void CalcCenterOfMass(Model &model,
                                   const Math::VectorNd &q,
                                   const Math::VectorNd &qdot,
                                   const Math::VectorNd *qddot,
-                                  Math::Scalar         &mass,
-                                  Math::Vector3d       &com,
-                                  Math::Vector3d       *com_velocity               = NULL,
-                                  Math::Vector3d       *com_acceleration           = NULL,
-                                  Math::Vector3d       *angular_momentum           = NULL,
-                                  Math::Vector3d       *change_of_angular_momentum = NULL,
-                                  bool                  update_kinematics          = true);
+                                  Math::Scalar &mass,
+                                  Math::Vector3d &com,
+                                  Math::Vector3d *com_velocity = NULL,
+                                  Math::Vector3d *com_acceleration = NULL,
+                                  Math::Vector3d *angular_momentum = NULL,
+                                  Math::Vector3d *change_of_angular_momentum = NULL,
+                                  bool update_kinematics = true);
 
 /** \brief Computes the Zero-Moment-Point (ZMP) on a given contact surface.
  *
@@ -75,14 +75,14 @@ RBDL_DLLAPI void CalcCenterOfMass(Model                &model,
  * \param zmp (output) location of the Zero-Moment-Point of the model in base coordinates projected on the given contact
  * surface \param update_kinematics (optional input) whether the kinematics should be updated (defaults to true)
  */
-RBDL_DLLAPI void CalcZeroMomentPoint(Model                &model,
+RBDL_DLLAPI void CalcZeroMomentPoint(Model &model,
                                      const Math::VectorNd &q,
                                      const Math::VectorNd &qdot,
                                      const Math::VectorNd &qddot,
-                                     Math::Vector3d       *zmp,
-                                     const Math::Vector3d &normal            = Math::Vector3d(0., 0., 1.),
-                                     const Math::Vector3d &point             = Math::Vector3d(0., 0., 0.),
-                                     bool                  update_kinematics = true);
+                                     Math::Vector3d *zmp,
+                                     const Math::Vector3d &normal = Math::Vector3d(0., 0., 1.),
+                                     const Math::Vector3d &point = Math::Vector3d(0., 0., 0.),
+                                     bool update_kinematics = true);
 
 /** \brief Computes the potential energy of the full model. */
 RBDL_DLLAPI Math::Scalar CalcPotentialEnergy(Model &model, const Math::VectorNd &q, bool update_kinematics = true);

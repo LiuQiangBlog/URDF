@@ -107,7 +107,7 @@ TEST_CASE(__FILE__ "_SpatialMatrix_Multiplication", "")
     CHECK_THAT(correct_result, AllCloseMatrix(test_result, TEST_PREC, TEST_PREC));
 
     // check the *= operator:
-    test_result  = X_1;
+    test_result = X_1;
     test_result *= X_2;
 
     CHECK_THAT(correct_result, AllCloseMatrix(test_result, TEST_PREC, TEST_PREC));

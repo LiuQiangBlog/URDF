@@ -38,12 +38,12 @@ This function will print cvs file of the matrix
 @params filename: The name of the file to print
 */
 void printMatrixToFile(const std::vector<std::vector<double>> &dataMatrix,
-                       const std::string                      &header,
-                       const std::string                      &filename);
+                       const std::string &header,
+                       const std::string &filename);
 
 void printMatrixToFile(const std::vector<std::vector<int>> &dataMatrix,
-                       const std::string                   &header,
-                       const std::string                   &filename);
+                       const std::string &header,
+                       const std::string &filename);
 /**
 This function will read in a cvs file assuming that all entries are numbers.
 

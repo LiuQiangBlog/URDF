@@ -42,8 +42,8 @@ public:
     MX_Xd_static(const MX_Xd_scalar &v0, const MX_Xd_scalar &v1, const MX_Xd_scalar &v2) : casadi::MX(3, 1)
     {
         this->casadi::MX::operator()(0) = v0(0);
-        (*this)(1)                      = v1(0);
-        (*this)(2)                      = v2(0);
+        (*this)(1) = v1(0);
+        (*this)(2) = v2(0);
     }
     MX_Xd_static(const MX_Xd_scalar &v0, const MX_Xd_scalar &v1, const MX_Xd_scalar &v2, const MX_Xd_scalar &v3)
         : casadi::MX(4, 1)

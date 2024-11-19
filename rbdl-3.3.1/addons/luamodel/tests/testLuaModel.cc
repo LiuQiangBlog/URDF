@@ -34,7 +34,7 @@ std::string rbdlSourcePath = RBDL_LUAMODEL_SOURCE_DIR;
 
 TEST_CASE(__FILE__ "_LoadLuaModel", "")
 {
-    Model       model;
+    Model model;
     std::string modelFile = rbdlSourcePath;
     modelFile.append("/samplemodel.lua");
     bool modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
@@ -42,10 +42,10 @@ TEST_CASE(__FILE__ "_LoadLuaModel", "")
 }
 TEST_CASE(__FILE__ "_LoadMotionCaptureMarkers", "")
 {
-    Model       model;
+    Model model;
     std::string modelFile = rbdlSourcePath;
     modelFile.append("/samplemodel.lua");
-    bool                             modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
+    bool modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
     std::vector<MotionCaptureMarker> updMarkerSet;
     bool markersLoaded = LuaModelReadMotionCaptureMarkers(modelFile.c_str(), &model, updMarkerSet, false);
     CHECK(updMarkerSet.size() == 6);
@@ -106,16 +106,16 @@ TEST_CASE(__FILE__ "_LoadMotionCaptureMarkers", "")
 }
 TEST_CASE(__FILE__ "_LoadLocalFrames", "")
 {
-    Model       model;
+    Model model;
     std::string modelFile = rbdlSourcePath;
     modelFile.append("/samplemodel.lua");
-    bool                    modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
+    bool modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
     std::vector<LocalFrame> updLocalFrameSet;
     bool localFramesLoaded = LuaModelReadLocalFrames(modelFile.c_str(), &model, updLocalFrameSet, false);
 
     CHECK(updLocalFrameSet.size() == 2);
 
-    unsigned int thighLeftId  = model.GetBodyId("thigh_left");
+    unsigned int thighLeftId = model.GetBodyId("thigh_left");
     unsigned int thighRightId = model.GetBodyId("thigh_right");
 
     CHECK(std::strcmp("Pocket_L", updLocalFrameSet[0].name.c_str()) == 0);
@@ -157,12 +157,12 @@ TEST_CASE(__FILE__ "_LoadLocalFrames", "")
 }
 TEST_CASE(__FILE__ "_LoadPoints", "")
 {
-    Model       model;
+    Model model;
     std::string modelFile = rbdlSourcePath;
     modelFile.append("/samplemodel.lua");
-    bool               modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
+    bool modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
     std::vector<Point> updPointSet;
-    bool               pointsLoaded = LuaModelReadPoints(modelFile.c_str(), &model, updPointSet, false);
+    bool pointsLoaded = LuaModelReadPoints(modelFile.c_str(), &model, updPointSet, false);
     CHECK(updPointSet.size() == 4);
 
     unsigned int bodyId = model.GetBodyId("foot_right");
@@ -197,10 +197,10 @@ TEST_CASE(__FILE__ "_LoadPoints", "")
 TEST_CASE(__FILE__ "_LoadConstrainedLuaModel", "")
 {
     RigidBodyDynamics::Model model;
-    std::string              modelFile = rbdlSourcePath;
+    std::string modelFile = rbdlSourcePath;
     modelFile.append("/sampleconstrainedmodel.lua");
 
-    std::vector<std::string>                      constraintSetNames = LuaModelGetConstraintSetNames(modelFile.c_str());
+    std::vector<std::string> constraintSetNames = LuaModelGetConstraintSetNames(modelFile.c_str());
     std::vector<RigidBodyDynamics::ConstraintSet> constraintSets;
 
     constraintSets.resize(constraintSetNames.size());
@@ -216,8 +216,8 @@ TEST_CASE(__FILE__ "_LoadConstrainedLuaModel", "")
 
     unsigned int baseId = model.GetBodyId("base");
     unsigned int rootId = model.GetBodyId("ROOT");
-    unsigned int l12Id  = model.GetBodyId("l12");
-    unsigned int l22Id  = model.GetBodyId("l22");
+    unsigned int l12Id = model.GetBodyId("l12");
+    unsigned int l22Id = model.GetBodyId("l22");
 
     unsigned int groupIndex = 0;
 
@@ -388,7 +388,7 @@ TEST_CASE(__FILE__ "_LoadConstrainedLuaModel", "")
 TEST_CASE(__FILE__ "_LoadMuscleTorqueGenerators", "")
 {
     RigidBodyDynamics::Model model;
-    std::string              modelFile = rbdlSourcePath;
+    std::string modelFile = rbdlSourcePath;
     modelFile.append("/samplemodelwithtorquemuscles.lua");
 
     bool modelLoaded = LuaModelReadFromFile(modelFile.c_str(), &model, false);
@@ -396,7 +396,7 @@ TEST_CASE(__FILE__ "_LoadMuscleTorqueGenerators", "")
     CHECK(modelLoaded);
 
     HumanMetaData humanData;
-    bool          humanDataLoaded = LuaModelReadHumanMetaData(modelFile.c_str(), humanData, false);
+    bool humanDataLoaded = LuaModelReadHumanMetaData(modelFile.c_str(), humanData, false);
     CHECK(humanDataLoaded);
 
     CHECK(std::fabs(humanData.age - 35.0) < TEST_PREC);
@@ -406,7 +406,7 @@ TEST_CASE(__FILE__ "_LoadMuscleTorqueGenerators", "")
     CHECK(std::strcmp(humanData.gender.c_str(), "male") == 0);
 
     std::vector<Muscle::Millard2016TorqueMuscle> mtgSet;
-    std::vector<Millard2016TorqueMuscleConfig>   mtgInfoSet;
+    std::vector<Millard2016TorqueMuscleConfig> mtgInfoSet;
 
     bool torqueMusclesLoaded =
         LuaModelReadMillard2016TorqueMuscleSets(modelFile.c_str(), &model, humanData, mtgSet, mtgInfoSet, false);
@@ -562,11 +562,11 @@ TEST_CASE(__FILE__ "_LoadMuscleTorqueGenerators", "")
 TEST_CASE(__FILE__ "_ModelHeaderGeneration", "")
 {
     RigidBodyDynamics::Model model;
-    std::string              modelFile = rbdlSourcePath;
+    std::string modelFile = rbdlSourcePath;
     modelFile.append("/complexmodel.lua");
 
     // Get the constraint set names
-    std::vector<std::string>                      constraintSetNames = LuaModelGetConstraintSetNames(modelFile.c_str());
+    std::vector<std::string> constraintSetNames = LuaModelGetConstraintSetNames(modelFile.c_str());
     std::vector<RigidBodyDynamics::ConstraintSet> constraintSets;
 
     // Get the constrained model
@@ -587,7 +587,7 @@ TEST_CASE(__FILE__ "_ModelHeaderGeneration", "")
 
     // Get the local points
     std::vector<Point> pointSet;
-    bool               pointsLoaded = LuaModelReadPoints(modelFile.c_str(), &model, pointSet, false);
+    bool pointsLoaded = LuaModelReadPoints(modelFile.c_str(), &model, pointSet, false);
     CHECK(pointsLoaded);
 
     // Get the local motion capture markers
@@ -597,19 +597,19 @@ TEST_CASE(__FILE__ "_ModelHeaderGeneration", "")
 
     // Get the local frames
     std::vector<LocalFrame> localFrames;
-    bool                    localFramesLoaded = LuaModelReadLocalFrames(modelFile.c_str(), &model, localFrames, false);
+    bool localFramesLoaded = LuaModelReadLocalFrames(modelFile.c_str(), &model, localFrames, false);
     CHECK(localFramesLoaded);
 
 //--------------------------------------------
 #ifdef RBDL_BUILD_ADDON_MUSCLE
 
     HumanMetaData participant_data;
-    bool          participantDataLoaded = LuaModelReadHumanMetaData(modelFile.c_str(), participant_data, false);
+    bool participantDataLoaded = LuaModelReadHumanMetaData(modelFile.c_str(), participant_data, false);
     CHECK(participantDataLoaded);
 
     std::vector<Addons::Muscle::Millard2016TorqueMuscle> mtgSet;
-    std::vector<Millard2016TorqueMuscleConfig>           mtgSetInfo;
-    bool                                                 mtgSetLoaded =
+    std::vector<Millard2016TorqueMuscleConfig> mtgSetInfo;
+    bool mtgSetLoaded =
         LuaModelReadMillard2016TorqueMuscleSets(modelFile.c_str(), &model, participant_data, mtgSet, mtgSetInfo, false);
     CHECK(mtgSetLoaded);
 

@@ -23,7 +23,7 @@ struct DynamicsFixture
     DynamicsFixture()
     {
         ClearLogOutput();
-        model          = new Model;
+        model = new Model;
         model->gravity = Vector3d(0., -9.81, 0.);
     }
     ~DynamicsFixture()
@@ -35,16 +35,16 @@ struct DynamicsFixture
 
 TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicSingleChain", "")
 {
-    Body  body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     ForwardDynamics(*model, Q, QDot, Tau, QDDot);
 
@@ -72,10 +72,10 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicSpatialInertiaSingle
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     ForwardDynamics(*model, Q, QDot, Tau, QDDot);
 
@@ -95,21 +95,21 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicSpatialInertiaSingle
 
 TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicDoubleChain", "")
 {
-    Body  body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_a(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-    Body  body_b(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_b(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_b(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(1, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     //  cout << "--- Double Chain ---" << endl;
 
@@ -134,26 +134,26 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicDoubleChain", "")
 
 TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicTripleChain", "")
 {
-    Body  body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_a(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-    Body  body_b(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_b(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_b(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(1, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
-    Body  body_c(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_c(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_c(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(2, Xtrans(Vector3d(1., 0., 0.)), joint_c, body_c);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     // cout << "--- Triple Chain ---" << endl;
 
@@ -179,21 +179,21 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicTripleChain", "")
 
 TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicDoubleChain3D", "")
 {
-    Body  body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_a(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-    Body  body_b(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    Body body_b(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     Joint joint_b(SpatialVector(0., 1., 0., 0., 0., 0.));
 
     model->AddBody(1, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     // cout << "--- Double Chain 3D ---" << endl;
 
@@ -218,36 +218,36 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicDoubleChain3D", "")
 
 TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicSimpleTree3D", "")
 {
-    Body  body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body body_a(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
     Joint joint_a(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-    Body  body_b1(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    Body body_b1(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     Joint joint_b1(SpatialVector(0., 1., 0., 0., 0., 0.));
 
     model->AddBody(1, Xtrans(Vector3d(1., 0., 0.)), joint_b1, body_b1);
 
-    Body  body_c1(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+    Body body_c1(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
     Joint joint_c1(SpatialVector(1., 0., 0., 0., 0., 0.));
 
     model->AddBody(2, Xtrans(Vector3d(0., 1., 0.)), joint_c1, body_c1);
 
-    Body  body_b2(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    Body body_b2(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     Joint joint_b2(SpatialVector(0., 1., 0., 0., 0., 0.));
 
     model->AddBody(1, Xtrans(Vector3d(-0.5, 0., 0.)), joint_b2, body_b2);
 
-    Body  body_c2(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+    Body body_c2(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
     Joint joint_c2(SpatialVector(1., 0., 0., 0., 0., 0.));
 
     model->AddBody(4, Xtrans(Vector3d(0., -0.5, 0.)), joint_c2, body_c2);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
     // cout << "--- SimpleTree ---" << endl;
 
@@ -276,7 +276,7 @@ TEST_CASE_METHOD(DynamicsFixture, __FILE__ "_TestCalcDynamicSimpleTree3D", "")
 TEST_CASE(__FILE__ "_TestForwardDynamicsLagrangian", "")
 {
     Model model;
-    Body  base_body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+    Body base_body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
 
     model.AddBody(0, SpatialTransform(),
                   Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
@@ -285,11 +285,11 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsLagrangian", "")
                   base_body);
 
     // Initialization of the input vectors
-    VectorNd Q    = VectorNd::Zero(model.dof_count);
+    VectorNd Q = VectorNd::Zero(model.dof_count);
     VectorNd QDot = VectorNd::Zero(model.dof_count);
-    VectorNd Tau  = VectorNd::Zero(model.dof_count);
+    VectorNd Tau = VectorNd::Zero(model.dof_count);
 
-    VectorNd QDDot_aba        = VectorNd::Zero(model.dof_count);
+    VectorNd QDDot_aba = VectorNd::Zero(model.dof_count);
     VectorNd QDDot_lagrangian = VectorNd::Zero(model.dof_count);
 
     Q[0] = 1.1;
@@ -348,11 +348,11 @@ TEST_CASE(__FILE__ "_TestForwardDynamics3DoFModel", "")
     model.AddBody(base_id_rot_y, Xtrans(Vector3d(0., 0., 0.)), joint_rot_x, base_body);
 
     // Initialization of the input vectors
-    VectorNd Q    = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDot = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd Tau  = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model.dof_count, 0.);
 
-    VectorNd QDDot     = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd QDDot = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDDot_ref = VectorNd::Constant((size_t)model.dof_count, 0.);
 
     Q[0] = 1.;
@@ -397,11 +397,11 @@ TEST_CASE(__FILE__ "_TestForwardDynamics3DoFModelLagrangian", "")
     model.AddBody(base_id_rot_y, Xtrans(Vector3d(0., 0., 0.)), joint_rot_x, base_body);
 
     // Initialization of the input vectors
-    VectorNd Q    = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDot = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd Tau  = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model.dof_count, 0.);
 
-    VectorNd QDDot_ab         = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd QDDot_ab = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDDot_lagrangian = VectorNd::Constant((size_t)model.dof_count, 0.);
 
     Q[1] = 1.;
@@ -463,12 +463,12 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsTwoLegModelLagrangian", "")
     // lateral right
     upper_leg_right_body = Body(1., Vector3d(0., -0.25, 0.), Vector3d(1., 1., 1.));
     lower_leg_right_body = Body(1., Vector3d(0., -0.25, 0.), Vector3d(1., 1., 1.));
-    foot_right_body      = Body(1., Vector3d(0.15, -0.1, 0.), Vector3d(1., 1., 1.));
+    foot_right_body = Body(1., Vector3d(0.15, -0.1, 0.), Vector3d(1., 1., 1.));
 
     // lateral left
     upper_leg_left_body = Body(1., Vector3d(0., -0.25, 0.), Vector3d(1., 1., 1.));
     lower_leg_left_body = Body(1., Vector3d(0., -0.25, 0.), Vector3d(1., 1., 1.));
-    foot_left_body      = Body(1., Vector3d(0.15, -0.1, 0.), Vector3d(1., 1., 1.));
+    foot_left_body = Body(1., Vector3d(0.15, -0.1, 0.), Vector3d(1., 1., 1.));
 
     // temporary value to store most recent body id
     unsigned int temp_id;
@@ -476,22 +476,22 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsTwoLegModelLagrangian", "")
     // add hip to the model (planar, 3 DOF)
     temp_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_trans_x, null_body);
     temp_id = model->AddBody(temp_id, Xtrans(Vector3d(0., 0., 0.)), joint_trans_y, null_body);
-    hip_id  = model->AddBody(temp_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, hip_body);
+    hip_id = model->AddBody(temp_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, hip_body);
 
     //
     // right leg
     //
 
     // add right upper leg
-    temp_id            = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_right_body);
+    temp_id = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_right_body);
     upper_leg_right_id = temp_id;
 
     // add the right lower leg (only one DOF)
-    temp_id            = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, lower_leg_right_body);
+    temp_id = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, lower_leg_right_body);
     lower_leg_right_id = temp_id;
 
     // add the right foot (1 DOF)
-    temp_id       = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, foot_right_body);
+    temp_id = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, foot_right_body);
     foot_right_id = temp_id;
 
     //
@@ -499,15 +499,15 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsTwoLegModelLagrangian", "")
     //
 
     // add left upper leg
-    temp_id           = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_left_body);
+    temp_id = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_left_body);
     upper_leg_left_id = temp_id;
 
     // add the left lower leg (only one DOF)
-    temp_id           = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, lower_leg_left_body);
+    temp_id = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, lower_leg_left_body);
     lower_leg_left_id = temp_id;
 
     // add the left foot (1 DOF)
-    temp_id      = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, foot_left_body);
+    temp_id = model->AddBody(temp_id, Xtrans(Vector3d(0., -0.5, 0.)), joint_rot_z, foot_left_body);
     foot_left_id = temp_id;
 
     LOG << "--- model created (" << model->dof_count << " DOF) ---" << endl;
@@ -600,7 +600,7 @@ TEST_CASE_METHOD(FixedAndMovableJoint, __FILE__ "_TestForwardDynamicsFixedJoint"
     Tau_fixed[0] = 1.2;
     Tau_fixed[1] = 2.1;
 
-    Q    = CreateDofVectorFromReducedVector(Q_fixed);
+    Q = CreateDofVectorFromReducedVector(Q_fixed);
     QDot = CreateDofVectorFromReducedVector(QDot_fixed);
 
     QDDot.setZero();
@@ -632,8 +632,8 @@ TEST_CASE_METHOD(FixedAndMovableJoint, __FILE__ "_TestInverseDynamicsFixedJoint"
     QDDot_fixed[0] = 1.2;
     QDDot_fixed[1] = 2.1;
 
-    Q     = CreateDofVectorFromReducedVector(Q_fixed);
-    QDot  = CreateDofVectorFromReducedVector(QDot_fixed);
+    Q = CreateDofVectorFromReducedVector(Q_fixed);
+    QDot = CreateDofVectorFromReducedVector(QDot_fixed);
     QDDot = CreateDofVectorFromReducedVector(QDDot_fixed);
 
     InverseDynamics(*model_movable, Q, QDot, QDDot, Tau);
@@ -650,9 +650,9 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestForwardDynamicsLagrangianPrea
 {
     for (unsigned int i = 0; i < model->dof_count; i++)
     {
-        Q[i]    = static_cast<double>(i + 1) * 0.1;
+        Q[i] = static_cast<double>(i + 1) * 0.1;
         QDot[i] = static_cast<double>(i + 1) * 1.1;
-        Tau[i]  = static_cast<double>(i + 1) * -1.2;
+        Tau[i] = static_cast<double>(i + 1) * -1.2;
     }
 
     ForwardDynamicsLagrangian(*model, Q, QDot, Tau, QDDot, Math::LinearSolverPartialPivLU, NULL, NULL, NULL);
@@ -669,7 +669,7 @@ TEST_CASE_METHOD(FixedBase3DoF, __FILE__ "_SolveMInvTimesTau", "")
 {
     for (unsigned int i = 0; i < model->dof_count; i++)
     {
-        Q[i]   = rand() / static_cast<double>(RAND_MAX);
+        Q[i] = rand() / static_cast<double>(RAND_MAX);
         Tau[i] = rand() / static_cast<double>(RAND_MAX);
     }
 
@@ -688,7 +688,7 @@ TEST_CASE_METHOD(FixedBase3DoF, __FILE__ "_SolveMInvTimesTauReuse", "")
 {
     for (unsigned int i = 0; i < model->dof_count; i++)
     {
-        Q[i]   = rand() / static_cast<double>(RAND_MAX);
+        Q[i] = rand() / static_cast<double>(RAND_MAX);
         Tau[i] = rand() / static_cast<double>(RAND_MAX);
     }
 
@@ -720,9 +720,9 @@ TEST_CASE_METHOD(FixedBase3DoF, __FILE__ "_SolveMInvTimesNonZeroQDotKinematicsUp
 {
     for (unsigned int i = 0; i < model->dof_count; i++)
     {
-        Q[i]    = rand() / static_cast<double>(RAND_MAX);
+        Q[i] = rand() / static_cast<double>(RAND_MAX);
         QDot[i] = rand() / static_cast<double>(RAND_MAX);
-        Tau[i]  = rand() / static_cast<double>(RAND_MAX);
+        Tau[i] = rand() / static_cast<double>(RAND_MAX);
     }
 
     UpdateKinematicsCustom(*model, &Q, &QDot, NULL);

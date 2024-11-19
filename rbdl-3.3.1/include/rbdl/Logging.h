@@ -25,12 +25,12 @@ class LoggingGuard;
     LogOutput
 #define SUPPRESS_LOGGING ;
 #else
-#define LOG              LogOutput
+#define LOG LogOutput
 #define SUPPRESS_LOGGING LoggingGuard _nolog
 #endif
 
 extern RBDL_DLLAPI std::ostringstream LogOutput;
-RBDL_DLLAPI void                      ClearLogOutput();
+RBDL_DLLAPI void ClearLogOutput();
 
 /** \brief Helper object to ignore any logs that happen during its lifetime
  *

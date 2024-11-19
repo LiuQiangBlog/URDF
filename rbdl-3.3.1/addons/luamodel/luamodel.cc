@@ -39,11 +39,11 @@ namespace Addons
 {
 
 //==============================================================================
-void appendEnumToFileStream(std::ofstream                  &updFileStream,
-                            const std::string              &enumName,
+void appendEnumToFileStream(std::ofstream &updFileStream,
+                            const std::string &enumName,
                             const std::vector<std::string> &enumEntries,
-                            unsigned int                    startingIndex,
-                            const std::string              &entryPrefix)
+                            unsigned int startingIndex,
+                            const std::string &entryPrefix)
 {
 
     updFileStream << "\n";
@@ -57,8 +57,8 @@ void appendEnumToFileStream(std::ofstream                  &updFileStream,
             maxLineLength = unsigned(enumEntries[i].size());
         }
     }
-    maxLineLength                    += unsigned(2 + entryPrefix.size());
-    unsigned int startingIndexLength  = unsigned(int(std::to_string(startingIndex).size()));
+    maxLineLength += unsigned(2 + entryPrefix.size());
+    unsigned int startingIndexLength = unsigned(int(std::to_string(startingIndex).size()));
 
     for (unsigned int i = 0; i < enumEntries.size(); ++i)
     {
@@ -85,11 +85,11 @@ void appendEnumToFileStream(std::ofstream                  &updFileStream,
     updFileStream << "};\n";
 }
 //==============================================================================
-void appendEnumNameIndexStructToFileStream(std::ofstream                   &updFileStream,
-                                           const std::string               &mapName,
-                                           const std::string               &enumName,
-                                           const std::vector<std::string>  &enumEntries,
-                                           const std::string               &entryPrefix,
+void appendEnumNameIndexStructToFileStream(std::ofstream &updFileStream,
+                                           const std::string &mapName,
+                                           const std::string &enumName,
+                                           const std::vector<std::string> &enumEntries,
+                                           const std::string &entryPrefix,
                                            const std::vector<unsigned int> &indexEntries)
 {
 
@@ -101,8 +101,8 @@ void appendEnumNameIndexStructToFileStream(std::ofstream                   &updF
     updFileStream << "};\n\n";
     updFileStream << "static const " << mapName << "Entry " << mapName << "[] = {\n";
 
-    unsigned int longLine         = 0;
-    unsigned int indexPadding     = 1;
+    unsigned int longLine = 0;
+    unsigned int indexPadding = 1;
     unsigned int indexPaddingTemp = 1;
     for (unsigned int i = 0; i < enumEntries.size(); ++i)
     {
@@ -119,8 +119,8 @@ void appendEnumNameIndexStructToFileStream(std::ofstream                   &updF
             }
         }
     }
-    longLine              += unsigned(entryPrefix.size() + 2);
-    unsigned int numChars  = 0;
+    longLine += unsigned(entryPrefix.size() + 2);
+    unsigned int numChars = 0;
 
     for (unsigned int i = 0; i < enumEntries.size(); ++i)
     {
@@ -164,12 +164,12 @@ void appendEnumNameIndexStructToFileStream(std::ofstream                   &updF
 
 //==============================================================================
 
-void appendEnumStructToFileStream(std::ofstream                                &updFileStream,
-                                  const std::string                            &mapName,
-                                  const std::vector<std::string>               &enumTypeAndFieldNames,
-                                  const std::vector<std::vector<std::string>>  &enumEntries,
-                                  const std::vector<std::string>               &entryPrefix,
-                                  const std::vector<std::string>               &indexTypeAndFieldName,
+void appendEnumStructToFileStream(std::ofstream &updFileStream,
+                                  const std::string &mapName,
+                                  const std::vector<std::string> &enumTypeAndFieldNames,
+                                  const std::vector<std::vector<std::string>> &enumEntries,
+                                  const std::vector<std::string> &entryPrefix,
+                                  const std::vector<std::string> &indexTypeAndFieldName,
                                   const std::vector<std::vector<unsigned int>> &indexEntries)
 {
 
@@ -292,14 +292,14 @@ void appendEnumStructToFileStream(std::ofstream                                &
 bool LuaModelReadFromTable(LuaTable &model_table, Model *model, bool verbose);
 
 //==============================================================================
-bool LuaModelReadConstraintsFromTable(LuaTable                       &model_table,
-                                      const Model                    *model,
-                                      std::vector<ConstraintSet>     &constraint_sets,
+bool LuaModelReadConstraintsFromTable(LuaTable &model_table,
+                                      const Model *model,
+                                      std::vector<ConstraintSet> &constraint_sets,
                                       const std::vector<std::string> &constraint_set_names,
-                                      bool                            verbose);
+                                      bool verbose);
 
 typedef map<string, unsigned int> StringIntMap;
-StringIntMap                      body_table_id_map;
+StringIntMap body_table_id_map;
 
 //==============================================================================
 RBDL_ADDON_DLLAPI
@@ -313,32 +313,32 @@ bool LuaModelReadFromLuaState(lua_State *L, Model *model, bool verbose)
 }
 
 //==============================================================================
-bool LuaModelReadLocalFrames(LuaTable                       &model_table,
+bool LuaModelReadLocalFrames(LuaTable &model_table,
                              const RigidBodyDynamics::Model *model,
-                             std::vector<LocalFrame>        &upd_local_frame_set,
-                             bool                            verbose);
+                             std::vector<LocalFrame> &upd_local_frame_set,
+                             bool verbose);
 
 RBDL_ADDON_DLLAPI
-bool LuaModelReadLocalFrames(const char                     *filename,
+bool LuaModelReadLocalFrames(const char *filename,
                              const RigidBodyDynamics::Model *model,
-                             std::vector<LocalFrame>        &upd_local_frame_set,
-                             bool                            verbose)
+                             std::vector<LocalFrame> &upd_local_frame_set,
+                             bool verbose)
 {
     LuaTable model_table = LuaTable::fromFile(filename);
     return LuaModelReadLocalFrames(model_table, model, upd_local_frame_set, verbose);
 }
 
 //==============================================================================
-bool LuaModelReadPoints(LuaTable                       &model_table,
+bool LuaModelReadPoints(LuaTable &model_table,
                         const RigidBodyDynamics::Model *model,
-                        std::vector<Point>             &upd_point_set,
-                        bool                            verbose);
+                        std::vector<Point> &upd_point_set,
+                        bool verbose);
 
 RBDL_ADDON_DLLAPI
-bool LuaModelReadPoints(const char                     *filename,
+bool LuaModelReadPoints(const char *filename,
                         const RigidBodyDynamics::Model *model,
-                        std::vector<Point>             &upd_point_set,
-                        bool                            verbose)
+                        std::vector<Point> &upd_point_set,
+                        bool verbose)
 {
     LuaTable model_table = LuaTable::fromFile(filename);
     return LuaModelReadPoints(model_table, model, upd_point_set, verbose);
@@ -392,26 +392,26 @@ std::vector<std::string> LuaModelGetConstraintSetNames(const char *filename)
 
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelGetConstraintSetPhases(const char                     *filename,
+bool LuaModelGetConstraintSetPhases(const char *filename,
                                     const std::vector<std::string> &constraint_set_names,
-                                    std::vector<unsigned int>      &constraint_set_phases)
+                                    std::vector<unsigned int> &constraint_set_phases)
 {
-    LuaTable     luaTable = LuaTable::fromFile(filename);
-    unsigned int phases   = luaTable["constraint_set_phases"].length();
+    LuaTable luaTable = LuaTable::fromFile(filename);
+    unsigned int phases = luaTable["constraint_set_phases"].length();
     constraint_set_phases.resize(phases);
-    bool        found = false;
+    bool found = false;
     std::string phaseName;
 
     for (unsigned int i = 1; i < phases; ++i)
     {
         phaseName = luaTable["constraint_set_phases"][i].get<std::string>();
-        found     = false;
+        found = false;
         for (unsigned int j = 0; j < constraint_set_names.size(); ++j)
         {
             if (constraint_set_names[j] == phaseName)
             {
                 constraint_set_phases[i - 1] = j;
-                found                        = true;
+                found = true;
             }
         }
         if (found == false)
@@ -425,11 +425,11 @@ bool LuaModelGetConstraintSetPhases(const char                     *filename,
 
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelReadFromFileWithConstraints(const char                     *filename,
-                                         Model                          *model,
-                                         std::vector<ConstraintSet>     &constraint_sets,
+bool LuaModelReadFromFileWithConstraints(const char *filename,
+                                         Model *model,
+                                         std::vector<ConstraintSet> &constraint_sets,
                                          const std::vector<std::string> &constraint_set_names,
-                                         bool                            verbose)
+                                         bool verbose)
 {
     if (!model)
     {
@@ -442,8 +442,8 @@ bool LuaModelReadFromFileWithConstraints(const char                     *filenam
     }
 
     LuaTable model_table = LuaTable::fromFile(filename);
-    bool     modelLoaded = LuaModelReadFromTable(model_table, model, verbose);
-    bool     constraintsLoaded =
+    bool modelLoaded = LuaModelReadFromTable(model_table, model, verbose);
+    bool constraintsLoaded =
         LuaModelReadConstraintsFromTable(model_table, model, constraint_sets, constraint_set_names, verbose);
     for (size_t i = 0; i < constraint_sets.size(); ++i)
     {
@@ -477,15 +477,15 @@ bool LuaModelReadFromTable(LuaTable &model_table, Model *model, bool verbose)
             throw Errors::RBDLError("Parent not defined for frame ");
         }
 
-        string       body_name   = model_table["frames"][i]["name"].getDefault<string>("");
-        string       parent_name = model_table["frames"][i]["parent"].get<string>();
-        unsigned int parent_id   = body_table_id_map[parent_name];
+        string body_name = model_table["frames"][i]["name"].getDefault<string>("");
+        string parent_name = model_table["frames"][i]["parent"].get<string>();
+        unsigned int parent_id = body_table_id_map[parent_name];
 
         SpatialTransform joint_frame = model_table["frames"][i]["joint_frame"].getDefault(SpatialTransform());
-        Joint            joint       = model_table["frames"][i]["joint"].getDefault(Joint(JointTypeFixed));
-        Body             body        = model_table["frames"][i]["body"].getDefault<Body>(Body());
+        Joint joint = model_table["frames"][i]["joint"].getDefault(Joint(JointTypeFixed));
+        Body body = model_table["frames"][i]["body"].getDefault<Body>(Body());
 
-        unsigned int body_id         = model->AddBody(parent_id, joint_frame, joint, body, body_name);
+        unsigned int body_id = model->AddBody(parent_id, joint_frame, joint, body, body_name);
         body_table_id_map[body_name] = body_id;
 
         if (verbose)
@@ -507,27 +507,27 @@ bool LuaModelReadFromTable(LuaTable &model_table, Model *model, bool verbose)
 }
 
 //==============================================================================
-bool LuaModelReadConstraintsFromTable(LuaTable                       &model_table,
-                                      const Model                    *model,
-                                      std::vector<ConstraintSet>     &constraint_sets,
+bool LuaModelReadConstraintsFromTable(LuaTable &model_table,
+                                      const Model *model,
+                                      std::vector<ConstraintSet> &constraint_sets,
                                       const std::vector<std::string> &constraint_set_names,
-                                      bool                            verbose)
+                                      bool verbose)
 {
     std::string conName;
 
     std::vector<Vector3d> normalSets;
-    MatrixNd              normalSetsMatrix;
-    Vector3d              normal;
+    MatrixNd normalSetsMatrix;
+    Vector3d normal;
 
-    MatrixNd                   axisSetsMatrix;
-    SpatialVector              axis;
+    MatrixNd axisSetsMatrix;
+    SpatialVector axis;
     std::vector<SpatialVector> axisSets;
 
     std::vector<Point> pointSet;
-    bool               pointSetLoaded = LuaModelReadPoints(model_table, model, pointSet, verbose);
+    bool pointSetLoaded = LuaModelReadPoints(model_table, model, pointSet, verbose);
 
     std::vector<LocalFrame> localFrameSet;
-    bool                    localFramesLoaded = LuaModelReadLocalFrames(model_table, model, localFrameSet, verbose);
+    bool localFramesLoaded = LuaModelReadLocalFrames(model_table, model, localFrameSet, verbose);
 
     for (size_t i = 0; i < constraint_set_names.size(); ++i)
     {
@@ -599,21 +599,21 @@ bool LuaModelReadConstraintsFromTable(LuaTable                       &model_tabl
                 //     If a named point is given, go through the point set
                 //     Otherwise look for the explicit fields
                 unsigned int bodyId;
-                Vector3d     bodyPoint;
+                Vector3d bodyPoint;
 
                 if (model_table["constraint_sets"][conName.c_str()][ci + 1]["point_name"].exists())
                 {
                     std::string pointName =
                         model_table["constraint_sets"][conName.c_str()][ci + 1]["point_name"].getDefault<string>("");
-                    bool         pointFound = false;
-                    unsigned int pi         = 0;
+                    bool pointFound = false;
+                    unsigned int pi = 0;
                     while (pi < pointSet.size() && pointFound == false)
                     {
                         if (std::strcmp(pointSet[pi].name.c_str(), pointName.c_str()) == 0)
                         {
                             pointFound = true;
-                            bodyId     = pointSet[pi].body_id;
-                            bodyPoint  = pointSet[pi].point_local;
+                            bodyId = pointSet[pi].body_id;
+                            bodyPoint = pointSet[pi].point_local;
                         }
                         ++pi;
                     }
@@ -726,8 +726,8 @@ bool LuaModelReadConstraintsFromTable(LuaTable                       &model_tabl
                 // Get the local frames that this constraint will be applied to
                 //  If named local frames have been given, use them
                 //  Otherwise look for the individual fields
-                unsigned int     idPredecessor;
-                unsigned int     idSuccessor;
+                unsigned int idPredecessor;
+                unsigned int idSuccessor;
                 SpatialTransform Xp;
                 SpatialTransform Xs;
 
@@ -737,16 +737,16 @@ bool LuaModelReadConstraintsFromTable(LuaTable                       &model_tabl
                     std::string localFrameName =
                         model_table["constraint_sets"][conName.c_str()][ci + 1]["predecessor_local_frame"]
                             .getDefault<string>("");
-                    bool         frameFound = false;
-                    unsigned int fi         = 0;
+                    bool frameFound = false;
+                    unsigned int fi = 0;
                     while (fi < localFrameSet.size() && frameFound == false)
                     {
                         if (std::strcmp(localFrameSet[fi].name.c_str(), localFrameName.c_str()) == 0)
                         {
-                            frameFound    = true;
+                            frameFound = true;
                             idPredecessor = localFrameSet[fi].body_id;
-                            Xp.r          = localFrameSet[fi].r;
-                            Xp.E          = localFrameSet[fi].E;
+                            Xp.r = localFrameSet[fi].r;
+                            Xp.E = localFrameSet[fi].E;
                         }
                         ++fi;
                     }
@@ -779,16 +779,16 @@ bool LuaModelReadConstraintsFromTable(LuaTable                       &model_tabl
                     std::string localFrameName =
                         model_table["constraint_sets"][conName.c_str()][ci + 1]["successor_local_frame"]
                             .getDefault<string>("");
-                    bool         frameFound = false;
-                    unsigned int fi         = 0;
+                    bool frameFound = false;
+                    unsigned int fi = 0;
                     while (fi < localFrameSet.size() && frameFound == false)
                     {
                         if (std::strcmp(localFrameSet[fi].name.c_str(), localFrameName.c_str()) == 0)
                         {
-                            frameFound  = true;
+                            frameFound = true;
                             idSuccessor = localFrameSet[fi].body_id;
-                            Xs.r        = localFrameSet[fi].r;
-                            Xs.E        = localFrameSet[fi].E;
+                            Xs.r = localFrameSet[fi].r;
+                            Xs.E = localFrameSet[fi].E;
                         }
                         ++fi;
                     }
@@ -910,10 +910,10 @@ bool LuaModelReadConstraintsFromTable(LuaTable                       &model_tabl
 
 //==============================================================================
 
-bool LuaModelReadMotionCaptureMarkers(const char                       *filename,
-                                      const RigidBodyDynamics::Model   *model,
+bool LuaModelReadMotionCaptureMarkers(const char *filename,
+                                      const RigidBodyDynamics::Model *model,
                                       std::vector<MotionCaptureMarker> &upd_marker_set,
-                                      bool                              verbose)
+                                      bool verbose)
 {
 
     LuaTable luaTable = LuaTable::fromFile(filename);
@@ -921,18 +921,18 @@ bool LuaModelReadMotionCaptureMarkers(const char                       *filename
 
     if (luaTable["frames"].exists())
     {
-        unsigned int        frameCount = luaTable["frames"].length();
+        unsigned int frameCount = luaTable["frames"].length();
         std::vector<LuaKey> marker_keys;
         MotionCaptureMarker marker;
-        std::string         body_name;
-        unsigned int        body_id;
+        std::string body_name;
+        unsigned int body_id;
         for (unsigned int i = 1; i < frameCount; ++i)
         {
             if (luaTable["frames"][i]["markers"].exists())
             {
 
-                body_name   = luaTable["frames"][i]["name"].getDefault<string>("");
-                body_id     = model->GetBodyId(body_name.c_str());
+                body_name = luaTable["frames"][i]["name"].getDefault<string>("");
+                body_id = model->GetBodyId(body_name.c_str());
                 marker_keys = luaTable["frames"][i]["markers"].keys();
 
                 for (unsigned int j = 0; j < marker_keys.size(); ++j)
@@ -941,9 +941,9 @@ bool LuaModelReadMotionCaptureMarkers(const char                       *filename
                     {
                         throw Errors::RBDLFileParseError("Invalid marker found: missing name!");
                     }
-                    marker.name      = marker_keys[j].string_value;
+                    marker.name = marker_keys[j].string_value;
                     marker.body_name = body_name;
-                    marker.body_id   = body_id;
+                    marker.body_id = body_id;
                     marker.point_local =
                         luaTable["frames"][i]["markers"][marker.name.c_str()].getDefault<Vector3d>(Vector3d::Zero());
                     upd_marker_set.push_back(marker);
@@ -955,10 +955,10 @@ bool LuaModelReadMotionCaptureMarkers(const char                       *filename
     return true;
 }
 //==============================================================================
-bool LuaModelReadLocalFrames(LuaTable                       &model_table,
+bool LuaModelReadLocalFrames(LuaTable &model_table,
                              const RigidBodyDynamics::Model *model,
-                             std::vector<LocalFrame>        &upd_local_frame_set,
-                             bool                            verbose)
+                             std::vector<LocalFrame> &upd_local_frame_set,
+                             bool verbose)
 {
     // LuaTable luaTable       = LuaTable::fromFile (filename);
     upd_local_frame_set.clear();
@@ -974,7 +974,7 @@ bool LuaModelReadLocalFrames(LuaTable                       &model_table,
 
             localFrame = model_table["local_frames"][signed(i)];
 
-            localFrame.body_id         = model->GetBodyId(localFrame.body_name.c_str());
+            localFrame.body_id = model->GetBodyId(localFrame.body_name.c_str());
             upd_local_frame_set[i - 1] = localFrame;
 
             if (verbose)
@@ -992,10 +992,10 @@ bool LuaModelReadLocalFrames(LuaTable                       &model_table,
 }
 
 //==============================================================================
-bool LuaModelReadPoints(LuaTable                       &model_table,
+bool LuaModelReadPoints(LuaTable &model_table,
                         const RigidBodyDynamics::Model *model,
-                        std::vector<Point>             &upd_point_set,
-                        bool                            verbose)
+                        std::vector<Point> &upd_point_set,
+                        bool verbose)
 {
 
     upd_point_set.clear();
@@ -1011,7 +1011,7 @@ bool LuaModelReadPoints(LuaTable                       &model_table,
 
             point = model_table["points"][i];
 
-            point.body_id        = model->GetBodyId(point.body_name.c_str());
+            point.body_id = model->GetBodyId(point.body_name.c_str());
             upd_point_set[i - 1] = point;
 
             if (verbose)
@@ -1031,7 +1031,7 @@ bool LuaModelReadPoints(LuaTable                       &model_table,
 bool LuaModelReadHumanMetaData(const char *filename, HumanMetaData &human_meta_data, bool verbose)
 {
 
-    LuaTable     luaTable     = LuaTable::fromFile(filename);
+    LuaTable luaTable = LuaTable::fromFile(filename);
     unsigned int subjectCount = luaTable["human_meta_data"].length();
 
     if (subjectCount != 1)
@@ -1064,7 +1064,7 @@ std::vector<unsigned int> getQIndex(const RigidBodyDynamics::Model *model, const
 
     unsigned int ccid;
 
-    unsigned int id  = idJoint;
+    unsigned int id = idJoint;
     unsigned int dof = 0;
 
     while (id <= idChild)
@@ -1128,27 +1128,27 @@ unsigned int getMillard2016TorqueMuscleTypeId(std::string name)
 }
 
 //==============================================================================
-bool LuaModelReadMillard2016TorqueMuscleSets(const char                                 *filename,
-                                             const RigidBodyDynamics::Model             *model,
-                                             const HumanMetaData                        &human_meta_data,
-                                             std::vector<Millard2016TorqueMuscle>       &updMtgSet,
+bool LuaModelReadMillard2016TorqueMuscleSets(const char *filename,
+                                             const RigidBodyDynamics::Model *model,
+                                             const HumanMetaData &human_meta_data,
+                                             std::vector<Millard2016TorqueMuscle> &updMtgSet,
                                              std::vector<Millard2016TorqueMuscleConfig> &updMtgSetInfo,
-                                             bool                                        verbose)
+                                             bool verbose)
 {
 
-    LuaTable     luaTable = LuaTable::fromFile(filename);
+    LuaTable luaTable = LuaTable::fromFile(filename);
     unsigned int mtgCount = luaTable["millard2016_torque_muscles"].length();
 
     updMtgSet.resize(mtgCount);
     updMtgSetInfo.resize(mtgCount);
     Millard2016TorqueMuscleConfig mtgInfo;
     Millard2016TorqueMuscleConfig mtgInfoDefault;
-    unsigned int                  id;
+    unsigned int id;
 
     for (unsigned int i = 1; i <= mtgCount; ++i)
     {
         mtgInfo = luaTable["millard2016_torque_muscles"][i];
-        id      = i - unsigned(int(1));
+        id = i - unsigned(int(1));
 
         updMtgSetInfo[id] = mtgInfo;
 
@@ -1200,9 +1200,9 @@ bool LuaModelReadMillard2016TorqueMuscleSets(const char                         
     }
 
     subjectInfo.heightInMeters = human_meta_data.height;
-    subjectInfo.massInKg       = human_meta_data.mass;
+    subjectInfo.massInKg = human_meta_data.mass;
 
-    DataSet::item      mtgDataSet;
+    DataSet::item mtgDataSet;
     SubjectInformation mtgSubjectInfo;
 
     for (unsigned int i = 0; i < mtgCount; ++i)
@@ -1270,8 +1270,8 @@ bool LuaModelReadMillard2016TorqueMuscleSets(const char                         
             // and its parent.
             std::vector<unsigned int> qIndices = getQIndex(model, updMtgSetInfo[i].body.c_str());
 
-            updMtgSetInfo[i].q_index     = qIndices[0] + joint_offset;
-            updMtgSetInfo[i].qdot_index  = updMtgSetInfo[i].q_index;
+            updMtgSetInfo[i].q_index = qIndices[0] + joint_offset;
+            updMtgSetInfo[i].qdot_index = updMtgSetInfo[i].q_index;
             updMtgSetInfo[i].force_index = updMtgSetInfo[i].q_index;
         }
         if (updMtgSetInfo[i].activation_index == mtgInfoDefault.activation_index)
@@ -1287,14 +1287,14 @@ bool LuaModelReadMillard2016TorqueMuscleSets(const char                         
         // Parameters for manual adjustment
         if (!std::isnan(updMtgSetInfo[i].max_isometric_torque_scale))
         {
-            double fiso    = updMtgSet[i].getMaximumActiveIsometricTorque();
+            double fiso = updMtgSet[i].getMaximumActiveIsometricTorque();
             double updFiso = fiso * updMtgSetInfo[i].max_isometric_torque_scale;
             updMtgSet[i].setMaximumActiveIsometricTorque(updFiso);
         }
 
         if (!std::isnan(updMtgSetInfo[i].max_angular_velocity_scale))
         {
-            double omegaMax    = updMtgSet[i].getMaximumConcentricJointAngularVelocity();
+            double omegaMax = updMtgSet[i].getMaximumConcentricJointAngularVelocity();
             double updOmegaMax = omegaMax * updMtgSetInfo[i].max_angular_velocity_scale;
             updMtgSet[i].setMaximumConcentricJointAngularVelocity(updOmegaMax);
         }
@@ -1366,8 +1366,8 @@ bool LuaModelAddHeaderGuards(const char *filename)
 {
 
     // Extract the file name and capitalize it to make a custom headerguard
-    std::string  name;
-    std::string  headerFileName(filename);
+    std::string name;
+    std::string headerFileName(filename);
     unsigned int idx0 = unsigned(int(headerFileName.find_last_of("/")));
     if (idx0 == headerFileName.size())
     {
@@ -1391,8 +1391,8 @@ bool LuaModelAddHeaderGuards(const char *filename)
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 
     // Read in the entire header file
-    ifstream      headerFileInput(headerFileName.c_str()); // taking file as inputstream
-    string        headerFileText;
+    ifstream headerFileInput(headerFileName.c_str()); // taking file as inputstream
+    string headerFileText;
     ostringstream ss;
     if (headerFileInput)
     {
@@ -1413,7 +1413,7 @@ bool LuaModelAddHeaderGuards(const char *filename)
     return true;
 }
 //==============================================================================
-void LuaModelGetCoordinateNames(const Model              *model,
+void LuaModelGetCoordinateNames(const Model *model,
                                 std::vector<std::string> &qNames,
                                 std::vector<std::string> &qDotNames,
                                 std::vector<std::string> &tauNames)
@@ -1429,12 +1429,12 @@ void LuaModelGetCoordinateNames(const Model              *model,
 
     std::ostringstream ss;
 
-    std::string  jointType;
-    std::string  axisType;
+    std::string jointType;
+    std::string axisType;
     unsigned int axisIndex;
     unsigned int ccid;
-    std::string  childName;
-    bool         newBody = false;
+    std::string childName;
+    bool newBody = false;
 
     // Populate vectors that q, qdot, and tau
     for (unsigned int idJoint = 1; idJoint < model->mJoints.size(); ++idJoint)
@@ -1471,19 +1471,19 @@ void LuaModelGetCoordinateNames(const Model              *model,
         if (model->mJoints[idJoint].mJointType == JointTypeCustom)
         {
             ccid = model->mJoints[idJoint].custom_joint_index;
-            dof  = model->mCustomJoints[ccid]->mDoFCount;
+            dof = model->mCustomJoints[ccid]->mDoFCount;
             for (unsigned int i = 0; i < model->mCustomJoints[ccid]->mDoFCount; ++i)
             {
                 ss.str("");
                 ss << childName << jointType << i;
-                qNames[q_index + i]    = std::string("Q_").append(ss.str());
+                qNames[q_index + i] = std::string("Q_").append(ss.str());
                 qDotNames[q_index + i] = std::string("QDot_").append(ss.str());
-                tauNames[q_index + i]  = std::string("Tau_").append(ss.str());
+                tauNames[q_index + i] = std::string("Tau_").append(ss.str());
             }
         }
         else
         {
-            dof       = model->mJoints[idJoint].mDoFCount;
+            dof = model->mJoints[idJoint].mDoFCount;
             axisIndex = 6;
             for (unsigned int j = 0; j < 6; ++j)
             {
@@ -1529,9 +1529,9 @@ void LuaModelGetCoordinateNames(const Model              *model,
 
                 ss.str("");
                 ss << childName << jointType << axisType;
-                qNames[q_index + i]    = std::string("Q_").append(ss.str());
+                qNames[q_index + i] = std::string("Q_").append(ss.str());
                 qDotNames[q_index + i] = std::string("QDot_").append(ss.str());
-                tauNames[q_index + i]  = std::string("Tau_").append(ss.str());
+                tauNames[q_index + i] = std::string("Tau_").append(ss.str());
             }
             // If there is a quaternion joint the 4th component (w) is stored
             // in a different location
@@ -1550,13 +1550,13 @@ void LuaModelGetCoordinateNames(const Model              *model,
 bool LuaModelWriteModelHeaderEntries(const char *filename, const RigidBodyDynamics::Model &model, bool append)
 {
 
-    std::vector<std::string>  bodyNames;
+    std::vector<std::string> bodyNames;
     std::vector<unsigned int> bodyIndex;
-    std::vector<std::string>  qNames;
-    std::vector<std::string>  qDotNames;
-    std::vector<std::string>  qDDotNames;
-    std::vector<std::string>  tauNames;
-    std::string               tempStr;
+    std::vector<std::string> qNames;
+    std::vector<std::string> qDotNames;
+    std::vector<std::string> qDDotNames;
+    std::vector<std::string> tauNames;
+    std::string tempStr;
     LuaModelGetCoordinateNames(&model, qNames, qDotNames, tauNames);
 
     for (unsigned int i = 0; i < qDotNames.size(); ++i)
@@ -1566,7 +1566,7 @@ bool LuaModelWriteModelHeaderEntries(const char *filename, const RigidBodyDynami
         qDDotNames.push_back(tempStr);
     }
 
-    std::string  childName;
+    std::string childName;
     unsigned int q_index;
     unsigned int idChild;
 
@@ -1694,7 +1694,7 @@ bool LuaModelWritePointsHeaderEntries(const char *header_file_name, const std::v
         headerFile.open(header_file_name, std::ofstream::out);
     }
 
-    std::vector<std::string>  names;
+    std::vector<std::string> names;
     std::vector<unsigned int> indices;
 
     names.resize(point_set.size());
@@ -1702,7 +1702,7 @@ bool LuaModelWritePointsHeaderEntries(const char *header_file_name, const std::v
 
     for (unsigned int i = 0; i < point_set.size(); ++i)
     {
-        names[i]   = point_set[i].name;
+        names[i] = point_set[i].name;
         indices[i] = i;
     }
 
@@ -1720,9 +1720,9 @@ bool LuaModelWritePointsHeaderEntries(const char *header_file_name, const std::v
 }
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelWriteMotionCaptureMarkerHeaderEntries(const char                             *header_file_name,
+bool LuaModelWriteMotionCaptureMarkerHeaderEntries(const char *header_file_name,
                                                    const std::vector<MotionCaptureMarker> &marker_set,
-                                                   bool                                    append)
+                                                   bool append)
 {
     std::ofstream headerFile;
     if (append)
@@ -1734,7 +1734,7 @@ bool LuaModelWriteMotionCaptureMarkerHeaderEntries(const char                   
         headerFile.open(header_file_name, std::ofstream::out);
     }
 
-    std::vector<std::string>  names;
+    std::vector<std::string> names;
     std::vector<unsigned int> indices;
 
     names.resize(marker_set.size());
@@ -1742,7 +1742,7 @@ bool LuaModelWriteMotionCaptureMarkerHeaderEntries(const char                   
 
     for (unsigned int i = 0; i < marker_set.size(); ++i)
     {
-        names[i]   = marker_set[i].name;
+        names[i] = marker_set[i].name;
         indices[i] = i;
     }
 
@@ -1762,9 +1762,9 @@ bool LuaModelWriteMotionCaptureMarkerHeaderEntries(const char                   
 
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelWriteLocalFrameHeaderEntries(const char                    *header_file_name,
+bool LuaModelWriteLocalFrameHeaderEntries(const char *header_file_name,
                                           const std::vector<LocalFrame> &local_frame_set,
-                                          bool                           append)
+                                          bool append)
 {
     std::ofstream headerFile;
     if (append)
@@ -1776,7 +1776,7 @@ bool LuaModelWriteLocalFrameHeaderEntries(const char                    *header_
         headerFile.open(header_file_name, std::ofstream::out);
     }
 
-    std::vector<std::string>  names;
+    std::vector<std::string> names;
     std::vector<unsigned int> indices;
 
     names.resize(local_frame_set.size());
@@ -1784,7 +1784,7 @@ bool LuaModelWriteLocalFrameHeaderEntries(const char                    *header_
 
     for (unsigned int i = 0; i < local_frame_set.size(); ++i)
     {
-        names[i]   = local_frame_set[i].name;
+        names[i] = local_frame_set[i].name;
         indices[i] = i;
     }
 
@@ -1803,10 +1803,10 @@ bool LuaModelWriteLocalFrameHeaderEntries(const char                    *header_
 
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelWriteConstraintSetPhaseHeaderEntries(const char                      *header_file_name,
-                                                  const std::vector<std::string>  &constraint_set_names,
+bool LuaModelWriteConstraintSetPhaseHeaderEntries(const char *header_file_name,
+                                                  const std::vector<std::string> &constraint_set_names,
                                                   const std::vector<unsigned int> &constraint_phases,
-                                                  bool                             append)
+                                                  bool append)
 {
     std::ofstream headerFile;
     if (append)
@@ -1821,11 +1821,11 @@ bool LuaModelWriteConstraintSetPhaseHeaderEntries(const char                    
     std::vector<std::string> phaseNames;
     phaseNames.resize(constraint_phases.size() + 1);
 
-    std::vector<std::string>              enumTypeAndFieldNames;
+    std::vector<std::string> enumTypeAndFieldNames;
     std::vector<std::vector<std::string>> enumEntries;
-    std::vector<std::string>              entryPrefix;
+    std::vector<std::string> entryPrefix;
 
-    std::vector<std::string>               indexTypeAndFieldNames;
+    std::vector<std::string> indexTypeAndFieldNames;
     std::vector<std::vector<unsigned int>> indexMatrix;
 
     indexTypeAndFieldNames.resize(0);
@@ -1860,7 +1860,7 @@ bool LuaModelWriteConstraintSetPhaseHeaderEntries(const char                    
     enumEntries[constraint_phases.size()][0] = "Phase_Last";
     enumEntries[constraint_phases.size()][1] = "\"Phase_Last\"";
     enumEntries[constraint_phases.size()][2] = "Last";
-    phaseNames[constraint_phases.size()]     = "Phase_Last";
+    phaseNames[constraint_phases.size()] = "Phase_Last";
 
     if (constraint_phases.size() > 0)
     {
@@ -1875,10 +1875,10 @@ bool LuaModelWriteConstraintSetPhaseHeaderEntries(const char                    
 }
 //==============================================================================
 RBDL_ADDON_DLLAPI
-bool LuaModelWriteConstraintSetHeaderEntries(const char                                          *header_file_name,
-                                             const std::vector<std::string>                      &constraint_set_names,
+bool LuaModelWriteConstraintSetHeaderEntries(const char *header_file_name,
+                                             const std::vector<std::string> &constraint_set_names,
                                              const std::vector<RigidBodyDynamics::ConstraintSet> &constraint_sets,
-                                             bool                                                 append)
+                                             bool append)
 {
 
     if (constraint_set_names.size() != constraint_sets.size())
@@ -1901,16 +1901,16 @@ bool LuaModelWriteConstraintSetHeaderEntries(const char                         
         headerFile.open(header_file_name, std::ofstream::out);
     }
 
-    std::vector<std::string>  conSetNames;
+    std::vector<std::string> conSetNames;
     std::vector<unsigned int> conSetIndex;
 
     std::vector<std::string> groupNames;
 
-    std::vector<std::string>              conNames;
-    std::vector<std::string>              conEnumPrefix;
+    std::vector<std::string> conNames;
+    std::vector<std::string> conEnumPrefix;
     std::vector<std::vector<std::string>> conEnumMatrix;
-    std::vector<std::string>              conEnumVector;
-    std::vector<std::string>              conEnumTypeAndFieldNames;
+    std::vector<std::string> conEnumVector;
+    std::vector<std::string> conEnumTypeAndFieldNames;
 
     conEnumPrefix.push_back("C_");
     conEnumPrefix.push_back("CS_");
@@ -1921,13 +1921,13 @@ bool LuaModelWriteConstraintSetHeaderEntries(const char                         
     conEnumTypeAndFieldNames.push_back("ConstraintGroupId constraint_group_id");
 
     std::vector<std::vector<unsigned int>> conIndexMatrix;
-    std::vector<unsigned int>              conIndexVector;
-    std::vector<std::string>               conIndexTypeAndFieldNames;
+    std::vector<unsigned int> conIndexVector;
+    std::vector<std::string> conIndexTypeAndFieldNames;
     conIndexVector.resize(1);
 
     conIndexTypeAndFieldNames.push_back("unsigned int constraint_set_item_id");
 
-    std::string       conTypeName;
+    std::string conTypeName;
     std::stringstream ss;
 
     for (unsigned int i = 0; i < constraint_set_names.size(); ++i)
@@ -2001,10 +2001,10 @@ bool LuaModelWriteConstraintSetHeaderEntries(const char                         
 #ifdef RBDL_BUILD_ADDON_MUSCLE
 RBDL_ADDON_DLLAPI
 bool LuaModelWriteMillard2016TorqueMuscleHeaderEntries(
-    const char                                                                     *header_file_name,
+    const char *header_file_name,
     const std::vector<RigidBodyDynamics::Addons::Muscle ::Millard2016TorqueMuscle> &mtg_set,
-    const std::vector<Millard2016TorqueMuscleConfig>                               &mtg_set_info,
-    bool                                                                            append)
+    const std::vector<Millard2016TorqueMuscleConfig> &mtg_set_info,
+    bool append)
 {
 
     if (mtg_set.size() != mtg_set_info.size())
@@ -2026,7 +2026,7 @@ bool LuaModelWriteMillard2016TorqueMuscleHeaderEntries(
     {
         headerFile.open(header_file_name, std::ofstream::out);
     }
-    std::vector<std::string>  names;
+    std::vector<std::string> names;
     std::vector<unsigned int> indices;
 
     names.resize(mtg_set_info.size());
@@ -2034,7 +2034,7 @@ bool LuaModelWriteMillard2016TorqueMuscleHeaderEntries(
 
     for (unsigned int i = 0; i < mtg_set_info.size(); ++i)
     {
-        names[i]   = mtg_set_info[i].name;
+        names[i] = mtg_set_info[i].name;
         indices[i] = i;
     }
 

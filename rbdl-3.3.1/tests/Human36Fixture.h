@@ -113,27 +113,27 @@ struct Human36
 
     void initParameters()
     {
-        SegmentLengths[SegmentPelvis]      = 0.1457;
-        SegmentLengths[SegmentThigh]       = 0.4222;
-        SegmentLengths[SegmentShank]       = 0.4403;
-        SegmentLengths[SegmentFoot]        = 0.1037;
+        SegmentLengths[SegmentPelvis] = 0.1457;
+        SegmentLengths[SegmentThigh] = 0.4222;
+        SegmentLengths[SegmentShank] = 0.4403;
+        SegmentLengths[SegmentFoot] = 0.1037;
         SegmentLengths[SegmentMiddleTrunk] = 0.2155;
-        SegmentLengths[SegmentUpperTrunk]  = 0.2421;
-        SegmentLengths[SegmentUpperArm]    = 0.2817;
-        SegmentLengths[SegmentLowerArm]    = 0.2689;
-        SegmentLengths[SegmentHand]        = 0.0862;
-        SegmentLengths[SegmentHead]        = 0.2429;
+        SegmentLengths[SegmentUpperTrunk] = 0.2421;
+        SegmentLengths[SegmentUpperArm] = 0.2817;
+        SegmentLengths[SegmentLowerArm] = 0.2689;
+        SegmentLengths[SegmentHand] = 0.0862;
+        SegmentLengths[SegmentHead] = 0.2429;
 
-        SegmentMass[SegmentPelvis]      = 0.8154;
-        SegmentMass[SegmentThigh]       = 10.3368;
-        SegmentMass[SegmentShank]       = 3.1609;
-        SegmentMass[SegmentFoot]        = 1.001;
+        SegmentMass[SegmentPelvis] = 0.8154;
+        SegmentMass[SegmentThigh] = 10.3368;
+        SegmentMass[SegmentShank] = 3.1609;
+        SegmentMass[SegmentFoot] = 1.001;
         SegmentMass[SegmentMiddleTrunk] = 16.33;
-        SegmentMass[SegmentUpperTrunk]  = 15.96;
-        SegmentMass[SegmentUpperArm]    = 1.9783;
-        SegmentMass[SegmentLowerArm]    = 1.1826;
-        SegmentMass[SegmentHand]        = 0.4453;
-        SegmentMass[SegmentHead]        = 5.0662;
+        SegmentMass[SegmentUpperTrunk] = 15.96;
+        SegmentMass[SegmentUpperArm] = 1.9783;
+        SegmentMass[SegmentLowerArm] = 1.1826;
+        SegmentMass[SegmentHand] = 0.4453;
+        SegmentMass[SegmentHead] = 5.0662;
 
         SegmentCOM[SegmentPelvis][0] = 0.;
         SegmentCOM[SegmentPelvis][1] = 0.;
@@ -237,19 +237,19 @@ struct Human36
         using namespace RigidBodyDynamics;
         using namespace RigidBodyDynamics::Math;
 
-        Body pelvis_body       = create_body(SegmentPelvis);
-        Body thigh_body        = create_body(SegmentThigh);
-        Body shank_body        = create_body(SegmentShank);
-        Body foot_body         = create_body(SegmentFoot);
+        Body pelvis_body = create_body(SegmentPelvis);
+        Body thigh_body = create_body(SegmentThigh);
+        Body shank_body = create_body(SegmentShank);
+        Body foot_body = create_body(SegmentFoot);
         Body middle_trunk_body = create_body(SegmentMiddleTrunk);
-        Body upper_trunk_body  = create_body(SegmentUpperTrunk);
-        Body upperarm_body     = create_body(SegmentUpperArm);
-        Body lowerarm_body     = create_body(SegmentLowerArm);
-        Body hand_body         = create_body(SegmentHand);
-        Body head_body         = create_body(SegmentHead);
+        Body upper_trunk_body = create_body(SegmentUpperTrunk);
+        Body upperarm_body = create_body(SegmentUpperArm);
+        Body lowerarm_body = create_body(SegmentLowerArm);
+        Body hand_body = create_body(SegmentHand);
+        Body head_body = create_body(SegmentHead);
 
         Matrix3d zero_matrix(Matrix3d::Zero());
-        Body     null_body(0., Vector3d(0., 0., 0.), zero_matrix);
+        Body null_body(0., Vector3d(0., 0., 0.), zero_matrix);
 
         Joint free_flyer(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                          SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 1., 0., 0., 0., 0.),
@@ -336,16 +336,16 @@ struct Human36
                                                            rot_yxz_3dof, thigh_body, "thigh_r");
         body_id_3dof[BodyShankRight] = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentThigh])),
                                                               rot_y, shank_body, "shank_r");
-        body_id_3dof[BodyFootRight]  = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentShank])),
-                                                              rot_yz, foot_body, "foot_r");
+        body_id_3dof[BodyFootRight] = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentShank])),
+                                                             rot_yz, foot_body, "foot_r");
 
         // left leg
         body_id_3dof[BodyThighLeft] = model_3dof->AddBody(body_id_3dof[BodyPelvis], Xtrans(Vector3d(0., 0.0872, 0.)),
                                                           rot_yxz_3dof, thigh_body, "thigh_l");
         body_id_3dof[BodyShankLeft] = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentThigh])),
                                                              rot_y, shank_body, "shank_l");
-        body_id_3dof[BodyFootLeft]  = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentShank])),
-                                                             rot_yz, foot_body, "foot_l");
+        body_id_3dof[BodyFootLeft] = model_3dof->AppendBody(Xtrans(Vector3d(0., 0., -SegmentLengths[SegmentShank])),
+                                                            rot_yz, foot_body, "foot_l");
 
         // trunk
         body_id_3dof[BodyMiddleTrunk] =
@@ -472,13 +472,13 @@ struct Human36
     {
         for (int i = 0; i < q.size(); i++)
         {
-            q[i]     = 0.4 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-            qdot[i]  = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-            tau[i]   = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+            q[i] = 0.4 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+            qdot[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+            tau[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
             qddot[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
         }
         qddot_emulated = qddot;
-        qddot_3dof     = qddot;
+        qddot_3dof = qddot;
     }
 
     Human36()
@@ -489,18 +489,18 @@ struct Human36
 
         initParameters();
         model_emulated = new RigidBodyDynamics::Model();
-        model_3dof     = new RigidBodyDynamics::Model();
-        model          = model_emulated;
+        model_3dof = new RigidBodyDynamics::Model();
+        model = model_emulated;
         generate();
         initConstraintSets();
 
-        q     = VectorNd::Zero(model_emulated->q_size);
-        qdot  = VectorNd::Zero(model_emulated->qdot_size);
+        q = VectorNd::Zero(model_emulated->q_size);
+        qdot = VectorNd::Zero(model_emulated->qdot_size);
         qddot = VectorNd::Zero(model_emulated->qdot_size);
-        tau   = VectorNd::Zero(model_emulated->qdot_size);
+        tau = VectorNd::Zero(model_emulated->qdot_size);
 
         qddot_emulated = VectorNd::Zero(model_emulated->qdot_size);
-        qddot_3dof     = VectorNd::Zero(model_emulated->qdot_size);
+        qddot_3dof = VectorNd::Zero(model_emulated->qdot_size);
     };
     ~Human36()
     {

@@ -31,14 +31,14 @@ struct RBDL_DLLAPI SpatialRigidBodyInertia
           Izy(inertia(2, 1)), Izz(inertia(2, 2))
     {
     }
-    SpatialRigidBodyInertia(Scalar          m,
+    SpatialRigidBodyInertia(Scalar m,
                             const Vector3d &h,
-                            const Scalar   &Ixx,
-                            const Scalar   &Iyx,
-                            const Scalar   &Iyy,
-                            const Scalar   &Izx,
-                            const Scalar   &Izy,
-                            const Scalar   &Izz)
+                            const Scalar &Ixx,
+                            const Scalar &Iyx,
+                            const Scalar &Iyy,
+                            const Scalar &Izx,
+                            const Scalar &Izy,
+                            const Scalar &Izz)
         : m(m), h(h), Ixx(Ixx), Iyx(Iyx), Iyy(Iyy), Izx(Izx), Izy(Izy), Izz(Izz)
     {
     }
@@ -140,8 +140,8 @@ struct RBDL_DLLAPI SpatialRigidBodyInertia
     createFromMassComInertiaC(Scalar mass, const Vector3d &com, const Matrix3d &inertia_C)
     {
         SpatialRigidBodyInertia result;
-        result.m   = mass;
-        result.h   = com * mass;
+        result.m = mass;
+        result.h = com * mass;
         Matrix3d I = inertia_C + VectorCrossMatrix(com) * VectorCrossMatrix(com).transpose() * mass;
         result.Ixx = I(0, 0);
         result.Iyx = I(1, 0);
@@ -153,11 +153,11 @@ struct RBDL_DLLAPI SpatialRigidBodyInertia
     }
 
     /// Mass
-    Scalar   m;
+    Scalar m;
     /// Coordinates of the center of mass
     Vector3d h;
     /// Inertia expressed at the origin
-    Scalar   Ixx, Iyx, Iyy, Izx, Izy, Izz;
+    Scalar Ixx, Iyx, Iyy, Izx, Izy, Izz;
 };
 
 /** \brief Compact representation of spatial transformations.
@@ -200,8 +200,10 @@ struct RBDL_DLLAPI SpatialTransform
 
         return {E(0, 0) * f_sp[0] + E(1, 0) * f_sp[1] + E(2, 0) * f_sp[2] - r[2] * E_T_f[1] + r[1] * E_T_f[2],
                 E(0, 1) * f_sp[0] + E(1, 1) * f_sp[1] + E(2, 1) * f_sp[2] + r[2] * E_T_f[0] - r[0] * E_T_f[2],
-                E(0, 2) * f_sp[0] + E(1, 2) * f_sp[1] + E(2, 2) * f_sp[2] - r[1] * E_T_f[0] + r[0] * E_T_f[1], E_T_f[0],
-                E_T_f[1], E_T_f[2]};
+                E(0, 2) * f_sp[0] + E(1, 2) * f_sp[1] + E(2, 2) * f_sp[2] - r[1] * E_T_f[0] + r[0] * E_T_f[1],
+                E_T_f[0],
+                E_T_f[1],
+                E_T_f[2]};
     }
 
     /** Same as X^* I X^{-1}
@@ -209,7 +211,8 @@ struct RBDL_DLLAPI SpatialTransform
     SpatialRigidBodyInertia apply(const SpatialRigidBodyInertia &rbi)
     {
         return {rbi.m, E * (rbi.h - rbi.m * r),
-                E * (Matrix3d(rbi.Ixx, rbi.Iyx, rbi.Izx, rbi.Iyx, rbi.Iyy, rbi.Izy, rbi.Izx, rbi.Izy, rbi.Izz) +
+                E *
+                    (Matrix3d(rbi.Ixx, rbi.Iyx, rbi.Izx, rbi.Iyx, rbi.Iyy, rbi.Izy, rbi.Izx, rbi.Izy, rbi.Izz) +
                      VectorCrossMatrix(r) * VectorCrossMatrix(rbi.h) +
                      (VectorCrossMatrix(rbi.h - rbi.m * r) * VectorCrossMatrix(r))) *
                     E.transpose()};
@@ -230,16 +233,19 @@ struct RBDL_DLLAPI SpatialTransform
     SpatialVector applyAdjoint(const SpatialVector &f_sp)
     {
         Vector3d En_rxf = E * (Vector3d(f_sp[0], f_sp[1], f_sp[2]) - r.cross(Vector3d(f_sp[3], f_sp[4], f_sp[5])));
-        //Vector3d En_rxf = E * (Vector3d (f_sp[0], f_sp[1], f_sp[2]) - r.cross(Eigen::Map<Vector3d>(&(f_sp[3]))));
+        // Vector3d En_rxf = E * (Vector3d (f_sp[0], f_sp[1], f_sp[2]) - r.cross(Eigen::Map<Vector3d>(&(f_sp[3]))));
 
-        return {En_rxf[0], En_rxf[1], En_rxf[2], E(0, 0) * f_sp[3] + E(0, 1) * f_sp[4] + E(0, 2) * f_sp[5],
+        return {En_rxf[0],
+                En_rxf[1],
+                En_rxf[2],
+                E(0, 0) * f_sp[3] + E(0, 1) * f_sp[4] + E(0, 2) * f_sp[5],
                 E(1, 0) * f_sp[3] + E(1, 1) * f_sp[4] + E(1, 2) * f_sp[5],
                 E(2, 0) * f_sp[3] + E(2, 1) * f_sp[4] + E(2, 2) * f_sp[5]};
     }
 
     SpatialMatrix toMatrix() const
     {
-        Matrix3d      _Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
+        Matrix3d _Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
         SpatialMatrix result;
         result.block<3, 3>(0, 0) = E;
         result.block<3, 3>(0, 3) = Matrix3d::Zero();
@@ -251,7 +257,7 @@ struct RBDL_DLLAPI SpatialTransform
 
     SpatialMatrix toMatrixAdjoint() const
     {
-        Matrix3d      Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
+        Matrix3d Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
         SpatialMatrix result;
         result.block<3, 3>(0, 0) = E;
         result.block<3, 3>(0, 3) = -Erx;
@@ -263,7 +269,7 @@ struct RBDL_DLLAPI SpatialTransform
 
     SpatialMatrix toMatrixTranspose() const
     {
-        Matrix3d      Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
+        Matrix3d Erx = E * Matrix3d(0., -r[2], r[1], r[2], 0., -r[0], -r[1], r[0], 0.);
         SpatialMatrix result;
         result.block<3, 3>(0, 0) = E.transpose();
         result.block<3, 3>(0, 3) = -Erx.transpose();
@@ -285,7 +291,7 @@ struct RBDL_DLLAPI SpatialTransform
 
     void operator*=(const SpatialTransform &XT)
     {
-        r  = XT.r + XT.E.transpose() * r;
+        r = XT.r + XT.E.transpose() * r;
         E *= XT.E;
     }
 
@@ -316,18 +322,14 @@ inline SpatialTransform Xrot(Scalar angle_rad, const Vector3d &axis)
     s = sin(angle_rad);
     c = cos(angle_rad);
 
-    return {Matrix3d(axis[0] * axis[0] * (1.0f - c) + c,
-                     axis[1] * axis[0] * (1.0f - c) + axis[2] * s,
+    return {Matrix3d(axis[0] * axis[0] * (1.0f - c) + c, axis[1] * axis[0] * (1.0f - c) + axis[2] * s,
                      axis[0] * axis[2] * (1.0f - c) - axis[1] * s,
 
-                     axis[0] * axis[1] * (1.0f - c) - axis[2] * s,
-                     axis[1] * axis[1] * (1.0f - c) + c,
+                     axis[0] * axis[1] * (1.0f - c) - axis[2] * s, axis[1] * axis[1] * (1.0f - c) + c,
                      axis[1] * axis[2] * (1.0f - c) + axis[0] * s,
 
-                     axis[0] * axis[2] * (1.0f - c) + axis[1] * s,
-                     axis[1] * axis[2] * (1.0f - c) - axis[0] * s,
-                     axis[2] * axis[2] * (1.0f - c) + c
-                     ),
+                     axis[0] * axis[2] * (1.0f - c) + axis[1] * s, axis[1] * axis[2] * (1.0f - c) - axis[0] * s,
+                     axis[2] * axis[2] * (1.0f - c) + c),
             Vector3d(0., 0., 0.)};
 }
 
@@ -362,13 +364,15 @@ inline SpatialTransform Xtrans(const Vector3d &r)
 
 inline SpatialMatrix crossm(const SpatialVector &v)
 {
-    return {0, -v[2], v[1], 0, 0, 0, v[2], 0, -v[0], 0, 0, 0, -v[1], v[0], 0, 0, 0, 0, 0, -v[5], v[4], 0,
-            -v[2], v[1], v[5], 0, -v[3], v[2], 0, -v[0], -v[4], v[3], 0, -v[1], v[0], 0};
+    return {0, -v[2], v[1], 0, 0,     0,    v[2], 0, -v[0], 0,    0, 0,     -v[1], v[0], 0, 0,     0,    0,
+            0, -v[5], v[4], 0, -v[2], v[1], v[5], 0, -v[3], v[2], 0, -v[0], -v[4], v[3], 0, -v[1], v[0], 0};
 }
 
 inline SpatialVector crossm(const SpatialVector &v1, const SpatialVector &v2)
 {
-    return {-v1[2] * v2[1] + v1[1] * v2[2], v1[2] * v2[0] - v1[0] * v2[2], -v1[1] * v2[0] + v1[0] * v2[1],
+    return {-v1[2] * v2[1] + v1[1] * v2[2],
+            v1[2] * v2[0] - v1[0] * v2[2],
+            -v1[1] * v2[0] + v1[0] * v2[1],
             -v1[5] * v2[1] + v1[4] * v2[2] - v1[2] * v2[4] + v1[1] * v2[5],
             v1[5] * v2[0] - v1[3] * v2[2] + v1[2] * v2[3] - v1[0] * v2[5],
             -v1[4] * v2[0] + v1[3] * v2[1] - v1[1] * v2[3] + v1[0] * v2[4]};
@@ -377,15 +381,17 @@ inline SpatialVector crossm(const SpatialVector &v1, const SpatialVector &v2)
 inline SpatialMatrix crossf(const SpatialVector &v)
 {
     return {0, -v[2], v[1], 0, -v[5], v[4], v[2], 0, -v[0], v[5], 0, -v[3], -v[1], v[0], 0, -v[4], v[3], 0,
-            0, 0, 0, 0, -v[2], v[1], 0, 0, 0, v[2], 0, -v[0], 0, 0, 0, -v[1], v[0], 0};
+            0, 0,     0,    0, -v[2], v[1], 0,    0, 0,     v[2], 0, -v[0], 0,     0,    0, -v[1], v[0], 0};
 }
 
 inline SpatialVector crossf(const SpatialVector &v1, const SpatialVector &v2)
 {
     return {-v1[2] * v2[1] + v1[1] * v2[2] - v1[5] * v2[4] + v1[4] * v2[5],
             v1[2] * v2[0] - v1[0] * v2[2] + v1[5] * v2[3] - v1[3] * v2[5],
-            -v1[1] * v2[0] + v1[0] * v2[1] - v1[4] * v2[3] + v1[3] * v2[4], -v1[2] * v2[4] + v1[1] * v2[5],
-            v1[2] * v2[3] - v1[0] * v2[5], -v1[1] * v2[3] + v1[0] * v2[4]};
+            -v1[1] * v2[0] + v1[0] * v2[1] - v1[4] * v2[3] + v1[3] * v2[4],
+            -v1[2] * v2[4] + v1[1] * v2[5],
+            v1[2] * v2[3] - v1[0] * v2[5],
+            -v1[1] * v2[3] + v1[0] * v2[4]};
 }
 
 } // namespace Math

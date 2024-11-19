@@ -176,13 +176,13 @@ public:
           calls to kinematic dependent functions to be updated using the
           generalized coordinates passed into this function.
     */
-    virtual void calcConstraintJacobian(Model                &model,
-                                        const double          time,
+    virtual void calcConstraintJacobian(Model &model,
+                                        const double time,
                                         const Math::VectorNd &Q,
                                         const Math::VectorNd &QDot,
-                                        Math::MatrixNd       &GSysOutput,
-                                        ConstraintCache      &cache,
-                                        bool                  updateKinematics = false) = 0;
+                                        Math::MatrixNd &GSysOutput,
+                                        ConstraintCache &cache,
+                                        bool updateKinematics = false) = 0;
 
     /**
       @brief In this function the vector \f$\gamma_{i}\f$ of this constraint is
@@ -208,14 +208,14 @@ public:
           calls to kinematic dependent functions to be updated using the
           generalized coordinates passed into this function.
     */
-    virtual void calcGamma(Model                &model,
-                           const double          time,
+    virtual void calcGamma(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
                            const Math::VectorNd &QDot,
                            const Math::MatrixNd &GSys,
-                           Math::VectorNd       &gammaSysOutput,
-                           ConstraintCache      &cache,
-                           bool                  updateKinematics = false) = 0;
+                           Math::VectorNd &gammaSysOutput,
+                           ConstraintCache &cache,
+                           bool updateKinematics = false) = 0;
 
     /**
     @brief In this function the sub vector \f$\phi_{p,i}(q,t)\f$ of this
@@ -239,12 +239,12 @@ public:
           calls to kinematic dependent functions to be updated using the
           generalized coordinates passed into this function.
     */
-    virtual void calcPositionError(Model                &model,
-                                   const double          time,
+    virtual void calcPositionError(Model &model,
+                                   const double time,
                                    const Math::VectorNd &Q,
-                                   Math::VectorNd       &errSysOutput,
-                                   ConstraintCache      &cache,
-                                   bool                  updateKinematics = false) = 0;
+                                   Math::VectorNd &errSysOutput,
+                                   ConstraintCache &cache,
+                                   bool updateKinematics = false) = 0;
 
     /**
     @brief In this function the sub vector \f$\phi_{v,i}(q, \dot{q},t)\f$ of
@@ -274,14 +274,14 @@ public:
           calls to kinematic dependent functions to be updated using the
           generalized coordinates passed into this function.
     */
-    virtual void calcVelocityError(Model                &model,
-                                   const double          time,
+    virtual void calcVelocityError(Model &model,
+                                   const double time,
                                    const Math::VectorNd &Q,
                                    const Math::VectorNd &QDot,
                                    const Math::MatrixNd &GSys,
-                                   Math::VectorNd       &derrSysOutput,
-                                   ConstraintCache      &cache,
-                                   bool                  updateKinematics = false) = 0;
+                                   Math::VectorNd &derrSysOutput,
+                                   ConstraintCache &cache,
+                                   bool updateKinematics = false) = 0;
 
     /**
       @brief This function resolves the generalized forces this constraint
@@ -341,18 +341,18 @@ public:
           calls to kinematic dependent functions to be updated using the
           generalized coordinates passed into this function.
     */
-    virtual void calcConstraintForces(Model                               &model,
-                                      const double                         time,
-                                      const Math::VectorNd                &Q,
-                                      const Math::VectorNd                &QDot,
-                                      const Math::MatrixNd                &GSys,
-                                      const Math::VectorNd                &LagrangeMultipliersSys,
-                                      std::vector<unsigned int>           &constraintBodiesOutput,
+    virtual void calcConstraintForces(Model &model,
+                                      const double time,
+                                      const Math::VectorNd &Q,
+                                      const Math::VectorNd &QDot,
+                                      const Math::MatrixNd &GSys,
+                                      const Math::VectorNd &LagrangeMultipliersSys,
+                                      std::vector<unsigned int> &constraintBodiesOutput,
                                       std::vector<Math::SpatialTransform> &constraintBodyFramesOutput,
-                                      std::vector<Math::SpatialVector>    &constraintForcesOutput,
-                                      ConstraintCache                     &cache,
-                                      bool                                 resolveAllInRootFrame = false,
-                                      bool                                 updateKinematics      = false) = 0;
+                                      std::vector<Math::SpatialVector> &constraintForcesOutput,
+                                      ConstraintCache &cache,
+                                      bool resolveAllInRootFrame = false,
+                                      bool updateKinematics = false) = 0;
 
     //==============================================================================
     // DO NOT TOUCH!!!
@@ -378,7 +378,7 @@ public:
       @param userDefinedIdNumber: an integer that the user can set to rapidly
               retrieve this constraint from the set.
     */
-    Constraint(const char  *nameOfConstraint,
+    Constraint(const char *nameOfConstraint,
                unsigned int typeOfConstraint,
                unsigned int sizeOfConstraint,
                unsigned int userDefinedIdNumber)
@@ -485,7 +485,7 @@ public:
     */
     void getBaumgarteStabilizationForces(const Math::VectorNd &errPos,
                                          const Math::VectorNd &errVel,
-                                         Math::VectorNd       &baumgarteForces)
+                                         Math::VectorNd &baumgarteForces)
     {
 
         baumgarteForces =
@@ -499,7 +499,7 @@ public:
     */
     void addInBaumgarteStabilizationForces(const Math::VectorNd &errPosSys,
                                            const Math::VectorNd &errVelSys,
-                                           Math::VectorNd       &gammaSysOutput)
+                                           Math::VectorNd &gammaSysOutput)
     {
 
         // Here a for loop is used rather than a block operation

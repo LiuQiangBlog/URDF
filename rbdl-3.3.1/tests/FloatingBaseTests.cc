@@ -20,7 +20,7 @@ struct FloatingBaseFixture
     FloatingBaseFixture()
     {
         ClearLogOutput();
-        model          = new Model;
+        model = new Model;
         model->gravity = Vector3d(0., -9.81, 0.);
 
         base = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
@@ -29,8 +29,8 @@ struct FloatingBaseFixture
     {
         delete model;
     }
-    Model       *model;
-    Body         base;
+    Model *model;
+    Body base;
     unsigned int base_body_id;
 
     VectorNd q, qdot, qddot, tau;
@@ -44,10 +44,10 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointTransformation", "
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    q     = VectorNd::Constant(model->dof_count, 0.);
-    qdot  = VectorNd::Constant(model->dof_count, 0.);
+    q = VectorNd::Constant(model->dof_count, 0.);
+    qdot = VectorNd::Constant(model->dof_count, 0.);
     qddot = VectorNd::Constant(model->dof_count, 0.);
-    tau   = VectorNd::Constant(model->dof_count, 0.);
+    tau = VectorNd::Constant(model->dof_count, 0.);
 
     q[1] = 1.;
     ForwardDynamics(*model, q, qdot, tau, qddot);
@@ -68,16 +68,16 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcDynamicFloatingBaseDoub
                                   base);
 
     // body_a
-    Body  body_a(1., Vector3d(1., 0., 0), Vector3d(1., 1., 1.));
+    Body body_a(1., Vector3d(1., 0., 0), Vector3d(1., 1., 1.));
     Joint joint_a(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(base_body_id, Xtrans(Vector3d(2., 0., 0.)), joint_a, body_a);
 
     // Initialization of the input vectors
-    VectorNd Q     = VectorNd::Zero((size_t)model->dof_count);
-    VectorNd QDot  = VectorNd::Zero((size_t)model->dof_count);
+    VectorNd Q = VectorNd::Zero((size_t)model->dof_count);
+    VectorNd QDot = VectorNd::Zero((size_t)model->dof_count);
     VectorNd QDDot = VectorNd::Zero((size_t)model->dof_count);
-    VectorNd Tau   = VectorNd::Zero((size_t)model->dof_count);
+    VectorNd Tau = VectorNd::Zero((size_t)model->dof_count);
 
     ForwardDynamics(*model, Q, QDot, Tau, QDDot);
 
@@ -167,10 +167,10 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointVelocityFloatingBa
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    VectorNd Q     = VectorNd::Zero(model->dof_count);
-    VectorNd QDot  = VectorNd::Zero(model->dof_count);
+    VectorNd Q = VectorNd::Zero(model->dof_count);
+    VectorNd QDot = VectorNd::Zero(model->dof_count);
     VectorNd QDDot = VectorNd::Zero(model->dof_count);
-    VectorNd Tau   = VectorNd::Zero(model->dof_count);
+    VectorNd Tau = VectorNd::Zero(model->dof_count);
 
     unsigned int ref_body_id = base_body_id;
 
@@ -202,7 +202,7 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointVelocityFloatingBa
     // Now we calculate the velocity when rotating around the Z axis and the
     // base is rotated around the z axis by 90 degrees
     ClearLogOutput();
-    Q[3]    = M_PI * 0.5;
+    Q[3] = M_PI * 0.5;
     QDot[3] = 1.;
 
     point_velocity = CalcPointVelocity(*model, Q, QDot, ref_body_id, point_position);
@@ -216,17 +216,17 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointVelocityFloatingBa
 TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointVelocityCustom", "")
 {
     // floating base
-    base         = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    base = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     base_body_id = model->AddBody(0, SpatialTransform(),
                                   Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                                         SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 0., 1., 0., 0., 0.),
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    VectorNd q     = VectorNd::Zero(model->dof_count);
-    VectorNd qdot  = VectorNd::Zero(model->dof_count);
+    VectorNd q = VectorNd::Zero(model->dof_count);
+    VectorNd qdot = VectorNd::Zero(model->dof_count);
     VectorNd qddot = VectorNd::Zero(model->dof_count);
-    VectorNd tau   = VectorNd::Zero(model->dof_count);
+    VectorNd tau = VectorNd::Zero(model->dof_count);
 
     unsigned int ref_body_id = base_body_id;
 
@@ -271,17 +271,17 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointVelocityCustom", "
 TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointAccelerationNoQDDot", "")
 {
     // floating base
-    base         = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    base = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     base_body_id = model->AddBody(0, SpatialTransform(),
                                   Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                                         SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 0., 1., 0., 0., 0.),
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    VectorNd q     = VectorNd::Zero(model->dof_count);
-    VectorNd qdot  = VectorNd::Zero(model->dof_count);
+    VectorNd q = VectorNd::Zero(model->dof_count);
+    VectorNd qdot = VectorNd::Zero(model->dof_count);
     VectorNd qddot = VectorNd::Zero(model->dof_count);
-    VectorNd tau   = VectorNd::Zero(model->dof_count);
+    VectorNd tau = VectorNd::Zero(model->dof_count);
 
     unsigned int ref_body_id = base_body_id;
 
@@ -353,17 +353,17 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointAccelerationNoQDDo
 TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointAccelerationOnlyQDDot", "")
 {
     // floating base
-    base         = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    base = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     base_body_id = model->AddBody(0, SpatialTransform(),
                                   Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                                         SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 0., 1., 0., 0., 0.),
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    VectorNd q     = VectorNd::Zero(model->dof_count);
-    VectorNd qdot  = VectorNd::Zero(model->dof_count);
+    VectorNd q = VectorNd::Zero(model->dof_count);
+    VectorNd qdot = VectorNd::Zero(model->dof_count);
     VectorNd qddot = VectorNd::Zero(model->dof_count);
-    VectorNd tau   = VectorNd::Zero(model->dof_count);
+    VectorNd tau = VectorNd::Zero(model->dof_count);
 
     unsigned int ref_body_id = base_body_id;
 
@@ -426,17 +426,17 @@ TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointAccelerationOnlyQD
 TEST_CASE_METHOD(FloatingBaseFixture, __FILE__ "_TestCalcPointAccelerationFull", "")
 {
     // floating base
-    base         = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+    base = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
     base_body_id = model->AddBody(0, SpatialTransform(),
                                   Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                                         SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 0., 1., 0., 0., 0.),
                                         SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                                   base);
 
-    VectorNd q     = VectorNd::Zero(model->dof_count);
-    VectorNd qdot  = VectorNd::Zero(model->dof_count);
+    VectorNd q = VectorNd::Zero(model->dof_count);
+    VectorNd qdot = VectorNd::Zero(model->dof_count);
     VectorNd qddot = VectorNd::Zero(model->dof_count);
-    VectorNd tau   = VectorNd::Zero(model->dof_count);
+    VectorNd tau = VectorNd::Zero(model->dof_count);
 
     unsigned int ref_body_id = base_body_id;
 

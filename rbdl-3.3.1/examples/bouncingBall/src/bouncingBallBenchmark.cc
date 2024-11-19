@@ -28,27 +28,27 @@ using namespace RigidBodyDynamics::Math;
 // Boost stuff
 //====================================================================
 
-typedef std::vector<double>                        state_type;
-typedef runge_kutta_cash_karp54<state_type>        error_stepper_type;
+typedef std::vector<double> state_type;
+typedef runge_kutta_cash_karp54<state_type> error_stepper_type;
 typedef controlled_runge_kutta<error_stepper_type> controlled_stepper_type;
 
 class rbdlToBoost
 {
 
 public:
-    rbdlToBoost(Model       *model,
+    rbdlToBoost(Model *model,
                 std::string &ballName,
-                double       ballRadius,
-                Vector3d    &pointOnPlane,
-                Vector3d    &planeNormal,
-                double       stiffness,
-                double       exponent,
-                double       damping,
-                double       staticFrictionSpeed,
-                double       staticFrictionCoefficient,
-                double       dynamicFrictionSpeed,
-                double       dynamicFrictionCoefficient,
-                double       viscousFrictionSlope,
+                double ballRadius,
+                Vector3d &pointOnPlane,
+                Vector3d &planeNormal,
+                double stiffness,
+                double exponent,
+                double damping,
+                double staticFrictionSpeed,
+                double staticFrictionCoefficient,
+                double dynamicFrictionSpeed,
+                double dynamicFrictionCoefficient,
+                double viscousFrictionSlope,
                 unsigned int numberOfWorkTermsInState)
         : model(model), r(ballRadius), r0P0(pointOnPlane), eN0(planeNormal), k(stiffness), p(exponent), beta(damping),
           staticFrictionSpeed(staticFrictionSpeed), staticFrictionCoefficient(staticFrictionCoefficient),
@@ -56,8 +56,8 @@ public:
           viscousFrictionSlope(viscousFrictionSlope), numberOfWorkTermsInState(numberOfWorkTermsInState)
     {
 
-        q   = VectorNd::Zero(model->dof_count);
-        qd  = VectorNd::Zero(model->dof_count);
+        q = VectorNd::Zero(model->dof_count);
+        qd = VectorNd::Zero(model->dof_count);
         qdd = VectorNd::Zero(model->dof_count);
         tau = VectorNd::Zero(model->dof_count);
         fext.resize(model->mBodies.size());
@@ -66,10 +66,10 @@ public:
             fext[i] = SpatialVector::Zero();
         }
         ballId = model->GetBodyId(ballName.c_str());
-        fK0n   = Vector3dZero;
-        tK0n   = Vector3dZero;
-        fK0t   = Vector3dZero;
-        tK0t   = Vector3dZero;
+        fK0n = Vector3dZero;
+        tK0n = Vector3dZero;
+        fK0t = Vector3dZero;
+        tK0t = Vector3dZero;
 
         // 1a. The regularized friction model is created and printed to file
         ContactToolkit::createRegularizedFrictionCoefficientCurve(staticFrictionSpeed, staticFrictionCoefficient,
@@ -128,7 +128,7 @@ public:
         ContactToolkit::calcSpherePlaneContactPointPosition(r0B0, r, eN0, r0K0);
 
         // if the contact point is in the sphere compute contact data
-        z  = (r0K0 - r0P0).dot(eN0);
+        z = (r0K0 - r0P0).dot(eN0);
         dz = 0.; // this is zero until contact is made
         if (z < 0.)
         {
@@ -137,7 +137,7 @@ public:
             // velocity of the contact point.
 
             // Get the point of contact resolved in the coordinates of the ball
-            EB0  = CalcBodyWorldOrientation(*model, q, ballId, true);
+            EB0 = CalcBodyWorldOrientation(*model, q, ballId, true);
             rBKB = EB0 * (r0K0 - r0B0);
 
             // Get the velocity of the point of contact
@@ -184,14 +184,14 @@ public:
         else
         {
             // zero the entry of fext associated with the ball.
-            fext[ballId]        = SpatialVector::Zero();
-            hcInfo.force        = 0.;
-            hcInfo.springForce  = 0.;
+            fext[ballId] = SpatialVector::Zero();
+            hcInfo.force = 0.;
+            hcInfo.springForce = 0.;
             hcInfo.dampingForce = 0.;
-            fK0n                = Vector3dZero;
-            tK0n                = Vector3dZero;
-            fK0t                = Vector3dZero;
-            tK0t                = Vector3dZero;
+            fK0n = Vector3dZero;
+            tK0n = Vector3dZero;
+            fK0t = Vector3dZero;
+            tK0t = Vector3dZero;
         }
 
         // 3a. Now the generalized accelerations of the ball can be computed
@@ -213,7 +213,7 @@ public:
             j++;
         }
 
-        dworkN  = hcInfo.force * dz;
+        dworkN = hcInfo.force * dz;
         dxdt[j] = dworkN;
         j++;
         dxdt[j] = fK0t.dot(v0K0t);
@@ -248,29 +248,29 @@ public:
     */
 
     // Multibody Variables
-    Model   *model;
+    Model *model;
     VectorNd q, qd, qdd, tau;
 
     // Normal-Contact Model Working Variables
-    unsigned int               ballId;
-    double                     z, dz; // pentration depth and velocity
-    HuntCrossleyContactInfo    hcInfo;
+    unsigned int ballId;
+    double z, dz; // pentration depth and velocity
+    HuntCrossleyContactInfo hcInfo;
     std::vector<SpatialVector> fext;
-    double                     dworkN, dworkT; // Work in the normal and tangential directions
-    double                     mu;             // Friction coefficient
-    Matrix3d                   EB0;            // Orientation of the ball expressed in the Root frame
-    Vector3d                   r0B0;           // Position of the ball
-    Vector3d                   rBKB;           // B : ball.
-    Vector3d                   r0K0;           // K : contact point
-    Vector3d                   v0K0;           // velocity of the contact point
-    Vector3d                   v0K0t;          // tangential velocity of the contact point
-    Vector3d                   r0P0;           // Origin of the plane
-    Vector3d                   eN0;            // Normal of the plane
-    Vector3d                   eT0;            // Tangental direction of the plane: in 2d this isn't necessary
-                  // here we compute it to show how this is done in a
-                  // numerically stable way in 3d.
-    Vector3d                   fK0n, tK0n; // contact force and moment
-    Vector3d                   fK0t, tK0t; // tangential friction force and moment
+    double dworkN, dworkT; // Work in the normal and tangential directions
+    double mu;             // Friction coefficient
+    Matrix3d EB0;          // Orientation of the ball expressed in the Root frame
+    Vector3d r0B0;         // Position of the ball
+    Vector3d rBKB;         // B : ball.
+    Vector3d r0K0;         // K : contact point
+    Vector3d v0K0;         // velocity of the contact point
+    Vector3d v0K0t;        // tangential velocity of the contact point
+    Vector3d r0P0;         // Origin of the plane
+    Vector3d eN0;          // Normal of the plane
+    Vector3d eT0;          // Tangental direction of the plane: in 2d this isn't necessary
+                           // here we compute it to show how this is done in a
+                           // numerically stable way in 3d.
+    Vector3d fK0n, tK0n;   // contact force and moment
+    Vector3d fK0t, tK0t;   // tangential friction force and moment
 
     // Normal Contact-Model Parameters
     double r;    // ball radius
@@ -295,7 +295,7 @@ public:
 struct pushBackStateAndTime
 {
     std::vector<state_type> &states;
-    std::vector<double>     &times;
+    std::vector<double> &times;
 
     pushBackStateAndTime(std::vector<state_type> &states, std::vector<double> &times) : states(states), times(times) {}
 
@@ -326,23 +326,23 @@ int main(int argc, char *argv[])
     }
 
     // 0b. Contact and friction parameters are set (more on these later)
-    double   radius       = 0.5;
+    double radius = 0.5;
     Vector3d pointOnPlane = Vector3d(0., 0., 0.);
-    Vector3d planeNormal  = Vector3d(0., 0., 1.);
+    Vector3d planeNormal = Vector3d(0., 0., 1.);
 
     // Hunt-Crossley contact terms. See
     //  ContactToolkit::calcHuntCrossleyContactForce for details
-    double exponent  = 2.0;                  // The spring force will increase with the deflection squared.
+    double exponent = 2.0;                   // The spring force will increase with the deflection squared.
     double stiffness = 9.81 / pow(0.01, 2.); // The ball will settle to 1cm penetration
-    double damping   = 0.1;                  // lightly damped
+    double damping = 0.1;                    // lightly damped
 
     // Friction model terms. See
     //  ContactToolkit::createRegularizedFrictionCoefficientCurve for details
-    double staticFrictionSpeed       = 0.001;
+    double staticFrictionSpeed = 0.001;
     double staticFrictionCoefficient = 0.8;
-    double dynamicFrictionSpeed      = 0.01;
-    double dynamicFrictionCoeffient  = 0.6;
-    double viscousFrictionSlope      = 0.1;
+    double dynamicFrictionSpeed = 0.01;
+    double dynamicFrictionCoeffient = 0.6;
+    double viscousFrictionSlope = 0.1;
 
     unsigned int numWorkTermsInState = 2; // 1 normal work term
                                           // 1 friction term
@@ -357,12 +357,12 @@ int main(int argc, char *argv[])
     x.setZero();
     tau.setZero();
 
-    q[1]  = 1.; // ball starts 1m off the ground
+    q[1] = 1.; // ball starts 1m off the ground
     qd[0] = 1.;
 
     for (unsigned int i = 0; i < q.rows(); ++i)
     {
-        x[i]            = q[i];
+        x[i] = q[i];
         x[i + q.rows()] = qd[i];
     }
 
@@ -381,29 +381,29 @@ int main(int argc, char *argv[])
 
     // 4b. This model is integrated forward in time from t0 to t1 and is evaluated
     //     at npts between these time points
-    double       t;
-    double       t0   = 0;
-    double       t1   = 1.0;
+    double t;
+    double t0 = 0;
+    double t1 = 1.0;
     unsigned int npts = 100;
 
     double absTolVal = 1e-8;
     double relTolVal = 1e-8;
 
-    double       dt = (t1 - t0) / (npts - 1);
-    double       ke, pe, w = 0;
+    double dt = (t1 - t0) / (npts - 1);
+    double ke, pe, w = 0;
     unsigned int k = 0;
 
     std::vector<std::vector<double>> matrixData, matrixForceData;
     std::vector<std::vector<double>> matrixErrorData;
-    std::vector<double>              rowData(model.dof_count + 1);
-    std::vector<double>              rowForceData(10);
-    std::vector<double>              rowErrorData(2);
+    std::vector<double> rowData(model.dof_count + 1);
+    std::vector<double> rowForceData(10);
+    std::vector<double> rowErrorData(2);
 
-    double                  a_x = 1.0, a_dxdt = 1.0;
+    double a_x = 1.0, a_dxdt = 1.0;
     controlled_stepper_type controlled_stepper(
         default_error_checker<double, range_algebra, default_operations>(absTolVal, relTolVal, a_x, a_dxdt));
 
-    double tp  = 0;
+    double tp = 0;
     rowData[0] = 0;
     for (unsigned int z = 0; z < model.dof_count; z++)
     {

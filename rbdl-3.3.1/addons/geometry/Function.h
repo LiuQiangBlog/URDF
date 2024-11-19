@@ -106,7 +106,7 @@ public:
       @return
          The value of the selected derivative, which is of type T.
      */
-    virtual T calcDerivative(const std::vector<int>                  &derivComponents,
+    virtual T calcDerivative(const std::vector<int> &derivComponents,
                              const RigidBodyDynamics::Math::VectorNd &x) const = 0;
 
     /** This provides compatibility with std::vector without requiring any
@@ -174,7 +174,7 @@ public:
     */
 private:
     const int argumentSize;
-    const T   value;
+    const T value;
 };
 
 /**
@@ -251,8 +251,8 @@ public:
     T calcValue(const RigidBodyDynamics::Math::VectorNd &x) const
     {
         assert(x.size() == 1);
-        double arg   = x[0];
-        T      value = static_cast<T>(0);
+        double arg = x[0];
+        T value = static_cast<T>(0);
         for (int i = 0; i < coefficients.size(); ++i)
             value = value * arg + coefficients[i];
         return value;
@@ -261,10 +261,10 @@ public:
     {
         assert(x.size() == 1);
         assert(derivComponents.size() > 0);
-        double    arg        = x[0];
-        T         value      = static_cast<T>(0);
+        double arg = x[0];
+        T value = static_cast<T>(0);
         const int derivOrder = (int)derivComponents.size();
-        const int polyOrder  = coefficients.size() - 1;
+        const int polyOrder = coefficients.size() - 1;
         for (int i = 0; i <= polyOrder - derivOrder; ++i)
         {
             T coeff = coefficients[i];
@@ -349,12 +349,12 @@ public:
         return a * std::sin(w * t + p);
     }
 
-    virtual double calcDerivative(const std::vector<int>                  &derivComponents,
+    virtual double calcDerivative(const std::vector<int> &derivComponents,
                                   const RigidBodyDynamics::Math::VectorNd &x) const
     {
 
-        const double t     = x[0]; // time is the only argument
-        const int    order = derivComponents.size();
+        const double t = x[0]; // time is the only argument
+        const int order = derivComponents.size();
         // The n'th derivative is
         //  sign * a * w^n * sc
         // where sign is -1 if floor(order/2) is odd, else 1
@@ -371,8 +371,8 @@ public:
             return -a * w * w * w * std::cos(w * t + p);
         default:
             const double sign = double(((order / 2) & 0x1) ? -1 : 1);
-            const double sc   = (order & 0x1) ? std::cos(w * t + p) : std::sin(w * t + p);
-            const double wn   = std::pow(w, order);
+            const double sc = (order & 0x1) ? std::cos(w * t + p) : std::sin(w * t + p);
+            const double wn = std::pow(w, order);
             return sign * a * wn * sc;
         }
     }
@@ -524,14 +524,14 @@ public:
     {   return calcDerivative(ArrayViewConst_<int>(derivComponents),x); }
     */
 private:
-    const T      m_y0, m_y1, m_yr;   // precalculate yr=(y1-y0)
-    const T      m_zero;             // precalculate T(0)
+    const T m_y0, m_y1, m_yr;        // precalculate yr=(y1-y0)
+    const T m_zero;                  // precalculate T(0)
     const double m_x0, m_x1, m_ooxr; // precalculate ooxr=1/(x1-x0)
     const double m_sign;             // sign(x1-x0) is 1 or -1
 
     double step01(double x0, double x1, double x)
     {
-        double u  = (x - x0) / (x1 - x0);
+        double u = (x - x0) / (x1 - x0);
         double u2 = u * u;
         double u3 = u2 * u;
         return (3 * u2 - 2 * u3);
@@ -539,8 +539,8 @@ private:
 
     double dstep01(double x0, double x1, double x)
     {
-        double u   = (x - x0) / (x1 - x0);
-        double du  = (1) / (x1 - x0);
+        double u = (x - x0) / (x1 - x0);
+        double du = (1) / (x1 - x0);
         double du2 = 2 * u * du;
         double du3 = 3 * u * u * du;
         return (3 * du2 - 2 * du3);
@@ -548,7 +548,7 @@ private:
 
     double d2step01(double x0, double x1, double x)
     {
-        double u  = (x - x0) / (x1 - x0);
+        double u = (x - x0) / (x1 - x0);
         double du = (1) / (x1 - x0);
         // double ddu = 0;
         double ddu2 = 2 * du * du;                       // + 2*u*ddu since ddu=0;
@@ -558,7 +558,7 @@ private:
 
     double d3step01(double x0, double x1, double x)
     {
-        double u  = (x - x0) / (x1 - x0);
+        double u = (x - x0) / (x1 - x0);
         double du = (1) / (x1 - x0);
         // double ddu = 0;
         // double dddu = 0;

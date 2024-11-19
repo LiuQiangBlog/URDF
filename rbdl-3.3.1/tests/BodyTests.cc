@@ -33,7 +33,7 @@ TEST_CASE(__FILE__ "_TestComputeSpatialInertiaFromAbsoluteRadiiGyration", "")
 
 TEST_CASE(__FILE__ "_TestBodyConstructorMassComInertia", "")
 {
-    double   mass = 1.1;
+    double mass = 1.1;
     Vector3d com(1.5, 1.2, 1.3);
     Matrix3d inertia_C(8.286, -3.96, -4.29, -3.96, 10.668, -3.432, -4.29, -3.432, 11.118);
 
@@ -152,7 +152,7 @@ TEST_CASE(__FILE__ "_TestBodyConstructorSpatialRigidBodyInertiaMultiplyMotion", 
 
     SpatialVector mv(1.1, 1.2, 1.3, 1.4, 1.5, 1.6);
     SpatialVector fv_matrix = rbi.toMatrix() * mv;
-    SpatialVector fv_rbi    = rbi * mv;
+    SpatialVector fv_rbi = rbi * mv;
 
     CHECK_THAT(fv_matrix, AllCloseVector(fv_rbi, TEST_PREC, TEST_PREC));
 }
@@ -162,7 +162,7 @@ TEST_CASE(__FILE__ "_TestBodyConstructorSpatialRigidBodyInertia", "")
     Body body(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
 
     SpatialRigidBodyInertia rbi = SpatialRigidBodyInertia(body.mMass, body.mCenterOfMass * body.mMass, body.mInertia);
-    SpatialMatrix           spatial_inertia = rbi.toMatrix();
+    SpatialMatrix spatial_inertia = rbi.toMatrix();
 
     CHECK_THAT(spatial_inertia, AllCloseMatrix(rbi.toMatrix(), TEST_PREC, TEST_PREC));
 }
@@ -187,13 +187,13 @@ TEST_CASE(__FILE__ "_TestBodyConstructorCopySpatialRigidBodyInertia", "")
 
 TEST_CASE(__FILE__ "_TestBodySeparateBody", "")
 {
-    Body                 body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
-    const double         mass_init    = body_init.mMass;
+    Body body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
+    const double mass_init = body_init.mMass;
     const Math::Matrix3d inertia_init = body_init.mInertia;
-    const Math::Vector3d com_init     = body_init.mCenterOfMass;
+    const Math::Vector3d com_init = body_init.mCenterOfMass;
 
-    Body                   fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
-    Body                   fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
+    Body fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
+    Body fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
     Math::SpatialTransform body1_transform(Matrix3d::Identity(), Vector3d::Zero());
     Math::SpatialTransform body2_transform(Matrix3d::Identity(), Vector3d::Zero());
 
@@ -201,9 +201,9 @@ TEST_CASE(__FILE__ "_TestBodySeparateBody", "")
 
     CHECK(fabs(body_init.mMass - (mass_init + fixedbody_1.mMass) < TEST_PREC));
 
-    const double         mass_joined_1    = body_init.mMass;
+    const double mass_joined_1 = body_init.mMass;
     const Math::Matrix3d inertia_joined_1 = body_init.mInertia;
-    const Math::Vector3d com_joined_1     = body_init.mCenterOfMass;
+    const Math::Vector3d com_joined_1 = body_init.mCenterOfMass;
     body_init.Join(body2_transform, fixedbody_2);
 
     CHECK(fabs(body_init.mMass - (mass_init + fixedbody_1.mMass + fixedbody_2.mMass) < TEST_PREC));
@@ -223,13 +223,13 @@ TEST_CASE(__FILE__ "_TestBodySeparateBody", "")
 
 TEST_CASE(__FILE__ "_TestBodySeparateBodyWithTransform", "")
 {
-    Body                 body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
-    const double         mass_init    = body_init.mMass;
+    Body body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
+    const double mass_init = body_init.mMass;
     const Math::Matrix3d inertia_init = body_init.mInertia;
-    const Math::Vector3d com_init     = body_init.mCenterOfMass;
+    const Math::Vector3d com_init = body_init.mCenterOfMass;
 
-    Body                   fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
-    Body                   fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
+    Body fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
+    Body fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
     Math::SpatialTransform body1_transform((Xrotx(M_PI * 0.5) * Xroty(-M_PI * 0.7) * Xrotz(M_PI * 0.1)).E,
                                            Vector3d(1.1, 0.6, -0.8));
     Math::SpatialTransform body2_transform((Xrotx(-M_PI * 0.6) * Xroty(-M_PI * 0.2) * Xrotz(M_PI * 0.9)).E,
@@ -239,9 +239,9 @@ TEST_CASE(__FILE__ "_TestBodySeparateBodyWithTransform", "")
 
     CHECK(fabs(body_init.mMass - (mass_init + fixedbody_1.mMass) < TEST_PREC));
 
-    const double         mass_joined_1    = body_init.mMass;
+    const double mass_joined_1 = body_init.mMass;
     const Math::Matrix3d inertia_joined_1 = body_init.mInertia;
-    const Math::Vector3d com_joined_1     = body_init.mCenterOfMass;
+    const Math::Vector3d com_joined_1 = body_init.mCenterOfMass;
     body_init.Join(body2_transform, fixedbody_2);
 
     CHECK(fabs(body_init.mMass - (mass_init + fixedbody_1.mMass + fixedbody_2.mMass) < TEST_PREC));
@@ -261,13 +261,13 @@ TEST_CASE(__FILE__ "_TestBodySeparateBodyWithTransform", "")
 
 TEST_CASE(__FILE__ "_TestBodySeparateBodyWithTransformChangeOrder", "")
 {
-    Body                 body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
-    const double         mass_init    = body_init.mMass;
+    Body body_init(1.1, Vector3d(1.5, 1.2, 1.3), Vector3d(1.4, 2., 3.));
+    const double mass_init = body_init.mMass;
     const Math::Matrix3d inertia_init = body_init.mInertia;
-    const Math::Vector3d com_init     = body_init.mCenterOfMass;
+    const Math::Vector3d com_init = body_init.mCenterOfMass;
 
-    Body                   fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
-    Body                   fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
+    Body fixedbody_1(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
+    Body fixedbody_2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
     Math::SpatialTransform body1_transform((Xrotx(M_PI * 0.5) * Xroty(-M_PI * 0.7) * Xrotz(M_PI * 0.1)).E,
                                            Vector3d(1.1, 0.6, -0.8));
     Math::SpatialTransform body2_transform((Xrotx(-M_PI * 0.6) * Xroty(-M_PI * 0.2) * Xrotz(M_PI * 0.9)).E,

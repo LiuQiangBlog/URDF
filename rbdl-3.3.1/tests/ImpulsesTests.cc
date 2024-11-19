@@ -25,23 +25,23 @@ struct ImpulsesFixture
         model->gravity = Vector3d(0., -9.81, 0.);
 
         // base body
-        base         = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        base = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         joint_rotzyx = Joint(SpatialVector(0., 0., 1., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                              SpatialVector(1., 0., 0., 0., 0., 0.));
-        base_id      = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
+        base_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
 
         // child body (3 DoF)
-        child    = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        child = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         child_id = model->AddBody(base_id, Xtrans(Vector3d(1., 0., 0.)), joint_rotzyx, child);
 
-        Q     = VectorNd::Zero(model->dof_count);
-        QDot  = VectorNd::Zero(model->dof_count);
+        Q = VectorNd::Zero(model->dof_count);
+        QDot = VectorNd::Zero(model->dof_count);
         QDDot = VectorNd::Zero(model->dof_count);
-        Tau   = VectorNd::Zero(model->dof_count);
+        Tau = VectorNd::Zero(model->dof_count);
 
         contact_body_id = child_id;
-        contact_point   = Vector3d(0., 1., 0.);
-        contact_normal  = Vector3d(0., 1., 0.);
+        contact_point = Vector3d(0., 1., 0.);
+        contact_normal = Vector3d(0., 1., 0.);
 
         ClearLogOutput();
     }
@@ -53,17 +53,17 @@ struct ImpulsesFixture
     Model *model;
 
     unsigned int base_id, child_id;
-    Body         base, child;
-    Joint        joint_rotzyx;
+    Body base, child;
+    Joint joint_rotzyx;
 
     VectorNd Q;
     VectorNd QDot;
     VectorNd QDDot;
     VectorNd Tau;
 
-    unsigned int  contact_body_id;
-    Vector3d      contact_point;
-    Vector3d      contact_normal;
+    unsigned int contact_body_id;
+    Vector3d contact_point;
+    Vector3d contact_normal;
     ConstraintSet constraint_set;
 };
 

@@ -50,9 +50,9 @@ static double SQRTEPS = sqrt((double)std::numeric_limits<double>::epsilon());
 //=============================================================================
 
 void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueAngleCurve(
-    double                   c2,
-    double                   c3,
-    const std::string       &curveName,
+    double c2,
+    double c3,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Check the input arguments
@@ -69,11 +69,11 @@ void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueAngleCurve(
 
     // For now these advanced paramters are hidden. They will only be
     // uncovered if absolutely necessary.
-    double minValueAtShoulders       = 0;
+    double minValueAtShoulders = 0;
     double minShoulderSlopeMagnitude = 0;
 
     double curviness = 0.5;
-    double c         = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
 
     // Translate the user parameters to quintic Bezier points
     double x0 = c3 - 1.05 * (0.5 * (M_PI / c2));
@@ -126,12 +126,12 @@ void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueAngleCurve(
 // ANDERSON 2007 Active Torque Angular Velocity Curve
 //=============================================================================
 void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueVelocityCurve(
-    double                   c4,
-    double                   c5,
-    double                   c6,
-    double                   minEccentricMultiplier,
-    double                   maxEccentricMultiplier,
-    const std::string       &curveName,
+    double c4,
+    double c5,
+    double c6,
+    double minEccentricMultiplier,
+    double maxEccentricMultiplier,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Check the input arguments
@@ -180,8 +180,8 @@ void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueVelocityCurve(
 
     // Advanced settings that we'll hide for now
     double minShoulderSlopeMagnitude = 0;
-    double curviness                 = 0.75;
-    double c                         = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double curviness = 0.75;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
 
     // Go and get the value of the curve that is closest to
     // the maximum contraction velocity by setting rhs of Eqn. 9
@@ -191,11 +191,11 @@ void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueVelocityCurve(
     // Go and evaluate the concentric side of the Anderson curve
     // at 1/2 of omega max - we need this to use the updated
     // torque-velocity curve.
-    double wMid     = dthMaxConc * 0.50;
+    double wMid = dthMaxConc * 0.50;
     double tvMidDen = (2 * c4 * c5 + wMid * (2 * c5 - 4 * c4));
-    double tvMid    = (2 * c4 * c5 + wMid * (c5 - 3 * c4)) / tvMidDen;
+    double tvMid = (2 * c4 * c5 + wMid * (c5 - 3 * c4)) / tvMidDen;
 
-    tvMid           = min(tvMid, 0.45);
+    tvMid = min(tvMid, 0.45);
     double tvMaxEcc = 1.1 + c6 * 0.2;
 
     createTorqueVelocityCurve(tvMaxEcc, tvMid, curveName, smoothSegmentedFunctionToUpdate);
@@ -204,13 +204,13 @@ void TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueVelocityCurve(
 // ANDERSON 2007 Passive Torque Angle Curve
 //=============================================================================
 void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
-    double                   scale,
-    double                   c1,
-    double                   b1,
-    double                   k1,
-    double                   b2,
-    double                   k2,
-    const std::string       &curveName,
+    double scale,
+    double c1,
+    double b1,
+    double k1,
+    double b2,
+    double k2,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -232,8 +232,8 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     }
 
     // Advanced settings that we'll hide for now
-    double curviness                 = 0.75;
-    double c                         = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double curviness = 0.75;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
     double minShoulderSlopeMagnitude = 0;
 
     // Zero out the coefficients associated with a
@@ -274,28 +274,28 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     // Why? These two different halves require different
     //    Bezier curves.
 
-    double c1Scale  = c1 * scale;
-    double thL      = 0.; // left
-    double thR      = 0.; // right
+    double c1Scale = c1 * scale;
+    double thL = 0.; // left
+    double thR = 0.; // right
     double DtauDthL = 0.;
     double DtauDthR = 0.;
-    double bL       = 0.;
-    double kL       = 0.;
-    double bR       = 0.;
-    double kR       = 0.;
+    double bL = 0.;
+    double kL = 0.;
+    double bR = 0.;
+    double kR = 0.;
 
     int curveType = 0; // flat curve
-    int flag_thL  = 0;
-    int flag_thR  = 0;
+    int flag_thL = 0;
+    int flag_thR = 0;
 
     if (fabs(k1) > 0 && fabs(b1) > 0)
     {
         // The value of theta where the passive force generated by the
         // muscle is equal to 1 maximum isometric contraction.
-        thL      = (1 / k1) * log(fabs(c1Scale / b1));
+        thL = (1 / k1) * log(fabs(c1Scale / b1));
         DtauDthL = b1 * k1 * exp(thL * k1);
-        bL       = b1;
-        kL       = k1;
+        bL = b1;
+        kL = k1;
         flag_thL = 1;
     }
 
@@ -303,10 +303,10 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     {
         // The value of theta where the passive force generated by the
         // muscle is equal to 1 maximum isometric contraction.
-        thR      = (1 / k2) * log(fabs(c1Scale / b2));
+        thR = (1 / k2) * log(fabs(c1Scale / b2));
         DtauDthR = b2 * k2 * exp(thR * k2);
-        bR       = b2;
-        kR       = k2;
+        bR = b2;
+        kR = k2;
         flag_thR = 1;
     }
 
@@ -315,18 +315,18 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     if (DtauDthL > DtauDthR)
     {
         double tmpD = thL;
-        thL         = thR;
-        thR         = tmpD;
+        thL = thR;
+        thR = tmpD;
 
         tmpD = bR;
-        bR   = bL;
-        bL   = tmpD;
+        bR = bL;
+        bL = tmpD;
 
         tmpD = kR;
-        kR   = kL;
-        kL   = tmpD;
+        kR = kL;
+        kL = tmpD;
 
-        tmpD     = DtauDthL;
+        tmpD = DtauDthL;
         DtauDthL = DtauDthR;
         DtauDthR = tmpD;
 
@@ -347,12 +347,12 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     RigidBodyDynamics::Math::MatrixNd mX(6, 1);
     RigidBodyDynamics::Math::MatrixNd mY(6, 1);
 
-    double xStart    = 0;
-    double xEnd      = 0;
-    double yStart    = 0;
-    double yEnd      = 0;
+    double xStart = 0;
+    double xEnd = 0;
+    double yStart = 0;
+    double yEnd = 0;
     double dydxStart = 0;
-    double dydxEnd   = 0;
+    double dydxEnd = 0;
 
     switch (curveType)
     {
@@ -370,31 +370,31 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     case 1:
     {
         // Get a point on the curve that is close to 0.
-        double x1    = (1 / kL) * log(fabs(0.01 * c1Scale / bL));
-        double y1    = bL * exp(kL * x1);
+        double x1 = (1 / kL) * log(fabs(0.01 * c1Scale / bL));
+        double y1 = bL * exp(kL * x1);
         double dydx1 = bL * kL * exp(kL * x1);
 
         // Get a point that is at 1 maximum isometric torque
-        double x3    = thL;
-        double y3    = bL * exp(kL * x3);
+        double x3 = thL;
+        double y3 = bL * exp(kL * x3);
         double dydx3 = bL * kL * exp(kL * x3);
 
         // Get a mid-point
-        double x2    = 0.5 * (x1 + x3);
-        double y2    = bL * exp(kL * x2);
+        double x2 = 0.5 * (x1 + x3);
+        double y2 = bL * exp(kL * x2);
         double dydx2 = bL * kL * exp(kL * x2);
 
         // Past the crossing point of the linear extrapolation
-        double x0    = x1 - 2 * y1 / dydx1;
-        double y0    = 0;
+        double x0 = x1 - 2 * y1 / dydx1;
+        double y0 = 0;
         double dydx0 = minShoulderSlopeMagnitude * copysign(1.0, dydx1);
 
-        xStart    = x3;
-        xEnd      = x0;
-        yStart    = y3;
-        yEnd      = y0;
+        xStart = x3;
+        xEnd = x0;
+        yStart = y3;
+        yEnd = y0;
         dydxStart = dydx3;
-        dydxEnd   = dydx0;
+        dydxEnd = dydx0;
 
         RigidBodyDynamics::Math::MatrixNd p0 =
             SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x3, y3, dydx3, x2, y2, dydx2, c);
@@ -417,31 +417,31 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
     case 2:
     {
         // Get a point on the curve that is close to 0.
-        double x1    = (1 / kR) * log(fabs(0.01 * c1Scale / bR));
-        double y1    = bR * exp(kR * x1);
+        double x1 = (1 / kR) * log(fabs(0.01 * c1Scale / bR));
+        double y1 = bR * exp(kR * x1);
         double dydx1 = bR * kR * exp(kR * x1);
 
         // Go just past the crossing point of the linear extrapolation
-        double x0    = x1 - 2 * y1 / dydx1;
-        double y0    = 0;
+        double x0 = x1 - 2 * y1 / dydx1;
+        double y0 = 0;
         double dydx0 = minShoulderSlopeMagnitude * copysign(1.0, dydx1);
 
         // Get a point close to 1 maximum isometric torque
-        double x3    = thR;
-        double y3    = bR * exp(kR * x3);
+        double x3 = thR;
+        double y3 = bR * exp(kR * x3);
         double dydx3 = bR * kR * exp(kR * x3);
 
         // Get a mid point.
-        double x2    = 0.5 * (x1 + x3);
-        double y2    = bR * exp(kR * x2);
+        double x2 = 0.5 * (x1 + x3);
+        double y2 = bR * exp(kR * x2);
         double dydx2 = bR * kR * exp(kR * x2);
 
-        xStart    = x0;
-        xEnd      = x3;
-        yStart    = y0;
-        yEnd      = y3;
+        xStart = x0;
+        xEnd = x3;
+        yStart = y0;
+        yEnd = y3;
         dydxStart = dydx0;
-        dydxEnd   = dydx3;
+        dydxEnd = dydx3;
 
         RigidBodyDynamics::Math::MatrixNd p0 =
             SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, x1, y1, dydx1, c);
@@ -482,12 +482,12 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
         double dydx3 = b1 * k1 * exp(k1 * x3) + b2 * k2 * exp(k2 * x3);
         double dydx4 = b1 * k1 * exp(k1 * x4) + b2 * k2 * exp(k2 * x4);
 
-        xStart    = x0;
-        xEnd      = x4;
-        yStart    = y0;
-        yEnd      = y4;
+        xStart = x0;
+        xEnd = x4;
+        yStart = y0;
+        yEnd = y4;
         dydxStart = dydx0;
-        dydxEnd   = dydx4;
+        dydxEnd = dydx4;
 
         RigidBodyDynamics::Math::MatrixNd p0 =
             SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, x1, y1, dydx1, c);
@@ -538,16 +538,16 @@ void TorqueMuscleFunctionFactory::createAnderson2007PassiveTorqueAngleCurve(
 //=============================================================================
 
 void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
-    double                                                        tvAtEccentricOmegaMax,
-    double                                                        tvAtHalfConcentricOmegaMax,
-    const std::string                                            &curveName,
+    double tvAtEccentricOmegaMax,
+    double tvAtHalfConcentricOmegaMax,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
-    double slopeAtConcentricOmegaMax  = 0.0;
+    double slopeAtConcentricOmegaMax = 0.0;
     double slopeNearEccentricOmegaMax = -0.025;
-    double slopeAtEccentricOmegaMax   = 0.0;
-    double eccentricCurviness         = 0.75;
+    double slopeAtEccentricOmegaMax = 0.0;
+    double eccentricCurviness = 0.75;
 
     createTorqueVelocityCurve(tvAtEccentricOmegaMax, tvAtHalfConcentricOmegaMax, slopeAtConcentricOmegaMax,
                               slopeNearEccentricOmegaMax, slopeAtEccentricOmegaMax, eccentricCurviness, curveName,
@@ -555,13 +555,13 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
 }
 
 void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
-    double                                                        tvAtEccentricOmegaMax,
-    double                                                        tvAtHalfConcentricOmegaMax,
-    double                                                        slopeAtConcentricOmegaMax,
-    double                                                        slopeNearEccentricOmegaMax,
-    double                                                        slopeAtEccentricOmegaMax,
-    double                                                        eccentricCurviness,
-    const std::string                                            &curveName,
+    double tvAtEccentricOmegaMax,
+    double tvAtHalfConcentricOmegaMax,
+    double slopeAtConcentricOmegaMax,
+    double slopeNearEccentricOmegaMax,
+    double slopeAtEccentricOmegaMax,
+    double eccentricCurviness,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -620,7 +620,7 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
     }
 
     double omegaMax = 1.0;
-    double wmaxC    = omegaMax; // In biomechanics the concentric side gets a
+    double wmaxC = omegaMax; // In biomechanics the concentric side gets a
     // a +'ve signed velocity
     double wmaxE = -omegaMax;
 
@@ -654,10 +654,10 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
     */
 
     double fiso = 1.0;
-    double w    = 0.5 * wmaxC;
+    double w = 0.5 * wmaxC;
     double a = -tvAtHalfConcentricOmegaMax * w * fiso / (wmaxC * tvAtHalfConcentricOmegaMax - fiso * wmaxC + fiso * w);
 
-    double b      = a * wmaxC / fiso;
+    double b = a * wmaxC / fiso;
     double yCheck = (b * fiso - a * w) / (b + w);
 
     if (abs(yCheck - tvAtHalfConcentricOmegaMax) > SQRTEPS)
@@ -672,10 +672,10 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
         throw RigidBodyDynamics::Errors::RBDLError(errormsg.str());
     }
 
-    w              = 0 * wmaxC;
+    w = 0 * wmaxC;
     double dydxIso = (-(a) * (b + w) - (b * fiso - a * w)) / ((b + w) * (b + w));
 
-    w                = 0.9 * wmaxC;
+    w = 0.9 * wmaxC;
     double dydxNearC = (-(a) * (b + w) - (b * fiso - a * w)) / ((b + w) * (b + w));
 
     if (dydxNearC > slopeAtConcentricOmegaMax || abs(dydxNearC) > abs(1 / wmaxC))
@@ -697,8 +697,8 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
 
     double xNearC = 0.9 * wmaxC;
     double yNearC = (b * fiso - a * w) / (b + w);
-    double xIso   = 0;
-    double yIso   = 1.0;
+    double xIso = 0;
+    double yIso = 1.0;
 
     double cC = 0.5;
 
@@ -711,30 +711,30 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
 
     SmoothSegmentedFunction fvCFcn =
         SmoothSegmentedFunction(xpts, ypts, xIso, xNearC, yIso, yNearC, dydxIso, dydxNearC, "tvFcn");
-    SmoothSegmentedFunction fvCFcnLeft  = SmoothSegmentedFunction();
+    SmoothSegmentedFunction fvCFcnLeft = SmoothSegmentedFunction();
     SmoothSegmentedFunction fvCFcnRight = SmoothSegmentedFunction();
 
-    int    nSample = 10;
-    double f       = 0;
-    double yHill   = 0;
+    int nSample = 10;
+    double f = 0;
+    double yHill = 0;
 
     // Calculate the error of the Bezier curve with the starting curviness value
     // of 0.5
     for (int j = 0; j < nSample; ++j)
     {
-        w      = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
-        yHill  = (b * fiso - a * w) / (b + w);
-        f     += abs(fvCFcn.calcValue(w) - yHill);
+        w = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
+        yHill = (b * fiso - a * w) / (b + w);
+        f += abs(fvCFcn.calcValue(w) - yHill);
     }
 
-    double fBest  = f;
-    double fLeft  = 0.;
+    double fBest = f;
+    double fLeft = 0.;
     double fRight = 0.;
     double cCBest = cC;
 
-    double cCLeft  = 0;
+    double cCLeft = 0;
     double cCRight = 0;
-    double h       = 0.25;
+    double h = 0.25;
 
     std::string fvLeftName("fvLeft");
     std::string fvRightName("fvRight");
@@ -757,8 +757,8 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
         fLeft = 0;
         for (int j = 0; j < nSample; ++j)
         {
-            w      = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
-            yHill  = (b * fiso - a * w) / (b + w);
+            w = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
+            yHill = (b * fiso - a * w) / (b + w);
             fLeft += abs(fvCFcnLeft.calcValue(w) - yHill);
         }
 
@@ -772,26 +772,26 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
         fRight = 0;
         for (int j = 0; j < nSample; ++j)
         {
-            w       = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
-            yHill   = (b * fiso - a * w) / (b + w);
+            w = ((double)(j - 1)) * wmaxC / ((double)nSample - 1.0);
+            yHill = (b * fiso - a * w) / (b + w);
             fRight += abs(fvCFcnRight.calcValue(w) - yHill);
         }
 
         if (abs(fLeft) < abs(fBest))
         {
-            fBest  = fLeft;
+            fBest = fLeft;
             cCBest = cCLeft;
         }
         if (abs(fRight) < abs(fBest))
         {
-            fBest  = fRight;
+            fBest = fRight;
             cCBest = cCRight;
         }
 
         h = h / 2.0;
     }
 
-    cC        = cCBest;
+    cC = cCBest;
     double cE = SegmentedQuinticBezierToolkit::scaleCurviness(eccentricCurviness);
 
     MatrixNd xM(6, 4);
@@ -803,9 +803,9 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
     double xE = wmaxE;
     double yE = tvAtEccentricOmegaMax;
 
-    double xNearE    = 0.9 * wmaxE;
+    double xNearE = 0.9 * wmaxE;
     double dydxNearE = slopeAtEccentricOmegaMax;
-    double yNearE    = yE + 0.5 * dydxNearE * (xNearE - xE) + 0.5 * slopeAtEccentricOmegaMax * (xNearE - xE);
+    double yNearE = yE + 0.5 * dydxNearE * (xNearE - xE) + 0.5 * slopeAtEccentricOmegaMax * (xNearE - xE);
 
     pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(xE, yE, slopeAtEccentricOmegaMax, xNearE,
                                                                               yNearE, dydxNearE, cE);
@@ -839,27 +839,27 @@ void TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
 // passive-torque angle curve
 //=============================================================================
 void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
-    double                                                        angleAtZeroTorque,
-    double                                                        angleAtOneNormTorque,
-    const std::string                                            &curveName,
+    double angleAtZeroTorque,
+    double angleAtOneNormTorque,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
     double stiffnessAtOneNormTorque = 4.6 / (angleAtOneNormTorque - angleAtZeroTorque);
-    double stiffnessAtLowTorque     = 0.01 * stiffnessAtOneNormTorque;
-    double curviness                = 0.5;
+    double stiffnessAtLowTorque = 0.01 * stiffnessAtOneNormTorque;
+    double curviness = 0.5;
 
     createPassiveTorqueAngleCurve(angleAtZeroTorque, angleAtOneNormTorque, stiffnessAtLowTorque,
                                   stiffnessAtOneNormTorque, curviness, curveName, smoothSegmentedFunctionToUpdate);
 }
 
 void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
-    double                                                        angleAtZeroTorque,
-    double                                                        angleAtOneNormTorque,
-    double                                                        stiffnessAtLowTorque,
-    double                                                        stiffnessAtOneNormTorque,
-    double                                                        curviness,
-    const std::string                                            &curveName,
+    double angleAtZeroTorque,
+    double angleAtOneNormTorque,
+    double stiffnessAtLowTorque,
+    double stiffnessAtOneNormTorque,
+    double curviness,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -929,19 +929,19 @@ void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
     double x0, x1, y0, y1, dydx0, dydx1;
     if (angleAtZeroTorque < angleAtOneNormTorque)
     {
-        x0    = angleAtZeroTorque;
-        x1    = angleAtOneNormTorque;
-        y0    = 0.;
-        y1    = 1.;
+        x0 = angleAtZeroTorque;
+        x1 = angleAtOneNormTorque;
+        y0 = 0.;
+        y1 = 1.;
         dydx0 = 0.0;
         dydx1 = stiffnessAtOneNormTorque;
     }
     else
     {
-        x0    = angleAtOneNormTorque;
-        x1    = angleAtZeroTorque;
-        y0    = 1.0;
-        y1    = 0.0;
+        x0 = angleAtOneNormTorque;
+        x1 = angleAtZeroTorque;
+        y0 = 1.0;
+        y1 = 0.0;
         dydx0 = stiffnessAtOneNormTorque;
         dydx1 = 0.0;
     }
@@ -957,13 +957,13 @@ void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
             delta *= -1.0;
         }
 
-        double xLow  = angleAtZeroTorque + delta;
+        double xLow = angleAtZeroTorque + delta;
         double xFoot = angleAtZeroTorque + 0.5 * (xLow - angleAtZeroTorque);
         double yFoot = 0.0;
-        double yLow  = yFoot + stiffnessAtLowTorque * (xLow - xFoot);
+        double yLow = yFoot + stiffnessAtLowTorque * (xLow - xFoot);
 
-        pts       = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, xLow, yLow,
-                                                                                        stiffnessAtLowTorque, c);
+        pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, xLow, yLow,
+                                                                                  stiffnessAtLowTorque, c);
         xM.col(0) = pts.col(0);
         yM.col(0) = pts.col(1);
 
@@ -974,8 +974,8 @@ void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
     }
     else
     {
-        pts       = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(angleAtZeroTorque, 0, 0,
-                                                                                        angleAtOneNormTorque, 0, 0, c);
+        pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(angleAtZeroTorque, 0, 0,
+                                                                                  angleAtOneNormTorque, 0, 0, c);
         xM.col(0) = pts.col(0);
         yM.col(1) = pts.col(1);
     }
@@ -988,9 +988,9 @@ void TorqueMuscleFunctionFactory::createPassiveTorqueAngleCurve(
 //=============================================================================
 
 void TorqueMuscleFunctionFactory::createGaussianShapedActiveTorqueAngleCurve(
-    double                                                        angleAtOneNormTorque,
-    double                                                        angularStandardDeviation,
-    const std::string                                            &curveName,
+    double angleAtOneNormTorque,
+    double angularStandardDeviation,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -999,12 +999,12 @@ void TorqueMuscleFunctionFactory::createGaussianShapedActiveTorqueAngleCurve(
 }
 
 void TorqueMuscleFunctionFactory::createGaussianShapedActiveTorqueAngleCurve(
-    double                                                        angleAtOneNormTorque,
-    double                                                        angularStandardDeviation,
-    double                                                        minSlopeAtShoulders,
-    double                                                        minValueAtShoulders,
-    double                                                        curviness,
-    const std::string                                            &curveName,
+    double angleAtOneNormTorque,
+    double angularStandardDeviation,
+    double minSlopeAtShoulders,
+    double minValueAtShoulders,
+    double curviness,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -1050,9 +1050,9 @@ void TorqueMuscleFunctionFactory::createGaussianShapedActiveTorqueAngleCurve(
         taCutoff = minValueAtShoulders;
     }
     double angularStandardDeviationSq = angularStandardDeviation * angularStandardDeviation;
-    double thetaWidth                 = sqrt(-log(taCutoff) * 2 * angularStandardDeviationSq);
-    double thetaMin                   = -thetaWidth + angleAtOneNormTorque;
-    double thetaMax                   = thetaWidth + angleAtOneNormTorque;
+    double thetaWidth = sqrt(-log(taCutoff) * 2 * angularStandardDeviationSq);
+    double thetaMin = -thetaWidth + angleAtOneNormTorque;
+    double thetaMax = thetaWidth + angleAtOneNormTorque;
 
     double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
 
@@ -1124,8 +1124,8 @@ void TorqueMuscleFunctionFactory::createGaussianShapedActiveTorqueAngleCurve(
 //=============================================================================
 
 void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
-    double                                                        angularStretchAtOneNormTorque,
-    const std::string                                            &curveName,
+    double angularStretchAtOneNormTorque,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -1134,11 +1134,11 @@ void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
 }
 
 void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
-    double                                                        angularStretchAtOneNormTorque,
-    double                                                        stiffnessAtOneNormTorque,
-    double                                                        normTorqueAtToeEnd,
-    double                                                        curviness,
-    const std::string                                            &curveName,
+    double angularStretchAtOneNormTorque,
+    double stiffnessAtOneNormTorque,
+    double normTorqueAtToeEnd,
+    double curviness,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -1177,13 +1177,13 @@ void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
         throw RigidBodyDynamics::Errors::RBDLInvalidParameterError(errormsg.str());
     }
 
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
-    double x0    = 0;
-    double y0    = 0;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double x0 = 0;
+    double y0 = 0;
     double dydx0 = 0;
 
-    double xIso    = angularStretchAtOneNormTorque;
-    double yIso    = 1;
+    double xIso = angularStretchAtOneNormTorque;
+    double yIso = 1;
     double dydxIso = stiffnessAtOneNormTorque;
 
     // Location where the curved section becomes linear
@@ -1197,8 +1197,8 @@ void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
 
     // Compute the location of the corner formed by the average slope of the
     // toe and the slope of the linear section
-    double yToeMid    = yToe * 0.5;
-    double xToeMid    = (yToeMid - yIso) / stiffnessAtOneNormTorque + xIso;
+    double yToeMid = yToe * 0.5;
+    double xToeMid = (yToeMid - yIso) / stiffnessAtOneNormTorque + xIso;
     double dydxToeMid = (yToeMid - yFoot) / (xToeMid - xFoot);
 
     // Compute the location of the control point to the left of the corner
@@ -1210,8 +1210,8 @@ void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
     MatrixNd pts(6, 2);
 
     // Compute the Quintic Bezier control points
-    pts       = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, xToeCtrl, yToeCtrl,
-                                                                                    dydxToeMid, c);
+    pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, xToeCtrl, yToeCtrl,
+                                                                              dydxToeMid, c);
     xM.col(0) = pts.col(0);
     yM.col(0) = pts.col(1);
 
@@ -1228,8 +1228,8 @@ void TorqueMuscleFunctionFactory::createTendonTorqueAngleCurve(
 //=============================================================================
 
 void TorqueMuscleFunctionFactory::createDampingBlendingCurve(
-    double                                                        normAngularVelocityAtMaximumDamping,
-    const std::string                                            &curveName,
+    double normAngularVelocityAtMaximumDamping,
+    const std::string &curveName,
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     if (abs(normAngularVelocityAtMaximumDamping) < SQRTEPS)
@@ -1271,11 +1271,11 @@ void TorqueMuscleFunctionFactory::createDampingBlendingCurve(
     MatrixNd pts(6, 2);
 
     // Compute the Quintic Bezier control points
-    pts       = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, x1, y1, dydx1, c);
+    pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x0, y0, dydx0, x1, y1, dydx1, c);
     xM.col(0) = pts.col(0);
     yM.col(0) = pts.col(1);
 
-    pts       = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x1, y1, dydx1, x2, y2, dydx2, c);
+    pts = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x1, y1, dydx1, x2, y2, dydx2, c);
     xM.col(1) = pts.col(0);
     yM.col(1) = pts.col(1);
 

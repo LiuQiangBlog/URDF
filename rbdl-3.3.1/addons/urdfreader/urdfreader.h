@@ -31,12 +31,12 @@ RBDL_ADDON_DLLAPI bool URDFReadFromFile(const char *filename, Model *model, bool
  * @param verbose: information will be printed to the command window if this
  *                 is set to true
  */
-RBDL_ADDON_DLLAPI bool PartialURDFReadFromFile(const char                     *filename,
-                                               Model                          *model,
-                                               const std::string              &root_link,
+RBDL_ADDON_DLLAPI bool PartialURDFReadFromFile(const char *filename,
+                                               Model *model,
+                                               const std::string &root_link,
                                                const std::vector<std::string> &tip_links,
-                                               bool                            floating_base,
-                                               bool                            verbose = false);
+                                               bool floating_base,
+                                               bool verbose = false);
 
 /**
  * This function will load a URDF model from a c string.
@@ -58,12 +58,12 @@ URDFReadFromString(const char *model_xml_string, Model *model, bool floating_bas
  * @param verbose: information will be printed to the command window if this
  *                 is set to true
  */
-RBDL_ADDON_DLLAPI bool PartialURDFReadFromString(const char                     *model_xml_string,
-                                                 Model                          *model,
-                                                 const std::string              &root_link,
+RBDL_ADDON_DLLAPI bool PartialURDFReadFromString(const char *model_xml_string,
+                                                 Model *model,
+                                                 const std::string &root_link,
                                                  const std::vector<std::string> &tip_links,
-                                                 bool                            floating_base,
-                                                 bool                            verbose = false);
+                                                 bool floating_base,
+                                                 bool verbose = false);
 } // namespace Addons
 
 } // namespace RigidBodyDynamics

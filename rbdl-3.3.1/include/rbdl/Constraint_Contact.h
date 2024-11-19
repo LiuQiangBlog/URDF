@@ -123,62 +123,62 @@ public:
                   errors are not computed (all 0's) for this constraint type.
     */
 
-    ContactConstraint(const unsigned int    bodyId,
+    ContactConstraint(const unsigned int bodyId,
                       const Math::Vector3d &bodyPoint,
                       const Math::Vector3d &groundConstraintNormalVectors,
-                      const char           *contactConstraintName        = NULL,
-                      unsigned int          userDefinedId                = std::numeric_limits<unsigned int>::max(),
-                      bool                  enableBaumgarteStabilization = false,
-                      double                stabilizationTimeConstant    = 0.1,
-                      bool                  velocityLevelConstraint      = true);
+                      const char *contactConstraintName = NULL,
+                      unsigned int userDefinedId = std::numeric_limits<unsigned int>::max(),
+                      bool enableBaumgarteStabilization = false,
+                      double stabilizationTimeConstant = 0.1,
+                      bool velocityLevelConstraint = true);
 
     void bind(const Model &model) override;
 
-    void calcConstraintJacobian(Model                &model,
-                                const double          time,
+    void calcConstraintJacobian(Model &model,
+                                const double time,
                                 const Math::VectorNd &Q,
                                 const Math::VectorNd &QDot,
-                                Math::MatrixNd       &GSysUpd,
-                                ConstraintCache      &cache,
-                                bool                  updateKinematics = false) override;
+                                Math::MatrixNd &GSysUpd,
+                                ConstraintCache &cache,
+                                bool updateKinematics = false) override;
 
-    void calcGamma(Model                &model,
-                   const double          time,
+    void calcGamma(Model &model,
+                   const double time,
                    const Math::VectorNd &Q,
                    const Math::VectorNd &QDot,
                    const Math::MatrixNd &GSys,
-                   Math::VectorNd       &gammaSysUpd,
-                   ConstraintCache      &cache,
-                   bool                  updateKinematics = false) override;
+                   Math::VectorNd &gammaSysUpd,
+                   ConstraintCache &cache,
+                   bool updateKinematics = false) override;
 
-    void calcPositionError(Model                &model,
-                           const double          time,
+    void calcPositionError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
-                           Math::VectorNd       &errSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updateKinematics = false) override;
+                           Math::VectorNd &errSysUpd,
+                           ConstraintCache &cache,
+                           bool updateKinematics = false) override;
 
-    void calcVelocityError(Model                &model,
-                           const double          time,
+    void calcVelocityError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
                            const Math::VectorNd &QDot,
                            const Math::MatrixNd &GSys,
-                           Math::VectorNd       &derrSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updateKinematics = false) override;
+                           Math::VectorNd &derrSysUpd,
+                           ConstraintCache &cache,
+                           bool updateKinematics = false) override;
 
-    void calcConstraintForces(Model                               &model,
-                              const double                         time,
-                              const Math::VectorNd                &Q,
-                              const Math::VectorNd                &QDot,
-                              const Math::MatrixNd                &GSys,
-                              const Math::VectorNd                &lagrangeMultipliersSys,
-                              std::vector<unsigned int>           &constraintBodiesUpd,
+    void calcConstraintForces(Model &model,
+                              const double time,
+                              const Math::VectorNd &Q,
+                              const Math::VectorNd &QDot,
+                              const Math::MatrixNd &GSys,
+                              const Math::VectorNd &lagrangeMultipliersSys,
+                              std::vector<unsigned int> &constraintBodiesUpd,
                               std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                              std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                              ConstraintCache                     &cache,
-                              bool                                 resolveAllInRootFrame = false,
-                              bool                                 updateKinematics      = false) override;
+                              std::vector<Math::SpatialVector> &constraintForcesUpd,
+                              ConstraintCache &cache,
+                              bool resolveAllInRootFrame = false,
+                              bool updateKinematics = false) override;
 
     /**
       @return the vector of constraint normals which are resolved in the
@@ -207,12 +207,12 @@ public:
       @param updateKinematics setting this to true will force kinematic functions
               to use the values of Q, QDot, and QDDot passed into this function.
     */
-    void calcPointAccelerations(Model                       &model,
-                                const Math::VectorNd        &Q,
-                                const Math::VectorNd        &QDot,
-                                const Math::VectorNd        &QDDot,
+    void calcPointAccelerations(Model &model,
+                                const Math::VectorNd &Q,
+                                const Math::VectorNd &QDot,
+                                const Math::VectorNd &QDDot,
                                 std::vector<Math::Vector3d> &pointAccelerationSysUpd,
-                                bool                         updateKinematics = false);
+                                bool updateKinematics = false);
 
     /*** @brief To support ForwardDynamicsKokkevis
       @param model: the multibody model
@@ -225,12 +225,12 @@ public:
 
     */
 
-    void calcPointAccelerations(Model                &model,
+    void calcPointAccelerations(Model &model,
                                 const Math::VectorNd &Q,
                                 const Math::VectorNd &QDot,
                                 const Math::VectorNd &QDDot,
-                                Math::Vector3d       &pointAccelerationUpd,
-                                bool                  updateKinematics = false);
+                                Math::Vector3d &pointAccelerationUpd,
+                                bool updateKinematics = false);
 
     /*** @brief To support ForwardDynamicsKokkevis
       @param model a reference to the multibody model
@@ -240,7 +240,7 @@ public:
 
     */
     void calcPointAccelerationError(const std::vector<Math::Vector3d> &pointAccelerationsSys,
-                                    Math::VectorNd                    &ddErrSysUpd);
+                                    Math::VectorNd &ddErrSysUpd);
 
     /*** @brief To support ForwardDynamicsKokkevis
       @param model a reference to the multibody model
@@ -250,19 +250,19 @@ public:
       @param updateKinematics setting this to true will force kinematic functions
               to use the value of Q passed in.
     */
-    void calcPointForceJacobian(Model                            &model,
-                                const Math::VectorNd             &Q,
-                                ConstraintCache                  &cache,
+    void calcPointForceJacobian(Model &model,
+                                const Math::VectorNd &Q,
+                                ConstraintCache &cache,
                                 std::vector<Math::SpatialVector> &fExtSysUpd,
-                                bool                              updateKinematics = false);
+                                bool updateKinematics = false);
 
 private:
     /// A vector of the ground normal vectors used in this constraint.
     std::vector<Math::Vector3d> T;
     /// The location of the ground reference point
-    Math::Vector3d              groundPoint;
+    Math::Vector3d groundPoint;
     /// A working double
-    double                      dblA;
+    double dblA;
 };
 
 } // namespace RigidBodyDynamics

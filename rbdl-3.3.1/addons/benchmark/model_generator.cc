@@ -12,9 +12,9 @@ void generate_planar_tree_recursive(Model *model, unsigned int parent_body_id, i
 
     // create left child
     Joint joint_rot_z(JointTypeRevoluteZ);
-    Body  body(length, Vector3d(0., -0.25 * length, 0.), Vector3d(length, length, length));
+    Body body(length, Vector3d(0., -0.25 * length, 0.), Vector3d(length, length, length));
 
-    Vector3d     displacement(-0.5 * length, -0.25 * length, 0.);
+    Vector3d displacement(-0.5 * length, -0.25 * length, 0.);
     unsigned int child_left = model->AddBody(parent_body_id, Xtrans(displacement), joint_rot_z, body);
 
     generate_planar_tree_recursive(model, child_left, depth - 1, length * 0.4);
@@ -34,7 +34,7 @@ void generate_planar_tree(Model *model, int depth)
     double length = 1.;
 
     Joint joint_rot_z(JointTypeRevolute, Vector3d(0., 0., 1.));
-    Body  body(length, Vector3d(0., -0.25 * length, 0.), Vector3d(length, length, length));
+    Body body(length, Vector3d(0., -0.25 * length, 0.), Vector3d(length, length, length));
 
     unsigned int base_child = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
 

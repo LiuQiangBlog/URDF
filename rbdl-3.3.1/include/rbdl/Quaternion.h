@@ -73,7 +73,7 @@ public:
         assert(!std::isnan(angle));
 #endif
 
-        Scalar d  = 1. / std::sin(angle);
+        Scalar d = 1. / std::sin(angle);
         Scalar p0 = std::sin((1. - alpha) * angle);
         Scalar p1 = std::sin(alpha * angle);
 
@@ -94,7 +94,7 @@ public:
 
     static Quaternion fromAxisAngle(const Vector3d &axis, Scalar angle_rad)
     {
-        Scalar d  = axis.norm();
+        Scalar d = axis.norm();
         Scalar s2 = std::sin(angle_rad * 0.5) / d;
         return Quaternion(axis[0] * s2, axis[1] * s2, axis[2] * s2, std::cos(angle_rad * 0.5));
     }
@@ -168,7 +168,7 @@ public:
 
     Vector3d rotate(const Vector3d &vec) const
     {
-        Vector3d   vn(vec);
+        Vector3d vn(vec);
         Quaternion vec_quat(vn[0], vn[1], vn[2], 0.f), res_quat;
 
         res_quat = vec_quat * (*this);

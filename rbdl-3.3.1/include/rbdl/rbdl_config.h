@@ -8,15 +8,15 @@
 #ifndef RBDL_CONFIG_H
 #define RBDL_CONFIG_H
 
-#define RBDL_API_VERSION            (3 << 16) + (3 << 8) + 1
+#define RBDL_API_VERSION (3 << 16) + (3 << 8) + 1
 
 /* #undef RBDL_ENABLE_LOGGING */
-#define RBDL_BUILD_COMMIT           "unknown"
-#define RBDL_BUILD_TYPE             "unknown"
-#define RBDL_BUILD_BRANCH           "unknown"
+#define RBDL_BUILD_COMMIT "unknown"
+#define RBDL_BUILD_TYPE "unknown"
+#define RBDL_BUILD_BRANCH "unknown"
 /* #undef RBDL_BUILD_ADDON_MUSCLE_FITTING */
 /* #undef RBDL_BUILD_ADDON_MUSCLE */
-#define RBDL_BUILD_COMPILER_ID      "MSVC"
+#define RBDL_BUILD_COMPILER_ID "MSVC"
 #define RBDL_BUILD_COMPILER_VERSION "19.29.30153.0"
 /* #undef RBDL_BUILD_ADDON_LUAMODEL */
 #define RBDL_BUILD_ADDON_URDFREADER
@@ -27,7 +27,7 @@
 /* compatibility defines */
 #ifdef _WIN32
 #define __func__ __FUNCTION__
-#define M_PI     3.1415926535897932384
+#define M_PI 3.1415926535897932384
 #pragma warning(disable : 4251) /*no DLL interface for type of member of exported class*/
 #pragma warning(disable : 4275) /*no DLL interface for base class of exported class*/
 #endif
@@ -52,7 +52,7 @@
 #if __GNUC__ >= 4
 #define RBDL_DLLIMPORT __attribute__((visibility("default")))
 #define RBDL_DLLEXPORT __attribute__((visibility("default")))
-#define RBDL_DLLLOCAL  __attribute__((visibility("hidden")))
+#define RBDL_DLLLOCAL __attribute__((visibility("hidden")))
 #else
 // Otherwise (GCC < 4 or another compiler is used), export everything.
 #define RBDL_DLLIMPORT
@@ -71,22 +71,22 @@
 // Depending on whether one is building or using the
 // library define DLLAPI to import or export.
 #ifdef rbdl_EXPORTS
-#define RBDL_DLLAPI       RBDL_DLLEXPORT
+#define RBDL_DLLAPI RBDL_DLLEXPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLIMPORT
 #elif rbdl_casadi_EXPORTS
-#define RBDL_DLLAPI       RBDL_DLLEXPORT
+#define RBDL_DLLAPI RBDL_DLLEXPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLIMPORT
 #elif rbdl_urdfreader_EXPORTS
-#define RBDL_DLLAPI       RBDL_DLLIMPORT
+#define RBDL_DLLAPI RBDL_DLLIMPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLEXPORT
 #elif rbdl_geometry_EXPORTS
-#define RBDL_DLLAPI       RBDL_DLLIMPORT
+#define RBDL_DLLAPI RBDL_DLLIMPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLEXPORT
 #elif rbdl_luamodel_EXPORTS
-#define RBDL_DLLAPI       RBDL_DLLIMPORT
+#define RBDL_DLLAPI RBDL_DLLIMPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLEXPORT
 #else
-#define RBDL_DLLAPI       RBDL_DLLIMPORT
+#define RBDL_DLLAPI RBDL_DLLIMPORT
 #define RBDL_ADDON_DLLAPI RBDL_DLLIMPORT
 #endif // RBDL_EXPORTS
 #define RBDL_LOCAL RBDL_DLLLOCAL

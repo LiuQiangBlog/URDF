@@ -3,7 +3,7 @@
 #include "IpIpoptApplication.hpp"
 
 using namespace Ipopt;
-static double EPSILON     = std::numeric_limits<double>::epsilon();
+static double EPSILON = std::numeric_limits<double>::epsilon();
 static double SQRTEPSILON = sqrt(EPSILON);
 
 using namespace RigidBodyDynamics::Math;
@@ -12,13 +12,13 @@ using namespace RigidBodyDynamics::Addons::Geometry;
 using namespace std;
 
 void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMuscle const &tqMcl,
-                                                           VectorNd const                &jointAngle,
-                                                           VectorNd const                &jointAngularVelocity,
-                                                           VectorNd const                &jointTorque,
-                                                           double                         activationUpperBound,
+                                                           VectorNd const &jointAngle,
+                                                           VectorNd const &jointAngularVelocity,
+                                                           VectorNd const &jointTorque,
+                                                           double activationUpperBound,
                                                            double passiveTorqueAngleMultiplierUpperBound,
                                                            TorqueMuscleParameterFittingData &parametersOfBestFit,
-                                                           bool                              verbose)
+                                                           bool verbose)
 {
 
     if (tqMcl.mMuscleCurvesAreDirty)
@@ -53,7 +53,7 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
         }
     }
 
-    double tiso     = tqMcl.getMaximumActiveIsometricTorque();
+    double tiso = tqMcl.getMaximumActiveIsometricTorque();
     double omegaMax = tqMcl.getMaximumConcentricJointAngularVelocity();
 
     double maxConcentricAngularVelocityData = 0;
@@ -81,12 +81,12 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
 
     double tpLambda = 0.0;
 
-    double taAngleScaling         = tqMcl.mTaAngleScaling;
+    double taAngleScaling = tqMcl.mTaAngleScaling;
     double taAngleAtOneNormTorque = tqMcl.mAngleAtOneNormActiveTorque;
-    double tvOmegaMaxScale        = 1.0;
-    double tpOffset               = 0.0;
+    double tvOmegaMaxScale = 1.0;
+    double tpOffset = 0.0;
 
-    double objectiveValue  = 0.0;
+    double objectiveValue = 0.0;
     double constraintError = 0.0;
 
     TorqueMuscleDataFeatures tmf;
@@ -118,16 +118,16 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
 
     ApplicationReturnStatus status;
 
-    objectiveValue  = std::numeric_limits<double>::infinity();
+    objectiveValue = std::numeric_limits<double>::infinity();
     constraintError = std::numeric_limits<double>::infinity();
-    bool converged  = false;
+    bool converged = false;
 
     double taAngleScaleStart = 1.0;
     double tvOmegaMaxScaleStart =
         fabs(1.1 * maxConcentricAngularVelocityData / tqMcl.getMaximumConcentricJointAngularVelocity());
 
-    double tisoScale   = 1.0;
-    bool   updateStart = false;
+    double tisoScale = 1.0;
+    bool updateStart = false;
 
     status = app->Initialize();
     if (status == Solve_Succeeded)
@@ -135,18 +135,18 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
         status = app->OptimizeTNLP(fittingProblem);
         if (status == Solve_Succeeded)
         {
-            converged       = true;
-            updateStart     = true;
-            taAngleScaling  = fittingProblem->getSolutionActiveTorqueAngleAngleScaling();
+            converged = true;
+            updateStart = true;
+            taAngleScaling = fittingProblem->getSolutionActiveTorqueAngleAngleScaling();
             tvOmegaMaxScale = fittingProblem->getSolutionTorqueAngularVelocityOmegaMaxScale();
-            tpLambda        = fittingProblem->getSolutionPassiveTorqueAngleBlendingParameter();
-            tpOffset        = fittingProblem->getSolutionPassiveTorqueAngleCurveOffset();
-            tisoScale       = fittingProblem->getSolutionMaximumActiveIsometricTorqueScale();
+            tpLambda = fittingProblem->getSolutionPassiveTorqueAngleBlendingParameter();
+            tpOffset = fittingProblem->getSolutionPassiveTorqueAngleCurveOffset();
+            tisoScale = fittingProblem->getSolutionMaximumActiveIsometricTorqueScale();
 
-            tiso     = tisoScale * tiso;
+            tiso = tisoScale * tiso;
             omegaMax = fabs(tvOmegaMaxScale * tqMcl.getMaximumConcentricJointAngularVelocity());
 
-            objectiveValue  = fittingProblem->getObjectiveValue();
+            objectiveValue = fittingProblem->getObjectiveValue();
             constraintError = fittingProblem->getConstraintError().norm();
 
             tqMcl.calcTorqueMuscleDataFeatures(jointTorqueSingleSided, jointAngle, jointAngularVelocity, taLambda,
@@ -157,20 +157,20 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
 
     if (converged)
     {
-        parametersOfBestFit.fittingConverged     = true;
+        parametersOfBestFit.fittingConverged = true;
         parametersOfBestFit.isTorqueMuscleActive = !(tmf.isInactive);
 
-        parametersOfBestFit.indexAtMaximumActivation               = tmf.indexOfMaxActivation;
-        parametersOfBestFit.indexAtMinimumActivation               = tmf.indexOfMinActivation;
+        parametersOfBestFit.indexAtMaximumActivation = tmf.indexOfMaxActivation;
+        parametersOfBestFit.indexAtMinimumActivation = tmf.indexOfMinActivation;
         parametersOfBestFit.indexAtMaxPassiveTorqueAngleMultiplier = tmf.indexOfMaxPassiveTorqueAngleMultiplier;
 
-        parametersOfBestFit.activeTorqueAngleBlendingVariable  = taLambda;
-        parametersOfBestFit.torqueVelocityBlendingVariable     = tvLambda;
+        parametersOfBestFit.activeTorqueAngleBlendingVariable = taLambda;
+        parametersOfBestFit.torqueVelocityBlendingVariable = tvLambda;
         parametersOfBestFit.passiveTorqueAngleBlendingVariable = tpLambda;
-        parametersOfBestFit.passiveTorqueAngleCurveOffset      = tpOffset;
-        parametersOfBestFit.maximumActiveIsometricTorque       = tiso;
-        parametersOfBestFit.activeTorqueAngleAngleScaling      = taAngleScaling;
-        parametersOfBestFit.maximumAngularVelocity             = fabs(omegaMax);
+        parametersOfBestFit.passiveTorqueAngleCurveOffset = tpOffset;
+        parametersOfBestFit.maximumActiveIsometricTorque = tiso;
+        parametersOfBestFit.activeTorqueAngleAngleScaling = taAngleScaling;
+        parametersOfBestFit.maximumAngularVelocity = fabs(omegaMax);
 
         parametersOfBestFit.summaryDataAtMaximumActivation = tmf.summaryAtMaxActivation;
         parametersOfBestFit.summaryDataAtMinimumActivation = tmf.summaryAtMinActivation;
@@ -179,20 +179,20 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
     }
     else
     {
-        parametersOfBestFit.fittingConverged     = false;
+        parametersOfBestFit.fittingConverged = false;
         parametersOfBestFit.isTorqueMuscleActive = !(tmf.isInactive);
 
-        parametersOfBestFit.indexAtMaximumActivation               = numeric_limits<unsigned int>::signaling_NaN();
-        parametersOfBestFit.indexAtMinimumActivation               = numeric_limits<unsigned int>::signaling_NaN();
+        parametersOfBestFit.indexAtMaximumActivation = numeric_limits<unsigned int>::signaling_NaN();
+        parametersOfBestFit.indexAtMinimumActivation = numeric_limits<unsigned int>::signaling_NaN();
         parametersOfBestFit.indexAtMaxPassiveTorqueAngleMultiplier = numeric_limits<unsigned int>::signaling_NaN();
 
-        parametersOfBestFit.activeTorqueAngleBlendingVariable  = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.activeTorqueAngleBlendingVariable = numeric_limits<double>::signaling_NaN();
         parametersOfBestFit.passiveTorqueAngleBlendingVariable = numeric_limits<double>::signaling_NaN();
-        parametersOfBestFit.passiveTorqueAngleCurveOffset      = numeric_limits<double>::signaling_NaN();
-        parametersOfBestFit.torqueVelocityBlendingVariable     = numeric_limits<double>::signaling_NaN();
-        parametersOfBestFit.maximumActiveIsometricTorque       = numeric_limits<double>::signaling_NaN();
-        parametersOfBestFit.activeTorqueAngleAngleScaling      = numeric_limits<double>::signaling_NaN();
-        parametersOfBestFit.maximumAngularVelocity             = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.passiveTorqueAngleCurveOffset = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.torqueVelocityBlendingVariable = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.maximumActiveIsometricTorque = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.activeTorqueAngleAngleScaling = numeric_limits<double>::signaling_NaN();
+        parametersOfBestFit.maximumAngularVelocity = numeric_limits<double>::signaling_NaN();
 
         parametersOfBestFit.summaryDataAtMaximumActivation = tmf.summaryAtMaxActivation;
         parametersOfBestFit.summaryDataAtMinimumActivation = tmf.summaryAtMinActivation;
@@ -204,10 +204,10 @@ void TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(Millard2016TorqueMusc
 FitTorqueMuscleParameters::FitTorqueMuscleParameters(const RigidBodyDynamics::Math::VectorNd &jointAngle,
                                                      const RigidBodyDynamics::Math::VectorNd &jointAngularVelocity,
                                                      const RigidBodyDynamics::Math::VectorNd &jointTorque,
-                                                     double                                   maxActivation,
-                                                     double                   maxPassiveTorqueAngleMultiplier,
-                                                     double                   taLambda,
-                                                     double                   tvLambda,
+                                                     double maxActivation,
+                                                     double maxPassiveTorqueAngleMultiplier,
+                                                     double taLambda,
+                                                     double tvLambda,
                                                      Millard2016TorqueMuscle &tqMcl)
     : mJointAngle(jointAngle), mJointAngularVelocity(jointAngularVelocity), mJointTorque(jointTorque), mTqMcl(tqMcl)
 {
@@ -222,7 +222,7 @@ FitTorqueMuscleParameters::FitTorqueMuscleParameters(const RigidBodyDynamics::Ma
     double omegaMin = std::numeric_limits<double>::max();
     double angleMax = -std::numeric_limits<double>::max();
     double omegaMax = -std::numeric_limits<double>::max();
-    double tauMax   = 0;
+    double tauMax = 0;
 
     for (unsigned int i = 0; i < mJointAngle.rows(); ++i)
     {
@@ -253,45 +253,45 @@ FitTorqueMuscleParameters::FitTorqueMuscleParameters(const RigidBodyDynamics::Ma
 
     double tauScale = tauMax / fabs(mTqMcl.getMaximumActiveIsometricTorque());
 
-    mConIdxTauActMaxStart  = 0;
-    mConIdxTauActMaxEnd    = jointTorque.rows() - 1;
-    mConIdxTauActMinStart  = jointTorque.rows();
-    mConIdxTauActMinEnd    = 2 * jointTorque.rows() - 1;
+    mConIdxTauActMaxStart = 0;
+    mConIdxTauActMaxEnd = jointTorque.rows() - 1;
+    mConIdxTauActMinStart = jointTorque.rows();
+    mConIdxTauActMinEnd = 2 * jointTorque.rows() - 1;
     mConIdxTauPassiveStart = 2 * jointTorque.rows();
-    mConIdxTauPassiveEnd   = 3 * jointTorque.rows() - 1;
+    mConIdxTauPassiveEnd = 3 * jointTorque.rows() - 1;
 
-    mMaxActivation          = maxActivation;
-    mMinActivation          = 0.0;
-    mMaxTp                  = maxPassiveTorqueAngleMultiplier;
-    mTauIso                 = mTqMcl.getMaximumActiveIsometricTorque();
-    mTaLambda               = taLambda;
-    mTvLambda               = tvLambda;
+    mMaxActivation = maxActivation;
+    mMinActivation = 0.0;
+    mMaxTp = maxPassiveTorqueAngleMultiplier;
+    mTauIso = mTqMcl.getMaximumActiveIsometricTorque();
+    mTaLambda = taLambda;
+    mTvLambda = tvLambda;
     mTaAngleAtOneNormTorque = mTqMcl.mAngleAtOneNormActiveTorque;
-    mOmegaMax               = mTqMcl.mOmegaMax;
+    mOmegaMax = mTqMcl.mOmegaMax;
 
-    mTaAngleScaleStart    = max(taScale, mTqMcl.getActiveTorqueAngleCurveAngleScaling());
+    mTaAngleScaleStart = max(taScale, mTqMcl.getActiveTorqueAngleCurveAngleScaling());
     mTvOmegaMaxScaleStart = max(tvScale, 1.);
-    mTpLambdaStart        = mTqMcl.getPassiveTorqueAngleCurveBlendingVariable();
-    mTpAngleOffsetStart   = mTqMcl.getPassiveCurveAngleOffset();
-    mTauScalingStart      = max(tauScale, 1.);
+    mTpLambdaStart = mTqMcl.getPassiveTorqueAngleCurveBlendingVariable();
+    mTpAngleOffsetStart = mTqMcl.getPassiveCurveAngleOffset();
+    mTauScalingStart = max(tauScale, 1.);
 
-    mTaAngleScaleLB    = 1.;
+    mTaAngleScaleLB = 1.;
     mTvOmegaMaxScaleLB = 1.;
-    mTpLambdaLB        = 0.;
-    mTpAngleOffsetLB   = -M_PI * 0.5;
-    mTauScalingLB      = 1.0;
+    mTpLambdaLB = 0.;
+    mTpAngleOffsetLB = -M_PI * 0.5;
+    mTauScalingLB = 1.0;
 
-    mTaAngleScaleUB    = 2.0e19;
+    mTaAngleScaleUB = 2.0e19;
     mTvOmegaMaxScaleUB = 2.0e19;
-    mTpLambdaUB        = 1.0;
-    mTpAngleOffsetUB   = M_PI * 0.5;
-    mTauScalingUB      = 2.0e19;
+    mTpLambdaUB = 1.0;
+    mTpAngleOffsetUB = M_PI * 0.5;
+    mTauScalingUB = 2.0e19;
 
-    mIndexTaAngleScale    = 0;
+    mIndexTaAngleScale = 0;
     mIndexTvOmegaMaxScale = 1;
-    mIndexTpLambda        = 2;
-    mIndexTpOffset        = 3;
-    mIndexTauScaling      = 4;
+    mIndexTpLambda = 2;
+    mIndexTpOffset = 3;
+    mIndexTauScaling = 4;
 
     // Initialize vectors
     mConstraintErrors.resize(mM);
@@ -319,10 +319,10 @@ FitTorqueMuscleParameters::FitTorqueMuscleParameters(const RigidBodyDynamics::Ma
 }
 
 // Manditory functions of the TNLP interface
-bool FitTorqueMuscleParameters::get_nlp_info(Ipopt::Index                &n,
-                                             Ipopt::Index                &m,
-                                             Ipopt::Index                &nnz_jac_g,
-                                             Ipopt::Index                &nnz_h_lag,
+bool FitTorqueMuscleParameters::get_nlp_info(Ipopt::Index &n,
+                                             Ipopt::Index &m,
+                                             Ipopt::Index &nnz_jac_g,
+                                             Ipopt::Index &nnz_h_lag,
                                              Ipopt::TNLP::IndexStyleEnum &index_style)
 {
     // Parameters
@@ -349,10 +349,10 @@ bool FitTorqueMuscleParameters::get_nlp_info(Ipopt::Index                &n,
     return true;
 }
 
-bool FitTorqueMuscleParameters::get_bounds_info(Ipopt::Index   n,
+bool FitTorqueMuscleParameters::get_bounds_info(Ipopt::Index n,
                                                 Ipopt::Number *x_l,
                                                 Ipopt::Number *x_u,
-                                                Ipopt::Index   m,
+                                                Ipopt::Index m,
                                                 Ipopt::Number *g_l,
                                                 Ipopt::Number *g_u)
 {
@@ -374,10 +374,10 @@ bool FitTorqueMuscleParameters::get_bounds_info(Ipopt::Index   n,
     // the muscle to satisfy the constraint - but it
     // will not weaken it.
 
-    double tauActMaxLB  = 0;
-    double tauActMaxUB  = 0;
-    double tauActMinLB  = 0;
-    double tauActMinUB  = 0;
+    double tauActMaxLB = 0;
+    double tauActMaxUB = 0;
+    double tauActMinLB = 0;
+    double tauActMinUB = 0;
     double tauPassiveLB = 0;
     double tauPassiveUB = 0;
 
@@ -423,14 +423,14 @@ bool FitTorqueMuscleParameters::get_bounds_info(Ipopt::Index   n,
     return true;
 }
 
-bool FitTorqueMuscleParameters::get_starting_point(Ipopt::Index   n,
-                                                   bool           init_x,
+bool FitTorqueMuscleParameters::get_starting_point(Ipopt::Index n,
+                                                   bool init_x,
                                                    Ipopt::Number *x,
-                                                   bool           init_z,
+                                                   bool init_z,
                                                    Ipopt::Number *z_L,
                                                    Ipopt::Number *z_U,
-                                                   Ipopt::Index   m,
-                                                   bool           init_lambda,
+                                                   Ipopt::Index m,
+                                                   bool init_lambda,
                                                    Ipopt::Number *lambda)
 {
     assert(n == mN);
@@ -441,8 +441,8 @@ bool FitTorqueMuscleParameters::get_starting_point(Ipopt::Index   n,
     x[3] = mTpAngleOffsetStart;
     x[4] = mTauScalingStart;
 
-    init_x      = true;
-    init_z      = false;
+    init_x = true;
+    init_z = false;
     init_lambda = false;
 
     mDtp_Dx.resize(mN);
@@ -454,11 +454,11 @@ bool FitTorqueMuscleParameters::eval_f(Ipopt::Index n, const Ipopt::Number *x, b
 {
     assert(n == mN);
 
-    obj_value   = 0.;
+    obj_value = 0.;
     double xUpd = 0.;
     for (unsigned i = 0; i < mN; ++i)
     {
-        xUpd       = x[i] - mXOffset[i];
+        xUpd = x[i] - mXOffset[i];
         obj_value += mWeights[i] * xUpd * xUpd;
     }
 
@@ -478,24 +478,24 @@ bool FitTorqueMuscleParameters::eval_grad_f(Ipopt::Index n, const Ipopt::Number 
     double xUpd = 0;
     for (unsigned int i = 0; i < (unsigned int)n; ++i)
     {
-        xUpd      = x[i] - mXOffset[i];
+        xUpd = x[i] - mXOffset[i];
         grad_f[i] = 2.0 * mWeights[i] * xUpd;
     }
 
     return true;
 }
 
-bool FitTorqueMuscleParameters::eval_g(Ipopt::Index         n,
+bool FitTorqueMuscleParameters::eval_g(Ipopt::Index n,
                                        const Ipopt::Number *x,
-                                       bool                 new_x,
-                                       Ipopt::Index         m,
-                                       Ipopt::Number       *g)
+                                       bool new_x,
+                                       Ipopt::Index m,
+                                       Ipopt::Number *g)
 {
     assert(n == mN);
     assert(m == mM);
 
     updOptimizationVariables(x);
-    double tauMax   = mTauScaling * mTauIso;
+    double tauMax = mTauScaling * mTauIso;
     double omegaMax = mTvOmegaMaxScale * mOmegaMax;
 
     unsigned int j = 0;
@@ -509,7 +509,7 @@ bool FitTorqueMuscleParameters::eval_g(Ipopt::Index         n,
         ++j;
     }
 
-    j              = 0;
+    j = 0;
     unsigned int k = mConIdxTauPassiveStart;
     for (unsigned int i = mConIdxTauActMinStart; i <= mConIdxTauActMinEnd; ++i)
     {
@@ -526,14 +526,14 @@ bool FitTorqueMuscleParameters::eval_g(Ipopt::Index         n,
     return true;
 }
 
-bool FitTorqueMuscleParameters::eval_jac_g(Ipopt::Index         n,
+bool FitTorqueMuscleParameters::eval_jac_g(Ipopt::Index n,
                                            const Ipopt::Number *x,
-                                           bool                 new_x,
-                                           Ipopt::Index         m,
-                                           Ipopt::Index         nele_jac,
-                                           Ipopt::Index        *iRow,
-                                           Ipopt::Index        *jCol,
-                                           Ipopt::Number       *values)
+                                           bool new_x,
+                                           Ipopt::Index m,
+                                           Ipopt::Index nele_jac,
+                                           Ipopt::Index *iRow,
+                                           Ipopt::Index *jCol,
+                                           Ipopt::Number *values)
 {
     assert(n == mN);
     assert(m == mM);
@@ -555,11 +555,11 @@ bool FitTorqueMuscleParameters::eval_jac_g(Ipopt::Index         n,
     else
     {
         updOptimizationVariables(x);
-        double tauMax   = mTauScaling * mTauIso;
+        double tauMax = mTauScaling * mTauIso;
         double omegaMax = mTvOmegaMaxScale * mOmegaMax;
 
         unsigned int idx = 0;
-        unsigned int j   = 0;
+        unsigned int j = 0;
         for (unsigned int i = mConIdxTauActMaxStart; i <= mConIdxTauActMaxEnd; ++i)
         {
             mTqMcl.updTorqueMuscleInfo(mMaxActivation, mJointAngle[j], mJointAngularVelocity[j], mTaLambda, mTpLambda,
@@ -625,16 +625,16 @@ bool FitTorqueMuscleParameters::eval_jac_g(Ipopt::Index         n,
     return true;
 }
 
-void FitTorqueMuscleParameters::finalize_solution(Ipopt::SolverReturn               status,
-                                                  Ipopt::Index                      n,
-                                                  const Ipopt::Number              *x,
-                                                  const Ipopt::Number              *z_L,
-                                                  const Ipopt::Number              *z_U,
-                                                  Ipopt::Index                      m,
-                                                  const Ipopt::Number              *g,
-                                                  const Ipopt::Number              *lambda,
-                                                  Ipopt::Number                     obj_value,
-                                                  const Ipopt::IpoptData           *ip_data,
+void FitTorqueMuscleParameters::finalize_solution(Ipopt::SolverReturn status,
+                                                  Ipopt::Index n,
+                                                  const Ipopt::Number *x,
+                                                  const Ipopt::Number *z_L,
+                                                  const Ipopt::Number *z_U,
+                                                  Ipopt::Index m,
+                                                  const Ipopt::Number *g,
+                                                  const Ipopt::Number *lambda,
+                                                  Ipopt::Number obj_value,
+                                                  const Ipopt::IpoptData *ip_data,
                                                   Ipopt::IpoptCalculatedQuantities *ip_cq)
 {
     assert(n == mN);
@@ -651,17 +651,17 @@ void FitTorqueMuscleParameters::finalize_solution(Ipopt::SolverReturn           
 /*
   This is incorrect - the constraint has a non-zero Hessian.
 */
-bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
+bool FitTorqueMuscleParameters::eval_h(Ipopt::Index n,
                                        const Ipopt::Number *x,
-                                       bool                 new_x,
-                                       Ipopt::Number        obj_factor,
-                                       Ipopt::Index         m,
+                                       bool new_x,
+                                       Ipopt::Number obj_factor,
+                                       Ipopt::Index m,
                                        const Ipopt::Number *lambda,
-                                       bool                 new_lambda,
-                                       Ipopt::Index         nele_hess,
-                                       Ipopt::Index        *iRow,
-                                       Ipopt::Index        *jCol,
-                                       Ipopt::Number       *values)
+                                       bool new_lambda,
+                                       Ipopt::Index nele_hess,
+                                       Ipopt::Index *iRow,
+                                       Ipopt::Index *jCol,
+                                       Ipopt::Number *values)
 {
     assert(n == mN);
     assert(m == mM);
@@ -690,7 +690,7 @@ bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
         */
 
         updOptimizationVariables(x);
-        double tauMax   = mTauScaling * mTauIso;
+        double tauMax = mTauScaling * mTauIso;
         double omegaMax = mTvOmegaMaxScale * mOmegaMax;
 
         for (unsigned int i = 0; i < nele_hess; ++i)
@@ -698,32 +698,32 @@ bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
             values[i] = 0.;
         }
 
-        values[0]  = obj_factor * 2.0 * mWeights[0];
-        values[2]  = obj_factor * 2.0 * mWeights[1];
-        values[5]  = obj_factor * 2.0 * mWeights[2];
-        values[9]  = obj_factor * 2.0 * mWeights[3];
+        values[0] = obj_factor * 2.0 * mWeights[0];
+        values[2] = obj_factor * 2.0 * mWeights[1];
+        values[5] = obj_factor * 2.0 * mWeights[2];
+        values[9] = obj_factor * 2.0 * mWeights[3];
         values[14] = obj_factor * 2.0 * mWeights[4];
 
         // Add in the components of the Hessian due to the constraints.
 
-        double d2t_ds2  = 0.;
+        double d2t_ds2 = 0.;
         double d2t_dsdm = 0.;
-        double d2t_dm2  = 0.;
+        double d2t_dm2 = 0.;
         double d2t_dsdp = 0.;
         double d2t_dmdp = 0.;
-        double d2t_dp2  = 0.;
+        double d2t_dp2 = 0.;
         double d2t_dsdo = 0.;
         double d2t_dmdo = 0.;
         double d2t_dpdo = 0.;
-        double d2t_do2  = 0.;
-        double dt_ds    = 0.;
-        double dt_dm    = 0.;
-        double dt_dp    = 0.;
-        double dt_do    = 0.;
+        double d2t_do2 = 0.;
+        double dt_ds = 0.;
+        double dt_dm = 0.;
+        double dt_dp = 0.;
+        double dt_do = 0.;
 
-        double d2tp_dp2  = 0.;
+        double d2tp_dp2 = 0.;
         double d2tp_dpdo = 0.;
-        double d2tp_do2  = 0.;
+        double d2tp_do2 = 0.;
 
         unsigned int j = 0;
         for (unsigned int i = mConIdxTauActMaxStart; i <= mConIdxTauActMaxEnd; ++i)
@@ -732,31 +732,31 @@ bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
                                        mTvLambda, mTaAngleScale, mTaAngleAtOneNormTorque, mTpAngleOffset, omegaMax,
                                        tauMax, mTmi);
 
-            d2t_ds2  = mTmi.fittingInfo[13];
+            d2t_ds2 = mTmi.fittingInfo[13];
             d2t_dsdm = mTmi.fittingInfo[14] * mOmegaMax;
-            d2t_dm2  = mTmi.fittingInfo[15] * mOmegaMax * mOmegaMax;
+            d2t_dm2 = mTmi.fittingInfo[15] * mOmegaMax * mOmegaMax;
             d2t_dsdp = mTmi.fittingInfo[16];
             d2t_dmdp = mTmi.fittingInfo[17] * mOmegaMax;
-            d2t_dp2  = mTmi.fittingInfo[18];
+            d2t_dp2 = mTmi.fittingInfo[18];
             d2t_dsdo = mTmi.fittingInfo[19];
             d2t_dmdo = mTmi.fittingInfo[20] * mOmegaMax;
             d2t_dpdo = mTmi.fittingInfo[21];
-            d2t_do2  = mTmi.fittingInfo[22];
-            dt_ds    = mTmi.DjointTorque_DactiveTorqueAngleAngleScaling;
-            dt_dm    = mTmi.DjointTorque_DmaximumAngularVelocity * mOmegaMax;
-            dt_dp    = mTmi.DjointTorque_DpassiveTorqueAngleBlendingVariable;
-            dt_do    = mTmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset;
+            d2t_do2 = mTmi.fittingInfo[22];
+            dt_ds = mTmi.DjointTorque_DactiveTorqueAngleAngleScaling;
+            dt_dm = mTmi.DjointTorque_DmaximumAngularVelocity * mOmegaMax;
+            dt_dp = mTmi.DjointTorque_DpassiveTorqueAngleBlendingVariable;
+            dt_do = mTmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset;
 
-            values[0]  += lambda[i] * d2t_ds2;
-            values[1]  += lambda[i] * d2t_dsdm;
-            values[2]  += lambda[i] * d2t_dm2;
-            values[3]  += lambda[i] * d2t_dsdp;
-            values[4]  += lambda[i] * d2t_dmdp;
-            values[5]  += lambda[i] * d2t_dp2;
-            values[6]  += lambda[i] * d2t_dsdo;
-            values[7]  += lambda[i] * d2t_dmdo;
-            values[8]  += lambda[i] * d2t_dpdo;
-            values[9]  += lambda[i] * d2t_do2;
+            values[0] += lambda[i] * d2t_ds2;
+            values[1] += lambda[i] * d2t_dsdm;
+            values[2] += lambda[i] * d2t_dm2;
+            values[3] += lambda[i] * d2t_dsdp;
+            values[4] += lambda[i] * d2t_dmdp;
+            values[5] += lambda[i] * d2t_dp2;
+            values[6] += lambda[i] * d2t_dsdo;
+            values[7] += lambda[i] * d2t_dmdo;
+            values[8] += lambda[i] * d2t_dpdo;
+            values[9] += lambda[i] * d2t_do2;
             values[10] += lambda[i] * dt_ds / mTauScaling;
             values[11] += lambda[i] * dt_dm / mTauScaling;
             values[12] += lambda[i] * dt_dp / mTauScaling;
@@ -772,31 +772,31 @@ bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
                                        mTvLambda, mTaAngleScale, mTaAngleAtOneNormTorque, mTpAngleOffset, omegaMax,
                                        tauMax, mTmi);
 
-            d2t_ds2  = mTmi.fittingInfo[13];
+            d2t_ds2 = mTmi.fittingInfo[13];
             d2t_dsdm = mTmi.fittingInfo[14] * mOmegaMax;
-            d2t_dm2  = mTmi.fittingInfo[15] * mOmegaMax * mOmegaMax;
+            d2t_dm2 = mTmi.fittingInfo[15] * mOmegaMax * mOmegaMax;
             d2t_dsdp = mTmi.fittingInfo[16];
             d2t_dmdp = mTmi.fittingInfo[17] * mOmegaMax;
-            d2t_dp2  = mTmi.fittingInfo[18];
+            d2t_dp2 = mTmi.fittingInfo[18];
             d2t_dsdo = mTmi.fittingInfo[19];
             d2t_dmdo = mTmi.fittingInfo[20] * mOmegaMax;
             d2t_dpdo = mTmi.fittingInfo[21];
-            d2t_do2  = mTmi.fittingInfo[22];
-            dt_ds    = mTmi.DjointTorque_DactiveTorqueAngleAngleScaling;
-            dt_dm    = mTmi.DjointTorque_DmaximumAngularVelocity * mOmegaMax;
-            dt_dp    = mTmi.DjointTorque_DpassiveTorqueAngleBlendingVariable;
-            dt_do    = mTmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset;
+            d2t_do2 = mTmi.fittingInfo[22];
+            dt_ds = mTmi.DjointTorque_DactiveTorqueAngleAngleScaling;
+            dt_dm = mTmi.DjointTorque_DmaximumAngularVelocity * mOmegaMax;
+            dt_dp = mTmi.DjointTorque_DpassiveTorqueAngleBlendingVariable;
+            dt_do = mTmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset;
 
-            values[0]  += lambda[i] * d2t_ds2;
-            values[1]  += lambda[i] * d2t_dsdm;
-            values[2]  += lambda[i] * d2t_dm2;
-            values[3]  += lambda[i] * d2t_dsdp;
-            values[4]  += lambda[i] * d2t_dmdp;
-            values[5]  += lambda[i] * d2t_dp2;
-            values[6]  += lambda[i] * d2t_dsdo;
-            values[7]  += lambda[i] * d2t_dmdo;
-            values[8]  += lambda[i] * d2t_dpdo;
-            values[9]  += lambda[i] * d2t_do2;
+            values[0] += lambda[i] * d2t_ds2;
+            values[1] += lambda[i] * d2t_dsdm;
+            values[2] += lambda[i] * d2t_dm2;
+            values[3] += lambda[i] * d2t_dsdp;
+            values[4] += lambda[i] * d2t_dmdp;
+            values[5] += lambda[i] * d2t_dp2;
+            values[6] += lambda[i] * d2t_dsdo;
+            values[7] += lambda[i] * d2t_dmdo;
+            values[8] += lambda[i] * d2t_dpdo;
+            values[9] += lambda[i] * d2t_do2;
             values[10] += lambda[i] * dt_ds / mTauScaling;
             values[11] += lambda[i] * dt_dm / mTauScaling;
             values[12] += lambda[i] * dt_dp / mTauScaling;
@@ -814,9 +814,9 @@ bool FitTorqueMuscleParameters::eval_h(Ipopt::Index         n,
             mTqMcl.updTorqueMuscleInfo(0., mJointAngle[j], mJointAngularVelocity[j], mTaLambda, mTpLambda, mTvLambda,
                                        mTaAngleScale, mTaAngleAtOneNormTorque, mTpAngleOffset, omegaMax, tauMax, mTmi);
 
-            d2tp_dp2  = mTmi.fittingInfo[10];
+            d2tp_dp2 = mTmi.fittingInfo[10];
             d2tp_dpdo = mTmi.fittingInfo[11];
-            d2tp_do2  = mTmi.fittingInfo[12];
+            d2tp_do2 = mTmi.fittingInfo[12];
 
             values[5] += lambda[i] * d2tp_dp2; //
 
@@ -864,9 +864,9 @@ RigidBodyDynamics::Math::VectorNd &FitTorqueMuscleParameters::getConstraintError
 void FitTorqueMuscleParameters::updOptimizationVariables(const Ipopt::Number *x)
 {
 
-    mTaAngleScale    = x[0];
+    mTaAngleScale = x[0];
     mTvOmegaMaxScale = x[1];
-    mTpLambda        = x[2];
-    mTpAngleOffset   = x[3];
-    mTauScaling      = x[4];
+    mTpLambda = x[2];
+    mTpAngleOffset = x[3];
+    mTauScaling = x[4];
 }

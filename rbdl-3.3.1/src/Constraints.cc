@@ -37,16 +37,16 @@ unsigned int GetMovableBodyId(Model &model, unsigned int id);
 //==============================================================================
 
 //==============================================================================
-unsigned int ConstraintSet::AddContactConstraint(unsigned int    body_id,
+unsigned int ConstraintSet::AddContactConstraint(unsigned int body_id,
                                                  const Vector3d &body_point,
                                                  const Vector3d &world_normal,
-                                                 const char     *constraint_name,
-                                                 unsigned int    userDefinedId)
+                                                 const char *constraint_name,
+                                                 unsigned int userDefinedId)
 {
     assert(bound == false);
 
     unsigned int insertAtRowInG = size();
-    unsigned int rowsInG        = insertAtRowInG + 1;
+    unsigned int rowsInG = insertAtRowInG + 1;
 
     std::string nameStr;
     if (constraint_name != NULL)
@@ -156,24 +156,24 @@ unsigned int ConstraintSet::AddContactConstraint(unsigned int    body_id,
 }
 
 //==============================================================================
-unsigned int ConstraintSet::AddLoopConstraint(unsigned int                  idPredecessor,
-                                              unsigned int                  idSuccessor,
+unsigned int ConstraintSet::AddLoopConstraint(unsigned int idPredecessor,
+                                              unsigned int idSuccessor,
                                               const Math::SpatialTransform &XPredecessor,
                                               const Math::SpatialTransform &XSuccessor,
-                                              const Math::SpatialVector    &constraintAxisInPredecessor,
-                                              bool                          enableBaumgarteStabilization,
-                                              double                        stabilizationTimeConstant,
-                                              const char                   *constraintName,
-                                              unsigned int                  userDefinedId)
+                                              const Math::SpatialVector &constraintAxisInPredecessor,
+                                              bool enableBaumgarteStabilization,
+                                              double stabilizationTimeConstant,
+                                              const char *constraintName,
+                                              unsigned int userDefinedId)
 {
     assert(bound == false);
 
     unsigned int insertAtRowInG = unsigned(size());
-    unsigned int rowsInG        = insertAtRowInG + 1;
+    unsigned int rowsInG = insertAtRowInG + 1;
 
-    double       tol                = std::numeric_limits<double>::epsilon() * 100.;
-    bool         constraintAppended = false;
-    unsigned int idx                = unsigned(loopConstraints.size());
+    double tol = std::numeric_limits<double>::epsilon() * 100.;
+    bool constraintAppended = false;
+    unsigned int idx = unsigned(loopConstraints.size());
 
     if (loopConstraints.size() > 0)
     {
@@ -182,7 +182,7 @@ unsigned int ConstraintSet::AddLoopConstraint(unsigned int                  idPr
             loopConstraints[idx]->getBodyIds()[1] == idSuccessor)
         {
 
-            bool             framesNumericallyIdentical = true;
+            bool framesNumericallyIdentical = true;
             SpatialTransform frameErrorPre, frameErrorSuc;
 
             frameErrorPre.r = XPredecessor.r - loopConstraints[idx]->getBodyFrames()[0].r;
@@ -304,8 +304,8 @@ unsigned int ConstraintSet::AddLoopConstraint(unsigned int                  idPr
 unsigned int ConstraintSet::AddCustomConstraint(std::shared_ptr<Constraint> customConstraint)
 {
     unsigned int insertAtRowInG = unsigned(size());
-    unsigned int rowsInG        = insertAtRowInG + customConstraint->getConstraintSize();
-    unsigned int cIndex         = constraints.size();
+    unsigned int rowsInG = insertAtRowInG + customConstraint->getConstraintSize();
+    unsigned int cIndex = constraints.size();
 
     constraints.emplace_back(customConstraint);
     constraints[cIndex]->addToConstraintSet(insertAtRowInG);
@@ -331,11 +331,11 @@ unsigned int ConstraintSet::AddCustomConstraint(std::shared_ptr<Constraint> cust
         name.push_back(nameStr);
         constraintType.push_back(ConstraintTypeCustom);
 
-        err[insertAtRowInG + i]     = 0.;
-        errd[insertAtRowInG + i]    = 0.;
-        force[insertAtRowInG + i]   = 0.;
+        err[insertAtRowInG + i] = 0.;
+        errd[insertAtRowInG + i] = 0.;
+        force[insertAtRowInG + i] = 0.;
         impulse[insertAtRowInG + i] = 0.;
-        v_plus[insertAtRowInG + i]  = 0.;
+        v_plus[insertAtRowInG + i] = 0.;
     }
 
     // Set up access maps
@@ -433,8 +433,8 @@ bool ConstraintSet::Bind(const Model &model)
     GT_qr = Eigen::HouseholderQR<Math::MatrixNd>(G.transpose());
 #endif
     GT_qr_Q = MatrixNd::Zero(model.dof_count, model.dof_count);
-    Y       = MatrixNd::Zero(model.dof_count, G.rows());
-    Z       = MatrixNd::Zero(model.dof_count, model.dof_count - G.rows());
+    Y = MatrixNd::Zero(model.dof_count, G.rows());
+    Z = MatrixNd::Zero(model.dof_count, model.dof_count - G.rows());
     qddot_y = VectorNd::Zero(model.dof_count);
     qddot_z = VectorNd::Zero(model.dof_count);
 
@@ -453,12 +453,12 @@ bool ConstraintSet::Bind(const Model &model)
     f_ext_constraints.resize(model.mBodies.size(), SpatialVector::Zero());
 
     d_pA = std::vector<SpatialVector>(model.mBodies.size(), SpatialVector::Zero());
-    d_a  = std::vector<SpatialVector>(model.mBodies.size(), SpatialVector::Zero());
-    d_u  = VectorNd::Zero(model.mBodies.size());
+    d_a = std::vector<SpatialVector>(model.mBodies.size(), SpatialVector::Zero());
+    d_u = VectorNd::Zero(model.mBodies.size());
 
     d_IA = std::vector<SpatialMatrix>(model.mBodies.size(), SpatialMatrix::Identity());
-    d_U  = std::vector<SpatialVector>(model.mBodies.size(), SpatialVector::Zero());
-    d_d  = VectorNd::Zero(model.mBodies.size());
+    d_U = std::vector<SpatialVector>(model.mBodies.size(), SpatialVector::Zero());
+    d_d = VectorNd::Zero(model.mBodies.size());
 
     d_multdof3_u = std::vector<Math::Vector3d>(model.mBodies.size(), Math::Vector3d::Zero());
 
@@ -473,7 +473,7 @@ void ConstraintSet::SetActuationMap(const Model &model, const std::vector<bool> 
 
     assert(actuatedDofUpd.size() == model.dof_count);
 
-    unsigned int n  = unsigned(int(model.dof_count));
+    unsigned int n = unsigned(int(model.dof_count));
     unsigned int nc = unsigned(int(name.size()));
     unsigned int na = 0; // actuated dofs
     unsigned int nu = 0; // unactuated dofs
@@ -648,15 +648,15 @@ void ConstraintSet::clear()
 
 //==============================================================================
 RBDL_DLLAPI
-void SolveConstrainedSystemDirect(Math::MatrixNd       &H,
+void SolveConstrainedSystemDirect(Math::MatrixNd &H,
                                   const Math::MatrixNd &G,
                                   const Math::VectorNd &c,
                                   const Math::VectorNd &gamma,
-                                  Math::VectorNd       &lambda,
-                                  Math::MatrixNd       &A,
-                                  Math::VectorNd       &b,
-                                  Math::VectorNd       &x,
-                                  Math::LinearSolver   &linear_solver)
+                                  Math::VectorNd &lambda,
+                                  Math::MatrixNd &A,
+                                  Math::VectorNd &b,
+                                  Math::VectorNd &x,
+                                  Math::LinearSolver &linear_solver)
 {
     // Build the system: Copy H
     A.block(0, 0, c.rows(), c.rows()) = H;
@@ -666,7 +666,7 @@ void SolveConstrainedSystemDirect(Math::MatrixNd       &H,
     A.block(c.rows(), 0, gamma.rows(), c.rows()) = G;
 
     // Build the system: Copy -C + \tau
-    b.block(0, 0, c.rows(), 1)            = c;
+    b.block(0, 0, c.rows(), 1) = c;
     b.block(c.rows(), 0, gamma.rows(), 1) = gamma;
 
     LOG << "A = " << std::endl << A << std::endl;
@@ -674,7 +674,7 @@ void SolveConstrainedSystemDirect(Math::MatrixNd       &H,
 
 #ifdef RBDL_USE_CASADI_MATH
     auto linsol = casadi::Linsol("linear_solver", "symbolicqr", A.sparsity());
-    x           = linsol.solve(A, b);
+    x = linsol.solve(A, b);
 #else
     switch (linear_solver)
     {
@@ -699,16 +699,16 @@ void SolveConstrainedSystemDirect(Math::MatrixNd       &H,
 
 //==============================================================================
 RBDL_DLLAPI
-void SolveConstrainedSystemRangeSpaceSparse(Model                &model,
-                                            Math::MatrixNd       &H,
+void SolveConstrainedSystemRangeSpaceSparse(Model &model,
+                                            Math::MatrixNd &H,
                                             const Math::MatrixNd &G,
                                             const Math::VectorNd &c,
                                             const Math::VectorNd &gamma,
-                                            Math::VectorNd       &qddot,
-                                            Math::VectorNd       &lambda,
-                                            Math::MatrixNd       &K,
-                                            Math::VectorNd       &a,
-                                            Math::LinearSolver    linear_solver)
+                                            Math::VectorNd &qddot,
+                                            Math::VectorNd &lambda,
+                                            Math::MatrixNd &K,
+                                            Math::VectorNd &a,
+                                            Math::LinearSolver linear_solver)
 {
     SparseFactorizeLTL(model, H);
 
@@ -729,7 +729,7 @@ void SolveConstrainedSystemRangeSpaceSparse(Model                &model,
     a = gamma - Y.transpose() * z;
 #ifdef RBDL_USE_CASADI_MATH
     auto linsol = casadi::Linsol("linear_solver", "symbolicqr", K.sparsity());
-    lambda      = linsol.solve(K, a);
+    lambda = linsol.solve(K, a);
 #else
     lambda = K.llt().solve(a);
 #endif
@@ -741,23 +741,23 @@ void SolveConstrainedSystemRangeSpaceSparse(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void SolveConstrainedSystemNullSpace(Math::MatrixNd       &H,
+void SolveConstrainedSystemNullSpace(Math::MatrixNd &H,
                                      const Math::MatrixNd &G,
                                      const Math::VectorNd &c,
                                      const Math::VectorNd &gamma,
-                                     Math::VectorNd       &qddot,
-                                     Math::VectorNd       &lambda,
-                                     Math::MatrixNd       &Y,
-                                     Math::MatrixNd       &Z,
-                                     Math::VectorNd       &qddot_y,
-                                     Math::VectorNd       &qddot_z,
-                                     Math::LinearSolver   &linear_solver)
+                                     Math::VectorNd &qddot,
+                                     Math::VectorNd &lambda,
+                                     Math::MatrixNd &Y,
+                                     Math::MatrixNd &Z,
+                                     Math::VectorNd &qddot_y,
+                                     Math::VectorNd &qddot_z,
+                                     Math::LinearSolver &linear_solver)
 {
 
 #ifdef RBDL_USE_CASADI_MATH
-    auto GY     = G * Y;
+    auto GY = G * Y;
     auto linsol = casadi::Linsol("linear_solver", "symbolicqr", GY.sparsity());
-    qddot_y     = linsol.solve(GY, gamma);
+    qddot_y = linsol.solve(GY, gamma);
 #else
     switch (linear_solver)
     {
@@ -779,15 +779,15 @@ void SolveConstrainedSystemNullSpace(Math::MatrixNd       &H,
 
 #ifdef RBDL_USE_CASADI_MATH
     auto ZHZ = (Z.transpose() * H * Z);
-    linsol   = casadi::Linsol("linear_solver", "symbolicqr", ZHZ.sparsity());
-    qddot_z  = linsol.solve(ZHZ, Z.transpose() * (c - H * Y * qddot_y));
+    linsol = casadi::Linsol("linear_solver", "symbolicqr", ZHZ.sparsity());
+    qddot_z = linsol.solve(ZHZ, Z.transpose() * (c - H * Y * qddot_y));
 #else
     qddot_z = (Z.transpose() * H * Z).llt().solve(Z.transpose() * (c - H * Y * qddot_y));
 #endif
     qddot = Y * qddot_y + Z * qddot_z;
 
 #ifdef RBDL_USE_CASADI_MATH
-    GY     = G * Y;
+    GY = G * Y;
     linsol = casadi::Linsol("linear_solver", "symbolicqr", GY.sparsity());
     lambda = linsol.solve(GY, Y.transpose() * (H * qddot - c));
 #else
@@ -812,11 +812,11 @@ void SolveConstrainedSystemNullSpace(Math::MatrixNd       &H,
 
 //==============================================================================
 RBDL_DLLAPI
-void CalcConstraintsPositionError(Model                &model,
+void CalcConstraintsPositionError(Model &model,
                                   const Math::VectorNd &Q,
-                                  ConstraintSet        &CS,
-                                  Math::VectorNd       &err,
-                                  bool                  update_kinematics)
+                                  ConstraintSet &CS,
+                                  Math::VectorNd &err,
+                                  bool update_kinematics)
 {
     assert(err.size() == CS.size());
 
@@ -833,11 +833,11 @@ void CalcConstraintsPositionError(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void CalcConstraintsJacobian(Model                &model,
+void CalcConstraintsJacobian(Model &model,
                              const Math::VectorNd &Q,
-                             ConstraintSet        &CS,
-                             Math::MatrixNd       &G,
-                             bool                  update_kinematics)
+                             ConstraintSet &CS,
+                             Math::MatrixNd &G,
+                             bool update_kinematics)
 {
     if (update_kinematics)
     {
@@ -852,12 +852,12 @@ void CalcConstraintsJacobian(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void CalcConstraintsVelocityError(Model                &model,
+void CalcConstraintsVelocityError(Model &model,
                                   const Math::VectorNd &Q,
                                   const Math::VectorNd &QDot,
-                                  ConstraintSet        &CS,
-                                  Math::VectorNd       &err,
-                                  bool                  update_kinematics)
+                                  ConstraintSet &CS,
+                                  Math::VectorNd &err,
+                                  bool update_kinematics)
 {
 
     CalcConstraintsJacobian(model, Q, CS, CS.G, update_kinematics);
@@ -870,12 +870,12 @@ void CalcConstraintsVelocityError(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void CalcConstrainedSystemVariables(Model                            &model,
-                                    const Math::VectorNd             &Q,
-                                    const Math::VectorNd             &QDot,
-                                    const Math::VectorNd             &Tau,
-                                    ConstraintSet                    &CS,
-                                    bool                              update_kinematics,
+void CalcConstrainedSystemVariables(Model &model,
+                                    const Math::VectorNd &Q,
+                                    const Math::VectorNd &QDot,
+                                    const Math::VectorNd &Tau,
+                                    ConstraintSet &CS,
+                                    bool update_kinematics,
                                     std::vector<Math::SpatialVector> *f_ext)
 {
     // Compute G
@@ -902,9 +902,9 @@ void CalcConstrainedSystemVariables(Model                            &model,
     // CS.errd = CS.G * QDot;
 
     // Compute gamma
-    unsigned int prev_body_id    = 0;
-    Vector3d     prev_body_point = Vector3d::Zero();
-    Vector3d     gamma_i         = Vector3d::Zero();
+    unsigned int prev_body_id = 0;
+    Vector3d prev_body_point = Vector3d::Zero();
+    Vector3d gamma_i = Vector3d::Zero();
 
     CS.QDDot_0.setZero();
     UpdateKinematicsCustom(model, NULL, NULL, &CS.QDDot_0);
@@ -922,13 +922,13 @@ void CalcConstrainedSystemVariables(Model                            &model,
 //==============================================================================
 #ifndef RBDL_USE_CASADI_MATH
 RBDL_DLLAPI
-bool CalcAssemblyQ(Model                &model,
-                   Math::VectorNd        QInit, // Note: passed by value intentionally
-                   ConstraintSet        &cs,
-                   Math::VectorNd       &Q,
+bool CalcAssemblyQ(Model &model,
+                   Math::VectorNd QInit, // Note: passed by value intentionally
+                   ConstraintSet &cs,
+                   Math::VectorNd &Q,
                    const Math::VectorNd &weights,
-                   double                tolerance,
-                   unsigned int          max_iter)
+                   double tolerance,
+                   unsigned int max_iter)
 {
 
     if (Q.size() != model.q_size)
@@ -976,7 +976,7 @@ bool CalcAssemblyQ(Model                &model,
         CalcConstraintsJacobian(model, QInit, cs, constraintJac);
         A.block(model.dof_count, 0, cs.size(), model.dof_count) = constraintJac;
         A.block(0, model.dof_count, model.dof_count, cs.size()) = constraintJac.transpose();
-        b.block(model.dof_count, 0, cs.size(), 1)               = -e;
+        b.block(model.dof_count, 0, cs.size(), 1) = -e;
 
         // Solve the sistem A*x = b.
         SolveLinearSystem(A, b, x, cs.linear_solver);
@@ -991,8 +991,8 @@ bool CalcAssemblyQ(Model                &model,
             // of d into a modification in the joint quaternion.
             if (model.mJoints[i].mJointType == JointTypeSpherical)
             {
-                Quaternion quat  = model.GetQuaternion(i, QInit);
-                Vector3d   omega = d.block<3, 1>(model.mJoints[i].q_index, 0);
+                Quaternion quat = model.GetQuaternion(i, QInit);
+                Vector3d omega = d.block<3, 1>(model.mJoints[i].q_index, 0);
                 // Convert the 3d representation of the displacement to 4d and sum it
                 // to the components of the quaternion.
                 quat += quat.omegaToQDot(omega);
@@ -1031,11 +1031,11 @@ bool CalcAssemblyQ(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void CalcAssemblyQDot(Model                &model,
+void CalcAssemblyQDot(Model &model,
                       const Math::VectorNd &Q,
                       const Math::VectorNd &QDotInit,
-                      ConstraintSet        &cs,
-                      Math::VectorNd       &QDot,
+                      ConstraintSet &cs,
+                      Math::VectorNd &QDot,
                       const Math::VectorNd &weights)
 {
     if (QDot.size() != model.dof_count)
@@ -1057,15 +1057,15 @@ void CalcAssemblyQDot(Model                &model,
 
     // Initialize variables.
     MatrixNd constraintJac = MatrixNd::Zero(cs.size(), model.dof_count);
-    MatrixNd A             = MatrixNd::Zero(cs.size() + model.dof_count, cs.size() + model.dof_count);
-    VectorNd b             = VectorNd::Zero(cs.size() + model.dof_count);
-    VectorNd x             = VectorNd::Zero(cs.size() + model.dof_count);
+    MatrixNd A = MatrixNd::Zero(cs.size() + model.dof_count, cs.size() + model.dof_count);
+    VectorNd b = VectorNd::Zero(cs.size() + model.dof_count);
+    VectorNd x = VectorNd::Zero(cs.size() + model.dof_count);
 
     // The top-left block is the weight matrix and is constant.
     for (unsigned int i = 0; i < weights.size(); ++i)
     {
         A(i, i) = weights[i];
-        b[i]    = weights[i] * QDotInit[i];
+        b[i] = weights[i] * QDotInit[i];
     }
     CalcConstraintsJacobian(model, Q, cs, constraintJac);
     A.block(model.dof_count, 0, cs.size(), model.dof_count) = constraintJac;
@@ -1080,13 +1080,13 @@ void CalcAssemblyQDot(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void ForwardDynamicsConstraintsDirect(Model                            &model,
-                                      const VectorNd                   &Q,
-                                      const VectorNd                   &QDot,
-                                      const VectorNd                   &Tau,
-                                      ConstraintSet                    &CS,
-                                      VectorNd                         &QDDot,
-                                      bool                              update_kinematics,
+void ForwardDynamicsConstraintsDirect(Model &model,
+                                      const VectorNd &Q,
+                                      const VectorNd &QDot,
+                                      const VectorNd &Tau,
+                                      ConstraintSet &CS,
+                                      VectorNd &QDDot,
+                                      bool update_kinematics,
                                       std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
@@ -1110,13 +1110,13 @@ void ForwardDynamicsConstraintsDirect(Model                            &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void ForwardDynamicsConstraintsRangeSpaceSparse(Model                            &model,
-                                                const Math::VectorNd             &Q,
-                                                const Math::VectorNd             &QDot,
-                                                const Math::VectorNd             &Tau,
-                                                ConstraintSet                    &CS,
-                                                Math::VectorNd                   &QDDot,
-                                                bool                              update_kinematics,
+void ForwardDynamicsConstraintsRangeSpaceSparse(Model &model,
+                                                const Math::VectorNd &Q,
+                                                const Math::VectorNd &QDot,
+                                                const Math::VectorNd &Tau,
+                                                ConstraintSet &CS,
+                                                Math::VectorNd &QDDot,
+                                                bool update_kinematics,
                                                 std::vector<Math::SpatialVector> *f_ext)
 {
 
@@ -1129,13 +1129,13 @@ void ForwardDynamicsConstraintsRangeSpaceSparse(Model                           
 //==============================================================================
 #ifndef RBDL_USE_CASADI_MATH
 RBDL_DLLAPI
-void ForwardDynamicsConstraintsNullSpace(Model                            &model,
-                                         const VectorNd                   &Q,
-                                         const VectorNd                   &QDot,
-                                         const VectorNd                   &Tau,
-                                         ConstraintSet                    &CS,
-                                         VectorNd                         &QDDot,
-                                         bool                              update_kinematics,
+void ForwardDynamicsConstraintsNullSpace(Model &model,
+                                         const VectorNd &Q,
+                                         const VectorNd &QDot,
+                                         const VectorNd &Tau,
+                                         ConstraintSet &CS,
+                                         VectorNd &QDDot,
+                                         bool update_kinematics,
                                          std::vector<Math::SpatialVector> *f_ext)
 {
 
@@ -1156,11 +1156,11 @@ void ForwardDynamicsConstraintsNullSpace(Model                            &model
 
 //==============================================================================
 RBDL_DLLAPI
-void ComputeConstraintImpulsesDirect(Model                &model,
+void ComputeConstraintImpulsesDirect(Model &model,
                                      const Math::VectorNd &Q,
                                      const Math::VectorNd &QDotMinus,
-                                     ConstraintSet        &CS,
-                                     Math::VectorNd       &QDotPlus)
+                                     ConstraintSet &CS,
+                                     Math::VectorNd &QDotPlus)
 {
 
     // Compute H
@@ -1188,11 +1188,11 @@ void ComputeConstraintImpulsesDirect(Model                &model,
 
 //==============================================================================
 RBDL_DLLAPI
-void ComputeConstraintImpulsesRangeSpaceSparse(Model                &model,
+void ComputeConstraintImpulsesRangeSpaceSparse(Model &model,
                                                const Math::VectorNd &Q,
                                                const Math::VectorNd &QDotMinus,
-                                               ConstraintSet        &CS,
-                                               Math::VectorNd       &QDotPlus)
+                                               ConstraintSet &CS,
+                                               Math::VectorNd &QDotPlus)
 {
 
     // Compute H
@@ -1209,11 +1209,11 @@ void ComputeConstraintImpulsesRangeSpaceSparse(Model                &model,
 //==============================================================================
 #ifndef RBDL_USE_CASADI_MATH
 RBDL_DLLAPI
-void ComputeConstraintImpulsesNullSpace(Model                &model,
+void ComputeConstraintImpulsesNullSpace(Model &model,
                                         const Math::VectorNd &Q,
                                         const Math::VectorNd &QDotMinus,
-                                        ConstraintSet        &CS,
-                                        Math::VectorNd       &QDotPlus)
+                                        ConstraintSet &CS,
+                                        Math::VectorNd &QDotPlus)
 {
 
     // Compute H
@@ -1327,10 +1327,10 @@ void ForwardDynamicsApplyConstraintForces(Model &model, const VectorNd &Tau, Con
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
 
-            unsigned int kI       = model.mJoints[i].custom_joint_index;
-            unsigned int dofI     = model.mCustomJoints[kI]->mDoFCount;
-            unsigned int lambda   = model.lambda[i];
-            VectorNd     tau_temp = VectorNd::Zero(dofI);
+            unsigned int kI = model.mJoints[i].custom_joint_index;
+            unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
+            unsigned int lambda = model.lambda[i];
+            VectorNd tau_temp = VectorNd::Zero(dofI);
 
             for (int z = 0; z < dofI; ++z)
             {
@@ -1367,8 +1367,8 @@ void ForwardDynamicsApplyConstraintForces(Model &model, const VectorNd &Tau, Con
 
     for (i = 1; i < model.mBodies.size(); i++)
     {
-        unsigned int     q_index  = model.mJoints[i].q_index;
-        unsigned int     lambda   = model.lambda[i];
+        unsigned int q_index = model.mJoints[i].q_index;
+        unsigned int lambda = model.lambda[i];
         SpatialTransform X_lambda = model.X_lambda[i];
 
         model.a[i] = X_lambda.apply(model.a[lambda]) + model.c[i];
@@ -1379,21 +1379,21 @@ void ForwardDynamicsApplyConstraintForces(Model &model, const VectorNd &Tau, Con
             Vector3d qdd_temp =
                 model.multdof3_Dinv[i] * (model.multdof3_u[i] - model.multdof3_U[i].transpose() * model.a[i]);
 
-            QDDot[q_index]     = qdd_temp[0];
+            QDDot[q_index] = qdd_temp[0];
             QDDot[q_index + 1] = qdd_temp[1];
             QDDot[q_index + 2] = qdd_temp[2];
-            model.a[i]         = model.a[i] + model.multdof3_S[i] * qdd_temp;
+            model.a[i] = model.a[i] + model.multdof3_S[i] * qdd_temp;
         }
         else if (model.mJoints[i].mDoFCount == 1 && model.mJoints[i].mJointType != JointTypeCustom)
         {
             QDDot[q_index] = (1. / model.d[i]) * (model.u[i] - model.U[i].dot(model.a[i]));
-            model.a[i]     = model.a[i] + model.S[i] * QDDot[q_index];
+            model.a[i] = model.a[i] + model.S[i] * QDDot[q_index];
         }
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
-            unsigned int kI       = model.mJoints[i].custom_joint_index;
-            unsigned int dofI     = model.mCustomJoints[kI]->mDoFCount;
-            VectorNd     qdd_temp = VectorNd::Zero(dofI);
+            unsigned int kI = model.mJoints[i].custom_joint_index;
+            unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
+            VectorNd qdd_temp = VectorNd::Zero(dofI);
 
             qdd_temp = model.mCustomJoints[kI]->Dinv *
                        (model.mCustomJoints[kI]->u - model.mCustomJoints[kI]->U.transpose() * model.a[i]);
@@ -1419,10 +1419,10 @@ void ForwardDynamicsApplyConstraintForces(Model &model, const VectorNd &Tau, Con
     external forces defined in f_t.
  */
 RBDL_DLLAPI
-void ForwardDynamicsAccelerationDeltas(Model                            &model,
-                                       ConstraintSet                    &CS,
-                                       VectorNd                         &QDDot_t,
-                                       const unsigned int                body_id,
+void ForwardDynamicsAccelerationDeltas(Model &model,
+                                       ConstraintSet &CS,
+                                       VectorNd &QDDot_t,
+                                       const unsigned int body_id,
                                        const std::vector<SpatialVector> &f_t)
 {
     LOG << "-------- " << __func__ << " ------" << std::endl;
@@ -1465,7 +1465,7 @@ void ForwardDynamicsAccelerationDeltas(Model                            &model,
         }
         else if (model.mJoints[i].mDoFCount == 1 && model.mJoints[i].mJointType != JointTypeCustom)
         {
-            CS.d_u[i]           = -model.S[i].dot(CS.d_pA[i]);
+            CS.d_u[i] = -model.S[i].dot(CS.d_pA[i]);
             unsigned int lambda = model.lambda[i];
 
             if (lambda != 0)
@@ -1477,11 +1477,11 @@ void ForwardDynamicsAccelerationDeltas(Model                            &model,
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
 
-            unsigned int kI   = model.mJoints[i].custom_joint_index;
+            unsigned int kI = model.mJoints[i].custom_joint_index;
             unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
             // CS.
             model.mCustomJoints[kI]->d_u = -model.mCustomJoints[kI]->S.transpose() * (CS.d_pA[i]);
-            unsigned int lambda          = model.lambda[i];
+            unsigned int lambda = model.lambda[i];
             if (lambda != 0)
             {
                 CS.d_pA[lambda] =
@@ -1507,12 +1507,12 @@ void ForwardDynamicsAccelerationDeltas(Model                            &model,
     }
 
     QDDot_t[0] = 0.;
-    CS.d_a[0]  = model.a[0];
+    CS.d_a[0] = model.a[0];
 
     for (unsigned int i = 1; i < model.mBodies.size(); i++)
     {
         unsigned int q_index = model.mJoints[i].q_index;
-        unsigned int lambda  = model.lambda[i];
+        unsigned int lambda = model.lambda[i];
 
         SpatialVector Xa = model.X_lambda[i].apply(CS.d_a[lambda]);
 
@@ -1520,23 +1520,23 @@ void ForwardDynamicsAccelerationDeltas(Model                            &model,
         {
             Vector3d qdd_temp = model.multdof3_Dinv[i] * (CS.d_multdof3_u[i] - model.multdof3_U[i].transpose() * Xa);
 
-            QDDot_t[q_index]     = qdd_temp[0];
+            QDDot_t[q_index] = qdd_temp[0];
             QDDot_t[q_index + 1] = qdd_temp[1];
             QDDot_t[q_index + 2] = qdd_temp[2];
-            model.a[i]           = model.a[i] + model.multdof3_S[i] * qdd_temp;
-            CS.d_a[i]            = Xa + model.multdof3_S[i] * qdd_temp;
+            model.a[i] = model.a[i] + model.multdof3_S[i] * qdd_temp;
+            CS.d_a[i] = Xa + model.multdof3_S[i] * qdd_temp;
         }
         else if (model.mJoints[i].mDoFCount == 1 && model.mJoints[i].mJointType != JointTypeCustom)
         {
 
             QDDot_t[q_index] = (CS.d_u[i] - model.U[i].dot(Xa)) / model.d[i];
-            CS.d_a[i]        = Xa + model.S[i] * QDDot_t[q_index];
+            CS.d_a[i] = Xa + model.S[i] * QDDot_t[q_index];
         }
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
-            unsigned int kI       = model.mJoints[i].custom_joint_index;
-            unsigned int dofI     = model.mCustomJoints[kI]->mDoFCount;
-            VectorNd     qdd_temp = VectorNd::Zero(dofI);
+            unsigned int kI = model.mJoints[i].custom_joint_index;
+            unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
+            VectorNd qdd_temp = VectorNd::Zero(dofI);
 
             qdd_temp = model.mCustomJoints[kI]->Dinv *
                        (model.mCustomJoints[kI]->d_u - model.mCustomJoints[kI]->U.transpose() * Xa);
@@ -1547,7 +1547,7 @@ void ForwardDynamicsAccelerationDeltas(Model                            &model,
             }
 
             model.a[i] = model.a[i] + model.mCustomJoints[kI]->S * qdd_temp;
-            CS.d_a[i]  = Xa + model.mCustomJoints[kI]->S * qdd_temp;
+            CS.d_a[i] = Xa + model.mCustomJoints[kI]->S * qdd_temp;
         }
 
         LOG << "QDDot_t[" << i - 1 << "] = " << QDDot_t[i - 1] << std::endl;
@@ -1565,12 +1565,12 @@ inline void set_zero(std::vector<SpatialVector> &spatial_values)
 
 //==============================================================================
 RBDL_DLLAPI
-void ForwardDynamicsContactsKokkevis(Model          &model,
+void ForwardDynamicsContactsKokkevis(Model &model,
                                      const VectorNd &Q,
                                      const VectorNd &QDot,
                                      const VectorNd &Tau,
-                                     ConstraintSet  &CS,
-                                     VectorNd       &QDDot)
+                                     ConstraintSet &CS,
+                                     VectorNd &QDDot)
 {
     LOG << "-------- " << __func__ << " ------" << std::endl;
 
@@ -1626,9 +1626,9 @@ void ForwardDynamicsContactsKokkevis(Model          &model,
     }
 
     // K: ContactConstraints
-    unsigned int cj              = 0;
+    unsigned int cj = 0;
     unsigned int movable_body_id = 0;
-    Vector3d     point_global;
+    Vector3d point_global;
 
     for (bi = 0; bi < CS.contactConstraints.size(); bi++)
     {
@@ -1693,7 +1693,7 @@ void ForwardDynamicsContactsKokkevis(Model          &model,
 
 #ifdef RBDL_USE_CASADI_MATH
     auto linsol = casadi::Linsol("linear_solver", "symbolicqr", CS.K.sparsity());
-    CS.force    = linsol.solve(CS.K, CS.a);
+    CS.force = linsol.solve(CS.K, CS.a);
 #else
     switch (CS.linear_solver)
     {
@@ -1717,13 +1717,13 @@ void ForwardDynamicsContactsKokkevis(Model          &model,
 
     for (bi = 0; bi < CS.contactConstraints.size(); ++bi)
     {
-        unsigned int body_id         = CS.contactConstraints[bi]->getBodyIds()[0];
+        unsigned int body_id = CS.contactConstraints[bi]->getBodyIds()[0];
         unsigned int movable_body_id = body_id;
 
         if (model.IsFixedBodyId(body_id))
         {
             unsigned int fbody_id = body_id - model.fixed_body_discriminator;
-            movable_body_id       = model.mFixedBodies[fbody_id].mMovableParent;
+            movable_body_id = model.mFixedBodies[fbody_id].mMovableParent;
         }
         ci = CS.contactConstraints[bi]->getConstraintIndex();
 
@@ -1746,11 +1746,11 @@ void ForwardDynamicsContactsKokkevis(Model          &model,
 //==============================================================================
 #ifndef RBDL_USE_CASADI_MATH
 RBDL_DLLAPI
-bool isConstrainedSystemFullyActuated(Model                            &model,
-                                      const Math::VectorNd             &Q,
-                                      const Math::VectorNd             &QDot,
-                                      ConstraintSet                    &CS,
-                                      bool                              update_kinematics,
+bool isConstrainedSystemFullyActuated(Model &model,
+                                      const Math::VectorNd &Q,
+                                      const Math::VectorNd &QDot,
+                                      ConstraintSet &CS,
+                                      bool update_kinematics,
                                       std::vector<Math::SpatialVector> *f_ext)
 {
 
@@ -1758,7 +1758,7 @@ bool isConstrainedSystemFullyActuated(Model                            &model,
 
     assert(CS.S.cols() == QDot.rows());
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
@@ -1785,14 +1785,14 @@ bool isConstrainedSystemFullyActuated(Model                            &model,
 #endif
 
 RBDL_DLLAPI
-void InverseDynamicsConstraints(Model                            &model,
-                                const Math::VectorNd             &Q,
-                                const Math::VectorNd             &QDot,
-                                const Math::VectorNd             &QDDotDesired,
-                                ConstraintSet                    &CS,
-                                Math::VectorNd                   &QDDotOutput,
-                                Math::VectorNd                   &TauOutput,
-                                bool                              update_kinematics,
+void InverseDynamicsConstraints(Model &model,
+                                const Math::VectorNd &Q,
+                                const Math::VectorNd &QDot,
+                                const Math::VectorNd &QDDotDesired,
+                                ConstraintSet &CS,
+                                Math::VectorNd &QDDotOutput,
+                                Math::VectorNd &TauOutput,
+                                bool update_kinematics,
                                 std::vector<Math::SpatialVector> *f_ext)
 {
 
@@ -1805,7 +1805,7 @@ void InverseDynamicsConstraints(Model                            &model,
 
     assert(CS.S.cols() == QDDotDesired.rows());
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
@@ -1858,14 +1858,14 @@ void InverseDynamicsConstraints(Model                            &model,
 
 #ifndef RBDL_USE_CASADI_MATH
 RBDL_DLLAPI
-void InverseDynamicsConstraintsRelaxed(Model                            &model,
-                                       const Math::VectorNd             &Q,
-                                       const Math::VectorNd             &QDot,
-                                       const Math::VectorNd             &QDDotControls,
-                                       ConstraintSet                    &CS,
-                                       Math::VectorNd                   &QDDotOutput,
-                                       Math::VectorNd                   &TauOutput,
-                                       bool                              update_kinematics,
+void InverseDynamicsConstraintsRelaxed(Model &model,
+                                       const Math::VectorNd &Q,
+                                       const Math::VectorNd &QDot,
+                                       const Math::VectorNd &QDDotControls,
+                                       ConstraintSet &CS,
+                                       Math::VectorNd &QDDotOutput,
+                                       Math::VectorNd &TauOutput,
+                                       bool update_kinematics,
                                        std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
@@ -1882,7 +1882,7 @@ void InverseDynamicsConstraintsRelaxed(Model                            &model,
     TauOutput.setZero();
     CalcConstrainedSystemVariables(model, Q, QDot, TauOutput, CS, update_kinematics, f_ext);
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
@@ -1911,18 +1911,18 @@ void InverseDynamicsConstraintsRelaxed(Model                            &model,
     //   CS.Winv(i,i) = diagInv;
     // }
 
-    CS.W      = 100.0 * CS.S * CS.H * CS.S.transpose();
-    CS.Winv   = CS.W.inverse();
+    CS.W = 100.0 * CS.S * CS.H * CS.S.transpose();
+    CS.Winv = CS.W.inverse();
     CS.WinvSC = CS.Winv * CS.S * CS.C;
 
     // CS.W = CS.S*CS.H*CS.S.transpose();
 
-    CS.F.block(0, 0, na, na)   = CS.S * CS.H * CS.S.transpose() + CS.W;
-    CS.F.block(0, na, na, nu)  = CS.S * CS.H * CS.P.transpose();
-    CS.F.block(na, 0, nu, na)  = CS.P * CS.H * CS.S.transpose();
+    CS.F.block(0, 0, na, na) = CS.S * CS.H * CS.S.transpose() + CS.W;
+    CS.F.block(0, na, na, nu) = CS.S * CS.H * CS.P.transpose();
+    CS.F.block(na, 0, nu, na) = CS.P * CS.H * CS.S.transpose();
     CS.F.block(na, na, nu, nu) = CS.P * CS.H * CS.P.transpose();
 
-    CS.GT.block(0, 0, na, nc)  = CS.S * (CS.G.transpose());
+    CS.GT.block(0, 0, na, nc) = CS.S * (CS.G.transpose());
     CS.GT.block(na, 0, nu, nc) = CS.P * (CS.G.transpose());
 
     CS.GT_qr.compute(CS.GT);
@@ -1931,7 +1931,7 @@ void InverseDynamicsConstraintsRelaxed(Model                            &model,
     // GT = [Y  Z] * [ R ]
     //               [ 0 ]
 
-    CS.R  = CS.GT_qr_Q.transpose() * CS.GT;
+    CS.R = CS.GT_qr_Q.transpose() * CS.GT;
     CS.Ru = CS.R.block(0, 0, nc, nc);
 
     CS.Y = CS.GT_qr_Q.block(0, 0, n, nc);
@@ -2006,7 +2006,7 @@ void SolveLinearSystem(const MatrixNd &A, const VectorNd &b, VectorNd &x, Linear
 
 #ifdef RBDL_USE_CASADI_MATH
     auto linsol = casadi::Linsol("linear_solver", "symbolicqr", A.sparsity());
-    x           = linsol.solve(A, b);
+    x = linsol.solve(A, b);
 #else
     // Solve the system A*x = b.
     switch (ls)
@@ -2045,15 +2045,15 @@ unsigned int GetMovableBodyId(Model &model, unsigned int id)
 
 //==============================================================================
 
-void ConstraintSet::calcForces(unsigned int                         groupIndex,
-                               Model                               &model,
-                               const Math::VectorNd                &Q,
-                               const Math::VectorNd                &QDot,
-                               std::vector<unsigned int>           &constraintBodyIdsUpd,
+void ConstraintSet::calcForces(unsigned int groupIndex,
+                               Model &model,
+                               const Math::VectorNd &Q,
+                               const Math::VectorNd &QDot,
+                               std::vector<unsigned int> &constraintBodyIdsUpd,
                                std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                               std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                               bool                                 resolveAllInRootFrame,
-                               bool                                 updKin)
+                               std::vector<Math::SpatialVector> &constraintForcesUpd,
+                               bool resolveAllInRootFrame,
+                               bool updKin)
 {
     assert(groupIndex <= unsigned(constraints.size() - 1));
 
@@ -2069,15 +2069,15 @@ void ConstraintSet::calcForces(unsigned int                         groupIndex,
 
 //==============================================================================
 
-void ConstraintSet::calcImpulses(unsigned int                         groupIndex,
-                                 Model                               &model,
-                                 const Math::VectorNd                &Q,
-                                 const Math::VectorNd                &QDot,
-                                 std::vector<unsigned int>           &constraintBodyIdsUpd,
+void ConstraintSet::calcImpulses(unsigned int groupIndex,
+                                 Model &model,
+                                 const Math::VectorNd &Q,
+                                 const Math::VectorNd &QDot,
+                                 std::vector<unsigned int> &constraintBodyIdsUpd,
                                  std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                                 std::vector<Math::SpatialVector>    &constraintImpulsesUpd,
-                                 bool                                 resolveAllInRootFrame,
-                                 bool                                 updKin)
+                                 std::vector<Math::SpatialVector> &constraintImpulsesUpd,
+                                 bool resolveAllInRootFrame,
+                                 bool updKin)
 {
     assert(groupIndex <= unsigned(constraints.size() - 1));
 
@@ -2102,11 +2102,11 @@ void ConstraintSet::calcImpulses(unsigned int                         groupIndex
 
 //==============================================================================
 
-void ConstraintSet::calcPositionError(unsigned int          groupIndex,
-                                      Model                &model,
+void ConstraintSet::calcPositionError(unsigned int groupIndex,
+                                      Model &model,
                                       const Math::VectorNd &Q,
-                                      Math::VectorNd       &posErrUpd,
-                                      bool                  updKin)
+                                      Math::VectorNd &posErrUpd,
+                                      bool updKin)
 {
     assert(groupIndex <= unsigned(constraints.size() - 1));
 
@@ -2125,12 +2125,12 @@ void ConstraintSet::calcPositionError(unsigned int          groupIndex,
 }
 //==============================================================================
 
-void ConstraintSet::calcVelocityError(unsigned int          groupIndex,
-                                      Model                &model,
+void ConstraintSet::calcVelocityError(unsigned int groupIndex,
+                                      Model &model,
                                       const Math::VectorNd &Q,
                                       const Math::VectorNd &QDot,
-                                      Math::VectorNd       &velErrUpd,
-                                      bool                  updKin)
+                                      Math::VectorNd &velErrUpd,
+                                      bool updKin)
 {
     assert(groupIndex <= unsigned(constraints.size() - 1));
 
@@ -2151,11 +2151,11 @@ void ConstraintSet::calcVelocityError(unsigned int          groupIndex,
 }
 //==============================================================================
 
-void ConstraintSet::calcBaumgarteStabilizationForces(unsigned int          groupIndex,
-                                                     Model                &model,
+void ConstraintSet::calcBaumgarteStabilizationForces(unsigned int groupIndex,
+                                                     Model &model,
                                                      const Math::VectorNd &positionError,
                                                      const Math::VectorNd &velocityError,
-                                                     Math::VectorNd       &baumgarteForces)
+                                                     Math::VectorNd &baumgarteForces)
 {
     assert(groupIndex <= unsigned(constraints.size() - 1));
     assert(positionError.rows() == constraints[groupIndex]->getConstraintSize());

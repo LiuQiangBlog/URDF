@@ -100,7 +100,7 @@ enum SegmentLengthsNames
     SegmentLengthsNameLast
 };
 
-const double ModelMass   = 73.;
+const double ModelMass = 73.;
 const double ModelHeight = 1.741;
 
 // absolute lengths!
@@ -159,10 +159,10 @@ void init_model(Model *model)
 {
     assert(model);
 
-    constraint_set_right     = ConstraintSet();
-    constraint_set_left      = ConstraintSet();
+    constraint_set_right = ConstraintSet();
+    constraint_set_left = ConstraintSet();
     constraint_set_left_flat = ConstraintSet();
-    constraint_set_both      = ConstraintSet();
+    constraint_set_both = ConstraintSet();
 
     model->gravity = Vector3d(0., -9.81, 0.);
 
@@ -172,12 +172,12 @@ void init_model(Model *model)
     // lateral right
     upper_leg_right_body = Body(segment_mass[SegmentMassThigh], com_position[COMThigh], rgyration[RGyrationThigh]);
     lower_leg_right_body = Body(segment_mass[SegmentMassShank], com_position[COMShank], rgyration[RGyrationShank]);
-    foot_right_body      = Body(segment_mass[SegmentMassFoot], com_position[COMFoot], rgyration[RGyrationFoot]);
+    foot_right_body = Body(segment_mass[SegmentMassFoot], com_position[COMFoot], rgyration[RGyrationFoot]);
 
     // lateral left
     upper_leg_left_body = Body(segment_mass[SegmentMassThigh], com_position[COMThigh], rgyration[RGyrationThigh]);
     lower_leg_left_body = Body(segment_mass[SegmentMassShank], com_position[COMShank], rgyration[RGyrationShank]);
-    foot_left_body      = Body(segment_mass[SegmentMassFoot], com_position[COMFoot], rgyration[RGyrationFoot]);
+    foot_left_body = Body(segment_mass[SegmentMassFoot], com_position[COMFoot], rgyration[RGyrationFoot]);
 
     // add hip to the model (planar, 3 DOF)
     hip_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_txtyrz, hip_body);
@@ -189,7 +189,7 @@ void init_model(Model *model)
     unsigned int temp_id = 0;
 
     // add right upper leg
-    temp_id            = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_right_body);
+    temp_id = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_right_body);
     upper_leg_right_id = temp_id;
 
     // add the right lower leg (only one DOF)
@@ -197,7 +197,7 @@ void init_model(Model *model)
     lower_leg_right_id = temp_id;
 
     // add the right foot (1 DOF)
-    temp_id       = model->AddBody(temp_id, Xtrans(joint_location[JointLocationAnkle]), joint_rot_z, foot_right_body);
+    temp_id = model->AddBody(temp_id, Xtrans(joint_location[JointLocationAnkle]), joint_rot_z, foot_right_body);
     foot_right_id = temp_id;
 
     //
@@ -205,7 +205,7 @@ void init_model(Model *model)
     //
 
     // add left upper leg
-    temp_id           = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_left_body);
+    temp_id = model->AddBody(hip_id, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, upper_leg_left_body);
     upper_leg_left_id = temp_id;
 
     // add the left lower leg (only one DOF)
@@ -213,7 +213,7 @@ void init_model(Model *model)
     lower_leg_left_id = temp_id;
 
     // add the left foot (1 DOF)
-    temp_id      = model->AddBody(temp_id, Xtrans(joint_location[JointLocationAnkle]), joint_rot_z, foot_left_body);
+    temp_id = model->AddBody(temp_id, Xtrans(joint_location[JointLocationAnkle]), joint_rot_z, foot_left_body);
     foot_left_id = temp_id;
 
     //	cerr << "--- model created (" << model->dof_count << " DOF) ---" << endl;
@@ -294,8 +294,8 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectFootmodel", "")
     //	cout << "QDDot_aba = " << QDDot_aba.transpose() << endl;
     //	cout << "QDDot_lag = " << QDDot_lag.transpose() << endl;
 
-    unsigned int body_id       = constraint_set_left.constraints[0]->getBodyIds()[0];
-    auto         contact_point = constraint_set_left.constraints[0]->getBodyFrames()[0].r;
+    unsigned int body_id = constraint_set_left.constraints[0]->getBodyIds()[0];
+    auto contact_point = constraint_set_left.constraints[0]->getBodyFrames()[0].r;
 
     MatrixNd G(3, Q.size());
     CalcPointJacobian(*model, Q, body_id, contact_point, G, true);
@@ -318,7 +318,7 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectFootmodel", "")
 
     //	cout << LogOutput.str() << endl;
     contact_accel_left = CalcPointAcceleration(*model, Q, QDot, QDDot, foot_left_id, heel_point);
-    contact_vel_left   = CalcPointVelocity(*model, Q, QDot, foot_left_id, heel_point);
+    contact_vel_left = CalcPointVelocity(*model, Q, QDot, foot_left_id, heel_point);
     //	cout << contact_force << endl;
     //	cout << contact_accel_left << endl;
 
@@ -365,7 +365,7 @@ TEST_CASE(__FILE__ "_TestClearContactsInertiaMatrix", "")
 
     // initialize matrix with erroneous values
     constraint_set_right.bound = false;
-    constraint_set_right.H     = MatrixNd::Zero(model->dof_count, model->dof_count);
+    constraint_set_right.H = MatrixNd::Zero(model->dof_count, model->dof_count);
     for (unsigned int i = 0; i < model->dof_count; i++)
     {
         for (unsigned int j = 0; j < model->dof_count; j++)

@@ -21,8 +21,8 @@ using namespace std;
 using namespace RigidBodyDynamics;
 using namespace RigidBodyDynamics::Math;
 
-const double TEST_PREC        = 2.0e-12;
-const int    NUMBER_OF_MODELS = 2;
+const double TEST_PREC = 2.0e-12;
+const int NUMBER_OF_MODELS = 2;
 
 //==============================================================================
 /*
@@ -88,22 +88,22 @@ struct CustomJointTypeRevoluteX : public CustomJoint
     CustomJointTypeRevoluteX()
     {
         mDoFCount = 1;
-        S         = MatrixNd::Zero(6, 1);
-        S(0, 0)   = 1.0;
-        d_u       = MatrixNd::Zero(mDoFCount, 1);
+        S = MatrixNd::Zero(6, 1);
+        S(0, 0) = 1.0;
+        d_u = MatrixNd::Zero(mDoFCount, 1);
     }
 
     virtual void jcalc(Model &model, unsigned int joint_id, const Math::VectorNd &q, const Math::VectorNd &qdot)
     {
         model.X_lambda[joint_id] = Xrotx(q[model.mJoints[joint_id].q_index]) * model.X_T[joint_id];
-        model.v_J[joint_id][0]   = qdot[model.mJoints[joint_id].q_index];
+        model.v_J[joint_id][0] = qdot[model.mJoints[joint_id].q_index];
     }
 
     virtual void jcalc_X_lambda_S(Model &model, unsigned int joint_id, const Math::VectorNd &q)
     {
         model.X_lambda[joint_id] = Xrotx(q[model.mJoints[joint_id].q_index]) * model.X_T[joint_id];
 
-        const Joint &joint                               = model.mJoints[joint_id];
+        const Joint &joint = model.mJoints[joint_id];
         model.mCustomJoints[joint.custom_joint_index]->S = S;
     }
 };
@@ -113,8 +113,8 @@ struct CustomEulerZYXJoint : public CustomJoint
     CustomEulerZYXJoint()
     {
         mDoFCount = 3;
-        S         = MatrixNd::Zero(6, 3);
-        d_u       = MatrixNd::Zero(mDoFCount, 1);
+        S = MatrixNd::Zero(6, 3);
+        d_u = MatrixNd::Zero(mDoFCount, 1);
     }
 
     virtual void jcalc(Model &model, unsigned int joint_id, const Math::VectorNd &q, const Math::VectorNd &qdot)
@@ -185,7 +185,7 @@ struct CustomEulerZYXJoint : public CustomJoint
         S(2, 0) = c1 * c2;
         S(2, 1) = -s2;
 
-        const Joint &joint                               = model.mJoints[joint_id];
+        const Joint &joint = model.mJoints[joint_id];
         model.mCustomJoints[joint.custom_joint_index]->S = S;
 
         // assert (false && "Not yet implemented!");
@@ -222,7 +222,7 @@ struct CustomJointSingleBodyFixture
         custom_joint0 = CustomEulerZYXJoint();
 
         Matrix3d inertia0 = Matrix3d::Identity(3, 3);
-        Body     body0    = Body(1., Vector3d(1.1, 1.2, 1.3), inertia0);
+        Body body0 = Body(1., Vector3d(1.1, 1.2, 1.3), inertia0);
 
         Model reference0, custom0;
 
@@ -230,24 +230,24 @@ struct CustomJointSingleBodyFixture
 
         unsigned int custom_body_id0 = custom0.AddBodyCustomJoint(0, SpatialTransform(), &custom_joint0, body0);
 
-        VectorNd q0     = VectorNd::Zero(reference0.q_size);
-        VectorNd qdot0  = VectorNd::Zero(reference0.qdot_size);
+        VectorNd q0 = VectorNd::Zero(reference0.q_size);
+        VectorNd qdot0 = VectorNd::Zero(reference0.qdot_size);
         VectorNd qddot0 = VectorNd::Zero(reference0.qdot_size);
-        VectorNd tau0   = VectorNd::Zero(reference0.qdot_size);
+        VectorNd tau0 = VectorNd::Zero(reference0.qdot_size);
 
         reference_model.at(0) = reference0;
-        custom_model.at(0)    = custom0;
+        custom_model.at(0) = custom0;
 
         reference_body_id.at(0) = (reference_body_id0);
-        custom_body_id.at(0)    = (custom_body_id0);
+        custom_body_id.at(0) = (custom_body_id0);
 
-        body.at(0)         = (body0);
+        body.at(0) = (body0);
         custom_joint.at(0) = (&custom_joint0);
 
-        q.at(0)     = (q0);
-        qdot.at(0)  = (qdot0);
+        q.at(0) = (q0);
+        qdot.at(0) = (qdot0);
         qddot.at(0) = (qddot0);
-        tau.at(0)   = (tau0);
+        tau.at(0) = (tau0);
 
         //========================================================
         // Test Model 1: 1 dof rotational custom joint vs. standard.
@@ -261,24 +261,24 @@ struct CustomJointSingleBodyFixture
 
         unsigned int custom_body_id1 = custom1.AddBodyCustomJoint(0, SpatialTransform(), &custom_joint1, body0);
 
-        VectorNd q1     = VectorNd::Zero(reference1.q_size);
-        VectorNd qdot1  = VectorNd::Zero(reference1.qdot_size);
+        VectorNd q1 = VectorNd::Zero(reference1.q_size);
+        VectorNd qdot1 = VectorNd::Zero(reference1.qdot_size);
         VectorNd qddot1 = VectorNd::Zero(reference1.qdot_size);
-        VectorNd tau1   = VectorNd::Zero(reference1.qdot_size);
+        VectorNd tau1 = VectorNd::Zero(reference1.qdot_size);
 
         reference_model.at(1) = (reference1);
-        custom_model.at(1)    = (custom1);
+        custom_model.at(1) = (custom1);
 
         reference_body_id.at(1) = (reference_body_id1);
-        custom_body_id.at(1)    = (custom_body_id1);
+        custom_body_id.at(1) = (custom_body_id1);
 
-        body.at(1)         = (body0);
+        body.at(1) = (body0);
         custom_joint.at(1) = (&custom_joint1);
 
-        q.at(1)     = (q1);
-        qdot.at(1)  = (qdot1);
+        q.at(1) = (q1);
+        qdot.at(1) = (qdot1);
         qddot.at(1) = (qddot1);
-        tau.at(1)   = (tau1);
+        tau.at(1) = (tau1);
     }
 
     /*
@@ -301,18 +301,18 @@ struct CustomJointSingleBodyFixture
     vector<Model> reference_model;
     vector<Model> custom_model;
 
-    vector<Body>          body;
+    vector<Body> body;
     vector<CustomJoint *> custom_joint;
 
     vector<unsigned int> reference_body_id;
     vector<unsigned int> custom_body_id;
 
-    vector<VectorNd>         q;
-    vector<VectorNd>         qdot;
-    vector<VectorNd>         qddot;
-    vector<VectorNd>         tau;
+    vector<VectorNd> q;
+    vector<VectorNd> qdot;
+    vector<VectorNd> qddot;
+    vector<VectorNd> tau;
     CustomJointTypeRevoluteX custom_joint1;
-    CustomEulerZYXJoint      custom_joint0;
+    CustomEulerZYXJoint custom_joint0;
 };
 
 //==============================================================================
@@ -339,8 +339,8 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_UpdateKinematics", "")
         int dof = reference_model.at(idx).dof_count;
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]     = i * 0.1;
-            qdot.at(idx)[i]  = i * 0.15;
+            q.at(idx)[i] = i * 0.1;
+            qdot.at(idx)[i] = i * 0.15;
             qddot.at(idx)[i] = i * 0.17;
         }
 
@@ -367,8 +367,8 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_UpdateKinematicsCustom
         int dof = reference_model.at(idx).dof_count;
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]     = i * 9.133758561390194e-01;
-            qdot.at(idx)[i]  = i * 6.323592462254095e-01;
+            q.at(idx)[i] = i * 9.133758561390194e-01;
+            qdot.at(idx)[i] = i * 6.323592462254095e-01;
             qddot.at(idx)[i] = i * 9.754040499940952e-02;
         }
 
@@ -404,8 +404,8 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_Jacobians", "")
 
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]     = i * 9.133758561390194e-01;
-            qdot.at(idx)[i]  = i * 6.323592462254095e-01;
+            q.at(idx)[i] = i * 9.133758561390194e-01;
+            qdot.at(idx)[i] = i * 6.323592462254095e-01;
             qddot.at(idx)[i] = i * 9.754040499940952e-02;
         }
 
@@ -474,8 +474,8 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_InverseDynamics", "")
 
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]     = i * 9.133758561390194e-01;
-            qdot.at(idx)[i]  = i * 6.323592462254095e-01;
+            q.at(idx)[i] = i * 9.133758561390194e-01;
+            qdot.at(idx)[i] = i * 6.323592462254095e-01;
             qddot.at(idx)[i] = i * 9.754040499940952e-02;
         }
 
@@ -504,18 +504,18 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_CompositeRigidBodyAlgo
 
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]    = (i + 0.1) * 9.133758561390194e-01;
+            q.at(idx)[i] = (i + 0.1) * 9.133758561390194e-01;
             qdot.at(idx)[i] = (i + 0.1) * 6.323592462254095e-01;
-            tau.at(idx)[i]  = (i + 0.1) * 9.754040499940952e-02;
+            tau.at(idx)[i] = (i + 0.1) * 9.754040499940952e-02;
         }
 
-        MatrixNd h_ref          = MatrixNd::Constant(dof, dof, 0.);
-        VectorNd c_ref          = VectorNd::Constant(dof, 0.);
+        MatrixNd h_ref = MatrixNd::Constant(dof, dof, 0.);
+        VectorNd c_ref = VectorNd::Constant(dof, 0.);
         VectorNd qddot_zero_ref = VectorNd::Constant(dof, 0.);
         VectorNd qddot_crba_ref = VectorNd::Constant(dof, 0.);
 
-        MatrixNd h_cus          = MatrixNd::Constant(dof, dof, 0.);
-        VectorNd c_cus          = VectorNd::Constant(dof, 0.);
+        MatrixNd h_cus = MatrixNd::Constant(dof, dof, 0.);
+        VectorNd c_cus = VectorNd::Constant(dof, 0.);
         VectorNd qddot_zero_cus = VectorNd::Constant(dof, 0.);
         VectorNd qddot_crba_cus = VectorNd::Constant(dof, 0.);
 
@@ -554,10 +554,10 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_ForwardDynamics", "")
 
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]     = (i + 0.1) * 9.133758561390194e-01;
-            qdot.at(idx)[i]  = (i + 0.1) * 6.323592462254095e-01;
+            q.at(idx)[i] = (i + 0.1) * 9.133758561390194e-01;
+            qdot.at(idx)[i] = (i + 0.1) * 6.323592462254095e-01;
             qddot.at(idx)[i] = (i + 0.1) * 2.323592499940952e-01;
-            tau.at(idx)[i]   = (i + 0.1) * 9.754040499940952e-02;
+            tau.at(idx)[i] = (i + 0.1) * 9.754040499940952e-02;
         }
 
         VectorNd qddotRef = VectorNd::Zero(reference_model.at(idx).qdot_size);
@@ -581,7 +581,7 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_CalcMInvTimestau", "")
 
         for (unsigned int i = 0; i < dof; i++)
         {
-            q.at(idx)[i]   = (i + 0.1) * 9.133758561390194e-01;
+            q.at(idx)[i] = (i + 0.1) * 9.133758561390194e-01;
             tau.at(idx)[i] = (i + 0.1) * 9.754040499940952e-02;
         }
 
@@ -614,7 +614,7 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_ForwardDynamicsContact
 
             for (unsigned int i = 0; i < dof; i++)
             {
-                q.at(idx)[i]    = (i + 0.1) * 9.133758561390194e-01;
+                q.at(idx)[i] = (i + 0.1) * 9.133758561390194e-01;
                 qdot.at(idx)[i] = (i + 0.1) * 6.323592462254095e-01;
 
                 tau.at(idx)[i] = (i + 0.1) * 9.754040499940952e-02;
@@ -662,7 +662,7 @@ TEST_CASE_METHOD(CustomJointSingleBodyFixture, __FILE__ "_ForwardDynamicsContact
                                             constraint_set_cus, qddot_cus);
 
             VectorNd qdot_plus_error = qdot_plus_ref - qdot_plus_cus;
-            VectorNd qddot_error     = qddot_ref - qddot_cus;
+            VectorNd qddot_error = qddot_ref - qddot_cus;
 
             CHECK_THAT(qdot_plus_ref, AllCloseVector(qdot_plus_cus, TEST_PREC, TEST_PREC));
 

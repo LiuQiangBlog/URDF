@@ -23,11 +23,11 @@ auto Timer(int set) -> double
     {
     case START:
         static auto t1 = high_resolution_clock::now();
-        msec           = 0.;
+        msec = 0.;
         break;
     case STOP:
         static auto t2 = high_resolution_clock::now();
-        msec           = duration_cast<milliseconds>(t2 - t1).count();
+        msec = duration_cast<milliseconds>(t2 - t1).count();
         break;
     default:
         break;

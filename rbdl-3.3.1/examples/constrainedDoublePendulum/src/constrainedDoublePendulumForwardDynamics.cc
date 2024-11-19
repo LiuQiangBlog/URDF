@@ -36,7 +36,7 @@ using namespace RigidBodyDynamics::Math;
 
 typedef std::vector<double> state_type;
 
-typedef runge_kutta_cash_karp54<state_type>        error_stepper_type;
+typedef runge_kutta_cash_karp54<state_type> error_stepper_type;
 typedef controlled_runge_kutta<error_stepper_type> controlled_stepper_type;
 
 class rbdlToBoost
@@ -44,8 +44,8 @@ class rbdlToBoost
 public:
     rbdlToBoost(Model &model, std::vector<ConstraintSet> &cs) : model(model), cs(cs)
     {
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
@@ -94,15 +94,15 @@ public:
     }
 
 private:
-    Model                                         &model;
+    Model &model;
     std::vector<RigidBodyDynamics::ConstraintSet> &cs;
-    VectorNd                                       q, qd, qdd, tau;
+    VectorNd q, qd, qdd, tau;
 };
 
 struct pushBackStateAndTime
 {
     std::vector<state_type> &states;
-    std::vector<double>     &times;
+    std::vector<double> &times;
 
     pushBackStateAndTime(std::vector<state_type> &states, std::vector<double> &times) : states(states), times(times) {}
 
@@ -121,9 +121,9 @@ int main(int argc, char *argv[])
     rbdl_check_api_version(RBDL_API_VERSION);
 
     // problem specific constants
-    int    nPts = 100;
-    double t0   = 0;
-    double t1   = 3;
+    int nPts = 100;
+    double t0 = 0;
+    double t1 = 3;
 
     // Integration settings
     double absTolVal = 1e-6;
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
     VectorNd q, qd, qdd, tau;
 
     RigidBodyDynamics::Model model;
-    string                   modelFile = "./../model/constrainedDoublePendulum.lua";
+    string modelFile = "./../model/constrainedDoublePendulum.lua";
 
     // 2a. Some extra work is needed to load in the model, and the
     //     constraint sets
@@ -148,8 +148,8 @@ int main(int argc, char *argv[])
         abort();
     }
 
-    q   = VectorNd::Zero(model.dof_count);
-    qd  = VectorNd::Zero(model.dof_count);
+    q = VectorNd::Zero(model.dof_count);
+    qd = VectorNd::Zero(model.dof_count);
     qdd = VectorNd::Zero(model.dof_count);
     tau = VectorNd::Zero(model.dof_count);
 
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
     q[2] = 1.0;
 
     rbdlToBoost rbdlModel(model, constraintSets);
-    state_type  xState(model.dof_count * 2);
+    state_type xState(model.dof_count * 2);
 
     int j = 0;
     for (unsigned int i = 0; i < (model.dof_count); ++i)
@@ -182,14 +182,14 @@ int main(int argc, char *argv[])
 
     std::vector<std::vector<double>> matrixData;
     std::vector<std::vector<double>> matrixPlotData;
-    std::vector<double>              rowData(model.dof_count + 1);
-    std::vector<double>              rowPlotData(4);
+    std::vector<double> rowData(model.dof_count + 1);
+    std::vector<double> rowPlotData(4);
 
-    double                  a_x = 1.0, a_dxdt = 1.0;
+    double a_x = 1.0, a_dxdt = 1.0;
     controlled_stepper_type controlled_stepper(
         default_error_checker<double, range_algebra, default_operations>(absTolVal, relTolVal, a_x, a_dxdt));
 
-    double tp  = 0;
+    double tp = 0;
     rowData[0] = 0;
     for (unsigned int z = 0; z < model.dof_count; z++)
     {
@@ -275,11 +275,11 @@ int main(int argc, char *argv[])
     printf("      t,        ke,       pe,    ke+pe ,norm(cons_pos), norm(cons_vel)\n");
 
     std::string header = "";
-    std::string fname  = "../output/meshup.csv";
+    std::string fname = "../output/meshup.csv";
     printMatrixToFile(matrixData, header, fname);
     printf("Wrote: ../output/meshup.csv (meshup animation file)\n");
 
-    fname  = "../output/simulationData.csv";
+    fname = "../output/simulationData.csv";
     header = "time,constraintPositionNorm,constraintVelocityNorm,systemEnergy,";
     printMatrixToFile(matrixPlotData, header, fname);
     printf("Wrote: ../output/simulationData.csv (error data)\n");

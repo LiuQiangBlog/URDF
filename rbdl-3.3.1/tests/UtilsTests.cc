@@ -18,12 +18,12 @@ using namespace RigidBodyDynamics::Math;
 
 TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestKineticEnergy", "")
 {
-    VectorNd q    = VectorNd::Zero(model->q_size);
+    VectorNd q = VectorNd::Zero(model->q_size);
     VectorNd qdot = VectorNd::Zero(model->q_size);
 
     for (unsigned int i = 0; i < q.size(); i++)
     {
-        q[i]    = 0.1 * i;
+        q[i] = 0.1 * i;
         qdot[i] = 0.3 * i;
     }
 
@@ -31,44 +31,44 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestKineticEnergy", "")
     CompositeRigidBodyAlgorithm(*model, q, H, true);
 
     double kinetic_energy_ref = 0.5 * qdot.transpose() * H * qdot;
-    double kinetic_energy     = Utils::CalcKineticEnergy(*model, q, qdot);
+    double kinetic_energy = Utils::CalcKineticEnergy(*model, q, qdot);
 
     CHECK(kinetic_energy_ref == kinetic_energy);
 }
 
 TEST_CASE(__FILE__ "_TestPotentialEnergy", "")
 {
-    Model    model;
+    Model model;
     Matrix3d inertia = Matrix3d::Zero(3, 3);
-    Body     body(0.5, Vector3d(0., 0., 0.), inertia);
-    Joint    joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
-                   SpatialVector(0., 0., 0., 0., 0., 1.));
+    Body body(0.5, Vector3d(0., 0., 0.), inertia);
+    Joint joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
+                SpatialVector(0., 0., 0., 0., 0., 1.));
 
     model.AppendBody(Xtrans(Vector3d::Zero()), joint, body);
 
-    VectorNd q                     = VectorNd::Zero(model.q_size);
-    double   potential_energy_zero = Utils::CalcPotentialEnergy(model, q);
+    VectorNd q = VectorNd::Zero(model.q_size);
+    double potential_energy_zero = Utils::CalcPotentialEnergy(model, q);
     CHECK(0. == potential_energy_zero);
 
-    q[1]                           = 1.;
+    q[1] = 1.;
     double potential_energy_lifted = Utils::CalcPotentialEnergy(model, q);
     CHECK(4.905 == potential_energy_lifted);
 }
 
 TEST_CASE(__FILE__ "_TestCOMSimple", "")
 {
-    Model    model;
+    Model model;
     Matrix3d inertia = Matrix3d::Zero(3, 3);
-    Body     body(123., Vector3d(0., 0., 0.), inertia);
-    Joint    joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
-                   SpatialVector(0., 0., 0., 0., 0., 1.));
+    Body body(123., Vector3d(0., 0., 0.), inertia);
+    Joint joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
+                SpatialVector(0., 0., 0., 0., 0., 1.));
 
     model.AppendBody(Xtrans(Vector3d::Zero()), joint, body);
 
-    VectorNd q    = VectorNd::Zero(model.q_size);
+    VectorNd q = VectorNd::Zero(model.q_size);
     VectorNd qdot = VectorNd::Zero(model.qdot_size);
 
-    double   mass;
+    double mass;
     Vector3d com;
     Vector3d com_velocity;
     Utils::CalcCenterOfMass(model, q, qdot, NULL, mass, com, &com_velocity);
@@ -90,22 +90,22 @@ TEST_CASE(__FILE__ "_TestCOMSimple", "")
 
 TEST_CASE(__FILE__ "_TestAngularMomentumSimple", "")
 {
-    Model    model;
+    Model model;
     Matrix3d inertia = Matrix3d::Zero(3, 3);
-    inertia(0, 0)    = 1.1;
-    inertia(1, 1)    = 2.2;
-    inertia(2, 2)    = 3.3;
+    inertia(0, 0) = 1.1;
+    inertia(1, 1) = 2.2;
+    inertia(2, 2) = 3.3;
 
-    Body  body(0.5, Vector3d(1., 0., 0.), inertia);
+    Body body(0.5, Vector3d(1., 0., 0.), inertia);
     Joint joint(SpatialVector(1., 0., 0., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                 SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model.AppendBody(Xtrans(Vector3d(0., 0., 0.)), joint, body);
 
-    VectorNd q    = VectorNd::Zero(model.q_size);
+    VectorNd q = VectorNd::Zero(model.q_size);
     VectorNd qdot = VectorNd::Zero(model.qdot_size);
 
-    double   mass;
+    double mass;
     Vector3d com;
     Vector3d angular_momentum;
 
@@ -124,7 +124,7 @@ TEST_CASE(__FILE__ "_TestAngularMomentumSimple", "")
 
 TEST_CASE_METHOD(TwoArms12DoF, __FILE__ "_TestAngularMomentumSimple2", "")
 {
-    double   mass;
+    double mass;
     Vector3d com;
     Vector3d angular_momentum;
 
@@ -157,8 +157,8 @@ template <typename T>
 void TestCoMComputation(T &obj)
 {
 
-    VectorNd Q     = VectorNd::Random(obj.model->dof_count);
-    VectorNd QDot  = VectorNd::Random(obj.model->dof_count);
+    VectorNd Q = VectorNd::Random(obj.model->dof_count);
+    VectorNd QDot = VectorNd::Random(obj.model->dof_count);
     VectorNd QDDot = VectorNd::Random(obj.model->dof_count);
 
     // compute quantities directly from model
@@ -171,8 +171,8 @@ void TestCoMComputation(T &obj)
         mass_expected += obj.model->mBodies[i].mMass;
     }
 
-    double   mass_actual = 0.0;
-    Vector3d com         = Vector3d::Zero();
+    double mass_actual = 0.0;
+    Vector3d com = Vector3d::Zero();
     Utils::CalcCenterOfMass(*obj.model, Q, QDot, NULL, mass_actual, com, NULL, NULL);
 
     CHECK_THAT(mass_expected, IsClose(mass_actual, 1e-7, 1e-7));
@@ -205,11 +205,11 @@ void TestCoMAccelerationUsingFD(T &obj, const double TOL = 1e-8)
 {
     const double EPS = 1e-8;
 
-    obj.Q     = VectorNd::Random(obj.model->dof_count);
-    obj.QDot  = VectorNd::Random(obj.model->dof_count);
+    obj.Q = VectorNd::Random(obj.model->dof_count);
+    obj.QDot = VectorNd::Random(obj.model->dof_count);
     obj.QDDot = VectorNd::Random(obj.model->dof_count);
 
-    double   mass = 0.0;
+    double mass = 0.0;
     Vector3d com(Vector3d::Zero());
     Vector3d com_vec(Vector3d::Zero());
     Vector3d ang_mom(Vector3d::Zero());
@@ -228,7 +228,7 @@ void TestCoMAccelerationUsingFD(T &obj, const double TOL = 1e-8)
     Utils::CalcCenterOfMass(*obj.model, obj.Q + EPS * obj.QDot, obj.QDot + EPS * obj.QDDot, NULL, mass, com,
                             &com_acc_fd, NULL, &ch_ang_mom_fd);
 
-    com_acc_fd    = (com_acc_fd - com_vec) / EPS;
+    com_acc_fd = (com_acc_fd - com_vec) / EPS;
     ch_ang_mom_fd = (ch_ang_mom_fd - ang_mom) / EPS;
 
     // check CoM acceleration
@@ -261,20 +261,20 @@ void TestZMPComputationForNotMovingSystem(T &obj, const double TOL = 1e-8)
     // Test ZMP against CoM projection for non-moving system (qdot, qddot = 0)
     // for this configurations CoM and ZMP coincide
 
-    obj.Q     = VectorNd::Random(obj.model->dof_count);
-    obj.QDot  = VectorNd::Zero(obj.model->dof_count);
+    obj.Q = VectorNd::Random(obj.model->dof_count);
+    obj.QDot = VectorNd::Zero(obj.model->dof_count);
     obj.QDDot = VectorNd::Zero(obj.model->dof_count);
 
     Vector3d zmp(Vector3d::Zero());
     Utils::CalcZeroMomentPoint(*obj.model, obj.Q, obj.QDot, obj.QDDot, &zmp, obj.contact_normal, obj.contact_point);
 
-    double   mass = 0.0;
+    double mass = 0.0;
     Vector3d com(Vector3d::Zero());
     Utils::CalcCenterOfMass(*obj.model, obj.Q, obj.QDot, NULL, mass, com, NULL, NULL);
 
     // project CoM onto surface
     double distance = (com - obj.contact_point).dot(obj.contact_normal);
-    com             = com - distance * obj.contact_normal;
+    com = com - distance * obj.contact_normal;
 
     // check ZMP against CoM
     CHECK_THAT(com, AllCloseVector(zmp, TOL, TOL));
@@ -292,14 +292,14 @@ TEST_CASE_METHOD(LinearInvertedPendulumModel,
 template <typename T>
 void TestZMPComputationAgainstTableCartModel(T &obj, const double TOL = 1e-8)
 {
-    obj.Q     = VectorNd::Random(obj.model->dof_count);
-    obj.QDot  = VectorNd::Random(obj.model->dof_count);
+    obj.Q = VectorNd::Random(obj.model->dof_count);
+    obj.QDot = VectorNd::Random(obj.model->dof_count);
     obj.QDDot = VectorNd::Random(obj.model->dof_count);
 
     Vector3d zmp(Vector3d::Zero());
     Utils::CalcZeroMomentPoint(*obj.model, obj.Q, obj.QDot, obj.QDDot, &zmp, obj.contact_normal, obj.contact_point);
 
-    double   mass = 0.0;
+    double mass = 0.0;
     Vector3d com(Vector3d::Zero());
     Utils::CalcCenterOfMass(*obj.model, obj.Q, obj.QDot, NULL, mass, com, NULL, NULL);
 

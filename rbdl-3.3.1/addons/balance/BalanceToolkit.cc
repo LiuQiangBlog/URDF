@@ -50,15 +50,15 @@ static unsigned int MAX_ITERATIONS = 15;
   This code is method is complicated enough already without nearly doubling
   the size of the implementation to squeeze out a little more accuracy.
 */
-void BalanceToolkit::CalculateFootPlacementEstimator(Model                      &model,
-                                                     Math::VectorNd             &q,
-                                                     Math::VectorNd             &qdot,
-                                                     Math::Vector3d             &pointOnGroundPlane,
-                                                     Math::Vector3d             &groundPlaneNormal,
+void BalanceToolkit::CalculateFootPlacementEstimator(Model &model,
+                                                     Math::VectorNd &q,
+                                                     Math::VectorNd &qdot,
+                                                     Math::Vector3d &pointOnGroundPlane,
+                                                     Math::Vector3d &groundPlaneNormal,
                                                      FootPlacementEstimatorInfo &fpeInfo,
-                                                     double                      smallAngularVelocity,
-                                                     bool                        evaluate_derivatives,
-                                                     bool                        update_kinematics)
+                                                     double smallAngularVelocity,
+                                                     bool evaluate_derivatives,
+                                                     bool update_kinematics)
 {
 
     // Allocate local memory
@@ -67,10 +67,10 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
 
     // Variables needed to calculate the single body equivalent model and
     // project its state onto the u-v plane.
-    Vector3d                rPC0;
-    Matrix3d                rPC0x;
-    Vector3d                riC0;
-    Matrix3d                riC0x;
+    Vector3d rPC0;
+    Matrix3d rPC0x;
+    Vector3d riC0;
+    Matrix3d riC0x;
     SpatialRigidBodyInertia IC0(0., Vector3d(0., 0., 0.), Matrix3d::Zero(3, 3));
 
     // Variables needed for the root solving method
@@ -93,7 +93,7 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
     double delta;
 
     // Get the normal vector
-    g         = model.gravity.norm();
+    g = model.gravity.norm();
     fpeInfo.k = model.gravity * (-1.0 / g);
 
     // Make sure the plane normal is parallel to gravity. While it is possible
@@ -115,7 +115,7 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
         // Vector from the COM of body i to the COM of the entire system
         if (model.mBodies[i].mIsVirtual == false)
         {
-            riC0  = fpeInfo.r0C0 - model.X_base[i].r - model.X_base[i].E.transpose() * model.mBodies[i].mCenterOfMass;
+            riC0 = fpeInfo.r0C0 - model.X_base[i].r - model.X_base[i].E.transpose() * model.mBodies[i].mCenterOfMass;
             riC0x = VectorCrossMatrix(riC0);
 
             fpeInfo.JC0 = fpeInfo.JC0 +
@@ -134,10 +134,10 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
 
     // Solve for the whole body inertia, angular momentum, and average angular
     // velocity about the center of mass ground contact point.
-    rPC0         = fpeInfo.r0C0 - fpeInfo.r0P0;
-    rPC0x        = VectorCrossMatrix(rPC0);
-    fpeInfo.JP0  = fpeInfo.JC0 + m * (rPC0x * rPC0x.transpose());
-    fpeInfo.HP0  = fpeInfo.HC0 + rPC0x * (m * fpeInfo.v0C0);
+    rPC0 = fpeInfo.r0C0 - fpeInfo.r0P0;
+    rPC0x = VectorCrossMatrix(rPC0);
+    fpeInfo.JP0 = fpeInfo.JC0 + m * (rPC0x * rPC0x.transpose());
+    fpeInfo.HP0 = fpeInfo.HC0 + rPC0x * (m * fpeInfo.v0C0);
     fpeInfo.w0P0 = fpeInfo.JP0.householderQr().solve(fpeInfo.HP0);
 
     Vector3d HP0small = fpeInfo.JP0 * Vector3d(smallAngularVelocity, smallAngularVelocity, smallAngularVelocity);
@@ -153,7 +153,7 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
     fpeInfo.v0C0u = fpeInfo.u.dot(fpeInfo.v0C0);
     fpeInfo.v0C0k = fpeInfo.k.dot(fpeInfo.v0C0);
     fpeInfo.w0C0n = fpeInfo.n.dot(fpeInfo.w0C0);
-    fpeInfo.h     = fpeInfo.k.dot(fpeInfo.r0C0 - pointOnGroundPlane);
+    fpeInfo.h = fpeInfo.k.dot(fpeInfo.r0C0 - pointOnGroundPlane);
 
     fpeInfo.projectionError = fabs(fpeInfo.k.dot(fpeInfo.HP0)) / max(fpeInfo.HP0.norm(), HP0small.norm());
 
@@ -165,13 +165,13 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
     //              important as the Newton iteration converges slowly for
     //              phi ~= 0, with small velocities.
     phiBest = M_PI * 0.25;
-    delta   = 0.5 * phiBest;
+    delta = 0.5 * phiBest;
 
     // Use the bisection method to get close to the solution
-    cosphi  = cos(phiBest);
+    cosphi = cos(phiBest);
     cos2phi = cosphi * cosphi;
-    sinphi  = sin(phiBest);
-    h2      = fpeInfo.h * fpeInfo.h;
+    sinphi = sin(phiBest);
+    h2 = fpeInfo.h * fpeInfo.h;
 
     // numerator of Eqn. 45 of Millard et al.
     t0 = (cos2phi * fpeInfo.w0C0n * fpeInfo.nJC0n +
@@ -185,53 +185,53 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
     {
         // Evaluate to the left of the current solution
         phiLeft = phiBest - delta;
-        cosphi  = cos(phiLeft);
+        cosphi = cos(phiLeft);
         cos2phi = cosphi * cosphi;
-        sinphi  = sin(phiLeft);
-        h2      = fpeInfo.h * fpeInfo.h;
-        t0      = (cos2phi * fpeInfo.w0C0n * fpeInfo.nJC0n +
+        sinphi = sin(phiLeft);
+        h2 = fpeInfo.h * fpeInfo.h;
+        t0 = (cos2phi * fpeInfo.w0C0n * fpeInfo.nJC0n +
               cosphi * fpeInfo.h * m * (sinphi * fpeInfo.v0C0k + cosphi * fpeInfo.v0C0u));
-        fLeft   = (t0 * t0) / (cos2phi * fpeInfo.nJC0n + h2 * m) + 2 * (cosphi - 1) * cosphi * g * fpeInfo.h * m;
+        fLeft = (t0 * t0) / (cos2phi * fpeInfo.nJC0n + h2 * m) + 2 * (cosphi - 1) * cosphi * g * fpeInfo.h * m;
 
         // Evaluate to the right of the current solution
         phiRight = phiBest + delta;
-        cosphi   = cos(phiRight);
-        cos2phi  = cosphi * cosphi;
-        sinphi   = sin(phiRight);
-        h2       = fpeInfo.h * fpeInfo.h;
-        t0       = (cos2phi * fpeInfo.w0C0n * fpeInfo.nJC0n +
+        cosphi = cos(phiRight);
+        cos2phi = cosphi * cosphi;
+        sinphi = sin(phiRight);
+        h2 = fpeInfo.h * fpeInfo.h;
+        t0 = (cos2phi * fpeInfo.w0C0n * fpeInfo.nJC0n +
               cosphi * fpeInfo.h * m * (sinphi * fpeInfo.v0C0k + cosphi * fpeInfo.v0C0u));
-        fRight   = (t0 * t0) / (cos2phi * fpeInfo.nJC0n + h2 * m) + 2 * (cosphi - 1) * cosphi * g * fpeInfo.h * m;
+        fRight = (t0 * t0) / (cos2phi * fpeInfo.nJC0n + h2 * m) + 2 * (cosphi - 1) * cosphi * g * fpeInfo.h * m;
 
         // Update the current solution if the left/right offers a lower error
         if (fabs(fLeft) < fabs(fBest) && fabs(fLeft) <= fabs(fRight))
         {
             phiBest = phiLeft;
-            fBest   = fLeft;
+            fBest = fLeft;
         }
         if (fabs(fRight) < fabs(fBest) && fabs(fRight) < fabs(fLeft))
         {
             phiBest = phiRight;
-            fBest   = fRight;
+            fBest = fRight;
         }
         delta = delta * 0.5;
     }
 
     // Final solution
-    fpeInfo.f          = fBest;
-    fpeInfo.phi        = phiBest;
+    fpeInfo.f = fBest;
+    fpeInfo.phi = phiBest;
     fpeInfo.iterations = MAX_ITERATIONS;
 
     // Evaluate fpe related quantities which are not derivatives
-    cosphi  = cos(fpeInfo.phi);
+    cosphi = cos(fpeInfo.phi);
     cos2phi = cosphi * cosphi;
-    sinphi  = sin(fpeInfo.phi);
-    h2      = fpeInfo.h * fpeInfo.h;
-    tanphi  = tan(fpeInfo.phi);
+    sinphi = sin(fpeInfo.phi);
+    h2 = fpeInfo.h * fpeInfo.h;
+    tanphi = tan(fpeInfo.phi);
 
     fpeInfo.r0F0 = fpeInfo.r0P0 + (fpeInfo.h * tanphi) * fpeInfo.u;
-    fpeInfo.l    = fpeInfo.h / cos(fpeInfo.phi);
-    fpeInfo.E    = m * g * fpeInfo.l;
+    fpeInfo.l = fpeInfo.h / cos(fpeInfo.phi);
+    fpeInfo.E = m * g * fpeInfo.l;
 
     fpeInfo.w0F0nPlus = (cosphi * fpeInfo.h * m * (sinphi * fpeInfo.v0C0k + cosphi * fpeInfo.v0C0u) +
                          fpeInfo.nJC0n * cos2phi * fpeInfo.w0C0n) /
@@ -343,13 +343,13 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
         // f = fo = 0 at the solution
         // Dphi/Dl = -(Df/Dh dh/dl)/(Df/Dphi)
         fpeInfo.Dphi_Dl = (-1 / fpeInfo.Df_Dphi) * (fpeInfo.Df_Dh) * dh_dl;
-        fpeInfo.Ds_Dl   = (Ds_Dphi)*fpeInfo.Dphi_Dl;
+        fpeInfo.Ds_Dl = (Ds_Dphi)*fpeInfo.Dphi_Dl;
 
         // f = fo + (Df/Dphi)Dphi + (Df/DJ)*dJ.
         // f = fo = 0
         // Dphi/DJ = -(Df/DJ)/(Df/Dphi)
         fpeInfo.Dphi_DnJC0n = (-1 / fpeInfo.Df_Dphi) * (fpeInfo.Df_DnJC0n);
-        fpeInfo.Ds_DnJC0n   = (Ds_Dphi)*fpeInfo.Dphi_DnJC0n;
+        fpeInfo.Ds_DnJC0n = (Ds_Dphi)*fpeInfo.Dphi_DnJC0n;
 
         //  l = fpeInfo.h/cosphi;
         Dl_Dphi = fpeInfo.h * sinphi / (cos2phi);
@@ -357,9 +357,9 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
         // cosphi=fpeInfo.h/l
 
         // E = mgl
-        Dl_DE           = 1 / (m * g);
+        Dl_DE = 1 / (m * g);
         fpeInfo.Dphi_DE = (Dphi_Dl * Dl_DE);
-        fpeInfo.Ds_DE   = (Ds_Dphi) * (Dphi_Dl * Dl_DE);
+        fpeInfo.Ds_DE = (Ds_Dphi) * (Dphi_Dl * Dl_DE);
 
         // Angular momentum = r x mv + Jw
         // The sensitivity of the foot placement to the input momentum under
@@ -368,12 +368,12 @@ void BalanceToolkit::CalculateFootPlacementEstimator(Model                      
         // fpeInfo.v0C0u, vz and w
 
         fpeInfo.Dphi_Dv0C0u = (-1 / fpeInfo.Df_Dphi) * fpeInfo.Df_Dv0C0u;
-        fpeInfo.Ds_Dv0C0u   = (Ds_Dphi)*fpeInfo.Dphi_Dv0C0u;
+        fpeInfo.Ds_Dv0C0u = (Ds_Dphi)*fpeInfo.Dphi_Dv0C0u;
 
         fpeInfo.Dphi_Dv0C0k = (-1 / fpeInfo.Df_Dphi) * fpeInfo.Df_Dv0C0k;
-        fpeInfo.Ds_Dv0C0k   = (Ds_Dphi)*fpeInfo.Dphi_Dv0C0k;
+        fpeInfo.Ds_Dv0C0k = (Ds_Dphi)*fpeInfo.Dphi_Dv0C0k;
 
         fpeInfo.Dphi_Dw0C0n = (-1 / fpeInfo.Df_Dphi) * fpeInfo.Df_Dw0C0n;
-        fpeInfo.Ds_Dw0C0n   = (Ds_Dphi)*fpeInfo.Dphi_Dw0C0n;
+        fpeInfo.Ds_Dw0C0n = (Ds_Dphi)*fpeInfo.Dphi_Dw0C0n;
     }
 }

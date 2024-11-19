@@ -6,8 +6,8 @@
  */
 
 // Some particularly aggressive experimental data
-unsigned int TorqueMuscleFittingHardTestCaseRows     = 100;
-unsigned int TorqueMuscleFittingHardTestCaseCols     = 4;
+unsigned int TorqueMuscleFittingHardTestCaseRows = 100;
+unsigned int TorqueMuscleFittingHardTestCaseCols = 4;
 double const TorqueMuscleFittingHardTestCase[100][4] = {
     {0., 1.9148, -17.618, 107.25},        {0.0044242, 1.8318, -18.277, 108.39},  {0.0088485, 1.7485, -18.949, 110.49},
     {0.013273, 1.6636, -19.618, 114.57},  {0.017697, 1.5761, -20.243, 121.32},   {0.022121, 1.486, -20.758, 130.97},
@@ -89,10 +89,10 @@ TEST_CASE(__FILE__ "_ConstructorRegularCallCheck", "")
     Millard2016TorqueMuscle test0 = Millard2016TorqueMuscle();
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle test2 = Millard2016TorqueMuscle(
         DataSet::Anderson2007, subjectInfo, Anderson2007::HipExtension, 0.0, 1.0, 1.0, "test_easyConstructor");
@@ -103,18 +103,18 @@ TEST_CASE(__FILE__ "_ConstructorRegularCallCheck", "")
 TEST_CASE(__FILE__ "_calcJointTorqueCorrectnessTests", "")
 {
 
-    double jointAngleOffset  = 0;
-    double signOfJointAngle  = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
     double signOfJointTorque = 1;
-    double err               = 0.0;
+    double err = 0.0;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo, Anderson2007::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
@@ -156,21 +156,21 @@ TEST_CASE(__FILE__ "_calcJointTorqueCorrectnessTests", "")
     // Test that the get and set functions work for
     // maximum isometric torque
     double tauMaxOld = tq.getMaximumActiveIsometricTorque();
-    double tauMax    = tauMaxOld * 10.0;
+    double tauMax = tauMaxOld * 10.0;
     tq.setMaximumActiveIsometricTorque(tauMax);
     tmp = tq.calcJointTorque(0, 0, 1.0);
     // ensures updateTorqueMuscleCurves is called
     CHECK(fabs(tq.getMaximumActiveIsometricTorque() - tauMax) < TOL);
 
     double omegaMaxOld = tq.getMaximumConcentricJointAngularVelocity();
-    double omegaMax    = 2.0 * fabs(omegaMaxOld);
+    double omegaMax = 2.0 * fabs(omegaMaxOld);
     tq.setMaximumConcentricJointAngularVelocity(omegaMax);
     tmp = tq.calcJointTorque(0, 0, 1.0);
     // ensures updateTorqueMuscleCurves is called
     CHECK(fabs(fabs(tq.getMaximumConcentricJointAngularVelocity()) - omegaMax) < TOL);
 
     double taAngleScalingOld = tq.getActiveTorqueAngleCurveAngleScaling();
-    double taAngleScaling    = 2.0 * taAngleScalingOld;
+    double taAngleScaling = 2.0 * taAngleScalingOld;
     tq.setActiveTorqueAngleCurveAngleScaling(taAngleScaling);
 
     CHECK(fabs(taAngleScaling - tq.getActiveTorqueAngleCurveAngleScaling()) < TOL);
@@ -179,30 +179,30 @@ TEST_CASE(__FILE__ "_calcJointTorqueCorrectnessTests", "")
 TEST_CASE(__FILE__ "_dampingTermTests", "")
 {
 
-    double err                 = 0.;
-    double jointAngleOffset    = 0;
-    double signOfJointAngle    = 1;
-    double signOfJointTorque   = 1;
+    double err = 0.;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
+    double signOfJointTorque = 1;
     double signOfJointVelocity = signOfJointTorque;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Female;
-    subjectInfo.ageGroup       = AgeGroupSet::SeniorOver65;
+    subjectInfo.gender = GenderSet::Female;
+    subjectInfo.ageGroup = AgeGroupSet::SeniorOver65;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo, Anderson2007::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
-    TorqueMuscleInfo        tmi0;
+    TorqueMuscleInfo tmi0;
     // Test the damping term
-    double                  beta = tq.getNormalizedDampingCoefficient();
+    double beta = tq.getNormalizedDampingCoefficient();
     tq.setNormalizedDampingCoefficient(beta + 0.1);
     CHECK(fabs(beta + 0.1 - tq.getNormalizedDampingCoefficient()) < SQRTEPSILON);
 
     double omegaMax = tq.getMaximumConcentricJointAngularVelocity();
-    double tau      = tq.calcJointTorque(-M_PI / 3.0, omegaMax, 0);
+    double tau = tq.calcJointTorque(-M_PI / 3.0, omegaMax, 0);
     CHECK(fabs(tau) < SQRTEPSILON);
 
     tq.calcTorqueMuscleInfo(-M_PI / 3.0, omegaMax, 0.1, tmi0);
@@ -210,7 +210,7 @@ TEST_CASE(__FILE__ "_dampingTermTests", "")
                tmi0.fiberPassiveTorqueAngleMultiplier * tq.getPassiveTorqueScale() + tmi0.fiberNormDampingTorque);
     CHECK(err < SQRTEPSILON);
 
-    beta          = tq.getNormalizedDampingCoefficient();
+    beta = tq.getNormalizedDampingCoefficient();
     double tauMax = tq.getMaximumActiveIsometricTorque();
     tq.calcTorqueMuscleInfo(tq.getJointAngleAtOneNormalizedPassiveIsometricTorque(), -omegaMax, 0, tmi0);
     CHECK(fabs(tmi0.fiberDampingTorque - 1.0 * beta * 1.0 * tauMax) < SQRTEPSILON);
@@ -221,18 +221,18 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
 {
     double err = 0.;
 
-    double jointAngleOffset    = 0;
-    double signOfJointAngle    = 1;
-    double signOfJointTorque   = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
+    double signOfJointTorque = 1;
     double signOfJointVelocity = signOfJointTorque;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Female;
-    subjectInfo.ageGroup       = AgeGroupSet::SeniorOver65;
+    subjectInfo.gender = GenderSet::Female;
+    subjectInfo.ageGroup = AgeGroupSet::SeniorOver65;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo, Anderson2007::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
@@ -256,7 +256,7 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
     CHECK(fabs(tmi0.fiberPassiveTorqueAngleMultiplier - tmi1.fiberPassiveTorqueAngleMultiplier) < SQRTEPSILON);
 
     // fitPassiveCurveAngleOffset: Extension test
-    double tauMax             = tq.getMaximumActiveIsometricTorque();
+    double tauMax = tq.getMaximumActiveIsometricTorque();
     jointAngleAtPassiveTauMax = tq.getJointAngleAtOneNormalizedPassiveIsometricTorque();
     tq.fitPassiveCurveAngleOffset(1.0, tauMax);
 
@@ -268,7 +268,7 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
     Millard2016TorqueMuscle tqF =
         Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo, Anderson2007::HipFlexion, jointAngleOffset,
                                 signOfJointAngle, -1 * signOfJointTorque, "flexion");
-    tauMax                    = tqF.getMaximumActiveIsometricTorque();
+    tauMax = tqF.getMaximumActiveIsometricTorque();
     jointAngleAtPassiveTauMax = tqF.getJointAngleAtOneNormalizedPassiveIsometricTorque();
     tqF.fitPassiveCurveAngleOffset(-1.0, tauMax);
 
@@ -276,7 +276,7 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
 
     CHECK(fabs(tmi0.fiberPassiveTorque - tauMax) < SQRTEPSILON);
 
-    tauMax                    = tq.getMaximumActiveIsometricTorque();
+    tauMax = tq.getMaximumActiveIsometricTorque();
     jointAngleAtPassiveTauMax = tq.getJointAngleAtOneNormalizedPassiveIsometricTorque();
 
     tq.fitPassiveTorqueScale(jointAngleAtPassiveTauMax, tauMax * 0.5);
@@ -286,7 +286,7 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
     CHECK(fabs(tmi0.fiberPassiveTorque - tauMax * 0.5) < SQRTEPSILON);
 
     // Now for the flexor ...
-    tauMax                    = tqF.getMaximumActiveIsometricTorque();
+    tauMax = tqF.getMaximumActiveIsometricTorque();
     jointAngleAtPassiveTauMax = tqF.getJointAngleAtOneNormalizedPassiveIsometricTorque();
 
     tqF.fitPassiveTorqueScale(jointAngleAtPassiveTauMax, tauMax * 0.5);
@@ -298,7 +298,7 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
     // Now test the calcMaximumActiveIsometricTorqueScalingFactor and
     // calcActivation functions
 
-    double              jointTorque = tq.calcJointTorque(M_PI / 3.0, M_PI / 5.0, 0.5);
+    double jointTorque = tq.calcJointTorque(M_PI / 3.0, M_PI / 5.0, 0.5);
     TorqueMuscleSummary tms;
     tq.calcActivation(M_PI / 3.0, M_PI / 5.0, jointTorque, tms);
     activation = tms.activation;
@@ -311,18 +311,18 @@ TEST_CASE(__FILE__ "_simpleFittingFunctionTests", "")
 TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
 {
 
-    double jointAngleOffset    = 0;
-    double signOfJointAngle    = 1;
-    double signOfJointTorque   = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
+    double signOfJointTorque = 1;
     double signOfJointVelocity = signOfJointTorque;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Female;
-    subjectInfo.ageGroup       = AgeGroupSet::SeniorOver65;
+    subjectInfo.gender = GenderSet::Female;
+    subjectInfo.ageGroup = AgeGroupSet::SeniorOver65;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo, Anderson2007::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
@@ -330,9 +330,9 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
     tq.setPassiveTorqueAngleCurveBlendingVariable(0.);
     tq.setTorqueAngularVelocityCurveBlendingVariable(0.);
 
-    double jointAngle    = 0.;
+    double jointAngle = 0.;
     double jointVelocity = 0.;
-    double activation    = 1.0;
+    double activation = 1.0;
 
     tq.setPassiveTorqueScale(0.5);
     double tmp = tq.calcJointTorque(0, 0, 1.0);
@@ -341,7 +341,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
 
     double tauMax = tq.getMaximumActiveIsometricTorque();
 
-    double           jointAngleAtTauMax = tq.getJointAngleAtMaximumActiveIsometricTorque();
+    double jointAngleAtTauMax = tq.getJointAngleAtMaximumActiveIsometricTorque();
     TorqueMuscleInfo tmi;
     tq.calcTorqueMuscleInfo(jointAngleAtTauMax, 0., activation, tmi);
 
@@ -361,7 +361,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
 
     // Total force check
     double torque = tq.calcJointTorque(jointAngleAtTauMax, 0, activation);
-    double err    = fabs(torque - signOfJointTorque * (tmi.fiberActiveTorque + tmi.fiberPassiveTorque));
+    double err = fabs(torque - signOfJointTorque * (tmi.fiberActiveTorque + tmi.fiberPassiveTorque));
     CHECK(fabs(torque - signOfJointTorque * (tmi.fiberActiveTorque + tmi.fiberPassiveTorque)) < TOL);
 
     // Total active force scales with activation
@@ -384,12 +384,12 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
     tq.calcTorqueMuscleInfo(jointAngleAtTauMax * 0.75 + h, 0., activation, tmiR);
 
     double jointK = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err           = tmi.jointStiffness - jointK;
+    err = tmi.jointStiffness - jointK;
 
     CHECK(fabs(tmi.jointStiffness - jointK) < 1e-5);
 
     double fiberK = signOfJointAngle * (tmiR.fiberTorque - tmiL.fiberTorque) / (2 * h);
-    err           = tmi.fiberStiffness - fiberK;
+    err = tmi.fiberStiffness - fiberK;
     CHECK(fabs(tmi.fiberStiffness - fiberK) < 1e-5);
 
     tq.setPassiveTorqueScale(1.5);
@@ -415,7 +415,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
     CHECK(fabs(tmi0.fiberPassiveTorque - 0.5 * tmi1.fiberPassiveTorque) < TOL);
 
     double jtq = tq.calcJointTorque(jointAngleAtPassiveTauMax, 0., activation);
-    err        = jtq - tmi1.jointTorque;
+    err = jtq - tmi1.jointTorque;
     CHECK(fabs(jtq - tmi1.jointTorque) < TOL);
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax, 0., activation - SQRTEPSILON, tmi0);
@@ -424,53 +424,53 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoCorrectnessTests", "")
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax, 0., activation + SQRTEPSILON, tmi2);
 
-    double DtqDa     = tmi1.DjointTorque_Dactivation;
+    double DtqDa = tmi1.DjointTorque_Dactivation;
     double DtqDa_NUM = (tmi2.jointTorque - tmi0.jointTorque) / (2 * SQRTEPSILON);
-    err              = fabs(DtqDa - DtqDa_NUM);
+    err = fabs(DtqDa - DtqDa_NUM);
     CHECK(fabs(DtqDa - DtqDa_NUM) < fabs(DtqDa) * 1e-5);
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax - SQRTEPSILON, 0., activation, tmi0);
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax + SQRTEPSILON, 0., activation, tmi2);
 
-    double DtqDq     = tmi1.DjointTorque_DjointAngle;
+    double DtqDq = tmi1.DjointTorque_DjointAngle;
     double DtqDq_NUM = (tmi2.jointTorque - tmi0.jointTorque) / (2 * SQRTEPSILON);
-    err              = fabs(DtqDq - DtqDq_NUM);
+    err = fabs(DtqDq - DtqDq_NUM);
     CHECK(fabs(DtqDq - DtqDq_NUM) < fabs(DtqDq) * 1e-5);
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax, 0. - SQRTEPSILON, activation, tmi0);
 
     tq.calcTorqueMuscleInfo(jointAngleAtPassiveTauMax, 0. + SQRTEPSILON, activation, tmi2);
 
-    double DtqDqdot     = tmi1.DjointTorque_DjointAngularVelocity;
+    double DtqDqdot = tmi1.DjointTorque_DjointAngularVelocity;
     double DtqDqdot_NUM = (tmi2.jointTorque - tmi0.jointTorque) / (2 * SQRTEPSILON);
-    err                 = fabs(DtqDqdot - DtqDqdot_NUM);
+    err = fabs(DtqDqdot - DtqDqdot_NUM);
     CHECK(fabs(DtqDqdot - DtqDqdot_NUM) < fabs(DtqDqdot) * 1e-5);
 }
 
 TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
 {
 
-    double jointAngleOffset    = 0;
-    double signOfJointAngle    = 1;
-    double signOfJointTorque   = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
+    double signOfJointTorque = 1;
     double signOfJointVelocity = signOfJointTorque;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Gymnast, subjectInfo, Gymnast::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
 
     TorqueMuscleInfo tmi;
-    double           tvAtHalfOmegaMax = tq.getTorqueVelocityMultiplierAtHalfOmegaMax();
-    double           omegaMax         = tq.getMaximumConcentricJointAngularVelocity();
-    double           angleAtTaMax     = tq.getJointAngleAtMaximumActiveIsometricTorque();
+    double tvAtHalfOmegaMax = tq.getTorqueVelocityMultiplierAtHalfOmegaMax();
+    double omegaMax = tq.getMaximumConcentricJointAngularVelocity();
+    double angleAtTaMax = tq.getJointAngleAtMaximumActiveIsometricTorque();
 
     tq.calcTorqueMuscleInfo(angleAtTaMax, omegaMax * 0.5, 1.0, tmi);
 
@@ -525,7 +525,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setActiveTorqueAngleCurveBlendingVariable(taLambda);
     tq.calcTorqueMuscleInfo(jointAngleTaMin, 0, 1.0, tmi);
     double multiplier1 = tmi.fiberActiveTorqueAngleMultiplier;
-    double err         = fabs((taLambda + (1 - taLambda) * multiplier0) - multiplier1);
+    double err = fabs((taLambda + (1 - taLambda) * multiplier0) - multiplier1);
     CHECK(err < SQRTEPSILON);
 
     tq.setActiveTorqueAngleCurveBlendingVariable(0.0);
@@ -535,7 +535,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setActiveTorqueAngleCurveBlendingVariable(taLambda);
     tq.calcTorqueMuscleInfo(jointAngleTaTiso, 0, 1.0, tmi);
     multiplier1 = tmi.fiberActiveTorqueAngleMultiplier;
-    err         = fabs(multiplier0 - multiplier1);
+    err = fabs(multiplier0 - multiplier1);
     CHECK(err < SQRTEPSILON);
 
     // Check the values of the blendable torque-angular-velocity-curve
@@ -560,7 +560,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setTorqueAngularVelocityCurveBlendingVariable(tvLambda);
     tq.calcTorqueMuscleInfo(jointAngleTaTiso, -omegaMax, 1.0, tmi);
     multiplier1 = tmi.fiberTorqueAngularVelocityMultiplier;
-    err         = fabs(multiplier0 - multiplier1);
+    err = fabs(multiplier0 - multiplier1);
     CHECK(err < SQRTEPSILON);
 
     // Check the values of the blendable passive-torque-angle curve
@@ -571,7 +571,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setPassiveTorqueAngleCurveBlendingVariable(tpLambda);
     tq.calcTorqueMuscleInfo(jointAngleTpTiso, 0, 0.0, tmi);
     multiplier1 = tmi.fiberPassiveTorqueAngleMultiplier;
-    err         = fabs(((1 - tpLambda) * multiplier0) - multiplier1);
+    err = fabs(((1 - tpLambda) * multiplier0) - multiplier1);
     CHECK(err < SQRTEPSILON);
 
     tq.setPassiveTorqueAngleCurveBlendingVariable(0.0);
@@ -581,7 +581,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setPassiveTorqueAngleCurveBlendingVariable(tpLambda);
     tq.calcTorqueMuscleInfo(jointAngleTpZero, 0, 0.0, tmi);
     multiplier1 = tmi.fiberPassiveTorqueAngleMultiplier;
-    err         = fabs(multiplier0 - multiplier1);
+    err = fabs(multiplier0 - multiplier1);
     CHECK(err < SQRTEPSILON);
 
     // Check the values of the active-torque-angle curve when the scaling is
@@ -601,7 +601,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setActiveTorqueAngleCurveAngleScaling(2.0);
     tq.calcTorqueMuscleInfo(jointAngleAtOneNormTorque, 0., 1.0, tmi);
     double ta2 = tmi.fiberActiveTorqueAngleMultiplier;
-    err        = fabs(ta1 - ta2);
+    err = fabs(ta1 - ta2);
     CHECK(err < SQRTEPSILON);
 
     // Values should change in proportion to their distance from the peak
@@ -624,11 +624,11 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setMaximumConcentricJointAngularVelocity(omegaMax * 2.0);
     tq.calcTorqueMuscleInfo(jointAngleAtOneNormTorque, omegaMax, 1.0, tmi);
     double tv2 = tmi.fiberTorqueAngularVelocityMultiplier;
-    err        = fabs(tv1 - tv2);
+    err = fabs(tv1 - tv2);
     CHECK(err < SQRTEPSILON);
 
     TorqueMuscleInfo tmiL, tmiR; // Here we have 3 to do numerical derivatives.
-    double           h = SQRTEPSILON;
+    double h = SQRTEPSILON;
 
     tq.setActiveTorqueAngleCurveBlendingVariable(taLambda);
     tq.setPassiveTorqueAngleCurveBlendingVariable(tvLambda);
@@ -638,7 +638,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     // the lambda parameter makes a difference
     double jointAngleTaMid = jointAngleTaTiso - M_PI * 0.25;
     double jointAngleTpMid = (jointAngleTpTiso + jointAngleTpZero) * 0.5;
-    double omegaMid        = omegaMax * 0.5;
+    double omegaMid = omegaMax * 0.5;
 
     // Calc. numerical derivative of DjointTorque_DtaLambda
     tq.calcTorqueMuscleInfo(jointAngleTaMid, 0, 1.0, tmi);
@@ -649,7 +649,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setActiveTorqueAngleCurveBlendingVariable(taLambda);
 
     double Dtau_DtaLambda = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err                   = fabs(Dtau_DtaLambda - tmi.DjointTorque_DactiveTorqueAngleBlendingVariable);
+    err = fabs(Dtau_DtaLambda - tmi.DjointTorque_DactiveTorqueAngleBlendingVariable);
     CHECK(err < SQRTEPSILON * 100.0);
 
     // Calc. numerical derivative of DjointTorque_DtvLambda
@@ -662,7 +662,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.setTorqueAngularVelocityCurveBlendingVariable(tvLambda);
 
     double Dtau_DtvLambda = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err                   = fabs(Dtau_DtvLambda - tmi.DjointTorque_DtorqueAngularVelocityBlendingVariable);
+    err = fabs(Dtau_DtvLambda - tmi.DjointTorque_DtorqueAngularVelocityBlendingVariable);
     CHECK(err < SQRTEPSILON * 100.0);
 
     // Calc. numerical derivative of DjointTorque_DtpLambda
@@ -674,7 +674,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.calcTorqueMuscleInfo(jointAngleTpMid, omegaMid, 0.0, tmiR);
 
     double Dtau_DtpLambda = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err                   = fabs(Dtau_DtpLambda - tmi.DjointTorque_DpassiveTorqueAngleBlendingVariable);
+    err = fabs(Dtau_DtpLambda - tmi.DjointTorque_DpassiveTorqueAngleBlendingVariable);
     CHECK(err < SQRTEPSILON * 100.0);
 
     // Calc. numerical derivatives of DjointTorque_DtpOffset
@@ -687,11 +687,11 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.calcTorqueMuscleInfo(jointAngleTpMid, omegaMid, 0.0, tmiR);
 
     double Dtp_DtpOffset = (tmiR.fiberPassiveTorqueAngleMultiplier - tmiL.fiberPassiveTorqueAngleMultiplier) / (2 * h);
-    err                  = fabs(Dtp_DtpOffset - tmi.DfiberPassiveTorqueAngleMultiplier_DangleOffset);
+    err = fabs(Dtp_DtpOffset - tmi.DfiberPassiveTorqueAngleMultiplier_DangleOffset);
     CHECK(err < SQRTEPSILON * 100.0);
 
     double Dtau_DtpOffset = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err                   = fabs(Dtau_DtpOffset - tmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset);
+    err = fabs(Dtau_DtpOffset - tmi.DjointTorque_DpassiveTorqueAngleCurveAngleOffset);
     CHECK(err < SQRTEPSILON * 100.0);
 
     // Calc. numerical derivative of DjointTorque_DtaAngleScaling
@@ -707,7 +707,7 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
     tq.calcTorqueMuscleInfo(jointAngleAtOneNormTorque + 1.0, 0.0, 1.0, tmiR);
 
     double Dtau_DtaScaling = (tmiR.jointTorque - tmiL.jointTorque) / (2 * h);
-    err                    = fabs(Dtau_DtaScaling - tmi.DjointTorque_DactiveTorqueAngleAngleScaling);
+    err = fabs(Dtau_DtaScaling - tmi.DjointTorque_DactiveTorqueAngleAngleScaling);
     CHECK(err < SQRTEPSILON * 100.0);
 
     // Calc. numerical derivative of DjointTorque_DomegaMax
@@ -1052,18 +1052,18 @@ TEST_CASE(__FILE__ "_calcTorqueMuscleInfoFittingVariableCorrectnessTests", "")
 TEST_CASE(__FILE__ "_fittingEasyTest", "")
 {
 
-    double jointAngleOffset    = 0;
-    double signOfJointAngle    = 1;
-    double signOfJointTorque   = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
+    double signOfJointTorque = 1;
     double signOfJointVelocity = signOfJointTorque;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     Millard2016TorqueMuscle tq = Millard2016TorqueMuscle(DataSet::Gymnast, subjectInfo, Gymnast::HipExtension,
                                                          jointAngleOffset, signOfJointAngle, signOfJointTorque, name);
@@ -1077,12 +1077,12 @@ TEST_CASE(__FILE__ "_fittingEasyTest", "")
     //       identified.
 
     double tisoOriginal = tq.getMaximumActiveIsometricTorque();
-    double tisoUpd      = 1.2 * tisoOriginal;
+    double tisoUpd = 1.2 * tisoOriginal;
     double omegaMaxOrig = tq.getMaximumConcentricJointAngularVelocity();
-    double omegaMaxUpd  = 2.5 * omegaMaxOrig;
+    double omegaMaxUpd = 2.5 * omegaMaxOrig;
 
     double taAngleScalingOrig = tq.getActiveTorqueAngleCurveAngleScaling();
-    double taAngleScalingUpd  = taAngleScalingOrig * 1.35;
+    double taAngleScalingUpd = taAngleScalingOrig * 1.35;
 
     double taLambda = 0.0;
     double tpLambda = 0.0;
@@ -1097,30 +1097,30 @@ TEST_CASE(__FILE__ "_fittingEasyTest", "")
     tq.setMaximumConcentricJointAngularVelocity(omegaMaxUpd);
     tq.setActiveTorqueAngleCurveAngleScaling(taAngleScalingUpd);
 
-    unsigned int                      npts = 100;
+    unsigned int npts = 100;
     RigidBodyDynamics::Math::VectorNd angle, angularVelocity, torque;
     angle.resize(npts);
     angularVelocity.resize(npts);
     torque.resize(npts);
 
     // Generate the data set.
-    double              activationUpperBound                   = 0.95;
-    double              passiveTorqueAngleMultiplierUpperBound = 0.;
-    TorqueMuscleInfo    tmi;
+    double activationUpperBound = 0.95;
+    double passiveTorqueAngleMultiplierUpperBound = 0.;
+    TorqueMuscleInfo tmi;
     TorqueMuscleSummary tms;
 
-    double angularRange  = M_PI / 3.0;
-    double angleTpOne    = tq.getJointAngleAtOneNormalizedPassiveIsometricTorque();
+    double angularRange = M_PI / 3.0;
+    double angleTpOne = tq.getJointAngleAtOneNormalizedPassiveIsometricTorque();
     double angularOffset = angleTpOne - angularRange;
-    double time          = 0.;
-    double normTime      = 0.;
-    double omega         = omegaMaxUpd / angularRange;
+    double time = 0.;
+    double normTime = 0.;
+    double omega = omegaMaxUpd / angularRange;
     for (unsigned int i = 0; i < npts; ++i)
     {
         normTime = (double)(i) / (double)(npts - 1);
-        time     = normTime * 2.0 * M_PI / omega;
+        time = normTime * 2.0 * M_PI / omega;
 
-        angle[i]           = angularOffset + angularRange * sin(omega * time);
+        angle[i] = angularOffset + angularRange * sin(omega * time);
         angularVelocity[i] = angularRange * omega * cos(omega * time);
         tq.calcTorqueMuscleInfo(angle[i], angularVelocity[i], activationUpperBound, tmi);
 
@@ -1155,8 +1155,8 @@ TEST_CASE(__FILE__ "_fittingEasyTest", "")
 
     tq.setFittedParameters(tmFittingData);
 
-    double minActivation                   = 1.e20;
-    double maxActivation                   = -1.e20;
+    double minActivation = 1.e20;
+    double maxActivation = -1.e20;
     double maxPassiveTorqueAngleMultiplier = -1.0e20;
     for (unsigned int i = 0; i < angle.rows(); ++i)
     {
@@ -1196,14 +1196,14 @@ TEST_CASE(__FILE__ "_fittingHardTest", "")
     std::string name("hardTest");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     double angleOffset = 0.;
-    double angleSign   = 1;
-    double torqueSign  = -1;
+    double angleSign = 1;
+    double torqueSign = -1;
 
     Millard2016TorqueMuscle kneeExt(DataSet::Gymnast, subjectInfo, Gymnast::KneeExtension, angleOffset, angleSign,
                                     torqueSign, name);
@@ -1213,14 +1213,14 @@ TEST_CASE(__FILE__ "_fittingHardTest", "")
     qDot.resize(TorqueMuscleFittingHardTestCaseRows);
     tau.resize(TorqueMuscleFittingHardTestCaseRows);
 
-    double tauMax   = 0;
+    double tauMax = 0;
     double omegaMax = 0;
 
     for (unsigned int i = 0; i < TorqueMuscleFittingHardTestCaseRows; ++i)
     {
-        q[i]    = TorqueMuscleFittingHardTestCase[i][1];
+        q[i] = TorqueMuscleFittingHardTestCase[i][1];
         qDot[i] = TorqueMuscleFittingHardTestCase[i][2];
-        tau[i]  = TorqueMuscleFittingHardTestCase[i][3];
+        tau[i] = TorqueMuscleFittingHardTestCase[i][3];
 
         if (fabs(qDot[i]) > omegaMax)
         {
@@ -1233,8 +1233,8 @@ TEST_CASE(__FILE__ "_fittingHardTest", "")
     }
 
     double activationUB = 0.9;
-    double tpUB         = 0.75;
-    bool   verbose      = false;
+    double tpUB = 0.75;
+    bool verbose = false;
 
     TorqueMuscleParameterFittingData fittingData;
     TorqueMuscleFittingToolkit::fitTorqueMuscleParameters(kneeExt, q, qDot, tau, activationUB, tpUB, fittingData,
@@ -1247,7 +1247,7 @@ TEST_CASE(__FILE__ "_fittingHardTest", "")
 TEST_CASE(__FILE__ "_exampleUsage", "")
 {
 
-    bool printCurves    = false;
+    bool printCurves = false;
     bool printAllCurves = false;
 
     // int dataSet = DataSetAnderson2007;
@@ -1255,17 +1255,17 @@ TEST_CASE(__FILE__ "_exampleUsage", "")
     // int gender  = 0; //male
     // int age     = 0; //young
 
-    double jointAngleOffset  = 0;
-    double signOfJointAngle  = 1;
+    double jointAngleOffset = 0;
+    double signOfJointAngle = 1;
     double signOfJointTorque = 1;
 
     std::string name("test");
 
     SubjectInformation subjectInfo;
-    subjectInfo.gender         = GenderSet::Male;
-    subjectInfo.ageGroup       = AgeGroupSet::Young18To25;
+    subjectInfo.gender = GenderSet::Male;
+    subjectInfo.ageGroup = AgeGroupSet::Young18To25;
     subjectInfo.heightInMeters = 1.732;
-    subjectInfo.massInKg       = 69.0;
+    subjectInfo.massInKg = 69.0;
 
     std::vector<Millard2016TorqueMuscle> muscleVector;
 
@@ -1274,8 +1274,8 @@ TEST_CASE(__FILE__ "_exampleUsage", "")
     double angleTorqueSigns[][2] = {{-1, 1}, {-1, -1}, {1, -1}, {1, 1}, {-1, 1}, {-1, -1}};
 
     Millard2016TorqueMuscle tqMuscle;
-    std::stringstream       tqName;
-    int                     tqIdx;
+    std::stringstream tqName;
+    int tqIdx;
 
     for (int i = 0; i < Anderson2007::LastJointTorque; ++i)
     {
@@ -1310,7 +1310,7 @@ TEST_CASE(__FILE__ "_exampleUsage", "")
         std::stringstream muscleName;
 
         Millard2016TorqueMuscle muscle;
-        int                     genderIdx, ageIdx, tqIdx;
+        int genderIdx, ageIdx, tqIdx;
 
         for (int age = 0; age < Anderson2007::LastAgeGroup; ++age)
         {
@@ -1323,14 +1323,14 @@ TEST_CASE(__FILE__ "_exampleUsage", "")
                     muscleName.str(std::string());
 
                     genderIdx = Anderson2007::Gender(gender);
-                    ageIdx    = Anderson2007::AgeGroup(age);
-                    tqIdx     = Anderson2007::JointTorque(tqDir);
+                    ageIdx = Anderson2007::AgeGroup(age);
+                    tqIdx = Anderson2007::JointTorque(tqDir);
 
                     muscleName << "Anderson2007_" << AgeGroupSet::names[ageIdx] << "_" << GenderSet::names[genderIdx]
                                << "_" << JointTorqueSet::names[tqIdx];
 
                     subjectInfo.ageGroup = AgeGroupSet::item(age);
-                    subjectInfo.gender   = GenderSet::item(gender);
+                    subjectInfo.gender = GenderSet::item(gender);
 
                     muscle = Millard2016TorqueMuscle(DataSet::Anderson2007, subjectInfo,
                                                      Anderson2007::JointTorque(tqDir), 0, 1.0, 1.0, muscleName.str());

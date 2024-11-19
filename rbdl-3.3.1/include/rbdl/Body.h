@@ -34,10 +34,10 @@ struct RBDL_DLLAPI Body
     {
         if (this != &body)
         {
-            mMass         = body.mMass;
-            mInertia      = body.mInertia;
+            mMass = body.mMass;
+            mInertia = body.mInertia;
             mCenterOfMass = body.mCenterOfMass;
-            mIsVirtual    = body.mIsVirtual;
+            mIsVirtual = body.mIsVirtual;
         }
 
         return *this;
@@ -136,7 +136,7 @@ struct RBDL_DLLAPI Body
 #endif
 
         Math::Scalar other_mass = other_body.mMass;
-        Math::Scalar new_mass   = mMass + other_mass;
+        Math::Scalar new_mass = mMass + other_mass;
 
 #ifndef RBDL_USE_CASADI_MATH
         if (new_mass == 0.)
@@ -146,7 +146,7 @@ struct RBDL_DLLAPI Body
 #endif
 
         Math::Vector3d other_com = transform.E.transpose() * other_body.mCenterOfMass + transform.r;
-        Math::Vector3d new_com   = (1 / new_mass) * (mMass * mCenterOfMass + other_mass * other_com);
+        Math::Vector3d new_com = (1 / new_mass) * (mMass * mCenterOfMass + other_mass * other_com);
 
         LOG << "other_com = " << std::endl << other_com.transpose() << std::endl;
         LOG << "rotation = " << std::endl << transform.E << std::endl;
@@ -204,7 +204,7 @@ struct RBDL_DLLAPI Body
 #endif
 
         Math::Scalar other_mass = other_body.mMass;
-        Math::Scalar new_mass   = mMass - other_mass;
+        Math::Scalar new_mass = mMass - other_mass;
 
 #ifndef RBDL_USE_CASADI_MATH
         if (new_mass == 0.)
@@ -214,7 +214,7 @@ struct RBDL_DLLAPI Body
 #endif
 
         Math::Vector3d other_com = transform.E.transpose() * other_body.mCenterOfMass + transform.r;
-        Math::Vector3d new_com   = (1 / new_mass) * (mMass * mCenterOfMass - other_mass * other_com);
+        Math::Vector3d new_com = (1 / new_mass) * (mMass * mCenterOfMass - other_mass * other_com);
 
         LOG << "other_com = " << std::endl << other_com.transpose() << std::endl;
         LOG << "rotation = " << std::endl << transform.E << std::endl;
@@ -248,7 +248,7 @@ struct RBDL_DLLAPI Body
     ~Body(){};
 
     /// \brief The mass of the body
-    Math::Scalar   mMass;
+    Math::Scalar mMass;
     /// \brief The position of the center of mass in body coordinates
     Math::Vector3d mCenterOfMass;
     /// \brief Inertia matrix at the center of mass
@@ -266,14 +266,14 @@ struct RBDL_DLLAPI Body
 struct RBDL_DLLAPI FixedBody
 {
     /// \brief The mass of the body
-    Math::Scalar   mMass;
+    Math::Scalar mMass;
     /// \brief The position of the center of mass in body coordinates
     Math::Vector3d mCenterOfMass;
     /// \brief The spatial inertia that contains both mass and inertia information
     Math::Matrix3d mInertia;
 
     /// \brief Id of the movable body that this fixed body is attached to.
-    unsigned int           mMovableParent;
+    unsigned int mMovableParent;
     /// \brief Transforms spatial quantities expressed for the parent to the fixed body.
     Math::SpatialTransform mParentTransform;
     Math::SpatialTransform mBaseTransform;
@@ -282,9 +282,9 @@ struct RBDL_DLLAPI FixedBody
     {
         FixedBody fbody;
 
-        fbody.mMass         = body.mMass;
+        fbody.mMass = body.mMass;
         fbody.mCenterOfMass = body.mCenterOfMass;
-        fbody.mInertia      = body.mInertia;
+        fbody.mInertia = body.mInertia;
 
         return fbody;
     }

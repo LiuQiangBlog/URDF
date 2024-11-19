@@ -16,7 +16,7 @@ using namespace RigidBodyDynamics;
 using namespace RigidBodyDynamics::Math;
 
 const double TEST_PREC = 1.0e-12;
-const double TEST_LAX  = 1.0e-7;
+const double TEST_LAX = 1.0e-7;
 
 struct KinematicsFixture
 {
@@ -41,30 +41,30 @@ struct KinematicsFixture
          *      Y
          */
 
-        body_a  = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+        body_a = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
         joint_a = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_a_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-        body_b  = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        body_b = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         joint_b = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
 
         body_b_id = model->AddBody(body_a_id, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
-        body_c  = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+        body_c = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
         joint_c = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_c_id = model->AddBody(body_b_id, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        body_d  = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+        body_d = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
         joint_c = Joint(SpatialVector(1., 0., 0., 0., 0., 0.));
 
         body_d_id = model->AddBody(body_c_id, Xtrans(Vector3d(0., 0., -1.)), joint_c, body_d);
 
-        Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-        QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+        QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
         QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-        Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
         ClearLogOutput();
     }
@@ -76,8 +76,8 @@ struct KinematicsFixture
     Model *model;
 
     unsigned int body_a_id, body_b_id, body_c_id, body_d_id;
-    Body         body_a, body_b, body_c, body_d;
-    Joint        joint_a, joint_b, joint_c, joint_d;
+    Body body_a, body_b, body_c, body_d;
+    Joint joint_a, joint_b, joint_c, joint_d;
 
     VectorNd Q;
     VectorNd QDot;
@@ -106,19 +106,19 @@ struct KinematicsFixture6DoF
          */
 
         // base body (3 DoF)
-        base         = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
+        base = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
         joint_rotzyx = Joint(SpatialVector(0., 0., 1., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                              SpatialVector(1., 0., 0., 0., 0., 0.));
-        base_id      = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
+        base_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
 
         // child body (3 DoF)
-        child    = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         child_id = model->AddBody(base_id, Xtrans(Vector3d(1., 0., 0.)), joint_rotzyx, child);
 
-        Q     = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        QDot  = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Q = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        QDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
         QDDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        Tau   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Tau = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
         ClearLogOutput();
     }
@@ -130,8 +130,8 @@ struct KinematicsFixture6DoF
     Model *model;
 
     unsigned int base_id, child_id;
-    Body         base, child;
-    Joint        joint_rotzyx;
+    Body base, child;
+    Joint joint_rotzyx;
 
     VectorNd Q;
     VectorNd QDot;
@@ -321,7 +321,7 @@ TEST_CASE_METHOD(KinematicsFixture, __FILE__ "_TestCalcBodyToBaseCoordinatesRota
 TEST_CASE(__FILE__ "TestCalcPointJacobian", "")
 {
     Model model;
-    Body  base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
+    Body base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
 
     unsigned int base_body_id =
         model.AddBody(0, SpatialTransform(),
@@ -330,9 +330,9 @@ TEST_CASE(__FILE__ "TestCalcPointJacobian", "")
                             SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                       base_body);
 
-    VectorNd Q    = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDot = VectorNd::Constant((size_t)model.dof_count, 0.);
-    MatrixNd G    = MatrixNd::Constant(3, model.dof_count, 0.);
+    MatrixNd G = MatrixNd::Constant(3, model.dof_count, 0.);
     Vector3d point_position(1.1, 1.2, 2.1);
     Vector3d point_velocity_ref;
     Vector3d point_velocity;
@@ -365,8 +365,8 @@ TEST_CASE(__FILE__ "TestCalcPointJacobian", "")
 TEST_CASE_METHOD(KinematicsFixture, __FILE__ "_TestInverseKinematicSimple", "")
 {
     std::vector<unsigned int> body_ids;
-    std::vector<Vector3d>     body_points;
-    std::vector<Vector3d>     target_pos;
+    std::vector<Vector3d> body_points;
+    std::vector<Vector3d> target_pos;
 
     Q[0] = 0.2;
     Q[1] = 0.1;
@@ -374,9 +374,9 @@ TEST_CASE_METHOD(KinematicsFixture, __FILE__ "_TestInverseKinematicSimple", "")
 
     VectorNd Qres = VectorNd::Zero((size_t)model->dof_count);
 
-    unsigned int body_id    = body_d_id;
-    Vector3d     body_point = Vector3d(1., 0., 0.);
-    Vector3d     target(1.3, 0., 0.);
+    unsigned int body_id = body_d_id;
+    Vector3d body_point = Vector3d(1., 0., 0.);
+    Vector3d target(1.3, 0., 0.);
 
     body_ids.push_back(body_d_id);
     body_points.push_back(body_point);
@@ -398,8 +398,8 @@ TEST_CASE_METHOD(KinematicsFixture, __FILE__ "_TestInverseKinematicSimple", "")
 TEST_CASE_METHOD(KinematicsFixture6DoF, __FILE__ "TestInverseKinematicUnreachable", "")
 {
     std::vector<unsigned int> body_ids;
-    std::vector<Vector3d>     body_points;
-    std::vector<Vector3d>     target_pos;
+    std::vector<Vector3d> body_points;
+    std::vector<Vector3d> target_pos;
 
     Q[0] = 0.2;
     Q[1] = 0.1;
@@ -407,9 +407,9 @@ TEST_CASE_METHOD(KinematicsFixture6DoF, __FILE__ "TestInverseKinematicUnreachabl
 
     VectorNd Qres = VectorNd::Zero((size_t)model->dof_count);
 
-    unsigned int body_id    = child_id;
-    Vector3d     body_point = Vector3d(1., 0., 0.);
-    Vector3d     target(2.2, 0., 0.);
+    unsigned int body_id = child_id;
+    Vector3d body_point = Vector3d(1., 0., 0.);
+    Vector3d target(2.2, 0., 0.);
 
     body_ids.push_back(body_id);
     body_points.push_back(body_point);
@@ -431,8 +431,8 @@ TEST_CASE_METHOD(KinematicsFixture6DoF, __FILE__ "TestInverseKinematicUnreachabl
 TEST_CASE_METHOD(KinematicsFixture6DoF, __FILE__ "TestInverseKinematicTwoPoints", "")
 {
     std::vector<unsigned int> body_ids;
-    std::vector<Vector3d>     body_points;
-    std::vector<Vector3d>     target_pos;
+    std::vector<Vector3d> body_points;
+    std::vector<Vector3d> target_pos;
 
     Q[0] = 0.2;
     Q[1] = 0.1;
@@ -440,9 +440,9 @@ TEST_CASE_METHOD(KinematicsFixture6DoF, __FILE__ "TestInverseKinematicTwoPoints"
 
     VectorNd Qres = VectorNd::Zero((size_t)model->dof_count);
 
-    unsigned int body_id    = child_id;
-    Vector3d     body_point = Vector3d(1., 0., 0.);
-    Vector3d     target(2., 0., 0.);
+    unsigned int body_id = child_id;
+    Vector3d body_point = Vector3d(1., 0., 0.);
+    Vector3d target(2., 0., 0.);
 
     body_ids.push_back(body_id);
     body_points.push_back(body_point);
@@ -482,7 +482,7 @@ TEST_CASE(__FILE__ "_FixedJointBodyCalcBodyToBase", "")
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
     unsigned int fixed_body_id = model.AppendBody(Xtrans(Vector3d(0., 1., 0.)), Joint(JointTypeFixed), fixed_body);
 
-    VectorNd Q_zero      = VectorNd::Zero(model.dof_count);
+    VectorNd Q_zero = VectorNd::Zero(model.dof_count);
     Vector3d base_coords = CalcBodyToBaseCoordinates(model, Q_zero, fixed_body_id, Vector3d(1., 1., 0.1));
 
     CHECK_THAT(Vector3d(1., 2., 0.1), AllCloseVector(base_coords, TEST_PREC, TEST_PREC));
@@ -504,7 +504,7 @@ TEST_CASE(__FILE__ "_FixedJointBodyCalcBodyToBaseRotated", "")
     VectorNd Q = VectorNd::Zero(model.dof_count);
 
     ClearLogOutput();
-    Q[0]                 = M_PI * 0.5;
+    Q[0] = M_PI * 0.5;
     Vector3d base_coords = CalcBodyToBaseCoordinates(model, Q, fixed_body_id, Vector3d(1., 0., 0.));
     //	cout << LogOutput.str() << endl;
 
@@ -524,7 +524,7 @@ TEST_CASE(__FILE__ "_FixedJointBodyCalcBaseToBody", "")
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
     unsigned int fixed_body_id = model.AppendBody(Xtrans(Vector3d(0., 1., 0.)), Joint(JointTypeFixed), fixed_body);
 
-    VectorNd Q_zero      = VectorNd::Zero(model.dof_count);
+    VectorNd Q_zero = VectorNd::Zero(model.dof_count);
     Vector3d base_coords = CalcBaseToBodyCoordinates(model, Q_zero, fixed_body_id, Vector3d(1., 2., 0.1));
 
     CHECK_THAT(Vector3d(1., 1., 0.1), AllCloseVector(base_coords, TEST_PREC, TEST_PREC));
@@ -546,7 +546,7 @@ TEST_CASE(__FILE__ "_FixedJointBodyCalcBaseToBodyRotated", "")
     VectorNd Q = VectorNd::Zero(model.dof_count);
 
     ClearLogOutput();
-    Q[0]                 = M_PI * 0.5;
+    Q[0] = M_PI * 0.5;
     Vector3d base_coords = CalcBaseToBodyCoordinates(model, Q, fixed_body_id, Vector3d(0., 2., 0.));
     // cout << LogOutput.str() << endl;
 
@@ -565,10 +565,10 @@ TEST_CASE(__FILE__ "_FixedJointBodyWorldOrientation", "")
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
 
-    SpatialTransform transform     = Xrotz(0.25) * Xtrans(Vector3d(1., 2., 3.));
-    unsigned int     fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body);
+    SpatialTransform transform = Xrotz(0.25) * Xtrans(Vector3d(1., 2., 3.));
+    unsigned int fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body);
 
-    VectorNd Q_zero      = VectorNd::Zero(model.dof_count);
+    VectorNd Q_zero = VectorNd::Zero(model.dof_count);
     Matrix3d orientation = CalcBodyWorldOrientation(model, Q_zero, fixed_body_id);
 
     Matrix3d reference = transform.E;
@@ -588,20 +588,20 @@ TEST_CASE(__FILE__ "_FixedJointCalcPointJacobian", "")
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
     model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
 
-    SpatialTransform transform     = Xrotz(0.25) * Xtrans(Vector3d(1., 2., 3.));
-    unsigned int     fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body);
+    SpatialTransform transform = Xrotz(0.25) * Xtrans(Vector3d(1., 2., 3.));
+    unsigned int fixed_body_id = model.AppendBody(transform, Joint(JointTypeFixed), fixed_body);
 
-    VectorNd Q    = VectorNd::Zero(model.dof_count);
+    VectorNd Q = VectorNd::Zero(model.dof_count);
     VectorNd QDot = VectorNd::Zero(model.dof_count);
 
-    Q[0]    = 1.1;
+    Q[0] = 1.1;
     QDot[0] = 1.2;
 
     Vector3d point_position(1., 0., 0.);
 
     MatrixNd G = MatrixNd::Zero(3, model.dof_count);
     CalcPointJacobian(model, Q, fixed_body_id, point_position, G);
-    Vector3d point_velocity_jacobian  = G * QDot;
+    Vector3d point_velocity_jacobian = G * QDot;
     Vector3d point_velocity_reference = CalcPointVelocity(model, Q, QDot, fixed_body_id, point_position);
 
     CHECK_THAT(point_velocity_reference, AllCloseVector(point_velocity_jacobian, TEST_PREC, TEST_PREC));
@@ -612,7 +612,7 @@ TEST_CASE_METHOD(Human36, __FILE__ "_SpatialJacobianSimple", "")
     randomizeStates();
 
     unsigned int foot_r_id = model->GetBodyId("foot_r");
-    MatrixNd     G(MatrixNd::Zero(6, model->dof_count));
+    MatrixNd G(MatrixNd::Zero(6, model->dof_count));
 
     CalcBodySpatialJacobian(*model, q, foot_r_id, G);
 
@@ -627,11 +627,11 @@ TEST_CASE_METHOD(Human36, __FILE__ "_SpatialJacobianFixedBody", "")
     randomizeStates();
 
     unsigned int uppertrunk_id = model->GetBodyId("uppertrunk");
-    MatrixNd     G(MatrixNd::Zero(6, model->dof_count));
+    MatrixNd G(MatrixNd::Zero(6, model->dof_count));
 
     CalcBodySpatialJacobian(*model, q, uppertrunk_id, G);
 
-    unsigned int fixed_body_id  = uppertrunk_id - model->fixed_body_discriminator;
+    unsigned int fixed_body_id = uppertrunk_id - model->fixed_body_discriminator;
     unsigned int movable_parent = model->mFixedBodies[fixed_body_id].mMovableParent;
 
     UpdateKinematicsCustom(*model, &q, &qdot, NULL);
@@ -647,7 +647,7 @@ TEST_CASE_METHOD(Human36, __FILE__ "_CalcPointJacobian6D", "")
     randomizeStates();
 
     unsigned int foot_r_id = model->GetBodyId("foot_r");
-    Vector3d     point_local(1.1, 2.2, 3.3);
+    Vector3d point_local(1.1, 2.2, 3.3);
 
     // Compute the 6-D velocity using the 6-D Jacobian
     MatrixNd G(MatrixNd::Zero(6, model->dof_count));
@@ -656,7 +656,7 @@ TEST_CASE_METHOD(Human36, __FILE__ "_CalcPointJacobian6D", "")
 
     // Compute the 6-D velocity by transforming the body velocity to the
     // reference point and aligning it with the base coordinate system
-    Vector3d         r_point = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
+    Vector3d r_point = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
     SpatialTransform X_foot(Matrix3d::Identity(), r_point);
     UpdateKinematicsCustom(*model, &q, &qdot, NULL);
     SpatialVector v_foot_0_ref = X_foot.apply(model->X_base[foot_r_id].inverse().apply(model->v[foot_r_id]));
@@ -669,14 +669,14 @@ TEST_CASE_METHOD(Human36, __FILE__ "_CalcPointVelocity6D", "")
     randomizeStates();
 
     unsigned int foot_r_id = model->GetBodyId("foot_r");
-    Vector3d     point_local(1.1, 2.2, 3.3);
+    Vector3d point_local(1.1, 2.2, 3.3);
 
     // Compute the 6-D velocity
     SpatialVector v_foot_0 = CalcPointVelocity6D(*model, q, qdot, foot_r_id, point_local);
 
     // Compute the 6-D velocity by transforming the body velocity to the
     // reference point and aligning it with the base coordinate system
-    Vector3d         r_point = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
+    Vector3d r_point = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
     SpatialTransform X_foot(Matrix3d::Identity(), r_point);
     UpdateKinematicsCustom(*model, &q, &qdot, NULL);
     SpatialVector v_foot_0_ref = X_foot.apply(model->X_base[foot_r_id].inverse().apply(model->v[foot_r_id]));
@@ -689,7 +689,7 @@ TEST_CASE_METHOD(Human36, __FILE__ "_CalcPointAcceleration6D", "")
     randomizeStates();
 
     unsigned int foot_r_id = model->GetBodyId("foot_r");
-    Vector3d     point_local(1.1, 2.2, 3.3);
+    Vector3d point_local(1.1, 2.2, 3.3);
 
     // Compute the 6-D acceleration
     SpatialVector a_foot_0 = CalcPointAcceleration6D(*model, q, qdot, qddot, foot_r_id, point_local);
@@ -697,8 +697,8 @@ TEST_CASE_METHOD(Human36, __FILE__ "_CalcPointAcceleration6D", "")
     // Compute the 6-D acceleration by adding the coriolis term to the
     // acceleration of the body and transforming the result to the
     // point and align it with the base coordinate system.
-    Vector3d      r_point  = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
-    Vector3d      v_foot_0 = CalcPointVelocity(*model, q, qdot, foot_r_id, point_local);
+    Vector3d r_point = CalcBodyToBaseCoordinates(*model, q, foot_r_id, point_local);
+    Vector3d v_foot_0 = CalcPointVelocity(*model, q, qdot, foot_r_id, point_local);
     SpatialVector rdot(0., 0., 0., v_foot_0[0], v_foot_0[1], v_foot_0[2]);
 
     SpatialTransform X_foot(Matrix3d::Identity(), r_point);

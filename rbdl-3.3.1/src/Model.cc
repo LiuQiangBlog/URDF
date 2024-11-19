@@ -22,19 +22,19 @@ using namespace RigidBodyDynamics::Math;
 
 Model::Model()
 {
-    Body  root_body;
+    Body root_body;
     Joint root_joint;
 
-    Vector3d      zero_position(0., 0., 0.);
+    Vector3d zero_position(0., 0., 0.);
     SpatialVector zero_spatial(0., 0., 0., 0., 0., 0.);
 
     // structural information
     lambda.push_back(0);
     lambda_q.push_back(0);
     mu.emplace_back();
-    dof_count                = 0;
-    q_size                   = 0;
-    qdot_size                = 0;
+    dof_count = 0;
+    q_size = 0;
+    qdot_size = 0;
     previously_added_body_id = 0;
 
     gravity = Vector3d(0., -9.81, 0.);
@@ -84,22 +84,22 @@ Model::Model()
     fixed_body_discriminator = std::numeric_limits<unsigned int>::max() / 2;
 }
 
-unsigned int AddBodyFixedJoint(Model                  &model,
-                               const unsigned int      parent_id,
+unsigned int AddBodyFixedJoint(Model &model,
+                               const unsigned int parent_id,
                                const SpatialTransform &joint_frame,
-                               const Joint            &joint,
-                               const Body             &body,
-                               std::string             body_name)
+                               const Joint &joint,
+                               const Body &body,
+                               std::string body_name)
 {
-    FixedBody fbody        = FixedBody::CreateFromBody(body);
-    fbody.mMovableParent   = parent_id;
+    FixedBody fbody = FixedBody::CreateFromBody(body);
+    fbody.mMovableParent = parent_id;
     fbody.mParentTransform = joint_frame;
 
     if (model.IsFixedBodyId(parent_id))
     {
         FixedBody fixed_parent = model.mFixedBodies[parent_id - model.fixed_body_discriminator];
 
-        fbody.mMovableParent   = fixed_parent.mMovableParent;
+        fbody.mMovableParent = fixed_parent.mMovableParent;
         fbody.mParentTransform = joint_frame * fixed_parent.mParentTransform;
     }
 
@@ -107,7 +107,7 @@ unsigned int AddBodyFixedJoint(Model                  &model,
     Body parent_body = model.mBodies[fbody.mMovableParent];
     parent_body.Join(fbody.mParentTransform, body);
     model.mBodies[fbody.mMovableParent] = parent_body;
-    model.I[fbody.mMovableParent]       = SpatialRigidBodyInertia::createFromMassComInertiaC(
+    model.I[fbody.mMovableParent] = SpatialRigidBodyInertia::createFromMassComInertiaC(
         parent_body.mMass, parent_body.mCenterOfMass, parent_body.mInertia);
 
     model.mFixedBodies.push_back(fbody);
@@ -136,12 +136,12 @@ unsigned int AddBodyFixedJoint(Model                  &model,
     return model.mFixedBodies.size() + model.fixed_body_discriminator - 1;
 }
 
-unsigned int AddBodyMultiDofJoint(Model                  &model,
-                                  const unsigned int      parent_id,
+unsigned int AddBodyMultiDofJoint(Model &model,
+                                  const unsigned int parent_id,
                                   const SpatialTransform &joint_frame,
-                                  const Joint            &joint,
-                                  const Body             &body,
-                                  std::string             body_name)
+                                  const Joint &joint,
+                                  const Body &body,
+                                  std::string body_name)
 {
     // Here we emulate multi DoF joints by simply adding nullbodies. This
     // allows us to use fixed size elements for S,v,a, etc. which is very
@@ -185,7 +185,7 @@ unsigned int AddBodyMultiDofJoint(Model                  &model,
     Body null_body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
     null_body.mIsVirtual = true;
 
-    unsigned int     null_parent = parent_id;
+    unsigned int null_parent = parent_id;
     SpatialTransform joint_frame_transform;
 
     if (joint.mJointType == JointTypeFloatingBase)
@@ -195,7 +195,7 @@ unsigned int AddBodyMultiDofJoint(Model                  &model,
         return model.AddBody(null_parent, SpatialTransform(), JointTypeSpherical, body, body_name);
     }
 
-    Joint        single_dof_joint;
+    Joint single_dof_joint;
     unsigned int j;
 
     // Here we add multiple virtual bodies that have no mass or inertia for
@@ -256,11 +256,11 @@ unsigned int AddBodyMultiDofJoint(Model                  &model,
     return model.AddBody(null_parent, joint_frame_transform, single_dof_joint, body, body_name);
 }
 
-unsigned int Model::AddBody(const unsigned int      parent_id,
+unsigned int Model::AddBody(const unsigned int parent_id,
                             const SpatialTransform &joint_frame,
-                            const Joint            &joint,
-                            const Body             &body,
-                            const std::string      &body_name)
+                            const Joint &joint,
+                            const Body &body,
+                            const std::string &body_name)
 {
     assert(!lambda.empty());
     assert(joint.mJointType != JointTypeUndefined);
@@ -288,13 +288,13 @@ unsigned int Model::AddBody(const unsigned int      parent_id,
 
     // If we add the body to a fixed body we have to make sure that we
     // actually add it to its movable parent.
-    unsigned int     movable_parent_id = parent_id;
+    unsigned int movable_parent_id = parent_id;
     SpatialTransform movable_parent_transform;
 
     if (IsFixedBodyId(parent_id))
     {
-        unsigned int fbody_id    = parent_id - fixed_body_discriminator;
-        movable_parent_id        = mFixedBodies[fbody_id].mMovableParent;
+        unsigned int fbody_id = parent_id - fixed_body_discriminator;
+        movable_parent_id = mFixedBodies[fbody_id].mMovableParent;
         movable_parent_transform = mFixedBodies[fbody_id].mParentTransform;
     }
 
@@ -309,7 +309,7 @@ unsigned int Model::AddBody(const unsigned int      parent_id,
     else if (mJoints[mJoints.size() - 1].mJointType == JointTypeCustom)
     {
         unsigned int custom_index = mJoints[mJoints.size() - 1].custom_joint_index;
-        lambda_q_last             = lambda_q_last + mCustomJoints[mCustomJoints.size() - 1]->mDoFCount;
+        lambda_q_last = lambda_q_last + mCustomJoints[mCustomJoints.size() - 1]->mDoFCount;
     }
 
     for (unsigned int i = 0; i < joint.mDoFCount; i++)
@@ -369,7 +369,7 @@ unsigned int Model::AddBody(const unsigned int      parent_id,
 
     // update the w components of the Quaternions. They are stored at the end
     // of the q vector
-    int multdof3_joint_counter     = 0;
+    int multdof3_joint_counter = 0;
     int mCustomJoint_joint_counter = 0;
     for (unsigned int i = 1; i < mJoints.size(); i++)
     {
@@ -458,18 +458,18 @@ unsigned int Model::AddBody(const unsigned int      parent_id,
 }
 
 unsigned int Model::AppendBody(const Math::SpatialTransform &joint_frame,
-                               const Joint                  &joint,
-                               const Body                   &body,
-                               std::string                   body_name)
+                               const Joint &joint,
+                               const Body &body,
+                               std::string body_name)
 {
     return Model::AddBody(previously_added_body_id, joint_frame, joint, body, body_name);
 }
 
-unsigned int Model::AddBodyCustomJoint(const unsigned int            parent_id,
+unsigned int Model::AddBodyCustomJoint(const unsigned int parent_id,
                                        const Math::SpatialTransform &joint_frame,
-                                       CustomJoint                  *custom_joint,
-                                       const Body                   &body,
-                                       std::string                   body_name)
+                                       CustomJoint *custom_joint,
+                                       const Body &body,
+                                       std::string body_name)
 {
     Joint proxy_joint(JointTypeCustom, custom_joint->mDoFCount);
     proxy_joint.custom_joint_index = mCustomJoints.size();
@@ -491,11 +491,11 @@ void Model::UpdateInertiaMatrixForBody(const unsigned int id)
         body_id = mFixedBodies[id - fixed_body_discriminator].mMovableParent;
     }
 
-    const Body                   &body(mBodies[body_id]);
+    const Body &body(mBodies[body_id]);
     Math::SpatialRigidBodyInertia rbi =
         Math::SpatialRigidBodyInertia::createFromMassComInertiaC(body.mMass, body.mCenterOfMass, body.mInertia);
     Ic[body_id] = rbi;
-    I[body_id]  = rbi;
+    I[body_id] = rbi;
 }
 
 void Model::SetBodyMass(const unsigned int id, const double mass)
@@ -561,8 +561,8 @@ void Model::SetBodyCenterOfMass(const unsigned int id, const Math::Vector3d &com
     UpdateInertiaMatrixForBody(id);
 }
 
-void Model::SetBodyInertialParameters(const unsigned int    id,
-                                      const double          mass,
+void Model::SetBodyInertialParameters(const unsigned int id,
+                                      const double mass,
                                       const Math::Matrix3d &inertia,
                                       const Math::Vector3d &com)
 {
@@ -575,15 +575,15 @@ void Model::SetBodyInertialParameters(const unsigned int    id,
         // Finally, merge it again in the parent body
         FixedBody &fixedbody(mFixedBodies[id - fixed_body_discriminator]);
         mBodies[fixedbody.mMovableParent].Separate(fixedbody.mParentTransform, fixedbody.ToBody());
-        fixedbody.mMass         = mass;
-        fixedbody.mInertia      = inertia;
+        fixedbody.mMass = mass;
+        fixedbody.mInertia = inertia;
         fixedbody.mCenterOfMass = com;
         mBodies[fixedbody.mMovableParent].Join(fixedbody.mParentTransform, fixedbody.ToBody());
     }
     else
     {
-        mBodies[id].mMass         = mass;
-        mBodies[id].mInertia      = inertia;
+        mBodies[id].mMass = mass;
+        mBodies[id].mInertia = inertia;
         mBodies[id].mCenterOfMass = com;
     }
     UpdateInertiaMatrixForBody(id);

@@ -20,15 +20,15 @@ public:
     PinJointCustomConstraint() : Constraint(NULL, ConstraintTypeCustom, 5, std::numeric_limits<unsigned int>::max()) {}
 
     PinJointCustomConstraint( // const unsigned int rowInSystem,
-        const unsigned int            bodyIdPredecessor,
-        const unsigned int            bodyIdSuccessor,
+        const unsigned int bodyIdPredecessor,
+        const unsigned int bodyIdSuccessor,
         const Math::SpatialTransform &bodyFramePredecessor,
         const Math::SpatialTransform &bodyFrameSuccessor,
-        unsigned int                  x0y1z2,
-        const char                   *name                         = NULL,
-        unsigned int                  userDefinedId                = std::numeric_limits<unsigned int>::max(),
-        bool                          enableBaumgarteStabilization = false,
-        double                        baumgarteTStab               = 0.1)
+        unsigned int x0y1z2,
+        const char *name = NULL,
+        unsigned int userDefinedId = std::numeric_limits<unsigned int>::max(),
+        bool enableBaumgarteStabilization = false,
+        double baumgarteTStab = 0.1)
         : Constraint(name, ConstraintTypeCustom, 5, userDefinedId)
     {
         // Configure the parent member variables
@@ -95,13 +95,13 @@ public:
         // memory (it makes use of the memory in cache) so this function is blank.
     }
 
-    void calcConstraintJacobian(Model                &model,
-                                const double          time,
+    void calcConstraintJacobian(Model &model,
+                                const double time,
                                 const Math::VectorNd &Q,
                                 const Math::VectorNd &QDot,
-                                Math::MatrixNd       &GSysUpd,
-                                ConstraintCache      &cache,
-                                bool                  updKin) override
+                                Math::MatrixNd &GSysUpd,
+                                ConstraintCache &cache,
+                                bool updKin) override
     {
         // Set the working matrices for the previous/successor point Jacobians
         // to zero
@@ -117,19 +117,19 @@ public:
 
         for (unsigned int i = 0; i < T.size(); ++i)
         {
-            cache.svecA                                          = cache.stA.apply(T[i]);
+            cache.svecA = cache.stA.apply(T[i]);
             GSysUpd.block(rowInSystem + i, 0, 1, GSysUpd.cols()) = cache.svecA.transpose() * cache.mat6NA;
         }
     }
 
-    void calcGamma(Model                &model,
-                   const double          time,
+    void calcGamma(Model &model,
+                   const double time,
                    const Math::VectorNd &Q,
                    const Math::VectorNd &QDot,
                    const Math::MatrixNd &GSys,
-                   Math::VectorNd       &gammaSysUpd,
-                   ConstraintCache      &cache,
-                   bool                  updKin) override
+                   Math::VectorNd &gammaSysUpd,
+                   ConstraintCache &cache,
+                   bool updKin) override
     {
         /*
           Position-level
@@ -200,12 +200,12 @@ public:
         }
     }
 
-    void calcPositionError(Model                &model,
-                           const double          time,
+    void calcPositionError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
-                           Math::VectorNd       &errSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updKin) override
+                           Math::VectorNd &errSysUpd,
+                           ConstraintCache &cache,
+                           bool updKin) override
     {
         // r0P0
         cache.vec3A = CalcBodyToBaseCoordinates(model, Q, bodyIds[0], bodyFrames[0].r, false);
@@ -221,9 +221,9 @@ public:
 
         cache.mat3C = cache.mat3A.transpose() * cache.mat3B;
 
-        cache.svecA[0]                = -0.5 * (cache.mat3C(1, 2) - cache.mat3C(2, 1));
-        cache.svecA[1]                = -0.5 * (cache.mat3C(2, 0) - cache.mat3C(0, 2));
-        cache.svecA[2]                = -0.5 * (cache.mat3C(0, 1) - cache.mat3C(1, 0));
+        cache.svecA[0] = -0.5 * (cache.mat3C(1, 2) - cache.mat3C(2, 1));
+        cache.svecA[1] = -0.5 * (cache.mat3C(2, 0) - cache.mat3C(0, 2));
+        cache.svecA[2] = -0.5 * (cache.mat3C(0, 1) - cache.mat3C(1, 0));
         cache.svecA.block(3, 0, 3, 1) = cache.mat3A.transpose() * (cache.vec3B - cache.vec3A);
 
         for (unsigned int i = 0; i < T.size(); ++i)
@@ -232,14 +232,14 @@ public:
         }
     }
 
-    void calcVelocityError(Model                &model,
-                           const double          time,
+    void calcVelocityError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
                            const Math::VectorNd &QDot,
                            const Math::MatrixNd &GSys,
-                           Math::VectorNd       &derrSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updKin) override
+                           Math::VectorNd &derrSysUpd,
+                           ConstraintCache &cache,
+                           bool updKin) override
     {
         // Since this is a time-invariant constraint the expression for
         // the velocity error is quite straight forward:
@@ -253,18 +253,18 @@ public:
         }
     }
 
-    void calcConstraintForces(Model                               &model,
-                              const double                         time,
-                              const Math::VectorNd                &Q,
-                              const Math::VectorNd                &QDot,
-                              const Math::MatrixNd                &GSys,
-                              const Math::VectorNd                &LagrangeMultipliersSys,
-                              std::vector<unsigned int>           &constraintBodiesUpd,
+    void calcConstraintForces(Model &model,
+                              const double time,
+                              const Math::VectorNd &Q,
+                              const Math::VectorNd &QDot,
+                              const Math::MatrixNd &GSys,
+                              const Math::VectorNd &LagrangeMultipliersSys,
+                              std::vector<unsigned int> &constraintBodiesUpd,
                               std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                              std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                              ConstraintCache                     &cache,
-                              bool                                 resolveAllInRootFrame,
-                              bool                                 updKin) override
+                              std::vector<Math::SpatialVector> &constraintForcesUpd,
+                              ConstraintCache &cache,
+                              bool resolveAllInRootFrame,
+                              bool updKin) override
     {
 
         constraintBodiesUpd.resize(2);
@@ -289,7 +289,7 @@ public:
         cache.svecB.setZero();
         for (unsigned int i = 0; i < sizeOfConstraint; ++i)
         {
-            cache.svecA  = cache.stA.apply(T[i]);
+            cache.svecA = cache.stA.apply(T[i]);
             cache.svecB += cache.svecA * LagrangeMultipliersSys[rowInSystem + i];
         }
 
@@ -321,7 +321,7 @@ public:
         else
         {
 
-            constraintBodiesUpd     = bodyIds;
+            constraintBodiesUpd = bodyIds;
             constraintBodyFramesUpd = bodyFrames;
 
             constraintForcesUpd[0].block(0, 0, 3, 1) = -cache.stA.E.transpose() * cache.svecB.block(0, 0, 3, 1);
@@ -386,15 +386,15 @@ public:
         assignedIdRy = cs.AddCustomConstraint(ccPJYaxis);
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
-    unsigned int  assignedIdRz, assignedIdRy;
+    unsigned int assignedIdRz, assignedIdRy;
 
     VectorNd q;
     VectorNd qd;
@@ -425,16 +425,16 @@ TEST_CASE(__FILE__ "_CustomConstraintCorrectnessTest", "")
 
     // Test to add:
     //   Jacobian vs. num Jacobian
-    DoublePerpendicularPendulumCustomConstraint    dbcc = DoublePerpendicularPendulumCustomConstraint();
-    DoublePerpendicularPendulumAbsoluteCoordinates dba  = DoublePerpendicularPendulumAbsoluteCoordinates();
-    DoublePerpendicularPendulumJointCoordinates    dbj  = DoublePerpendicularPendulumJointCoordinates();
+    DoublePerpendicularPendulumCustomConstraint dbcc = DoublePerpendicularPendulumCustomConstraint();
+    DoublePerpendicularPendulumAbsoluteCoordinates dba = DoublePerpendicularPendulumAbsoluteCoordinates();
+    DoublePerpendicularPendulumJointCoordinates dbj = DoublePerpendicularPendulumJointCoordinates();
 
     // 1. Set the pendulum modeled using joint coordinates to a specific
     //     state and then compute the spatial acceleration of the body.
-    dbj.q[0]   = M_PI / 3.0; // About z0
-    dbj.q[1]   = M_PI / 6.0; // About y1
-    dbj.qd[0]  = M_PI;       // About z0
-    dbj.qd[1]  = M_PI / 2.0; // About y1
+    dbj.q[0] = M_PI / 3.0;  // About z0
+    dbj.q[1] = M_PI / 6.0;  // About y1
+    dbj.qd[0] = M_PI;       // About z0
+    dbj.qd[1] = M_PI / 2.0; // About y1
     dbj.tau[0] = 0.;
     dbj.tau[1] = 0.;
 
@@ -466,34 +466,34 @@ TEST_CASE(__FILE__ "_CustomConstraintCorrectnessTest", "")
     //    equivalent state as the pendulum modelled using joint
     //    coordinates. Next
 
-    double qError    = 1.0;
+    double qError = 1.0;
     double qDotError = 1.0;
 
     // Pefectly initialize the pendulum made with custom constraints and
     // perturb the initialization a bit.
-    dbcc.q[0]  = r010[0];
-    dbcc.q[1]  = r010[1] + qError;
-    dbcc.q[2]  = r010[2];
-    dbcc.q[3]  = dbj.q[0];
-    dbcc.q[4]  = 0;
-    dbcc.q[5]  = 0;
-    dbcc.q[6]  = r020[0];
-    dbcc.q[7]  = r020[1];
-    dbcc.q[8]  = r020[2];
-    dbcc.q[9]  = dbj.q[0];
+    dbcc.q[0] = r010[0];
+    dbcc.q[1] = r010[1] + qError;
+    dbcc.q[2] = r010[2];
+    dbcc.q[3] = dbj.q[0];
+    dbcc.q[4] = 0;
+    dbcc.q[5] = 0;
+    dbcc.q[6] = r020[0];
+    dbcc.q[7] = r020[1];
+    dbcc.q[8] = r020[2];
+    dbcc.q[9] = dbj.q[0];
     dbcc.q[10] = dbj.q[1];
     dbcc.q[11] = 0;
 
-    dbcc.qd[0]  = v010[3];
-    dbcc.qd[1]  = v010[4] + qDotError;
-    dbcc.qd[2]  = v010[5];
-    dbcc.qd[3]  = dbj.qd[0];
-    dbcc.qd[4]  = 0;
-    dbcc.qd[5]  = 0;
-    dbcc.qd[6]  = v020[3];
-    dbcc.qd[7]  = v020[4];
-    dbcc.qd[8]  = v020[5];
-    dbcc.qd[9]  = dbj.qd[0];
+    dbcc.qd[0] = v010[3];
+    dbcc.qd[1] = v010[4] + qDotError;
+    dbcc.qd[2] = v010[5];
+    dbcc.qd[3] = dbj.qd[0];
+    dbcc.qd[4] = 0;
+    dbcc.qd[5] = 0;
+    dbcc.qd[6] = v020[3];
+    dbcc.qd[7] = v020[4];
+    dbcc.qd[8] = v020[5];
+    dbcc.qd[9] = dbj.qd[0];
     dbcc.qd[10] = dbj.qd[1];
     dbcc.qd[11] = 0;
 
@@ -515,7 +515,7 @@ TEST_CASE(__FILE__ "_CustomConstraintCorrectnessTest", "")
     {
         w[i] = 1.0;
     }
-    double       tol     = 1e-8;
+    double tol = 1e-8;
     unsigned int maxIter = 100;
 
     CalcAssemblyQ(dbcc.model, dbcc.q, dbcc.cs, qAsm, w, tol, maxIter);
@@ -546,7 +546,7 @@ TEST_CASE(__FILE__ "_CustomConstraintCorrectnessTest", "")
 
     // Evaluate the accelerations of the constrained pendulum and
     // compare those to the joint-coordinate pendulum
-    dba.q  = dbcc.q;
+    dba.q = dbcc.q;
     dba.qd = dbcc.qd;
 
     for (unsigned int i = 0; i < dbcc.tau.rows(); ++i)
@@ -585,11 +585,11 @@ TEST_CASE(__FILE__ "_CustomConstraintCorrectnessTest", "")
     //   }
     // }
 
-    std::vector<unsigned int>     bodyIdDba, bodyIdDbcc;
+    std::vector<unsigned int> bodyIdDba, bodyIdDbcc;
     std::vector<SpatialTransform> bodyFramesDba, bodyFramesDbcc;
-    std::vector<SpatialVector>    forcesDba, forcesDbcc;
+    std::vector<SpatialVector> forcesDba, forcesDbcc;
 
-    bool updKin      = false;
+    bool updKin = false;
     bool inBaseFrame = false;
 
     for (unsigned int i = 0; i < dba.cs.constraints.size(); ++i)

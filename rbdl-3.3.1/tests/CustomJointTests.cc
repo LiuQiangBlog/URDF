@@ -23,7 +23,7 @@ struct CustomEulerZYXJoint : public CustomJoint
     CustomEulerZYXJoint()
     {
         mDoFCount = 3;
-        S         = MatrixNd::Zero(6, 3);
+        S = MatrixNd::Zero(6, 3);
     };
 
     virtual void jcalc(Model &model, unsigned int joint_id, const Math::VectorNd &q, const Math::VectorNd &qdot)
@@ -74,15 +74,15 @@ struct CustomJointFixture
     {
         custom_joint = new CustomEulerZYXJoint();
 
-        Matrix3d inertia  = Matrix3d::Identity(3, 3);
-        body              = Body(1., Vector3d(1.1, 1.2, 1.3), inertia);
+        Matrix3d inertia = Matrix3d::Identity(3, 3);
+        body = Body(1., Vector3d(1.1, 1.2, 1.3), inertia);
         reference_body_id = reference_model.AddBody(0, SpatialTransform(), Joint(JointTypeEulerZYX), body);
-        custom_body_id    = custom_model.AddBodyCustomJoint(0, SpatialTransform(), custom_joint, body);
+        custom_body_id = custom_model.AddBodyCustomJoint(0, SpatialTransform(), custom_joint, body);
 
-        q     = VectorNd::Zero(reference_model.q_size);
-        qdot  = VectorNd::Zero(reference_model.qdot_size);
+        q = VectorNd::Zero(reference_model.q_size);
+        qdot = VectorNd::Zero(reference_model.qdot_size);
         qddot = VectorNd::Zero(reference_model.qdot_size);
-        tau   = VectorNd::Zero(reference_model.qdot_size);
+        tau = VectorNd::Zero(reference_model.qdot_size);
     }
 
     ~CustomJointFixture()
@@ -93,7 +93,7 @@ struct CustomJointFixture
     Model reference_model;
     Model custom_model;
 
-    Body         body;
+    Body body;
     CustomJoint *custom_joint;
 
     unsigned int reference_body_id;
@@ -109,8 +109,8 @@ TEST_CASE_METHOD(CustomJointFixture, __FILE__ "_UpdateKinematics", "")
 {
     for (unsigned int i = 0; i < 3; i++)
     {
-        q[i]     = i * 0.1;
-        qdot[i]  = i * 0.15;
+        q[i] = i * 0.1;
+        qdot[i] = i * 0.15;
         qddot[i] = i * 0.17;
     }
 

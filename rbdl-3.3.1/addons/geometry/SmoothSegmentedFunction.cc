@@ -49,12 +49,12 @@
 using namespace std;
 using namespace RigidBodyDynamics::Addons::Geometry;
 
-static bool   DEBUG          = false;
-static double UTOL           = std::numeric_limits<double>::epsilon() * 1e6;
-static double INTTOL         = std::numeric_limits<double>::epsilon() * 1e2;
-static double SQRTEPS        = std::sqrt(numeric_limits<double>::epsilon());
-static int    MAXITER        = 20;
-static int    NUM_SAMPLE_PTS = 100;
+static bool DEBUG = false;
+static double UTOL = std::numeric_limits<double>::epsilon() * 1e6;
+static double INTTOL = std::numeric_limits<double>::epsilon() * 1e2;
+static double SQRTEPS = std::sqrt(numeric_limits<double>::epsilon());
+static int MAXITER = 20;
+static int NUM_SAMPLE_PTS = 100;
 //=============================================================================
 // UTILITY FUNCTIONS
 //=============================================================================
@@ -108,13 +108,13 @@ static int    NUM_SAMPLE_PTS = 100;
 */
 SmoothSegmentedFunction::SmoothSegmentedFunction(const RigidBodyDynamics::Math::MatrixNd &mX,
                                                  const RigidBodyDynamics::Math::MatrixNd &mY,
-                                                 double                                   x0,
-                                                 double                                   x1,
-                                                 double                                   y0,
-                                                 double                                   y1,
-                                                 double                                   dydx0,
-                                                 double                                   dydx1,
-                                                 const std::string                       &name)
+                                                 double x0,
+                                                 double x1,
+                                                 double y0,
+                                                 double y1,
+                                                 double dydx0,
+                                                 double dydx1,
+                                                 const std::string &name)
     : _x0(x0), _x1(x1), _y0(y0), _y1(y1), _dydx0(dydx0), _dydx1(dydx1), _name(name)
 {
 
@@ -142,13 +142,13 @@ SmoothSegmentedFunction::SmoothSegmentedFunction()
 //==============================================================================
 void SmoothSegmentedFunction::updSmoothSegmentedFunction(const RigidBodyDynamics::Math::MatrixNd &mX,
                                                          const RigidBodyDynamics::Math::MatrixNd &mY,
-                                                         double                                   x0,
-                                                         double                                   x1,
-                                                         double                                   y0,
-                                                         double                                   y1,
-                                                         double                                   dydx0,
-                                                         double                                   dydx1,
-                                                         const std::string                       &name)
+                                                         double x0,
+                                                         double x1,
+                                                         double y0,
+                                                         double y1,
+                                                         double dydx0,
+                                                         double dydx1,
+                                                         const std::string &name)
 {
 
     if (mX.rows() != 6 || mY.rows() != 6 || mX.cols() != mY.cols())
@@ -162,10 +162,10 @@ void SmoothSegmentedFunction::updSmoothSegmentedFunction(const RigidBodyDynamics
         //! [Size Mismatch]
     }
 
-    _x0    = x0;
-    _x1    = x1;
-    _y0    = y0;
-    _y1    = y1;
+    _x0 = x0;
+    _x1 = x1;
+    _y0 = y0;
+    _y1 = y1;
     _dydx0 = dydx0;
     _dydx1 = dydx1;
 
@@ -217,10 +217,10 @@ void SmoothSegmentedFunction::scale(double xScale, double yScale)
         //! [Invalid Parameter]
     }
 
-    _x0    *= xScale;
-    _x1    *= xScale;
-    _y0    *= yScale;
-    _y1    *= yScale;
+    _x0 *= xScale;
+    _x1 *= xScale;
+    _y0 *= yScale;
+    _y1 *= yScale;
     _dydx0 *= yScale / xScale;
     _dydx1 *= yScale / xScale;
 
@@ -262,9 +262,9 @@ double SmoothSegmentedFunction::calcValue(double x) const
     double yVal = 0;
     if (x >= _x0 && x <= _x1)
     {
-        int    idx = SegmentedQuinticBezierToolkit::calcIndex(x, _mXVec);
-        double u   = SegmentedQuinticBezierToolkit::calcU(x, _mXVec[idx], UTOL, MAXITER);
-        yVal       = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, _mYVec[idx]);
+        int idx = SegmentedQuinticBezierToolkit::calcIndex(x, _mXVec);
+        double u = SegmentedQuinticBezierToolkit::calcU(x, _mXVec[idx], UTOL, MAXITER);
+        yVal = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, _mYVec[idx]);
     }
     else
     {
@@ -286,29 +286,29 @@ double SmoothSegmentedFunction::calcInverseValue(double y, double xGuess) const
 
     double xVal = 0;
 
-    int    idx       = -1;
-    double yLeft     = 0.;
-    double yRight    = 0;
-    double xLeft     = 0.;
-    double xRight    = 0;
-    double xDist     = 0;
+    int idx = -1;
+    double yLeft = 0.;
+    double yRight = 0;
+    double xLeft = 0.;
+    double xRight = 0;
+    double xDist = 0;
     double xDistBest = numeric_limits<double>::infinity();
 
     for (unsigned int i = 0; i < _numBezierSections; ++i)
     {
 
-        yLeft  = y - _mYVec[i][0];
+        yLeft = y - _mYVec[i][0];
         yRight = _mYVec[i][5] - y;
 
-        xLeft  = xGuess - _mXVec[i][0];
+        xLeft = xGuess - _mXVec[i][0];
         xRight = _mXVec[i][5] - xGuess;
-        xDist  = fabs(xLeft) + fabs(xRight);
+        xDist = fabs(xLeft) + fabs(xRight);
 
         // If the y value is in the spline interval and the
         // x interval is closer to the guess, update the interval
         if (yLeft * yRight >= 0 && xDist < xDistBest)
         {
-            idx       = i;
+            idx = i;
             xDistBest = xDist;
         }
     }
@@ -333,7 +333,7 @@ double SmoothSegmentedFunction::calcInverseValue(double y, double xGuess) const
     {
         // y is in an interval
         double u = SegmentedQuinticBezierToolkit::calcU(y, _mYVec[idx], UTOL, MAXITER);
-        xVal     = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, _mXVec[idx]);
+        xVal = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, _mXVec[idx]);
     }
 
     return xVal;
@@ -398,8 +398,8 @@ double SmoothSegmentedFunction::calcDerivative(double x, int order) const
     {
         if (x >= _x0 && x <= _x1)
         {
-            int    idx = SegmentedQuinticBezierToolkit::calcIndex(x, _mXVec);
-            double u   = SegmentedQuinticBezierToolkit::calcU(x, _mXVec[idx], UTOL, MAXITER);
+            int idx = SegmentedQuinticBezierToolkit::calcIndex(x, _mXVec);
+            double u = SegmentedQuinticBezierToolkit::calcU(x, _mXVec[idx], UTOL, MAXITER);
             yVal = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(u, _mXVec[idx], _mYVec[idx], order);
             /*
                           std::cout << _mX(3, idx) << std::endl;
@@ -428,7 +428,7 @@ double SmoothSegmentedFunction::calcDerivative(double x, int order) const
     return yVal;
 }
 
-double SmoothSegmentedFunction::calcDerivative(const std::vector<int>                  &derivComponents,
+double SmoothSegmentedFunction::calcDerivative(const std::vector<int> &derivComponents,
                                                const RigidBodyDynamics::Math::VectorNd &ax) const
 {
     /*
@@ -649,7 +649,7 @@ SmoothSegmentedFunction::calcSampledCurve(int maxOrder, double domainMin, double
         throw RigidBodyDynamics::Errors::RBDLError(errormsg.str());
     }
 
-    double                            x0, x1, delta;
+    double x0, x1, delta;
     // y,dy,d1y,d2y,d3y,d4y,d5y,d6y,iy
     RigidBodyDynamics::Math::VectorNd midX(NUM_SAMPLE_PTS * _numBezierSections - (_numBezierSections - 1));
     RigidBodyDynamics::Math::VectorNd x(NUM_SAMPLE_PTS);
@@ -657,13 +657,13 @@ SmoothSegmentedFunction::calcSampledCurve(int maxOrder, double domainMin, double
     // Generate a sample of X values inside of the curve that is denser where
     // the curve is more curvy.
     double u;
-    int    idx = 0;
+    int idx = 0;
     for (int s = 0; s < _numBezierSections; s++)
     {
         // Sample the local set for u and x
         for (int i = 0; i < NUM_SAMPLE_PTS; i++)
         {
-            u    = ((double)i) / ((double)(NUM_SAMPLE_PTS - 1));
+            u = ((double)i) / ((double)(NUM_SAMPLE_PTS - 1));
             x[i] = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, _mXVec[s]);
             if (_numBezierSections > 1)
             {
@@ -721,13 +721,13 @@ SmoothSegmentedFunction::calcSampledCurve(int maxOrder, double domainMin, double
 
     // generate some sample points in the extrapolated region
     idx = 0;
-    x0  = _x0 - 0.1 * (_x1 - _x0);
+    x0 = _x0 - 0.1 * (_x1 - _x0);
     if (domainMin < x0)
     {
         x0 = domainMin;
     }
 
-    x1    = _x0;
+    x1 = _x0;
     delta = (0.1) * (x1 - x0) / (pts);
 
     for (int j = 0; j < pts * 10; j++)
@@ -739,8 +739,8 @@ SmoothSegmentedFunction::calcSampledCurve(int maxOrder, double domainMin, double
     // generate some points in the mid region
     for (int i = 0; i < midX.size() - 1; i++)
     {
-        x0    = midX[i];
-        x1    = midX[i + 1];
+        x0 = midX[i];
+        x1 = midX[i + 1];
         delta = (x1 - x0) / pts;
         for (int j = 0; j < pts; j++)
         {
@@ -769,7 +769,7 @@ SmoothSegmentedFunction::calcSampledCurve(int maxOrder, double domainMin, double
     RigidBodyDynamics::Math::VectorNd ax(1);
     for (int i = 0; i < xsmpl.size(); i++)
     {
-        ax[0]         = xsmpl[i];
+        ax[0] = xsmpl[i];
         results(i, 0) = ax[0];
         if (i == 48)
         {
@@ -867,12 +867,12 @@ _______________________________________________________________________
 */
 void SmoothSegmentedFunction::printCurveToCSVFile(const std::string &path,
                                                   const std::string &fileNameWithoutExtension,
-                                                  double             domainMin,
-                                                  double             domainMax) const
+                                                  double domainMin,
+                                                  double domainMax) const
 {
     // Only compute up to the 2nd derivative
     RigidBodyDynamics::Math::MatrixNd results = calcSampledCurve(2, domainMin, domainMax);
-    std::vector<std::string>          colNames(results.cols());
+    std::vector<std::string> colNames(results.cols());
     colNames[0] = "x";
     colNames[1] = "y";
     colNames[2] = "dy/dx";
@@ -890,12 +890,12 @@ void SmoothSegmentedFunction::printCurveToCSVFile(const std::string &path,
 This function will print cvs file of the column vector col0 and the matrix data
 */
 void SmoothSegmentedFunction::printMatrixToFile(RigidBodyDynamics::Math::MatrixNd &data,
-                                                std::vector<std::string>          &colNames,
-                                                const std::string                 &path,
-                                                const std::string                 &filename) const
+                                                std::vector<std::string> &colNames,
+                                                const std::string &path,
+                                                const std::string &filename) const
 {
 
-    ofstream    datafile;
+    ofstream datafile;
     std::string fullpath = path;
 
     if (fullpath.length() > 0)

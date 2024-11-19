@@ -41,9 +41,9 @@ struct PlanarBipedFloatingBase
 
         Joint joint_Ry = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
 
-        idxPelvis        = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_TxzRy, pelvis);
-        idxLeftUpperLeg  = model.AddBody(idxPelvis, Xtrans(Vector3d(-pelvisWidth * 0.5, 0., 0.)), joint_Ry, segment);
-        idxLeftLowerLeg  = model.AddBody(idxLeftUpperLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Ry, segment);
+        idxPelvis = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_TxzRy, pelvis);
+        idxLeftUpperLeg = model.AddBody(idxPelvis, Xtrans(Vector3d(-pelvisWidth * 0.5, 0., 0.)), joint_Ry, segment);
+        idxLeftLowerLeg = model.AddBody(idxLeftUpperLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Ry, segment);
         idxRightUpperLeg = model.AddBody(idxPelvis, Xtrans(Vector3d(pelvisWidth * 0.5, 0., 0.)), joint_Ry, segment);
         idxRightLowerLeg = model.AddBody(idxRightUpperLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Ry, segment);
 
@@ -62,13 +62,13 @@ struct PlanarBipedFloatingBase
         cs[1].AddContactConstraint(idxLeftLowerLeg, Vector3d(0., 0., -segmentLength), Vector3d(0., 0., 1.));
         cs[1].Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    Model                      model;
+    Model model;
     std::vector<ConstraintSet> cs;
 
     VectorNd q;
@@ -112,7 +112,7 @@ struct SpatialBipedFloatingBase
         calcCuboidInertia(footMass, footLength, 0.1 * footLength, 0.1 * footLength, footInertia);
 
         Body segment = Body(segmentMass, Vector3d(0, 0., -0.5 * segmentLength), segmentInertia);
-        Body pelvis  = Body(pelvisMass, Vector3d(0, 0., 0.), pelvisInertia);
+        Body pelvis = Body(pelvisMass, Vector3d(0, 0., 0.), pelvisInertia);
 
         Body foot = Body(footMass, Vector3d(0.5 * footLength, 0., 0.), footInertia);
 
@@ -122,7 +122,7 @@ struct SpatialBipedFloatingBase
 
         Joint joint_Ry = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
 
-        Joint joint_Rxy  = Joint(SpatialVector(1., 0., 0., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.));
+        Joint joint_Rxy = Joint(SpatialVector(1., 0., 0., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.));
         Joint joint_Rxyz = Joint(SpatialVector(1., 0., 0., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                                  SpatialVector(0., 0., 1., 0., 0., 0.));
 
@@ -130,15 +130,15 @@ struct SpatialBipedFloatingBase
 
         idxLeftUpperLeg = model.AddBody(idxPelvis, Xtrans(Vector3d(-pelvisWidth * 0.5, 0., 0.)), joint_Rxyz, segment);
         idxLeftLowerLeg = model.AddBody(idxLeftUpperLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Ry, segment);
-        idxLeftFoot     = model.AddBody(idxLeftLowerLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Rxy, foot);
+        idxLeftFoot = model.AddBody(idxLeftLowerLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Rxy, foot);
 
         idxRightUpperLeg = model.AddBody(idxPelvis, Xtrans(Vector3d(pelvisWidth * 0.5, 0., 0.)), joint_Rxyz, segment);
         idxRightLowerLeg = model.AddBody(idxRightUpperLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Ry, segment);
-        idxRightFoot     = model.AddBody(idxRightLowerLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Rxy, foot);
+        idxRightFoot = model.AddBody(idxRightLowerLeg, Xtrans(Vector3d(0., 0., -segmentLength)), joint_Rxy, foot);
 
-        SpatialTransform X_zero               = Xtrans(Vector3d(0., 0., 0.));
-        bool             baumgarteEnabled     = false;
-        double           timeStabilityInverse = 0.1;
+        SpatialTransform X_zero = Xtrans(Vector3d(0., 0., 0.));
+        bool baumgarteEnabled = false;
+        double timeStabilityInverse = 0.1;
 
         cs.AddLoopConstraint(idxLeftFoot, 0, X_zero, X_zero, SpatialVector(0, 0, 0, 1, 0, 0), baumgarteEnabled,
                              timeStabilityInverse);
@@ -167,13 +167,13 @@ struct SpatialBipedFloatingBase
                              timeStabilityInverse);
 
         cs.Bind(model);
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
 
     VectorNd q;
@@ -206,8 +206,8 @@ TEST_CASE_METHOD(PlanarBipedFloatingBase, __FILE__ "_TestCorrectness", "")
     // 1. Make the simple biped
     // 2. Assemble it to a specific q and qdot.
 
-    VectorNd          q0, qd0, weights, qddTarget, lambda, qddFwd, qddErr, lambdaIdc, lambdaFwd, lambdaErr;
-    MatrixNd          K;
+    VectorNd q0, qd0, weights, qddTarget, lambda, qddFwd, qddErr, lambdaIdc, lambdaFwd, lambdaErr;
+    MatrixNd K;
     std::vector<bool> dofActuated;
 
     unsigned int n = unsigned(int(q.rows()));
@@ -297,7 +297,7 @@ TEST_CASE_METHOD(PlanarBipedFloatingBase, __FILE__ "_TestCorrectness", "")
     ForwardDynamicsConstraintsDirect(model, q, qd, tauIDC, cs[0], qddFwd);
     lambdaFwd = cs[0].force;
 
-    qddErr    = qddIDC - qddFwd;
+    qddErr = qddIDC - qddFwd;
     lambdaErr = lambdaIdc - lambdaFwd;
     for (unsigned int i = 0; i < q.rows(); ++i)
     {
@@ -405,7 +405,7 @@ TEST_CASE_METHOD(PlanarBipedFloatingBase, __FILE__ "_TestCorrectness", "")
             InverseDynamicsConstraintsRelaxed(model, q, qd, qddTarget, cs[0], qddIDC, tauIDC);
         }
         auto tidcr2 = std::chrono::high_resolution_clock::now();
-        auto tidcr  = std::chrono::duration_cast<std::chrono::microseconds>(tidcr2 - tidcr1);
+        auto tidcr = std::chrono::duration_cast<std::chrono::microseconds>(tidcr2 - tidcr1);
 
         auto tidc1 = std::chrono::high_resolution_clock::now();
         for (unsigned int i = 0; i < iterations; ++i)
@@ -413,7 +413,7 @@ TEST_CASE_METHOD(PlanarBipedFloatingBase, __FILE__ "_TestCorrectness", "")
             InverseDynamicsConstraints(model, q, qd, qddTarget, cs[0], qddIDC, tauIDC);
         }
         auto tidc2 = std::chrono::high_resolution_clock::now();
-        auto tidc  = std::chrono::duration_cast<std::chrono::microseconds>(tidc2 - tidc1);
+        auto tidc = std::chrono::duration_cast<std::chrono::microseconds>(tidc2 - tidc1);
 
         auto tfd1 = std::chrono::high_resolution_clock::now();
         for (unsigned int i = 0; i < iterations; ++i)
@@ -421,7 +421,7 @@ TEST_CASE_METHOD(PlanarBipedFloatingBase, __FILE__ "_TestCorrectness", "")
             ForwardDynamicsConstraintsNullSpace(model, q, qd, tauIDC, cs[0], qddFwd);
         }
         auto tfd2 = std::chrono::high_resolution_clock::now();
-        auto tfd  = std::chrono::duration_cast<std::chrono::microseconds>(tfd2 - tfd1);
+        auto tfd = std::chrono::duration_cast<std::chrono::microseconds>(tfd2 - tfd1);
 
         std::cout << "Planar Biped Dof: " << model.dof_count << std::endl;
         std::cout << "Cost per evaluation : us, xfd " << std::endl;
@@ -443,8 +443,8 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
     // 1. Make the simple spatial biped
     // 2. Assemble it to a specific q and qdot.
 
-    VectorNd          q0, qd0, weights, qddTarget, lambda, qddFwd, qddErr, lambdaFwd, lambdaIdc, lambdaErr;
-    MatrixNd          K;
+    VectorNd q0, qd0, weights, qddTarget, lambda, qddFwd, qddErr, lambdaFwd, lambdaIdc, lambdaErr;
+    MatrixNd K;
     std::vector<bool> dofActuated;
 
     unsigned int n = unsigned(int(q.rows()));
@@ -474,16 +474,16 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
 
     // A statically stable standing pose which will have a physically
     // consistent solution
-    q0[0]  = 0.;           // tx Floating base
-    q0[1]  = 0.;           // ty
-    q0[2]  = 0.75;         // tx
-    q0[3]  = 0.;           // rx
-    q0[4]  = 0.;           // ry
-    q0[5]  = 0.;           // rz
-    q0[6]  = 0.;           // rx Left hip
-    q0[7]  = M_PI * 0.25;  // ry
-    q0[8]  = 0.;           // rz
-    q0[9]  = -M_PI * 0.25; // ry Left knee
+    q0[0] = 0.;            // tx Floating base
+    q0[1] = 0.;            // ty
+    q0[2] = 0.75;          // tx
+    q0[3] = 0.;            // rx
+    q0[4] = 0.;            // ry
+    q0[5] = 0.;            // rz
+    q0[6] = 0.;            // rx Left hip
+    q0[7] = M_PI * 0.25;   // ry
+    q0[8] = 0.;            // rz
+    q0[9] = -M_PI * 0.25;  // ry Left knee
     q0[10] = 0.;           // rx Left ankle
     q0[11] = 0.;           // ry
     q0[12] = 0.;           // rx Right hip
@@ -493,16 +493,16 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
     q0[16] = 0.;           // rx Right ankle
     q0[17] = 0.;           // ry
 
-    qd0[0]  = 0.;
-    qd0[1]  = 0.;
-    qd0[2]  = 0.;
-    qd0[3]  = 0.;
-    qd0[4]  = 0.;
-    qd0[5]  = 0.;
-    qd0[6]  = 0.;
-    qd0[7]  = 0.;
-    qd0[8]  = 0.;
-    qd0[9]  = 0.;
+    qd0[0] = 0.;
+    qd0[1] = 0.;
+    qd0[2] = 0.;
+    qd0[3] = 0.;
+    qd0[4] = 0.;
+    qd0[5] = 0.;
+    qd0[6] = 0.;
+    qd0[7] = 0.;
+    qd0[8] = 0.;
+    qd0[9] = 0.;
     qd0[10] = 0.;
     qd0[11] = 0.;
     qd0[12] = 0.;
@@ -517,16 +517,16 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
         weights[i] = 1.;
     }
 
-    qddTarget[0]  = 0.;
-    qddTarget[1]  = 0.;
-    qddTarget[2]  = 0.;
-    qddTarget[3]  = 0.;
-    qddTarget[4]  = 0.;
-    qddTarget[5]  = 0.;
-    qddTarget[6]  = 0.;
-    qddTarget[7]  = 0.;
-    qddTarget[8]  = 0.;
-    qddTarget[9]  = 0.;
+    qddTarget[0] = 0.;
+    qddTarget[1] = 0.;
+    qddTarget[2] = 0.;
+    qddTarget[3] = 0.;
+    qddTarget[4] = 0.;
+    qddTarget[5] = 0.;
+    qddTarget[6] = 0.;
+    qddTarget[7] = 0.;
+    qddTarget[8] = 0.;
+    qddTarget[9] = 0.;
     qddTarget[10] = 0.;
     qddTarget[11] = 0.;
     qddTarget[12] = 0.;
@@ -566,7 +566,7 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
     lambdaFwd = cs.force;
 
     // Check that the solution is physically consistent
-    qddErr    = qddIDC - qddFwd;
+    qddErr = qddIDC - qddFwd;
     lambdaErr = lambdaIdc - lambdaFwd;
     for (unsigned int i = 0; i < q.rows(); ++i)
     {
@@ -595,7 +595,7 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
     lambdaFwd = cs.force;
 
     // Check that the solution is physically consistent
-    qddErr    = qddIDCR - qddFwd;
+    qddErr = qddIDCR - qddFwd;
     lambdaErr = lambdaIdc - lambdaFwd;
     for (unsigned int i = 0; i < q.rows(); ++i)
     {
@@ -617,7 +617,7 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
             InverseDynamicsConstraintsRelaxed(model, q, qd, qddTarget, cs, qddIDC, tauIDC);
         }
         auto tidcr2 = std::chrono::high_resolution_clock::now();
-        auto tidcr  = std::chrono::duration_cast<std::chrono::microseconds>(tidcr2 - tidcr1);
+        auto tidcr = std::chrono::duration_cast<std::chrono::microseconds>(tidcr2 - tidcr1);
 
         auto tidc1 = std::chrono::high_resolution_clock::now();
         for (unsigned int i = 0; i < iterations; ++i)
@@ -625,7 +625,7 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
             InverseDynamicsConstraints(model, q, qd, qddTarget, cs, qddIDC, tauIDC);
         }
         auto tidc2 = std::chrono::high_resolution_clock::now();
-        auto tidc  = std::chrono::duration_cast<std::chrono::microseconds>(tidc2 - tidc1);
+        auto tidc = std::chrono::duration_cast<std::chrono::microseconds>(tidc2 - tidc1);
 
         auto tfd1 = std::chrono::high_resolution_clock::now();
         for (unsigned int i = 0; i < iterations; ++i)
@@ -633,7 +633,7 @@ TEST_CASE_METHOD(SpatialBipedFloatingBase, __FILE__ "_TestCorrectness2", "")
             ForwardDynamicsConstraintsNullSpace(model, q, qd, tauIDC, cs, qddFwd);
         }
         auto tfd2 = std::chrono::high_resolution_clock::now();
-        auto tfd  = std::chrono::duration_cast<std::chrono::microseconds>(tfd2 - tfd1);
+        auto tfd = std::chrono::duration_cast<std::chrono::microseconds>(tfd2 - tfd1);
 
         std::cout << "Spatial Biped Dof: " << model.dof_count << std::endl;
         std::cout << "Cost per evaluation : us, xfd " << std::endl;
@@ -718,8 +718,8 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithSinglePlanarPendulum", "")
     actuationMap[2] = true;
 
     VectorNd qddDesired = VectorNd::Zero(spa.qdd.rows());
-    VectorNd qddIdc     = VectorNd::Zero(spa.qdd.rows());
-    VectorNd tauIdc     = VectorNd::Zero(spa.qdd.rows());
+    VectorNd qddIdc = VectorNd::Zero(spa.qdd.rows());
+    VectorNd tauIdc = VectorNd::Zero(spa.qdd.rows());
 
     // The IDC operator should be able to statisfy qdd=0 and return a tau
     // vector that matches the hand solution produced above.
@@ -789,32 +789,32 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithDoublePerpendicularPendulum", "")
     //    equivalent state as the pendulum modelled using joint
     //    coordinates. Next
 
-    dba.q[0]  = r010[0];
-    dba.q[1]  = r010[1];
-    dba.q[2]  = r010[2];
-    dba.q[3]  = dbj.q[0];
-    dba.q[4]  = 0;
-    dba.q[5]  = 0;
-    dba.q[6]  = r020[0];
-    dba.q[7]  = r020[1];
-    dba.q[8]  = r020[2];
-    dba.q[9]  = dbj.q[0];
+    dba.q[0] = r010[0];
+    dba.q[1] = r010[1];
+    dba.q[2] = r010[2];
+    dba.q[3] = dbj.q[0];
+    dba.q[4] = 0;
+    dba.q[5] = 0;
+    dba.q[6] = r020[0];
+    dba.q[7] = r020[1];
+    dba.q[8] = r020[2];
+    dba.q[9] = dbj.q[0];
     dba.q[10] = dbj.q[1];
     dba.q[11] = 0;
 
     dba.qd.setZero();
     dba.qdd.setZero();
 
-    dba.tau[0]  = 0.;         // tx
-    dba.tau[1]  = 0.;         // ty
-    dba.tau[2]  = 0.;         // tz
-    dba.tau[3]  = dbj.tau[0]; // rz
-    dba.tau[4]  = 0.;         // ry
-    dba.tau[5]  = 0.;         // rx
-    dba.tau[6]  = 0.;         // tx
-    dba.tau[7]  = 0.;         // ty
-    dba.tau[8]  = 0.;         // tz
-    dba.tau[9]  = 0.;         // rz
+    dba.tau[0] = 0.;          // tx
+    dba.tau[1] = 0.;          // ty
+    dba.tau[2] = 0.;          // tz
+    dba.tau[3] = dbj.tau[0];  // rz
+    dba.tau[4] = 0.;          // ry
+    dba.tau[5] = 0.;          // rx
+    dba.tau[6] = 0.;          // tx
+    dba.tau[7] = 0.;          // ty
+    dba.tau[8] = 0.;          // tz
+    dba.tau[9] = 0.;          // rz
     dba.tau[10] = dbj.tau[1]; // ry
     dba.tau[11] = 0.;         // rx
 
@@ -845,12 +845,12 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithDoublePerpendicularPendulum", "")
     {
         actuationMap[i] = false;
     }
-    actuationMap[3]  = true;
+    actuationMap[3] = true;
     actuationMap[10] = true;
 
     VectorNd qddDesired = VectorNd::Zero(dba.qdd.rows());
-    VectorNd qddIdc     = VectorNd::Zero(dba.qdd.rows());
-    VectorNd tauIdc     = VectorNd::Zero(dba.qdd.rows());
+    VectorNd qddIdc = VectorNd::Zero(dba.qdd.rows());
+    VectorNd tauIdc = VectorNd::Zero(dba.qdd.rows());
 
     // The IDC operator should be able to statisfy qdd=0 and return a tau
     // vector that matches the hand solution produced above.
@@ -901,15 +901,15 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithUnderactuatedCartPendulum", "")
     Model model;
     model.gravity = Vector3d(0., 0., -9.81);
 
-    double m1   = 10;
-    double l1   = 1.;
-    double h1   = 0.5;
+    double m1 = 10;
+    double l1 = 1.;
+    double h1 = 0.5;
     double J1xx = m1 * (h1 * h1 + h1 * h1) / 12.;
     double J1yy = m1 * (l1 * l1 + h1 * h1) / 12.;
     double J1zz = m1 * (l1 * l1 + h1 * h1) / 12.;
 
-    double m2   = 1.;
-    double l2   = 1.;
+    double m2 = 1.;
+    double l2 = 1.;
     double J2xx = m2 * (l1 * l1) / 3.;
     double J2yy = m2 * (l1 * l1) / 3.;
     double J2zz = m2 * (l1 * l1) / 30.;
@@ -926,10 +926,10 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithUnderactuatedCartPendulum", "")
     unsigned int idB1 = model.AddBody(0, SpatialTransform(), jointXYRz, cart1);
     unsigned int idB2 = model.AddBody(idB1, SpatialTransform(), jointRy, link2);
 
-    ConstraintSet    cs;
+    ConstraintSet cs;
     SpatialTransform X;
     X.r.setZero();
-    X.E              = Matrix3d::Identity();
+    X.E = Matrix3d::Identity();
     unsigned int cp1 = cs.AddLoopConstraint(0, idB1, X, X, SpatialVector(0, 0, 0, 0, 0, 1));
     unsigned int cp2 = cs.AddLoopConstraint(0, idB1, X, X, SpatialVector(0, 1, 0, 0, 0, 0));
 
@@ -1008,10 +1008,10 @@ TEST_CASE(__FILE__ "_CorrectnessTestWithUnderactuatedCartPendulum", "")
 
     // pose 2 and some movement
     VectorNd qd0(qd.rows());
-    qd0[0]     = 0.5;
-    qd0[1]     = 0.125;
-    qd0[2]     = 0.25;
-    qd0[3]     = 1.1;
+    qd0[0] = 0.5;
+    qd0[1] = 0.125;
+    qd0[2] = 0.25;
+    qd0[3] = 1.1;
     VectorNd w = VectorNd::Constant(qd0.rows(), 1.);
 
     // Make sure that we are on the constraint manifold

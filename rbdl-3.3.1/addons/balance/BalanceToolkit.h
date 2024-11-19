@@ -115,15 +115,15 @@ struct FootPlacementEstimatorInfo
 {
     /** Numerical 3DFPE constraint error (Eqn. 45 of Millard et al.)
      */
-    double         f;
+    double f;
     /** Number of iterations used by the root solving method to numerically
         solve Eqn. 45 of Millard et al.
     */
-    unsigned int   iterations;
+    unsigned int iterations;
     /** The foot contact angle: the angle between the gravity vector and the
         vector between the CoM and the contact location (See Fig. 6)
     */
-    double         phi;
+    double phi;
     /** The location of the foot-placement-estimator in the base frame.
      */
     Math::Vector3d r0F0;
@@ -164,88 +164,88 @@ struct FootPlacementEstimatorInfo
     /** Average angular velocity about the center-of-mass ground projection*/
     Math::Vector3d w0P0;
     /** Height of the center-of-mass*/
-    double         h;
+    double h;
     /** Whole body moment of inertia about the center of mass in the
     n direction*/
-    double         nJC0n;
+    double nJC0n;
     /** Velocity of the COM in the u direction*/
-    double         v0C0u;
+    double v0C0u;
     /** Velocity of the COM in the k direction*/
-    double         v0C0k;
+    double v0C0k;
     /** Whole body angular velocity in the n direction*/
-    double         w0C0n;
+    double w0C0n;
     /** Post-contact whole body angular velocity in the n direction about
     the foot placement estimator location*/
-    double         w0F0nPlus;
+    double w0F0nPlus;
     /** The leg length of the FPE model: the distance from the COM to the
     FPE*/
-    double         l;
+    double l;
     /** The post-contact system energy of the FPE model*/
-    double         E;
+    double E;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. phi */
-    double         Df_Dphi;
+    double Df_Dphi;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. the pre-contact
     whole body angular velocity about the center of mass in the n direction*/
-    double         Df_Dw0C0n;
+    double Df_Dw0C0n;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. COM height*/
-    double         Df_Dh;
+    double Df_Dh;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. the pre-contact
     COM velocity in the u direction*/
-    double         Df_Dv0C0u;
+    double Df_Dv0C0u;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. the pre-contact
     COM velocity in the k direction*/
-    double         Df_Dv0C0k;
+    double Df_Dv0C0k;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. the whole
     body moment of inertia about the center of mass in the n direction*/
-    double         Df_DnJC0n;
+    double Df_DnJC0n;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. the total system mass*/
-    double         Df_Dm;
+    double Df_Dm;
     /** Partial derivative of the FPE constraint equation
     (Eqn. 45 of Millard et al.) f w.r.t. to the force of gravity*/
-    double         Df_Dg;
+    double Df_Dg;
     /** The sensitivity of the FPE step length w.r.t. small changes in the
     distance l between the COM and the FPE.*/
-    double         Ds_Dl;
+    double Ds_Dl;
     /** The sensitivity of the FPE step length w.r.t. small changes in J.*/
-    double         Ds_DnJC0n;
+    double Ds_DnJC0n;
     /** The sensitivity of the FPE step length w.r.t. small changes in E,
     the peak potential energy obtained by the system as it comes to balance
     over its foot after contact.*/
-    double         Ds_DE;
+    double Ds_DE;
     /** The sensitivity of the FPE step length w.r.t. small changes in v0C0
     the velocity of the center of mass in the u direction*/
-    double         Ds_Dv0C0u;
+    double Ds_Dv0C0u;
     /** The sensitivity of the FPE step length w.r.t. small changes in v0C0
     the velocity of the center of mass in k, the vertical direction*/
-    double         Ds_Dv0C0k;
+    double Ds_Dv0C0k;
     /** The sensitivity of the FPE step length w.r.t. small changes in the
     whole body angular velocity about the center of mass in the n direction.*/
-    double         Ds_Dw0C0n;
+    double Ds_Dw0C0n;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in l, the
     distance between the COM and the FPE location*/
-    double         Dphi_Dl;
+    double Dphi_Dl;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in J, the
     moment of inertia of the body about the COM in the n direction*/
-    double         Dphi_DnJC0n;
+    double Dphi_DnJC0n;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in E, the
     post-contact sytem energy*/
-    double         Dphi_DE;
+    double Dphi_DE;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in
     v0C0 the velocity of the center of mass in the u-direction*/
-    double         Dphi_Dv0C0u;
+    double Dphi_Dv0C0u;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in v0C0
     the velocity of the center of mass in k, the vertical direction*/
-    double         Dphi_Dv0C0k;
+    double Dphi_Dv0C0k;
     /** The sensitivity of the FPE angle phi w.r.t. small changes in the
     whole body angular velocity about the center of mass in the n direction.*/
-    double         Dphi_Dw0C0n;
+    double Dphi_Dw0C0n;
 
     FootPlacementEstimatorInfo()
         : f(std::numeric_limits<double>::signaling_NaN()),
@@ -337,15 +337,15 @@ public:
             that the ground plane is tilted.
 
     */
-    static void CalculateFootPlacementEstimator(Model                      &model,
-                                                Math::VectorNd             &q,
-                                                Math::VectorNd             &qdot,
-                                                Math::Vector3d             &pointOnGroundPlane,
-                                                Math::Vector3d             &groundPlaneNormal,
+    static void CalculateFootPlacementEstimator(Model &model,
+                                                Math::VectorNd &q,
+                                                Math::VectorNd &qdot,
+                                                Math::Vector3d &pointOnGroundPlane,
+                                                Math::Vector3d &groundPlaneNormal,
                                                 FootPlacementEstimatorInfo &fpeInfo,
-                                                double                      smallAngularVelocity,
-                                                bool                        evaluate_derivatives,
-                                                bool                        update_kinematics);
+                                                double smallAngularVelocity,
+                                                bool evaluate_derivatives,
+                                                bool update_kinematics);
 };
 
 } // namespace Balance

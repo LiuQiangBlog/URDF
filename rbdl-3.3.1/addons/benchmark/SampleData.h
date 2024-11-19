@@ -12,18 +12,18 @@ struct SampleData
     {
         count = data.count;
 
-        q         = new RigidBodyDynamics::Math::VectorNd[count];
-        qdot      = new RigidBodyDynamics::Math::VectorNd[count];
-        qddot     = new RigidBodyDynamics::Math::VectorNd[count];
-        tau       = new RigidBodyDynamics::Math::VectorNd[count];
+        q = new RigidBodyDynamics::Math::VectorNd[count];
+        qdot = new RigidBodyDynamics::Math::VectorNd[count];
+        qddot = new RigidBodyDynamics::Math::VectorNd[count];
+        tau = new RigidBodyDynamics::Math::VectorNd[count];
         durations = data.durations;
 
         for (int si = 0; si < count; si++)
         {
-            q[si]     = data.q[si];
-            qdot[si]  = data.qdot[si];
+            q[si] = data.q[si];
+            qdot[si] = data.qdot[si];
             qddot[si] = data.qddot[si];
-            tau[si]   = data.tau[si];
+            tau[si] = data.tau[si];
         }
     }
     SampleData &operator=(const SampleData &data)
@@ -36,12 +36,12 @@ struct SampleData
         return *this;
     }
 
-    unsigned int                       count;
+    unsigned int count;
     RigidBodyDynamics::Math::VectorNd *q;
     RigidBodyDynamics::Math::VectorNd *qdot;
     RigidBodyDynamics::Math::VectorNd *qddot;
     RigidBodyDynamics::Math::VectorNd *tau;
-    RigidBodyDynamics::Math::VectorNd  durations;
+    RigidBodyDynamics::Math::VectorNd durations;
 
     void deleteData()
     {
@@ -79,10 +79,10 @@ struct SampleData
         deleteData();
         count = sample_count;
 
-        q     = new RigidBodyDynamics::Math::VectorNd[count];
-        qdot  = new RigidBodyDynamics::Math::VectorNd[count];
+        q = new RigidBodyDynamics::Math::VectorNd[count];
+        qdot = new RigidBodyDynamics::Math::VectorNd[count];
         qddot = new RigidBodyDynamics::Math::VectorNd[count];
-        tau   = new RigidBodyDynamics::Math::VectorNd[count];
+        tau = new RigidBodyDynamics::Math::VectorNd[count];
 
         for (int si = 0; si < count; si++)
         {
@@ -93,10 +93,10 @@ struct SampleData
 
             for (int i = 0; i < dof_count; i++)
             {
-                q[si][i]     = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
-                qdot[si][i]  = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
+                q[si][i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
+                qdot[si][i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
                 qddot[si][i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
-                tau[si][i]   = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
+                tau[si][i] = (static_cast<double>(rand()) / static_cast<double>(RAND_MAX)) * 2. - 1.;
             }
         }
 

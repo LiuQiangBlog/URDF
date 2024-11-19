@@ -45,9 +45,9 @@ struct Point
     {
     }
 
-    std::string                       name;
-    unsigned int                      body_id;
-    std::string                       body_name;
+    std::string name;
+    unsigned int body_id;
+    std::string body_name;
     RigidBodyDynamics::Math::Vector3d point_local;
 };
 
@@ -70,9 +70,9 @@ struct MotionCaptureMarker
     {
     }
 
-    std::string                       name;
-    unsigned int                      body_id;
-    std::string                       body_name;
+    std::string name;
+    unsigned int body_id;
+    std::string body_name;
     RigidBodyDynamics::Math::Vector3d point_local;
 };
 
@@ -105,9 +105,9 @@ struct LocalFrame
             std::numeric_limits<double>::signaling_NaN())
     {
     }
-    std::string                       name;
-    unsigned int                      body_id;
-    std::string                       body_name;
+    std::string name;
+    unsigned int body_id;
+    std::string body_name;
     RigidBodyDynamics::Math::Vector3d r;
     RigidBodyDynamics::Math::Matrix3d E;
 };
@@ -129,9 +129,9 @@ struct HumanMetaData
     }
     std::string gender;
     std::string age_group;
-    double      age;
-    double      height;
-    double      mass;
+    double age;
+    double height;
+    double mass;
 };
 
 #ifdef RBDL_BUILD_ADDON_MUSCLE
@@ -286,34 +286,34 @@ struct Millard2016TorqueMuscleConfig
                                                                       std::numeric_limits<double>::signaling_NaN()))
     {
     }
-    std::string                       name;
-    double                            angle_sign;
-    double                            torque_sign;
-    std::string                       body;
-    unsigned int                      joint_index;
-    double                            q_scale;
-    unsigned int                      activation_index;
-    unsigned int                      q_index;     // internal parameter
-    unsigned int                      qdot_index;  // internal parameter
-    unsigned int                      force_index; // internal parameter
-    std::string                       data_set;
-    std::string                       age_group;
-    std::string                       gender;
+    std::string name;
+    double angle_sign;
+    double torque_sign;
+    std::string body;
+    unsigned int joint_index;
+    double q_scale;
+    unsigned int activation_index;
+    unsigned int q_index;     // internal parameter
+    unsigned int qdot_index;  // internal parameter
+    unsigned int force_index; // internal parameter
+    std::string data_set;
+    std::string age_group;
+    std::string gender;
     // double        angle_scale;
-    double                            joint_angle_offset;
-    double                            activation_time_constant;
-    double                            deactivation_time_constant;
-    double                            max_isometric_torque;
-    double                            max_angular_velocity;
-    double                            max_isometric_torque_scale;
-    double                            max_angular_velocity_scale;
-    double                            passive_element_damping_coeff;
-    double                            passive_element_torque_scale;
-    double                            passive_element_angle_offset;
-    double                            active_torque_angle_blending;
-    double                            passive_torque_angle_blending;
-    double                            torque_velocity_blending;
-    double                            active_torque_angle_scale;
+    double joint_angle_offset;
+    double activation_time_constant;
+    double deactivation_time_constant;
+    double max_isometric_torque;
+    double max_angular_velocity;
+    double max_isometric_torque_scale;
+    double max_angular_velocity_scale;
+    double passive_element_damping_coeff;
+    double passive_element_torque_scale;
+    double passive_element_angle_offset;
+    double active_torque_angle_blending;
+    double passive_torque_angle_blending;
+    double torque_velocity_blending;
+    double active_torque_angle_scale;
     // double        torque_velocity_scaling;
     // double        passive_torque_angle_scaling;
     RigidBodyDynamics::Math::Vector3d fit_passive_torque_scale;

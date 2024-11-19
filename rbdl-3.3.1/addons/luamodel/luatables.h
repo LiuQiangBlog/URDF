@@ -50,8 +50,8 @@ struct RBDL_ADDON_DLLAPI LuaKey
         Integer
     };
 
-    Type        type;
-    int         int_value;
+    Type type;
+    int int_value;
     std::string string_value;
 
     bool operator<(const LuaKey &rhs) const
@@ -99,8 +99,8 @@ struct RBDL_ADDON_DLLAPI LuaTableNode
         LuaTableNode child_node;
 
         child_node.luaTable = luaTable;
-        child_node.parent   = this;
-        child_node.key      = LuaKey(child_str);
+        child_node.parent = this;
+        child_node.key = LuaKey(child_str);
 
         return child_node;
     }
@@ -109,24 +109,24 @@ struct RBDL_ADDON_DLLAPI LuaTableNode
         LuaTableNode child_node;
 
         child_node.luaTable = luaTable;
-        child_node.parent   = this;
-        child_node.key      = LuaKey(child_index);
+        child_node.parent = this;
+        child_node.key = LuaKey(child_index);
 
         return child_node;
     }
-    bool     stackQueryValue();
-    void     stackPushKey();
-    void     stackCreateValue();
-    void     stackRestore();
+    bool stackQueryValue();
+    void stackPushKey();
+    void stackCreateValue();
+    void stackRestore();
     LuaTable stackQueryTable();
     LuaTable stackCreateLuaTable();
 
     std::vector<LuaKey> getKeyStack();
-    std::string         keyStackToString();
+    std::string keyStackToString();
 
-    bool                exists();
-    void                remove();
-    size_t              length();
+    bool exists();
+    void remove();
+    size_t length();
     std::vector<LuaKey> keys();
 
     // Templates for setters and getters. Can be specialized for custom
@@ -171,9 +171,9 @@ struct RBDL_ADDON_DLLAPI LuaTableNode
     }
 
     LuaTableNode *parent;
-    LuaTable     *luaTable;
-    LuaKey        key;
-    int           stackTop;
+    LuaTable *luaTable;
+    LuaKey key;
+    int stackTop;
 };
 
 template <typename T>
@@ -222,9 +222,9 @@ struct RBDL_ADDON_DLLAPI LuaStateRef
         return count;
     }
 
-    lua_State   *L;
+    lua_State *L;
     unsigned int count;
-    bool         freeOnZeroRefs;
+    bool freeOnZeroRefs;
 };
 
 struct RBDL_ADDON_DLLAPI LuaTable
@@ -237,8 +237,8 @@ struct RBDL_ADDON_DLLAPI LuaTable
     LuaTableNode operator[](const char *key)
     {
         LuaTableNode root_node;
-        root_node.key      = LuaKey(key);
-        root_node.parent   = NULL;
+        root_node.key = LuaKey(key);
+        root_node.parent = NULL;
         root_node.luaTable = this;
 
         return root_node;
@@ -246,14 +246,14 @@ struct RBDL_ADDON_DLLAPI LuaTable
     LuaTableNode operator[](int key)
     {
         LuaTableNode root_node;
-        root_node.key      = LuaKey(key);
-        root_node.parent   = NULL;
+        root_node.key = LuaKey(key);
+        root_node.parent = NULL;
         root_node.luaTable = this;
 
         return root_node;
     }
-    int         length();
-    void        addSearchPath(const char *path);
+    int length();
+    void addSearchPath(const char *path);
     std::string serialize();
 
     /// Serializes the data in a predictable ordering.
@@ -271,10 +271,10 @@ struct RBDL_ADDON_DLLAPI LuaTable
     static LuaTable fromLuaExpression(const char *lua_expr);
     static LuaTable fromLuaState(lua_State *L);
 
-    std::string  filename;
+    std::string filename;
     LuaStateRef *luaStateRef;
-    int          luaRef;
-    lua_State   *L;
+    int luaRef;
+    lua_State *L;
 
     bool referencesGlobal;
 };

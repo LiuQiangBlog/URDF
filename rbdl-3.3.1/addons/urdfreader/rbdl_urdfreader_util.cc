@@ -33,12 +33,12 @@ void usage(const char *argv_0)
 
 int main(int argc, char *argv[])
 {
-    bool verbose         = false;
-    bool floatbase       = false;
-    bool dof_overview    = false;
+    bool verbose = false;
+    bool floatbase = false;
+    bool dof_overview = false;
     bool model_hierarchy = false;
-    bool body_origins    = false;
-    bool center_of_mass  = false;
+    bool body_origins = false;
+    bool center_of_mass = false;
 
     string filename = "D:\\VideoNotes\\Handbook_For_Robot_Beginners\\Code\\Thirdparty\\rbdl-3.3."
                       "1\\addons\\urdfreader\\panda_rbdl.urdf";
@@ -103,12 +103,12 @@ int main(int argc, char *argv[])
                 continue;
 
             SpatialRigidBodyInertia rbi_base = model.X_base[i].apply(model.I[i]);
-            Vector3d                body_com = rbi_base.h / rbi_base.m;
+            Vector3d body_com = rbi_base.h / rbi_base.m;
             cout << setw(12) << model.GetBodyName(i) << ": " << setw(10) << body_com.transpose() << endl;
         }
 
         Vector3d model_com;
-        double   mass;
+        double mass;
         RigidBodyDynamics::Utils::CalcCenterOfMass(model, q_zero, qdot_zero, NULL, mass, model_com);
         cout << setw(14) << "Model COM: " << setw(10) << model_com.transpose() << endl;
         cout << setw(14) << "Model mass: " << mass << endl;

@@ -44,8 +44,8 @@ struct DoublePerpendicularPendulumJointCoordinates
         idB1 = model.AddBody(0, Xtrans(Vector3d(0., 0, 0.)), joint_rev_z, link1, "body1");
         idB2 = model.AddBody(idB1, Xtrans(Vector3d(0., -l1, 0.)), joint_rev_y, link2, "body2");
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
@@ -91,7 +91,7 @@ struct DoublePerpendicularPendulumAbsoluteCoordinates
         Body link2 =
             Body(m2, r2C2, Matrix3d(m2 * l2 * l2 / 30., 0., 0., 0., m2 * l2 * l2 / 3., 0., 0., 0., m2 * l2 * l2 / 3.));
 
-        Body  nullbody = Body(0, Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        Body nullbody = Body(0, Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         Joint jointT123(JointTypeTranslationXYZ);
         Joint jointA123(JointTypeEulerZYX);
 
@@ -117,13 +117,13 @@ struct DoublePerpendicularPendulumAbsoluteCoordinates
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    RigidBodyDynamics::Model         model;
+    RigidBodyDynamics::Model model;
     RigidBodyDynamics::ConstraintSet cs;
 
     RigidBodyDynamics::Math::Vector3d r2C2;
@@ -179,8 +179,8 @@ struct SinglePendulumJointCoordinates
 
         idB1 = model.AddBody(0, Xtrans(Vector3d(0., 0, 0.)), joint_rev_z, link1, "body1");
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
@@ -229,13 +229,13 @@ struct SinglePendulumAbsoluteCoordinates
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    RigidBodyDynamics::Model         model;
+    RigidBodyDynamics::Model model;
     RigidBodyDynamics::ConstraintSet cs;
 
     RigidBodyDynamics::Math::VectorNd q;

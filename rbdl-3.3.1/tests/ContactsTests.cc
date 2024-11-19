@@ -40,27 +40,27 @@ struct FixedBase6DoF9DoF
          */
 
         // base body (3 DoF)
-        base         = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
+        base = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
         joint_rotzyx = Joint(SpatialVector(0., 0., 1., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                              SpatialVector(1., 0., 0., 0., 0., 0.));
-        base_id      = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
+        base_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, base);
 
         // child body 1 (3 DoF)
-        child    = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         child_id = model->AddBody(base_id, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, child);
 
         // child body (3 DoF)
-        child_2    = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child_2 = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         child_2_id = model->AddBody(child_id, Xtrans(Vector3d(0., 0., 0.)), joint_rotzyx, child_2);
 
-        Q     = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        QDot  = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Q = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        QDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
         QDDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        Tau   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Tau = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
         contact_body_id = child_id;
-        contact_point   = Vector3d(0.5, 0.5, 0.);
-        contact_normal  = Vector3d(0., 1., 0.);
+        contact_point = Vector3d(0.5, 0.5, 0.);
+        contact_normal = Vector3d(0., 1., 0.);
 
         ClearLogOutput();
     }
@@ -82,9 +82,9 @@ struct FixedBase6DoF9DoF
     VectorNd QDDot;
     VectorNd Tau;
 
-    unsigned int  contact_body_id;
-    Vector3d      contact_point;
-    Vector3d      contact_normal;
+    unsigned int contact_body_id;
+    Vector3d contact_point;
+    Vector3d contact_normal;
     ConstraintSet constraint_set;
 };
 
@@ -96,9 +96,9 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
     // and Baumgarte forces
 
     Model model;
-    model.gravity   = Vector3d(0., -9.81, 0.);
-    double       m1 = 1.;
-    Body         boxBody(m1, Vector3d(0., 0., 0.), Matrix3dIdentity);
+    model.gravity = Vector3d(0., -9.81, 0.);
+    double m1 = 1.;
+    Body boxBody(m1, Vector3d(0., 0., 0.), Matrix3dIdentity);
     unsigned int boxId =
         model.AddBody(0, SpatialTransform(),
                       Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
@@ -114,11 +114,11 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
     // VectorNd qInit  =  VectorNd::Zero(model.dof_count);
     // qInit[2] = M_PI/3.0;
     VectorNd qdInit = VectorNd::Zero(model.dof_count);
-    VectorNd tau    = VectorNd::Zero(model.dof_count);
+    VectorNd tau = VectorNd::Zero(model.dof_count);
 
-    VectorNd q   = VectorNd::Zero(model.dof_count);
-    q[2]         = M_PI / 3.0;
-    VectorNd qd  = VectorNd::Zero(model.dof_count);
+    VectorNd q = VectorNd::Zero(model.dof_count);
+    q[2] = M_PI / 3.0;
+    VectorNd qd = VectorNd::Zero(model.dof_count);
     VectorNd qdd = VectorNd::Zero(model.dof_count);
 
     VectorNd weights = VectorNd::Constant(model.dof_count, 1.);
@@ -128,13 +128,13 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
 
     ForwardDynamicsConstraintsDirect(model, q, qd, tau, cs, qdd);
 
-    std::vector<unsigned int>     bodyIds;
+    std::vector<unsigned int> bodyIds;
     std::vector<SpatialTransform> bodyFrames;
-    std::vector<SpatialVector>    constraintForces;
+    std::vector<SpatialVector> constraintForces;
 
     VectorNd posErrors, velErrors, bgForces;
 
-    unsigned int gIdxLeft  = cs.getGroupIndexByName("LeftCorner");
+    unsigned int gIdxLeft = cs.getGroupIndexByName("LeftCorner");
     unsigned int gIdxRight = cs.getGroupIndexByName("RightCorner");
 
     CHECK(cs.getGroupSize(0) == 2);
@@ -157,7 +157,7 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
     // ContactConstraints occur between a point on a body and the ground
     // The body always appears in the 0 index when calcForces is called
     // while the ground appears in the 1 index
-    unsigned int idxBody   = 0;
+    unsigned int idxBody = 0;
     unsigned int idxGround = 1;
 
     CHECK(bodyIds[idxBody] == boxId); // First body is always the model body ContactConstraint
@@ -187,21 +187,21 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
         }
     }
 
-    double       fbody   = 9.81 * 1.0 * 0.5 * cos(q[2]);
-    double       fground = -9.81 * 1.0 * 0.5;
-    unsigned int idxFy   = 4;
+    double fbody = 9.81 * 1.0 * 0.5 * cos(q[2]);
+    double fground = -9.81 * 1.0 * 0.5;
+    unsigned int idxFy = 4;
     CHECK_THAT(constraintForces[idxBody][idxFy], IsClose(fbody, TEST_PREC, TEST_PREC));
     CHECK_THAT(constraintForces[idxGround][idxFy], IsClose(fground, TEST_PREC, TEST_PREC));
 
-    VectorNd qErr  = q;
-    qErr[0]       += 1.0;
+    VectorNd qErr = q;
+    qErr[0] += 1.0;
     VectorNd posErrUpd;
     cs.calcPositionError(gIdxLeft, model, qErr, posErrUpd, true);
     CHECK_THAT(posErrUpd[0], IsClose(0.0, TEST_PREC, TEST_PREC));
     CHECK_THAT(posErrUpd[1], IsClose(0.0, TEST_PREC, TEST_PREC));
 
-    VectorNd qdErr  = qd;
-    qdErr[0]       += 1.0;
+    VectorNd qdErr = qd;
+    qdErr[0] += 1.0;
     VectorNd velErrUpd;
     cs.calcVelocityError(gIdxLeft, model, q, qdErr, velErrUpd, true);
     CHECK_THAT(velErrUpd[0], IsClose(0., TEST_PREC, TEST_PREC));
@@ -227,7 +227,7 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
 
     // Frames associated with the contacting body
     Matrix3d rotZ45 = rotz(q[2]);
-    r               = rotZ45.transpose() * Vector3d(-0.5, 0., 0.);
+    r = rotZ45.transpose() * Vector3d(-0.5, 0., 0.);
     CHECK_THAT(bodyFrames[idxBody].r, AllCloseVector(r, TEST_PREC, TEST_PREC));
 
     for (unsigned int i = 0; i < 3; ++i)
@@ -249,9 +249,9 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
         }
     }
 
-    fbody   = 9.81 * 1.0 * 0.5;
+    fbody = 9.81 * 1.0 * 0.5;
     fground = -9.81 * 1.0 * 0.5;
-    idxFy   = 4;
+    idxFy = 4;
     CHECK_THAT(constraintForces[idxBody][idxFy], IsClose(fbody, TEST_PREC, TEST_PREC));
     CHECK_THAT(constraintForces[idxGround][idxFy], IsClose(fground, TEST_PREC, TEST_PREC));
 
@@ -260,8 +260,8 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsContact ", "")
     qd.setZero();
     double vx1 = 2.;
     double vy1 = -1.;
-    qd[0]      = vx1;
-    qd[1]      = vy1;
+    qd[0] = vx1;
+    qd[1] = vy1;
     VectorNd qDotPlus;
     qDotPlus.resize(qd.rows());
 
@@ -316,7 +316,7 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectSimple", "")
 {
     Model model;
     model.gravity = Vector3d(0., -9.81, 0.);
-    Body         base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
+    Body base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
     unsigned int base_body_id =
         model.AddBody(0, SpatialTransform(),
                       Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
@@ -324,17 +324,17 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectSimple", "")
                             SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                       base_body);
 
-    VectorNd Q     = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model.dof_count, 0.);
 
-    Q[1]    = 1.;
+    Q[1] = 1.;
     QDot[0] = 1.;
     QDot[3] = -1.;
 
     unsigned int contact_body_id = base_body_id;
-    Vector3d     contact_point(0., -1., 0.);
+    Vector3d contact_point(0., -1., 0.);
 
     ConstraintSet constraint_set;
 
@@ -383,7 +383,7 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectMoving ", "")
 {
     Model model;
     model.gravity = Vector3d(0., -9.81, 0.);
-    Body         base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
+    Body base_body(1., Vector3d(0., 0., 0.), Vector3d(1., 1., 1.));
     unsigned int base_body_id =
         model.AddBody(0, SpatialTransform(),
                       Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
@@ -391,17 +391,17 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectMoving ", "")
                             SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                       base_body);
 
-    VectorNd Q     = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd QDot  = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model.dof_count, 0.);
     VectorNd QDDot = VectorNd::Constant((size_t)model.dof_count, 0.);
-    VectorNd Tau   = VectorNd::Constant((size_t)model.dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model.dof_count, 0.);
 
-    Q[0]    = 0.1;
-    Q[1]    = 0.2;
-    Q[2]    = 0.3;
-    Q[3]    = 0.4;
-    Q[4]    = 0.5;
-    Q[5]    = 0.6;
+    Q[0] = 0.1;
+    Q[1] = 0.2;
+    Q[2] = 0.3;
+    Q[3] = 0.4;
+    Q[4] = 0.5;
+    Q[5] = 0.6;
     QDot[0] = 1.1;
     QDot[1] = 1.2;
     QDot[2] = 1.3;
@@ -410,7 +410,7 @@ TEST_CASE(__FILE__ "_TestForwardDynamicsConstraintsDirectMoving ", "")
     QDot[5] = -1.6;
 
     unsigned int contact_body_id = base_body_id;
-    Vector3d     contact_point(0., -1., 0.);
+    Vector3d contact_point(0., -1., 0.);
 
     ConstraintSet constraint_set;
 
@@ -450,7 +450,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsSingleContact"
     ClearLogOutput();
 
     VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
     ForwardDynamicsConstraintsDirect(*model, Q, QDot, Tau, constraint_set_lagrangian, QDDot_lagrangian);
@@ -488,8 +488,8 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsSingleContactR
 
     ClearLogOutput();
 
-    VectorNd QDDot_lagrangian   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts     = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
     VectorNd QDDot_contacts_opt = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
@@ -536,7 +536,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsSingleContactR
     Vector3d point_accel_lagrangian, point_accel_contacts;
 
     VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
     ForwardDynamicsConstraintsDirect(*model, Q, QDot, Tau, constraint_set_lagrangian, QDDot_lagrangian);
@@ -573,7 +573,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsOptDoubleConta
     ClearLogOutput();
 
     VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
 
@@ -612,7 +612,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsOptDoubleConta
     ClearLogOutput();
 
     VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
 
@@ -663,7 +663,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_ForwardDynamicsContactsOptMultipleCon
     Q[3] = M_PI * 0.5;
 
     VectorNd QDDot_lagrangian = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-    VectorNd QDDot_contacts   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+    VectorNd QDDot_contacts = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
     ClearLogOutput();
     ForwardDynamicsConstraintsDirect(*model, Q, QDot, Tau, constraint_set_lagrangian, QDDot_lagrangian);
@@ -712,7 +712,7 @@ TEST_CASE_METHOD(FixedBase6DoF9DoF, __FILE__ "_ForwardDynamicsContactsOptMultipl
 
     Vector3d point_accel_c, point_accel_2_c;
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot, child_2_id, contact_point);
 
     ForwardDynamicsConstraintsDirect(*model, Q, QDot, Tau, constraint_set_lagrangian, QDDot_lagrangian);
@@ -723,7 +723,7 @@ TEST_CASE_METHOD(FixedBase6DoF9DoF, __FILE__ "_ForwardDynamicsContactsOptMultipl
     CHECK_THAT(0., IsClose(point_accel_c[1], TEST_PREC, TEST_PREC));
     CHECK_THAT(0., IsClose(point_accel_2_c[1], TEST_PREC, TEST_PREC));
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, child_2_id, contact_point);
 
     CHECK_THAT(0., IsClose(point_accel_c[0], TEST_PREC, TEST_PREC));
@@ -774,7 +774,7 @@ TEST_CASE_METHOD(FixedBase6DoF9DoF,
 
     Vector3d point_accel_c, point_accel_2_c;
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot, child_2_id, contact_point);
 
     ForwardDynamicsConstraintsDirect(*model, Q, QDot, Tau, constraint_set_lagrangian, QDDot_lagrangian);
@@ -785,7 +785,7 @@ TEST_CASE_METHOD(FixedBase6DoF9DoF,
     CHECK_THAT(0., IsClose(point_accel_c[1], TEST_PREC, TEST_PREC));
     CHECK_THAT(0., IsClose(point_accel_2_c[1], TEST_PREC, TEST_PREC));
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, child_2_id, contact_point);
 
     CHECK_THAT(0., IsClose(point_accel_c[0], TEST_PREC, TEST_PREC));
@@ -834,7 +834,7 @@ TEST_CASE_METHOD(FixedBase6DoF12DoFFloatingBase, __FILE__ "_ForwardDynamicsConta
 
     Vector3d point_accel_c, point_accel_2_c;
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot, child_2_id, contact_point);
 
     ClearLogOutput();
@@ -846,7 +846,7 @@ TEST_CASE_METHOD(FixedBase6DoF12DoFFloatingBase, __FILE__ "_ForwardDynamicsConta
     CHECK_THAT(0., IsClose(point_accel_c[1], TEST_PREC, TEST_PREC));
     CHECK_THAT(0., IsClose(point_accel_2_c[1], TEST_PREC, TEST_PREC));
 
-    point_accel_c   = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
+    point_accel_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, contact_body_id, contact_point);
     point_accel_2_c = CalcPointAcceleration(*model, Q, QDot, QDDot_lagrangian, child_2_id, contact_point);
 
     CHECK_THAT(0., IsClose(point_accel_c[0], TEST_PREC, TEST_PREC));
@@ -882,9 +882,9 @@ TEST_CASE_METHOD(Human36, __FILE__ "_ForwardDynamicsContactsImpulses", "")
 
     for (int i = 0; i < q.size(); i++)
     {
-        q[i]          = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-        qdot[i]       = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-        tau[i]        = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+        q[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+        qdot[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+        tau[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
         qddot_3dof[i] = 0.5 * M_PI * static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
     }
 
@@ -903,7 +903,7 @@ TEST_CASE_METHOD(Human36, __FILE__ "_ForwardDynamicsContactsImpulses", "")
 
     ComputeConstraintImpulsesDirect(*model_3dof, q, qdot, constraint_upper_trunk, qdotplus);
 
-    Vector3d heel_left_velocity  = CalcPointVelocity(*model_3dof, q, qdotplus, body_id_3dof[BodyFootLeft], heel_point);
+    Vector3d heel_left_velocity = CalcPointVelocity(*model_3dof, q, qdotplus, body_id_3dof[BodyFootLeft], heel_point);
     Vector3d heel_right_velocity = CalcPointVelocity(*model_3dof, q, qdotplus, body_id_3dof[BodyFootRight], heel_point);
 
     CHECK_THAT(Vector3d(0., 0., 0.), AllCloseVector(heel_left_velocity, TEST_PREC, TEST_PREC));

@@ -21,8 +21,8 @@
 
 #include "joint.hpp"
 
-namespace KDL {
-
+namespace KDL
+{
     // constructor for joint along x,y or z axis, at origin of reference frame
     Joint::Joint(const std::string& _name, const JointType& _type, const double& _scale, const double& _offset,
                  const double& _inertia, const double& _damping, const double& _stiffness):
@@ -94,7 +94,7 @@ namespace KDL {
     {
         switch(type){
         case RotAxis:
-            return Twist(Vector(0,0,0), axis * ( scale * qdot));
+            return Twist(Vector(0,0,0), axis * (scale * qdot));
         case RotX:
             return Twist(Vector(0.0,0.0,0.0),Vector(scale*qdot,0.0,0.0));
         case RotY:

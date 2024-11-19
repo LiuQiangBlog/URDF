@@ -79,7 +79,7 @@ TEST_CASE(__FILE__ "_Anderson2007ActiveTorqueAngleCurve", "")
 {
     double subjectWeight = 75.0 * 9.81;
     double subjectHeight = 1.75;
-    double scale         = subjectHeight * subjectWeight;
+    double scale = subjectHeight * subjectWeight;
 
     // These parameters are taken from table 3 for hip extension for
     // men between the ages of 18-25
@@ -104,7 +104,7 @@ TEST_CASE(__FILE__ "_Anderson2007ActiveTorqueAngleCurve", "")
     TorqueMuscleFunctionFactory::createAnderson2007ActiveTorqueAngleCurve(c2, c3, "test_Anderson2007TorqueAngleCurve",
                                                                           andersonTaCurve);
 
-    double angleRange     = (M_PI / c4);
+    double angleRange = (M_PI / c4);
     double angleActiveMin = c3 - angleRange * 0.75;
     double angleActiveMax = c3 + angleRange * 0.75;
 
@@ -144,7 +144,7 @@ TEST_CASE(__FILE__ "_Anderson2007PassiveTorqueAngleCurve", "")
 {
     double subjectWeight = 75.0 * 9.81;
     double subjectHeight = 1.75;
-    double scale         = subjectHeight * subjectWeight;
+    double scale = subjectHeight * subjectWeight;
 
     // These parameters are taken from table 3 for hip extension for
     // men between the ages of 18-25
@@ -194,15 +194,15 @@ TEST_CASE(__FILE__ "_Anderson2007PassiveTorqueAngleCurve", "")
 
         // cout << "   Keypoint Testing" << endl;
 
-        double tauMin      = andersonTpCurve.calcValue(angleMin);
-        double tauMax      = andersonTpCurve.calcValue(angleMax);
+        double tauMin = andersonTpCurve.calcValue(angleMin);
+        double tauMax = andersonTpCurve.calcValue(angleMax);
         double tauMinAngle = angleMin;
 
         if (tauMin > tauMax)
         {
-            double tmp  = tauMin;
-            tauMin      = tauMax;
-            tauMax      = tmp;
+            double tmp = tauMin;
+            tauMin = tauMax;
+            tauMax = tmp;
             tauMinAngle = angleMax;
         }
 
@@ -241,7 +241,7 @@ TEST_CASE(__FILE__ "_Anderson2007ActiveTorqueVelocityCurve", "")
 {
     double subjectWeight = 75.0 * 9.81;
     double subjectHeight = 1.75;
-    double scale         = subjectHeight * subjectWeight;
+    double scale = subjectHeight * subjectWeight;
 
     // These parameters are taken from table 3 for hip extension for
     // men between the ages of 18-25
@@ -316,36 +316,36 @@ TEST_CASE(__FILE__ "_Anderson2007ActiveTorqueVelocityCurve", "")
 //==============================================================================
 TEST_CASE(__FILE__ "_TorqueAngularVelocityCurve", "")
 {
-    SmoothSegmentedFunction tv                         = SmoothSegmentedFunction();
-    SmoothSegmentedFunction tvX                        = SmoothSegmentedFunction();
-    double                  tvAtEccentricOmegaMax      = 1.3;
-    double                  tvAtHalfConcentricOmegaMax = 0.3;
-    std::string             curveName0("tvTest0");
-    std::string             curveName1("tvTest1");
+    SmoothSegmentedFunction tv = SmoothSegmentedFunction();
+    SmoothSegmentedFunction tvX = SmoothSegmentedFunction();
+    double tvAtEccentricOmegaMax = 1.3;
+    double tvAtHalfConcentricOmegaMax = 0.3;
+    std::string curveName0("tvTest0");
+    std::string curveName1("tvTest1");
 
     TorqueMuscleFunctionFactory::createTorqueVelocityCurve(tvAtEccentricOmegaMax, tvAtHalfConcentricOmegaMax,
                                                            curveName0, tv);
-    double slopeAtConcentricOmegaMax  = -0.1;
-    double slopeAtEccentricOmegaMax   = -0.1;
+    double slopeAtConcentricOmegaMax = -0.1;
+    double slopeAtEccentricOmegaMax = -0.1;
     double slopeNearEccentricOmegaMax = -0.01;
-    double eccentricCurviness         = 0.75;
+    double eccentricCurviness = 0.75;
     TorqueMuscleFunctionFactory::createTorqueVelocityCurve(
         tvAtEccentricOmegaMax, tvAtHalfConcentricOmegaMax, slopeAtConcentricOmegaMax, slopeNearEccentricOmegaMax,
         slopeAtEccentricOmegaMax, eccentricCurviness, curveName1, tvX);
 
-    double wmin  = -1.1;
-    double wmax  = 1.1;
-    int    npts  = 100;
+    double wmin = -1.1;
+    double wmax = 1.1;
+    int npts = 100;
     double delta = (wmax - wmin) / ((double)npts - 1.0);
 
     // Get the parameters for the Hill type curve
     double wmaxC = 1.0;
     double wmaxE = -1.0;
-    double fiso  = 1.0;
-    double w     = 0.5 * wmaxC;
+    double fiso = 1.0;
+    double w = 0.5 * wmaxC;
     double a = -tvAtHalfConcentricOmegaMax * w * fiso / (wmaxC * tvAtHalfConcentricOmegaMax - fiso * wmaxC + fiso * w);
     double b = a * wmaxC / fiso;
-    double tvHill  = 0;
+    double tvHill = 0;
     double errHill = 0;
     for (int i = 0; i < npts; ++i)
     {
@@ -358,7 +358,7 @@ TEST_CASE(__FILE__ "_TorqueAngularVelocityCurve", "")
         }
         else if (w > 0 && w <= wmaxC)
         {
-            tvHill  = (b * fiso - a * w) / (b + w);
+            tvHill = (b * fiso - a * w) / (b + w);
             errHill = abs(tv.calcValue(w) - tvHill);
             // printf("%i. Err %f, ",i,errHill);
             CHECK(errHill < 0.02);
@@ -406,17 +406,17 @@ TEST_CASE(__FILE__ "_TorqueAngularVelocityCurve", "")
 //==============================================================================
 TEST_CASE(__FILE__ "_PassiveTorqueAngleCurve", "")
 {
-    SmoothSegmentedFunction tp                    = SmoothSegmentedFunction();
-    SmoothSegmentedFunction tpX                   = SmoothSegmentedFunction();
-    double                  angleAtZeroTorque0    = 0;
-    double                  angleAtOneNormTorque0 = -M_PI;
+    SmoothSegmentedFunction tp = SmoothSegmentedFunction();
+    SmoothSegmentedFunction tpX = SmoothSegmentedFunction();
+    double angleAtZeroTorque0 = 0;
+    double angleAtOneNormTorque0 = -M_PI;
 
-    double angleAtZeroTorque1    = 0;
+    double angleAtZeroTorque1 = 0;
     double angleAtOneNormTorque1 = M_PI;
 
     double stiffnessAtOneNormTorque1 = 5.6 / (angleAtOneNormTorque1 - angleAtZeroTorque1);
-    double stiffnessAtLowTorque1     = 0.05 * stiffnessAtOneNormTorque1;
-    double curviness1                = 0.75;
+    double stiffnessAtLowTorque1 = 0.05 * stiffnessAtOneNormTorque1;
+    double curviness1 = 0.75;
 
     std::string curveName0("tpTest0");
     std::string curveName1("tpTest1");
@@ -471,17 +471,17 @@ TEST_CASE(__FILE__ "_PassiveTorqueAngleCurve", "")
 //==============================================================================
 TEST_CASE(__FILE__ "_ActiveTorqueAngleCurve", "")
 {
-    SmoothSegmentedFunction ta                         = SmoothSegmentedFunction();
-    SmoothSegmentedFunction taX                        = SmoothSegmentedFunction();
-    double                  angleAtOneNormTorque       = 1.5;
-    double                  angularStandardDeviation   = 1.0;
-    double                  angularStandardDeviationSq = angularStandardDeviation * angularStandardDeviation;
+    SmoothSegmentedFunction ta = SmoothSegmentedFunction();
+    SmoothSegmentedFunction taX = SmoothSegmentedFunction();
+    double angleAtOneNormTorque = 1.5;
+    double angularStandardDeviation = 1.0;
+    double angularStandardDeviationSq = angularStandardDeviation * angularStandardDeviation;
 
     double minSlopeAtShoulders = 0.2;
     double minValueAtShoulders = 0.1;
-    double xTrans              = sqrt(-log(minValueAtShoulders) * 2 * angularStandardDeviationSq);
-    double delta               = abs(xTrans + angleAtOneNormTorque);
-    double curviness           = 0.75;
+    double xTrans = sqrt(-log(minValueAtShoulders) * 2 * angularStandardDeviationSq);
+    double delta = abs(xTrans + angleAtOneNormTorque);
+    double curviness = 0.75;
 
     std::string curveName0("tpTest0");
     std::string curveName1("tpTest1");
@@ -534,13 +534,13 @@ TEST_CASE(__FILE__ "_ActiveTorqueAngleCurve", "")
 //==============================================================================
 TEST_CASE(__FILE__ "_TendonTorqueAngleCurve", "")
 {
-    SmoothSegmentedFunction tt  = SmoothSegmentedFunction();
+    SmoothSegmentedFunction tt = SmoothSegmentedFunction();
     SmoothSegmentedFunction ttX = SmoothSegmentedFunction();
 
     double angularStretchAtOneNormTorque = M_PI / 2.0;
-    double stiffnessAtOneNormTorque      = 2.5 / angularStretchAtOneNormTorque;
-    double normTorqueAtToeEnd            = 2.0 / 3.0;
-    double curviness                     = 0.5;
+    double stiffnessAtOneNormTorque = 2.5 / angularStretchAtOneNormTorque;
+    double normTorqueAtToeEnd = 2.0 / 3.0;
+    double curviness = 0.5;
 
     std::string curveName0("ttTest0");
     std::string curveName1("ttTest1");

@@ -43,11 +43,11 @@ extern "C"
 
 #if defined(WIN32) || defined(_WIN32)
 #include <direct.h>
-#define get_current_dir     _getcwd
+#define get_current_dir _getcwd
 #define DIRECTORY_SEPARATOR "\\"
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
-#define get_current_dir     getcwd
+#define get_current_dir getcwd
 #define DIRECTORY_SEPARATOR "/"
 #else
 #error Platform not supported!
@@ -422,7 +422,7 @@ bool LuaTableNode::stackQueryValue()
     luaTable->pushRef();
 
     lua_State *L = luaTable->L;
-    stackTop     = lua_gettop(L);
+    stackTop = lua_gettop(L);
 
     std::vector<LuaKey> key_stack = getKeyStack();
 
@@ -434,7 +434,7 @@ void LuaTableNode::stackCreateValue()
     luaTable->pushRef();
 
     lua_State *L = luaTable->L;
-    stackTop     = lua_gettop(L);
+    stackTop = lua_gettop(L);
 
     std::vector<LuaKey> key_stack = getKeyStack();
 
@@ -446,7 +446,7 @@ LuaTable LuaTableNode::stackQueryTable()
     luaTable->pushRef();
 
     lua_State *L = luaTable->L;
-    stackTop     = lua_gettop(L);
+    stackTop = lua_gettop(L);
 
     std::vector<LuaKey> key_stack = getKeyStack();
 
@@ -465,7 +465,7 @@ LuaTable LuaTableNode::stackCreateLuaTable()
     luaTable->pushRef();
 
     lua_State *L = luaTable->L;
-    stackTop     = lua_gettop(L);
+    stackTop = lua_gettop(L);
 
     std::vector<LuaKey> key_stack = getKeyStack();
 
@@ -746,8 +746,8 @@ LuaTable &LuaTable::operator=(const LuaTable &other)
             }
         }
 
-        filename         = other.filename;
-        luaStateRef      = other.luaStateRef;
+        filename = other.filename;
+        luaStateRef = other.luaStateRef;
         referencesGlobal = other.referencesGlobal;
 
         if (other.luaStateRef)
@@ -834,9 +834,9 @@ LuaTable LuaTable::fromFile(const char *_filename)
 {
     LuaTable result;
 
-    result.filename           = _filename;
-    result.luaStateRef        = new LuaStateRef();
-    result.luaStateRef->L     = luaL_newstate();
+    result.filename = _filename;
+    result.luaStateRef = new LuaStateRef();
+    result.luaStateRef->L = luaL_newstate();
     result.luaStateRef->count = 1;
     luaL_openlibs(result.luaStateRef->L);
 
@@ -858,8 +858,8 @@ LuaTable LuaTable::fromLuaExpression(const char *lua_expr)
 {
     LuaTable result;
 
-    result.luaStateRef        = new LuaStateRef();
-    result.luaStateRef->L     = luaL_newstate();
+    result.luaStateRef = new LuaStateRef();
+    result.luaStateRef->L = luaL_newstate();
     result.luaStateRef->count = 1;
     luaL_openlibs(result.luaStateRef->L);
 
@@ -889,9 +889,9 @@ LuaTable LuaTable::fromLuaState(lua_State *L)
 {
     LuaTable result;
 
-    result.luaStateRef                 = new LuaStateRef();
-    result.luaStateRef->L              = L;
-    result.luaStateRef->count          = 1;
+    result.luaStateRef = new LuaStateRef();
+    result.luaStateRef->L = L;
+    result.luaStateRef->count = 1;
     result.luaStateRef->freeOnZeroRefs = false;
 
     lua_pushvalue(result.luaStateRef->L, -1);
@@ -915,7 +915,7 @@ void LuaTable::addSearchPath(const char *path)
     }
 
     string package_path = lua_tostring(luaStateRef->L, -1);
-    package_path        = package_path + string(";") + string(path) + "?.lua;";
+    package_path = package_path + string(";") + string(path) + "?.lua;";
 
     lua_pushstring(luaStateRef->L, package_path.c_str());
     lua_setfield(luaStateRef->L, -3, "path");

@@ -33,7 +33,7 @@ typedef Eigen::Ref<Eigen::VectorXd> VectorNdRef;
 
 #ifdef PTR_DATA_ROW_MAJOR
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixNdRowMaj;
-typedef Eigen::Ref<MatrixNdRowMaj>                                             MatrixNdRef;
+typedef Eigen::Ref<MatrixNdRowMaj> MatrixNdRef;
 #else
 typedef Eigen::Ref<Eigen::MatrixXd> MatrixNdRef;
 #endif
@@ -102,7 +102,7 @@ void UpdateKinematicsCustomPtr(Model &model, const double *q_ptr, const double *
 
     if (qdot_ptr)
     {
-        VectorNdRef Q    = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+        VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
         VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
 
         for (i = 1; i < model.mBodies.size(); i++)
@@ -160,8 +160,8 @@ void UpdateKinematicsCustomPtr(Model &model, const double *q_ptr, const double *
             {
                 unsigned int k = model.mJoints[i].custom_joint_index;
 
-                const CustomJoint *custom_joint    = model.mCustomJoints[k];
-                unsigned int       joint_dof_count = custom_joint->mDoFCount;
+                const CustomJoint *custom_joint = model.mCustomJoints[k];
+                unsigned int joint_dof_count = custom_joint->mDoFCount;
 
                 model.a[i] = model.a[i] + ((model.mCustomJoints[k]->S) * (QDDot.block(q_index, 0, joint_dof_count, 1)));
             }
@@ -170,12 +170,12 @@ void UpdateKinematicsCustomPtr(Model &model, const double *q_ptr, const double *
 }
 
 RBDL_DLLAPI
-void CalcPointJacobianPtr(Model                &model,
-                          const double         *q_ptr,
-                          unsigned int          body_id,
+void CalcPointJacobianPtr(Model &model,
+                          const double *q_ptr,
+                          unsigned int body_id,
                           const Math::Vector3d &point_position,
-                          double               *G_ptr,
-                          bool                  update_kinematics)
+                          double *G_ptr,
+                          bool update_kinematics)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
@@ -200,7 +200,7 @@ void CalcPointJacobianPtr(Model                &model,
     if (model.IsFixedBodyId(body_id))
     {
         unsigned int fbody_id = body_id - model.fixed_body_discriminator;
-        reference_body_id     = model.mFixedBodies[fbody_id].mMovableParent;
+        reference_body_id = model.mFixedBodies[fbody_id].mMovableParent;
     }
 
     unsigned int j = reference_body_id;
@@ -238,12 +238,12 @@ void CalcPointJacobianPtr(Model                &model,
 }
 
 RBDL_DLLAPI
-void CalcPointJacobian6DPtr(Model                &model,
-                            const double         *q_ptr,
-                            unsigned int          body_id,
+void CalcPointJacobian6DPtr(Model &model,
+                            const double *q_ptr,
+                            unsigned int body_id,
                             const Math::Vector3d &point_position,
-                            double               *G_ptr,
-                            bool                  update_kinematics)
+                            double *G_ptr,
+                            bool update_kinematics)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
@@ -268,7 +268,7 @@ void CalcPointJacobian6DPtr(Model                &model,
     if (model.IsFixedBodyId(body_id))
     {
         unsigned int fbody_id = body_id - model.fixed_body_discriminator;
-        reference_body_id     = model.mFixedBodies[fbody_id].mMovableParent;
+        reference_body_id = model.mFixedBodies[fbody_id].mMovableParent;
     }
 
     unsigned int j = reference_body_id;
@@ -304,11 +304,11 @@ void CalcPointJacobian6DPtr(Model                &model,
 }
 
 RBDL_DLLAPI
-void CalcBodySpatialJacobianPtr(Model        &model,
+void CalcBodySpatialJacobianPtr(Model &model,
                                 const double *q_ptr,
-                                unsigned int  body_id,
-                                double       *G_ptr,
-                                bool          update_kinematics)
+                                unsigned int body_id,
+                                double *G_ptr,
+                                bool update_kinematics)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
@@ -371,21 +371,21 @@ void CalcBodySpatialJacobianPtr(Model        &model,
 }
 
 RBDL_DLLAPI
-void InverseDynamicsPtr(Model                            &model,
-                        const double                     *q_ptr,
-                        const double                     *qdot_ptr,
-                        const double                     *qddot_ptr,
-                        const double                     *tau_ptr,
+void InverseDynamicsPtr(Model &model,
+                        const double *q_ptr,
+                        const double *qdot_ptr,
+                        const double *qddot_ptr,
+                        const double *tau_ptr,
                         std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
 
-    VectorNdRef Q     = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef QDot  = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
+    VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
     VectorNdRef QDDot = VectorFromPtr(const_cast<double *>(qddot_ptr), model.qdot_size);
-    VectorNdRef Tau   = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
+    VectorNdRef Tau = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
 
     // Reset the velocity of the root body
     model.v[0].setZero();
@@ -394,7 +394,7 @@ void InverseDynamicsPtr(Model                            &model,
     for (unsigned int i = 1; i < model.mBodies.size(); i++)
     {
         unsigned int q_index = model.mJoints[i].q_index;
-        unsigned int lambda  = model.lambda[i];
+        unsigned int lambda = model.lambda[i];
 
         jcalc(model, i, Q, QDot);
 
@@ -416,7 +416,7 @@ void InverseDynamicsPtr(Model                            &model,
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
             unsigned int k = model.mJoints[i].custom_joint_index;
-            VectorNd     customJointQDDot(model.mCustomJoints[k]->mDoFCount);
+            VectorNd customJointQDDot(model.mCustomJoints[k]->mDoFCount);
             for (int z = 0; z < model.mCustomJoints[k]->mDoFCount; ++z)
             {
                 customJointQDDot[z] = QDDot[q_index + z];
@@ -439,9 +439,9 @@ void InverseDynamicsPtr(Model                            &model,
     {
         for (unsigned int i = 1; i < model.mBodies.size(); i++)
         {
-            unsigned int lambda  = model.lambda[i];
-            model.X_base[i]      = model.X_lambda[i] * model.X_base[lambda];
-            model.f[i]          -= model.X_base[i].toMatrixAdjoint() * (*f_ext)[i];
+            unsigned int lambda = model.lambda[i];
+            model.X_base[i] = model.X_lambda[i] * model.X_base[lambda];
+            model.f[i] -= model.X_base[i].toMatrixAdjoint() * (*f_ext)[i];
         }
     }
 
@@ -476,8 +476,8 @@ void InverseDynamicsPtr(Model                            &model,
 // Consider other options for specifying the correct function signature.
 void SolveLinearSystem(const RigidBodyDynamics::Math::MatrixNd &A,
                        const RigidBodyDynamics::Math::VectorNd &b,
-                       RigidBodyDynamics::Math::VectorNd       &x,
-                       RigidBodyDynamics::Math::LinearSolver    ls)
+                       RigidBodyDynamics::Math::VectorNd &x,
+                       RigidBodyDynamics::Math::LinearSolver ls)
 {
     if (A.rows() != b.size() || A.cols() != x.size())
     {
@@ -505,30 +505,30 @@ void SolveLinearSystem(const RigidBodyDynamics::Math::MatrixNd &A,
 }
 
 RBDL_DLLAPI
-void InverseDynamicsConstraintsPtr(Model                            &model,
-                                   const double                     *q_ptr,
-                                   const double                     *qdot_ptr,
-                                   const double                     *qddot_ptr,
-                                   ConstraintSet                    &CS,
-                                   const double                     *qddot_out_ptr,
-                                   const double                     *tau_ptr,
-                                   bool                              update_kinematics,
+void InverseDynamicsConstraintsPtr(Model &model,
+                                   const double *q_ptr,
+                                   const double *qdot_ptr,
+                                   const double *qddot_ptr,
+                                   ConstraintSet &CS,
+                                   const double *qddot_out_ptr,
+                                   const double *tau_ptr,
+                                   bool update_kinematics,
                                    std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " ------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
 
-    VectorNdRef Q            = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef QDot         = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
+    VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
     VectorNdRef QDDotDesired = VectorFromPtr(const_cast<double *>(qddot_ptr), model.qdot_size);
-    VectorNdRef QDDotOutput  = VectorFromPtr(const_cast<double *>(qddot_out_ptr), model.qdot_size);
-    VectorNdRef TauOutput    = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
+    VectorNdRef QDDotOutput = VectorFromPtr(const_cast<double *>(qddot_out_ptr), model.qdot_size);
+    VectorNdRef TauOutput = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
 
     TauOutput.setZero();
     CalcConstrainedSystemVariables(model, Q, QDot, TauOutput, CS, update_kinematics, f_ext);
@@ -577,36 +577,36 @@ void InverseDynamicsConstraintsPtr(Model                            &model,
 }
 
 RBDL_DLLAPI
-void InverseDynamicsConstraintsRelaxedPtr(Model                            &model,
-                                          const double                     *q_ptr,
-                                          const double                     *qdot_ptr,
-                                          const double                     *qddot_ptr,
-                                          ConstraintSet                    &CS,
-                                          const double                     *qddot_out_ptr,
-                                          const double                     *tau_ptr,
-                                          bool                              update_kinematics,
+void InverseDynamicsConstraintsRelaxedPtr(Model &model,
+                                          const double *q_ptr,
+                                          const double *qdot_ptr,
+                                          const double *qddot_ptr,
+                                          ConstraintSet &CS,
+                                          const double *qddot_out_ptr,
+                                          const double *tau_ptr,
+                                          bool update_kinematics,
                                           std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
-    VectorNdRef Q             = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef QDot          = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
+    VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
     VectorNdRef QDDotControls = VectorFromPtr(const_cast<double *>(qddot_ptr), model.qdot_size);
-    VectorNdRef QDDotOutput   = VectorFromPtr(const_cast<double *>(qddot_out_ptr), model.qdot_size);
-    VectorNdRef TauOutput     = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
+    VectorNdRef QDDotOutput = VectorFromPtr(const_cast<double *>(qddot_out_ptr), model.qdot_size);
+    VectorNdRef TauOutput = VectorFromPtr(const_cast<double *>(tau_ptr), model.qdot_size);
 
     TauOutput.setZero();
     CalcConstrainedSystemVariables(model, Q, QDot, TauOutput, CS, update_kinematics, f_ext);
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
 
     // MM: Update to Henning's formulation s.t. the relaxed IDC operator will
     //     more closely satisfy QDDotControls if it is possible.
-    double diag    = 0.; // 100.*CS.H.maxCoeff();
+    double diag = 0.; // 100.*CS.H.maxCoeff();
     double diagInv = 0.;
     for (unsigned int i = 0; i < CS.H.rows(); ++i)
     {
@@ -618,22 +618,22 @@ void InverseDynamicsConstraintsRelaxedPtr(Model                            &mode
             }
         }
     }
-    diag    = diag * 100.;
+    diag = diag * 100.;
     diagInv = 1.0 / diag;
     for (unsigned int i = 0; i < CS.W.rows(); ++i)
     {
-        CS.W(i, i)    = diag;
+        CS.W(i, i) = diag;
         CS.Winv(i, i) = diagInv;
     }
 
     CS.WinvSC = CS.Winv * CS.S * CS.C;
 
-    CS.F.block(0, 0, na, na)   = CS.S * CS.H * CS.S.transpose() + CS.W;
-    CS.F.block(0, na, na, nu)  = CS.S * CS.H * CS.P.transpose();
-    CS.F.block(na, 0, nu, na)  = CS.P * CS.H * CS.S.transpose();
+    CS.F.block(0, 0, na, na) = CS.S * CS.H * CS.S.transpose() + CS.W;
+    CS.F.block(0, na, na, nu) = CS.S * CS.H * CS.P.transpose();
+    CS.F.block(na, 0, nu, na) = CS.P * CS.H * CS.S.transpose();
     CS.F.block(na, na, nu, nu) = CS.P * CS.H * CS.P.transpose();
 
-    CS.GT.block(0, 0, na, nc)  = CS.S * (CS.G.transpose());
+    CS.GT.block(0, 0, na, nc) = CS.S * (CS.G.transpose());
     CS.GT.block(na, 0, nu, nc) = CS.P * (CS.G.transpose());
 
     CS.GT_qr.compute(CS.GT);
@@ -642,7 +642,7 @@ void InverseDynamicsConstraintsRelaxedPtr(Model                            &mode
     // GT = [Y  Z] * [ R ]
     //               [ 0 ]
 
-    CS.R  = CS.GT_qr_Q.transpose() * CS.GT;
+    CS.R = CS.GT_qr_Q.transpose() * CS.GT;
     CS.Ru = CS.R.block(0, 0, nc, nc);
 
     CS.Y = CS.GT_qr_Q.block(0, 0, n, nc);
@@ -707,23 +707,23 @@ void InverseDynamicsConstraintsRelaxedPtr(Model                            &mode
 }
 
 RBDL_DLLAPI
-bool isConstrainedSystemFullyActuated(Model                            &model,
-                                      const double                     *q_ptr,
-                                      const double                     *qdot_ptr,
-                                      ConstraintSet                    &CS,
-                                      bool                              update_kinematics,
+bool isConstrainedSystemFullyActuated(Model &model,
+                                      const double *q_ptr,
+                                      const double *qdot_ptr,
+                                      ConstraintSet &CS,
+                                      bool update_kinematics,
                                       std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " ------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
 
-    unsigned int n  = unsigned(CS.H.rows());
+    unsigned int n = unsigned(CS.H.rows());
     unsigned int nc = unsigned(CS.name.size());
     unsigned int na = unsigned(CS.S.rows());
     unsigned int nu = n - na;
 
-    VectorNdRef Q    = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
     VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.qdot_size);
 
     CalcConstrainedSystemVariables(model, Q, QDot, VectorNd::Zero(QDot.rows()), CS, update_kinematics, f_ext);
@@ -753,9 +753,9 @@ void NonlinearEffectsPtr(Model &model, const double *q_ptr, const double *qdot_p
 
     using namespace RigidBodyDynamics::Math;
 
-    VectorNdRef Q    = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
     VectorNdRef QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
-    VectorNdRef Tau  = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
+    VectorNdRef Tau = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
 
     SpatialVector spatial_gravity(0., 0., 0., -model.gravity[0], -model.gravity[1], -model.gravity[2]);
 
@@ -851,16 +851,16 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
         if (model.mJoints[i].mDoFCount == 1 && model.mJoints[i].mJointType != JointTypeCustom)
         {
 
-            SpatialVector F             = model.Ic[i] * model.S[i];
+            SpatialVector F = model.Ic[i] * model.S[i];
             H(dof_index_i, dof_index_i) = model.S[i].dot(F);
 
-            unsigned int j           = i;
+            unsigned int j = i;
             unsigned int dof_index_j = dof_index_i;
 
             while (model.lambda[j] != 0)
             {
-                F           = model.X_lambda[j].applyTranspose(F);
-                j           = model.lambda[j];
+                F = model.X_lambda[j].applyTranspose(F);
+                j = model.lambda[j];
                 dof_index_j = model.mJoints[j].q_index;
 
                 if (model.mJoints[j].mJointType != JointTypeCustom)
@@ -882,9 +882,9 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
                 }
                 else if (model.mJoints[j].mJointType == JointTypeCustom)
                 {
-                    unsigned int k       = model.mJoints[j].custom_joint_index;
-                    unsigned int dof     = model.mCustomJoints[k]->mDoFCount;
-                    VectorNd     H_temp2 = (F.transpose() * model.mCustomJoints[k]->S).transpose();
+                    unsigned int k = model.mJoints[j].custom_joint_index;
+                    unsigned int dof = model.mCustomJoints[k]->mDoFCount;
+                    VectorNd H_temp2 = (F.transpose() * model.mCustomJoints[k]->S).transpose();
 
                     LOG << F.transpose() << std::endl << model.mCustomJoints[j]->S << std::endl;
 
@@ -897,16 +897,16 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
         }
         else if (model.mJoints[i].mDoFCount == 3 && model.mJoints[i].mJointType != JointTypeCustom)
         {
-            Matrix63 F_63                           = model.Ic[i].toMatrix() * model.multdof3_S[i];
+            Matrix63 F_63 = model.Ic[i].toMatrix() * model.multdof3_S[i];
             H.block<3, 3>(dof_index_i, dof_index_i) = model.multdof3_S[i].transpose() * F_63;
 
-            unsigned int j           = i;
+            unsigned int j = i;
             unsigned int dof_index_j = dof_index_i;
 
             while (model.lambda[j] != 0)
             {
-                F_63        = model.X_lambda[j].toMatrixTranspose() * (F_63);
-                j           = model.lambda[j];
+                F_63 = model.X_lambda[j].toMatrixTranspose() * (F_63);
+                j = model.lambda[j];
                 dof_index_j = model.mJoints[j].q_index;
 
                 if (model.mJoints[j].mJointType != JointTypeCustom)
@@ -928,7 +928,7 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
                 }
                 else if (model.mJoints[j].mJointType == JointTypeCustom)
                 {
-                    unsigned int k   = model.mJoints[j].custom_joint_index;
+                    unsigned int k = model.mJoints[j].custom_joint_index;
                     unsigned int dof = model.mCustomJoints[k]->mDoFCount;
 
                     MatrixNd H_temp2 = F_63.transpose() * (model.mCustomJoints[k]->S);
@@ -940,20 +940,20 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
         }
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
-            unsigned int kI   = model.mJoints[i].custom_joint_index;
+            unsigned int kI = model.mJoints[i].custom_joint_index;
             unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
 
             MatrixNd F_Nd = model.Ic[i].toMatrix() * model.mCustomJoints[kI]->S;
 
             H.block(dof_index_i, dof_index_i, dofI, dofI) = model.mCustomJoints[kI]->S.transpose() * F_Nd;
 
-            unsigned int j           = i;
+            unsigned int j = i;
             unsigned int dof_index_j = dof_index_i;
 
             while (model.lambda[j] != 0)
             {
-                F_Nd        = model.X_lambda[j].toMatrixTranspose() * (F_Nd);
-                j           = model.lambda[j];
+                F_Nd = model.X_lambda[j].toMatrixTranspose() * (F_Nd);
+                j = model.lambda[j];
                 dof_index_j = model.mJoints[j].q_index;
 
                 if (model.mJoints[j].mJointType != JointTypeCustom)
@@ -973,7 +973,7 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
                 }
                 else if (model.mJoints[j].mJointType == JointTypeCustom)
                 {
-                    unsigned int k   = model.mJoints[j].custom_joint_index;
+                    unsigned int k = model.mJoints[j].custom_joint_index;
                     unsigned int dof = model.mCustomJoints[k]->mDoFCount;
 
                     MatrixNd H_temp2 = F_Nd.transpose() * (model.mCustomJoints[k]->S);
@@ -987,21 +987,21 @@ CompositeRigidBodyAlgorithmPtr(Model &model, const double *q_ptr, double *H_ptr,
 }
 
 RBDL_DLLAPI
-void ForwardDynamicsPtr(Model                            &model,
-                        const double                     *q_ptr,
-                        const double                     *qdot_ptr,
-                        const double                     *tau_ptr,
-                        const double                     *qddot_ptr,
+void ForwardDynamicsPtr(Model &model,
+                        const double *q_ptr,
+                        const double *qdot_ptr,
+                        const double *tau_ptr,
+                        const double *qddot_ptr,
                         std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
 
-    VectorNdRef &&Q     = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef &&QDot  = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
+    VectorNdRef &&Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef &&QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
     VectorNdRef &&QDDot = VectorFromPtr(const_cast<double *>(qddot_ptr), model.q_size);
-    VectorNdRef &&Tau   = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
+    VectorNdRef &&Tau = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
 
     SpatialVector spatial_gravity(0., 0., 0., model.gravity[0], model.gravity[1], model.gravity[2]);
 
@@ -1084,7 +1084,7 @@ void ForwardDynamicsPtr(Model                            &model,
         }
         else if (model.mJoints[i].mDoFCount == 3 && model.mJoints[i].mJointType != JointTypeCustom)
         {
-            model.multdof3_U[i]    = model.IA[i] * model.multdof3_S[i];
+            model.multdof3_U[i] = model.IA[i] * model.multdof3_S[i];
             model.multdof3_Dinv[i] = (model.multdof3_S[i].transpose() * model.multdof3_U[i]).inverse().eval();
             VectorNd tau_temp(Tau.block(q_index, 0, 3, 1));
             model.multdof3_u[i] = tau_temp - model.multdof3_S[i].transpose() * model.pA[i];
@@ -1108,8 +1108,8 @@ void ForwardDynamicsPtr(Model                            &model,
         }
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
-            unsigned int kI            = model.mJoints[i].custom_joint_index;
-            unsigned int dofI          = model.mCustomJoints[kI]->mDoFCount;
+            unsigned int kI = model.mJoints[i].custom_joint_index;
+            unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
             model.mCustomJoints[kI]->U = model.IA[i] * model.mCustomJoints[kI]->S;
 
             std::cout << "IA*S: " << model.IA[i] * model.mCustomJoints[kI]->S << std::endl;
@@ -1150,8 +1150,8 @@ void ForwardDynamicsPtr(Model                            &model,
 
     for (i = 1; i < model.mBodies.size(); i++)
     {
-        unsigned int     q_index  = model.mJoints[i].q_index;
-        unsigned int     lambda   = model.lambda[i];
+        unsigned int q_index = model.mJoints[i].q_index;
+        unsigned int lambda = model.lambda[i];
         SpatialTransform X_lambda = model.X_lambda[i];
 
         model.a[i] = X_lambda.apply(model.a[lambda]) + model.c[i];
@@ -1160,20 +1160,20 @@ void ForwardDynamicsPtr(Model                            &model,
         if (model.mJoints[i].mDoFCount == 1 && model.mJoints[i].mJointType != JointTypeCustom)
         {
             QDDot[q_index] = (1. / model.d[i]) * (model.u[i] - model.U[i].dot(model.a[i]));
-            model.a[i]     = model.a[i] + model.S[i] * QDDot[q_index];
+            model.a[i] = model.a[i] + model.S[i] * QDDot[q_index];
         }
         else if (model.mJoints[i].mDoFCount == 3 && model.mJoints[i].mJointType != JointTypeCustom)
         {
             Vector3d qdd_temp =
                 model.multdof3_Dinv[i] * (model.multdof3_u[i] - model.multdof3_U[i].transpose() * model.a[i]);
-            QDDot[q_index]     = qdd_temp[0];
+            QDDot[q_index] = qdd_temp[0];
             QDDot[q_index + 1] = qdd_temp[1];
             QDDot[q_index + 2] = qdd_temp[2];
-            model.a[i]         = model.a[i] + model.multdof3_S[i] * qdd_temp;
+            model.a[i] = model.a[i] + model.multdof3_S[i] * qdd_temp;
         }
         else if (model.mJoints[i].mJointType == JointTypeCustom)
         {
-            unsigned int kI   = model.mJoints[i].custom_joint_index;
+            unsigned int kI = model.mJoints[i].custom_joint_index;
             unsigned int dofI = model.mCustomJoints[kI]->mDoFCount;
 
             std::cout << "DINV: " << model.mCustomJoints[kI]->Dinv << std::endl;
@@ -1196,15 +1196,15 @@ void ForwardDynamicsPtr(Model                            &model,
     LOG << "QDDot = " << QDDot.transpose() << std::endl;
 }
 
-RBDL_DLLAPI bool InverseKinematicsPtr(Model                             &model,
-                                      const double                      *qinit_ptr,
-                                      const std::vector<unsigned int>   &body_id,
+RBDL_DLLAPI bool InverseKinematicsPtr(Model &model,
+                                      const double *qinit_ptr,
+                                      const std::vector<unsigned int> &body_id,
                                       const std::vector<Math::Vector3d> &body_point,
                                       const std::vector<Math::Vector3d> &target_pos,
-                                      const double                      *qres_ptr,
-                                      double                             step_tol,
-                                      double                             dlambda,
-                                      unsigned int                       max_iter)
+                                      const double *qres_ptr,
+                                      double step_tol,
+                                      double dlambda,
+                                      unsigned int max_iter)
 {
 
     using namespace RigidBodyDynamics::Math;
@@ -1218,7 +1218,7 @@ RBDL_DLLAPI bool InverseKinematicsPtr(Model                             &model,
     //  }
 
     VectorNdRef &&Qinit = VectorFromPtr(const_cast<double *>(qinit_ptr), model.q_size);
-    VectorNdRef &&Qres  = VectorFromPtr(const_cast<double *>(qres_ptr), model.q_size);
+    VectorNdRef &&Qres = VectorFromPtr(const_cast<double *>(qres_ptr), model.q_size);
 
     MatrixNd J = MatrixNd::Zero(3 * body_id.size(), model.qdot_size);
     VectorNd e = VectorNd::Zero(3 * body_id.size());
@@ -1305,16 +1305,16 @@ RBDL_DLLAPI bool InverseKinematicsPtr(Model                             &model,
     return false;
 }
 
-RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
-                                        const double                   *qinit_ptr,
+RBDL_DLLAPI bool InverseKinematicsCSPtr(Model &model,
+                                        const double *qinit_ptr,
                                         InverseKinematicsConstraintSet &CS,
-                                        const double                   *qres_ptr)
+                                        const double *qres_ptr)
 {
 
     using namespace RigidBodyDynamics::Math;
 
     VectorNdRef &&Qinit = VectorFromPtr(const_cast<double *>(qinit_ptr), model.q_size);
-    VectorNdRef &&Qres  = VectorFromPtr(const_cast<double *>(qres_ptr), model.q_size);
+    VectorNdRef &&Qres = VectorFromPtr(const_cast<double *>(qres_ptr), model.q_size);
 
     assert(Qinit.size() == model.q_size);
     assert(Qres.size() == Qinit.size());
@@ -1334,7 +1334,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
             CS.G = MatrixNd::Zero(6, model.qdot_size);
             CalcPointJacobian6D(model, Qres, CS.body_ids[k], CS.body_points[k], CS.G, false);
             Vector3d point_base = CalcBodyToBaseCoordinates(model, Qres, CS.body_ids[k], CS.body_points[k], false);
-            Matrix3d R          = CalcBodyWorldOrientation(model, Qres, CS.body_ids[k], false);
+            Matrix3d R = CalcBodyWorldOrientation(model, Qres, CS.body_ids[k], false);
 
             Vector3d angular_velocity =
                 R.transpose() * CalcAngularVelocityfromMatrix(R * CS.target_orientations[k].transpose());
@@ -1344,12 +1344,12 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
                 for (unsigned int i = 0; i < 3; i++)
                 {
                     unsigned int row = CS.constraint_row_index[k] + i;
-                    CS.e[row + 3]    = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
-                    CS.e[row]        = CS.constraint_weight.at(k) * angular_velocity[i];
+                    CS.e[row + 3] = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
+                    CS.e[row] = CS.constraint_weight.at(k) * angular_velocity[i];
                     for (unsigned int j = 0; j < model.qdot_size; j++)
                     {
                         CS.J(row + 3, j) = CS.constraint_weight.at(k) * CS.G(i + 3, j);
-                        CS.J(row, j)     = CS.constraint_weight.at(k) * CS.G(i, j);
+                        CS.J(row, j) = CS.constraint_weight.at(k) * CS.G(i, j);
                     }
                 }
             }
@@ -1358,7 +1358,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
                 for (unsigned int i = 0; i < 3; i++)
                 {
                     unsigned int row = CS.constraint_row_index[k] + i;
-                    CS.e[row]        = CS.constraint_weight.at(k) * angular_velocity[i];
+                    CS.e[row] = CS.constraint_weight.at(k) * angular_velocity[i];
 
                     for (unsigned int j = 0; j < model.qdot_size; j++)
                     {
@@ -1371,7 +1371,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
                 for (unsigned int i = 0; i < 3; i++)
                 {
                     unsigned int row = CS.constraint_row_index[k] + i;
-                    CS.e[row]        = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
+                    CS.e[row] = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
                     for (unsigned int j = 0; j < model.qdot_size; j++)
                     {
                         CS.J(row, j) = CS.constraint_weight.at(k) * CS.G(i + 3, j);
@@ -1383,7 +1383,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
                 for (unsigned int i = 0; i < 2; i++)
                 {
                     unsigned int row = CS.constraint_row_index[k] + i;
-                    CS.e[row]        = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
+                    CS.e[row] = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
                     for (unsigned int j = 0; j < model.qdot_size; j++)
                     {
                         CS.J(row, j) = CS.constraint_weight.at(k) * CS.G(i + 3, j);
@@ -1394,7 +1394,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
             {
 
                 unsigned int row = CS.constraint_row_index[k];
-                CS.e[row]        = CS.constraint_weight.at(k) * (CS.target_positions[k][2] - point_base[2]);
+                CS.e[row] = CS.constraint_weight.at(k) * (CS.target_positions[k][2] - point_base[2]);
                 for (unsigned int j = 0; j < model.qdot_size; j++)
                 {
                     CS.J(row, j) = CS.constraint_weight.at(k) * CS.G(2 + 3, j);
@@ -1408,7 +1408,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
                 for (unsigned int i = 0; i < 2; i++)
                 {
                     unsigned int row = CS.constraint_row_index[k] + i;
-                    CS.e[row]        = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
+                    CS.e[row] = CS.constraint_weight.at(k) * (CS.target_positions[k][i] - point_base[i]);
                     for (unsigned int j = 0; j < model.qdot_size; j++)
                     {
                         CS.J(row, j) = CS.constraint_weight.at(k) * CS.G(i + 3, j);
@@ -1466,7 +1466,7 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
             //      Wn(wi, wi) = Ek + 1.0e-3;
         }
 
-        MatrixNd A           = CS.J.transpose() * CS.J + Wn;
+        MatrixNd A = CS.J.transpose() * CS.J + Wn;
         VectorNd delta_theta = A.colPivHouseholderQr().solve(CS.J.transpose() * CS.e);
 
         Qres = Qres + delta_theta;
@@ -1481,23 +1481,23 @@ RBDL_DLLAPI bool InverseKinematicsCSPtr(Model                          &model,
     return false;
 }
 
-RBDL_DLLAPI void ForwardDynamicsConstraintsDirectPtr(Model                            &model,
-                                                     const double                     *q_ptr,
-                                                     const double                     *qdot_ptr,
-                                                     const double                     *tau_ptr,
-                                                     ConstraintSet                    &CS,
-                                                     const double                     *qddot_ptr,
-                                                     bool                              update_kinematics,
+RBDL_DLLAPI void ForwardDynamicsConstraintsDirectPtr(Model &model,
+                                                     const double *q_ptr,
+                                                     const double *qdot_ptr,
+                                                     const double *tau_ptr,
+                                                     ConstraintSet &CS,
+                                                     const double *qddot_ptr,
+                                                     bool update_kinematics,
                                                      std::vector<Math::SpatialVector> *f_ext)
 {
     LOG << "-------- " << __func__ << " --------" << std::endl;
 
     using namespace RigidBodyDynamics::Math;
 
-    VectorNdRef &&Q     = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef &&QDot  = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
+    VectorNdRef &&Q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef &&QDot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
     VectorNdRef &&QDDot = VectorFromPtr(const_cast<double *>(qddot_ptr), model.q_size);
-    VectorNdRef &&Tau   = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
+    VectorNdRef &&Tau = VectorFromPtr(const_cast<double *>(tau_ptr), model.q_size);
 
     CalcConstrainedSystemVariables(model, Q, QDot, Tau, CS, update_kinematics, f_ext);
 
@@ -1516,23 +1516,23 @@ RBDL_DLLAPI void ForwardDynamicsConstraintsDirectPtr(Model                      
     }
 }
 
-RBDL_DLLAPI void CalcCenterOfMass(Model          &model,
-                                  const double   *q_ptr,
-                                  const double   *qdot_ptr,
-                                  const double   *qddot_ptr,
-                                  double         &mass,
+RBDL_DLLAPI void CalcCenterOfMass(Model &model,
+                                  const double *q_ptr,
+                                  const double *qdot_ptr,
+                                  const double *qddot_ptr,
+                                  double &mass,
                                   Math::Vector3d &com,
                                   Math::Vector3d *com_velocity,
                                   Math::Vector3d *com_acceleration,
                                   Math::Vector3d *angular_momentum,
                                   Math::Vector3d *change_of_angular_momentum,
-                                  bool            update_kinematics)
+                                  bool update_kinematics)
 {
 
     using namespace RigidBodyDynamics::Math;
 
-    VectorNdRef &&q     = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
-    VectorNdRef &&qdot  = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
+    VectorNdRef &&q = VectorFromPtr(const_cast<double *>(q_ptr), model.q_size);
+    VectorNdRef &&qdot = VectorFromPtr(const_cast<double *>(qdot_ptr), model.q_size);
     VectorNdRef &&qddot = VectorFromPtr(const_cast<double *>(qddot_ptr), model.q_size);
 
     // If we want to compute com_acceleration or change of angular momentum
@@ -1546,8 +1546,8 @@ RBDL_DLLAPI void CalcCenterOfMass(Model          &model,
 
     for (size_t i = 1; i < model.mBodies.size(); i++)
     {
-        model.Ic[i]    = model.I[i];
-        model.hc[i]    = model.Ic[i].toMatrix() * model.v[i];
+        model.Ic[i] = model.I[i];
+        model.hc[i] = model.Ic[i].toMatrix() * model.v[i];
         model.hdotc[i] = model.Ic[i] * model.a[i] + crossf(model.v[i], model.Ic[i] * model.v[i]);
     }
 
@@ -1560,8 +1560,8 @@ RBDL_DLLAPI void CalcCenterOfMass(Model          &model,
     }
 
     SpatialRigidBodyInertia Itot(0., Vector3d(0., 0., 0.), Matrix3d::Zero());
-    SpatialVector           htot(SpatialVector::Zero());
-    SpatialVector           hdot_tot(SpatialVector::Zero());
+    SpatialVector htot(SpatialVector::Zero());
+    SpatialVector hdot_tot(SpatialVector::Zero());
 
     for (size_t i = model.mBodies.size() - 1; i > 0; i--)
     {
@@ -1597,7 +1597,7 @@ RBDL_DLLAPI void CalcCenterOfMass(Model          &model,
     }
 
     mass = Itot.m;
-    com  = Itot.h / mass;
+    com = Itot.h / mass;
     LOG << "mass = " << mass << " com = " << com.transpose() << " htot = " << htot.transpose() << std::endl;
 
     if (com_velocity)

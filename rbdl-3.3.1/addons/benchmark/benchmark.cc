@@ -23,7 +23,7 @@ bool have_luamodel = false;
 
 #ifdef RBDL_BUILD_ADDON_URDFREADER
 #include "../addons/urdfreader/urdfreader.h"
-bool have_urdfreader    = true;
+bool have_urdfreader = true;
 bool urdf_floating_base = false;
 #else
 bool have_urdfreader = false;
@@ -33,17 +33,17 @@ using namespace std;
 using namespace RigidBodyDynamics;
 using namespace RigidBodyDynamics::Math;
 
-int benchmark_sample_count    = 1000;
+int benchmark_sample_count = 1000;
 int benchmark_model_max_depth = 5;
 
-bool benchmark_run_fd_aba              = true;
-bool benchmark_run_fd_lagrangian       = true;
-bool benchmark_run_id_rnea             = true;
-bool benchmark_run_crba                = true;
-bool benchmark_run_nle                 = true;
+bool benchmark_run_fd_aba = true;
+bool benchmark_run_fd_lagrangian = true;
+bool benchmark_run_id_rnea = true;
+bool benchmark_run_crba = true;
+bool benchmark_run_nle = true;
 bool benchmark_run_calc_minv_times_tau = true;
-bool benchmark_run_contacts            = true;
-bool benchmark_run_ik                  = true;
+bool benchmark_run_contacts = true;
+bool benchmark_run_ik = true;
 
 bool json_output = false;
 
@@ -60,9 +60,9 @@ enum ContactsMethod
 struct BenchmarkRun
 {
     string model_name;
-    int    model_dof;
+    int model_dof;
     string benchmark;
-    int    sample_count;
+    int sample_count;
 
     double duration;
     double avg;
@@ -83,15 +83,15 @@ void report_section(const char *section_name)
 void register_run(const Model &model, const SampleData &data, const char *run_name)
 {
     BenchmarkRun run;
-    run.benchmark    = run_name;
-    run.model_name   = model_name;
-    run.model_dof    = model.dof_count;
+    run.benchmark = run_name;
+    run.model_name = model_name;
+    run.model_dof = model.dof_count;
     run.sample_count = data.count;
 
     run.duration = data.durations.sum();
-    run.avg      = data.durations.mean();
-    run.min      = data.durations.minCoeff();
-    run.max      = data.durations.maxCoeff();
+    run.avg = data.durations.mean();
+    run.min = data.durations.minCoeff();
+    run.max = data.durations.maxCoeff();
 
     benchmark_runs.push_back(run);
 }
@@ -133,12 +133,12 @@ string get_cpu_model_name()
     content << proc_cpu.rdbuf();
     proc_cpu.close();
 
-    string      content_str    = content.str();
+    string content_str = content.str();
     std::size_t model_name_pos = content_str.find("model name");
     if (model_name_pos != string::npos)
     {
         std::size_t start = content_str.find(':', model_name_pos + strlen("model name")) + 2;
-        std::size_t end   = content_str.find('\n', model_name_pos + strlen("model name"));
+        std::size_t end = content_str.find('\n', model_name_pos + strlen("model name"));
 
         return content_str.substr(start, end - start);
     }
@@ -147,11 +147,11 @@ string get_cpu_model_name()
 
 string get_utc_time_string()
 {
-    time_t     current_time;
+    time_t current_time;
     struct tm *timeinfo;
     time(&current_time);
     timeinfo = gmtime(&current_time);
-    char        time_buf[80];
+    char time_buf[80];
     std::size_t time_len = strftime(&time_buf[0], 80, "%a %b %d %T %Y", timeinfo);
     return time_buf;
 }
@@ -223,9 +223,9 @@ double run_CRBA_benchmark(Model *model, int sample_count)
     SampleData sample_data;
     sample_data.fillRandom(model->dof_count, sample_count);
 
-    Math::MatrixNd H        = Math::MatrixNd::Zero(model->dof_count, model->dof_count);
+    Math::MatrixNd H = Math::MatrixNd::Zero(model->dof_count, model->dof_count);
     Math::MatrixNd identity = Math::MatrixNd::Identity(model->dof_count, model->dof_count);
-    Math::MatrixNd Hinv     = Math::MatrixNd::Zero(model->dof_count, model->dof_count);
+    Math::MatrixNd Hinv = Math::MatrixNd::Zero(model->dof_count, model->dof_count);
 
     TimerInfo tinfo;
 
@@ -281,14 +281,14 @@ double run_calc_minv_times_tau_benchmark(Model *model, int sample_count)
     return sample_data.durations.sum();
 }
 
-double run_inverse_dynamics_constraints_benchmark(Model             *model,
-                                                  ConstraintSet     *constraint_set,
+double run_inverse_dynamics_constraints_benchmark(Model *model,
+                                                  ConstraintSet *constraint_set,
                                                   std::vector<bool> &dofActuated,
-                                                  int                sample_count)
+                                                  int sample_count)
 {
     SampleData sample_data;
     sample_data.fillRandom(model->dof_count, sample_count);
-    VectorNd  qddot = VectorNd::Zero(model->dof_count);
+    VectorNd qddot = VectorNd::Zero(model->dof_count);
     TimerInfo tinfo;
     timer_start(&tinfo);
 
@@ -422,11 +422,11 @@ void contacts_benchmark(int sample_count, ContactsMethod contacts_method)
 
     LinearSolver linear_solver = LinearSolverPartialPivLU;
 
-    one_body_one_constraint.linear_solver      = linear_solver;
-    two_bodies_one_constraint.linear_solver    = linear_solver;
-    four_bodies_one_constraint.linear_solver   = linear_solver;
-    one_body_four_constraints.linear_solver    = linear_solver;
-    two_bodies_four_constraints.linear_solver  = linear_solver;
+    one_body_one_constraint.linear_solver = linear_solver;
+    two_bodies_one_constraint.linear_solver = linear_solver;
+    four_bodies_one_constraint.linear_solver = linear_solver;
+    one_body_four_constraints.linear_solver = linear_solver;
+    two_bodies_four_constraints.linear_solver = linear_solver;
     four_bodies_four_constraints.linear_solver = linear_solver;
 
     // one_body_one
@@ -619,8 +619,8 @@ run_single_inverse_kinematics_benchmark(Model *model, std::vector<InverseKinemat
 {
     TimerInfo tinfo;
     timer_start(&tinfo);
-    VectorNd qinit    = VectorNd::Zero(model->dof_count);
-    VectorNd qres     = VectorNd::Zero(model->dof_count);
+    VectorNd qinit = VectorNd::Zero(model->dof_count);
+    VectorNd qres = VectorNd::Zero(model->dof_count);
     VectorNd failures = VectorNd::Zero(model->dof_count);
 
     for (int i = 0; i < sample_count; i++)
@@ -646,7 +646,7 @@ double run_all_inverse_kinematics_benchmark(int sample_count)
     unsigned int foot_l = model->GetBodyId("foot_l");
     unsigned int hand_r = model->GetBodyId("hand_r");
     unsigned int hand_l = model->GetBodyId("hand_l");
-    unsigned int head   = model->GetBodyId("head");
+    unsigned int head = model->GetBodyId("head");
 
     Vector3d foot_r_point(1., 0., 0.);
     Vector3d foot_l_point(-1., 0., 0.);
@@ -670,13 +670,13 @@ double run_all_inverse_kinematics_benchmark(int sample_count)
         Vector3d foot_l_position = CalcBodyToBaseCoordinates(*model, sample_data.q[i], foot_l, foot_l_point);
         Vector3d hand_r_position = CalcBodyToBaseCoordinates(*model, sample_data.q[i], hand_r, hand_r_point);
         Vector3d hand_l_position = CalcBodyToBaseCoordinates(*model, sample_data.q[i], hand_l, hand_l_point);
-        Vector3d head_position   = CalcBodyToBaseCoordinates(*model, sample_data.q[i], head, head_point);
+        Vector3d head_position = CalcBodyToBaseCoordinates(*model, sample_data.q[i], head, head_point);
 
         Matrix3d foot_r_orientation = CalcBodyWorldOrientation(*model, sample_data.q[i], foot_r, false);
         Matrix3d foot_l_orientation = CalcBodyWorldOrientation(*model, sample_data.q[i], foot_l, false);
         Matrix3d hand_r_orientation = CalcBodyWorldOrientation(*model, sample_data.q[i], hand_r, false);
         Matrix3d hand_l_orientation = CalcBodyWorldOrientation(*model, sample_data.q[i], hand_l, false);
-        Matrix3d head_orientation   = CalcBodyWorldOrientation(*model, sample_data.q[i], head, false);
+        Matrix3d head_orientation = CalcBodyWorldOrientation(*model, sample_data.q[i], head, false);
 
         // single point
         InverseKinematicsConstraintSet one_point;
@@ -787,13 +787,13 @@ void print_usage()
 
 void disable_all_benchmarks()
 {
-    benchmark_run_fd_aba              = false;
-    benchmark_run_fd_lagrangian       = false;
-    benchmark_run_id_rnea             = false;
-    benchmark_run_crba                = false;
-    benchmark_run_nle                 = false;
+    benchmark_run_fd_aba = false;
+    benchmark_run_fd_lagrangian = false;
+    benchmark_run_id_rnea = false;
+    benchmark_run_crba = false;
+    benchmark_run_nle = false;
     benchmark_run_calc_minv_times_tau = false;
-    benchmark_run_contacts            = false;
+    benchmark_run_contacts = false;
 }
 
 void parse_args(int argc, char *argv[])
@@ -851,7 +851,7 @@ void parse_args(int argc, char *argv[])
         }
         else if (arg == "--no-fd")
         {
-            benchmark_run_fd_aba        = false;
+            benchmark_run_fd_aba = false;
             benchmark_run_fd_lagrangian = false;
         }
         else if (arg == "--no-fd-aba")
@@ -983,7 +983,7 @@ int main(int argc, char *argv[])
             model_name_stream << "planar_model_depth_" << depth;
             model_name = model_name_stream.str();
 
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -999,7 +999,7 @@ int main(int argc, char *argv[])
         report_section("Forward Dynamics: Lagrangian (Piv. LU decomposition)");
         for (int depth = 1; depth <= benchmark_model_max_depth; depth++)
         {
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -1015,7 +1015,7 @@ int main(int argc, char *argv[])
         report_section("Inverse Dynamics: RNEA");
         for (int depth = 1; depth <= benchmark_model_max_depth; depth++)
         {
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -1031,7 +1031,7 @@ int main(int argc, char *argv[])
         report_section("Joint Space Inertia Matrix: CRBA");
         for (int depth = 1; depth <= benchmark_model_max_depth; depth++)
         {
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -1047,7 +1047,7 @@ int main(int argc, char *argv[])
         report_section("Nonlinear Effects");
         for (int depth = 1; depth <= benchmark_model_max_depth; depth++)
         {
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -1063,7 +1063,7 @@ int main(int argc, char *argv[])
         report_section("CalcMInvTimesTau");
         for (int depth = 1; depth <= benchmark_model_max_depth; depth++)
         {
-            model          = new Model();
+            model = new Model();
             model->gravity = Vector3d(0., -9.81, 0.);
 
             generate_planar_tree(model, depth);
@@ -1102,9 +1102,9 @@ int main(int argc, char *argv[])
 
         cout << "    \"rbdl_info\" : {" << endl;
         int compile_version = rbdl_get_api_version();
-        int compile_major   = (compile_version & 0xff0000) >> 16;
-        int compile_minor   = (compile_version & 0x00ff00) >> 8;
-        int compile_patch   = (compile_version & 0x0000ff);
+        int compile_major = (compile_version & 0xff0000) >> 16;
+        int compile_minor = (compile_version & 0x00ff00) >> 8;
+        int compile_patch = (compile_version & 0x0000ff);
 
         std::ostringstream compile_version_string("");
         compile_version_string << compile_major << "." << compile_minor << "." << compile_patch;

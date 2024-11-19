@@ -54,9 +54,9 @@ using namespace RigidBodyDynamics::Addons::Geometry;
 // using namespace OpenSim;
 using namespace std;
 using namespace RigidBodyDynamics::Math;
-static double UTOL_DESIRED        = std::numeric_limits<double>::epsilon() * 1e2;
-static double UTOL_INITIALSOLN    = std::numeric_limits<double>::epsilon() * 1e11;
-static int    MAXITER_INITIALSOLN = 12;
+static double UTOL_DESIRED = std::numeric_limits<double>::epsilon() * 1e2;
+static double UTOL_INITIALSOLN = std::numeric_limits<double>::epsilon() * 1e11;
+static int MAXITER_INITIALSOLN = 12;
 
 static int NUM_SAMPLE_PTS = 100; // The number of knot points to use to sample
 // each Bezier corner section
@@ -99,14 +99,14 @@ void SegmentedQuinticBezierToolkit::printMatrixToFile(const VectorNd &col0, cons
 }
 
 void SegmentedQuinticBezierToolkit::printBezierSplineFitCurves(const Function_<double> &curveFit,
-                                                               MatrixNd                &ctrlPts,
-                                                               VectorNd                &xVal,
-                                                               VectorNd                &yVal,
-                                                               std::string             &filename)
+                                                               MatrixNd &ctrlPts,
+                                                               VectorNd &xVal,
+                                                               VectorNd &yVal,
+                                                               std::string &filename)
 {
-    std::string caller  = "printBezierSplineFitCurves";
-    int         nbezier = int(ctrlPts.cols() / 2.0);
-    int         rows    = NUM_SAMPLE_PTS * nbezier - (nbezier - 1);
+    std::string caller = "printBezierSplineFitCurves";
+    int nbezier = int(ctrlPts.cols() / 2.0);
+    int rows = NUM_SAMPLE_PTS * nbezier - (nbezier - 1);
 
     VectorNd y1Val(rows);
     VectorNd y2Val(rows);
@@ -117,16 +117,16 @@ void SegmentedQuinticBezierToolkit::printBezierSplineFitCurves(const Function_<d
 
     MatrixNd printMatrix(rows, 6);
 
-    VectorNd         tmp(1);
+    VectorNd tmp(1);
     std::vector<int> deriv1(1);
     std::vector<int> deriv2(2);
 
-    deriv1[0]     = 0;
-    deriv2[0]     = 0;
-    deriv2[1]     = 0;
-    double u      = 0;
-    int    oidx   = 0;
-    int    offset = 0;
+    deriv1[0] = 0;
+    deriv2[0] = 0;
+    deriv2[1] = 0;
+    double u = 0;
+    int oidx = 0;
+    int offset = 0;
     for (int j = 0; j < nbezier; j++)
     {
         if (j > 0)
@@ -138,11 +138,11 @@ void SegmentedQuinticBezierToolkit::printBezierSplineFitCurves(const Function_<d
         {
             oidx = i + j * NUM_SAMPLE_PTS - offset * (j - 1);
 
-            u           = ((double)(i + offset)) / ((double)(NUM_SAMPLE_PTS - 1));
+            u = ((double)(i + offset)) / ((double)(NUM_SAMPLE_PTS - 1));
             y1Val[oidx] = calcQuinticBezierCurveDerivDYDX(u, ctrlPts.col(2 * j), ctrlPts.col(2 * j + 1), 1);
             y2Val[oidx] = calcQuinticBezierCurveDerivDYDX(u, ctrlPts.col(2 * j), ctrlPts.col(2 * j + 1), 2);
 
-            tmp[0]      = xVal[oidx];
+            tmp[0] = xVal[oidx];
             ySVal[oidx] = curveFit.calcValue(tmp);
 
             y1SVal[oidx] = curveFit.calcDerivative(deriv1, tmp);
@@ -197,8 +197,8 @@ MatrixNd SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(dou
     //    x*(dydx0-dydx1) = y1-y0-x1*dydx1+x0*dydx0
     //      x = (y1-y0-x1*dydx1+x0*dydx0)/(dydx0-dydx1);
 
-    double xC      = 0.;
-    double yC      = 0.;
+    double xC = 0.;
+    double yC = 0.;
     double epsilon = std::numeric_limits<double>::epsilon();
     double rootEPS = sqrt(epsilon);
     if (abs(dydx0 - dydx1) > rootEPS)
@@ -306,17 +306,17 @@ MatrixNd SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(dou
     // derivative than if the middle control points are set to be
     // equal to the 1st and 4th control points.
 
-    double dxdu0   = 5.0 * (xyPts(1, 0) - xyPts(0, 0));
-    xyPts(2, 0)    = xyPts(1, 0) + 0.5 * (xC - xyPts(1, 0));
+    double dxdu0 = 5.0 * (xyPts(1, 0) - xyPts(0, 0));
+    xyPts(2, 0) = xyPts(1, 0) + 0.5 * (xC - xyPts(1, 0));
     double d2xdu20 = 20.0 * (xyPts(2, 0) - 2.0 * xyPts(1, 0) + xyPts(0, 0));
     double d2ydu20 = (dxdu0 * dxdu0 * (d2ydx20) + d2xdu20 * (dydx0));
-    xyPts(2, 1)    = d2ydu20 * (1.0 / 20.0) + 2.0 * xyPts(1, 1) - xyPts(0, 1);
+    xyPts(2, 1) = d2ydu20 * (1.0 / 20.0) + 2.0 * xyPts(1, 1) - xyPts(0, 1);
 
-    double dxdu1   = 5.0 * (xyPts(5, 0) - xyPts(4, 0));
-    xyPts(3, 0)    = xyPts(4, 0) + 0.5 * (xC - xyPts(4, 0));
+    double dxdu1 = 5.0 * (xyPts(5, 0) - xyPts(4, 0));
+    xyPts(3, 0) = xyPts(4, 0) + 0.5 * (xC - xyPts(4, 0));
     double d2xdu21 = 20.0 * (xyPts(3, 0) - 2.0 * xyPts(4, 0) + xyPts(5, 0));
     double d2ydu21 = (dxdu1 * dxdu1 * (d2ydx21) + d2xdu21 * (dydx1));
-    xyPts(3, 1)    = d2ydu21 * (1.0 / 20.0) + 2.0 * xyPts(4, 1) - xyPts(5, 1);
+    xyPts(3, 1) = d2ydu21 * (1.0 / 20.0) + 2.0 * xyPts(4, 1) - xyPts(5, 1);
 
     return xyPts;
 }
@@ -450,10 +450,10 @@ Detailed Computational Costs
     total   9     334     209   106
 
 */
-double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double          u,
+double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double u,
                                                                       const VectorNd &xpts,
                                                                       const VectorNd &ypts,
-                                                                      int             order)
+                                                                      int order)
 {
     double val = NAN; // SimTK::NaN;
 
@@ -535,15 +535,15 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
     break;
     case 2:
     { // Calculate d^2y/dx^2
-        double dxdu   = calcQuinticBezierCurveDerivU(u, xpts, 1);
-        double dydu   = calcQuinticBezierCurveDerivU(u, ypts, 1);
+        double dxdu = calcQuinticBezierCurveDerivU(u, xpts, 1);
+        double dydu = calcQuinticBezierCurveDerivU(u, ypts, 1);
         double d2xdu2 = calcQuinticBezierCurveDerivU(u, xpts, 2);
         double d2ydu2 = calcQuinticBezierCurveDerivU(u, ypts, 2);
 
         // Optimized code from Maple -
         // see MuscleCurveCodeOpt_20120210 for details
-        double t1     = 0.1e1 / dxdu;
-        double t3     = dxdu * dxdu; // dxdu ^ 2;
+        double t1 = 0.1e1 / dxdu;
+        double t3 = dxdu * dxdu; // dxdu ^ 2;
         double d2ydx2 = (d2ydu2 * t1 - dydu / t3 * d2xdu2) * t1;
 
         val = d2ydx2;
@@ -551,18 +551,18 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
     break;
     case 3:
     { // Calculate d^3y/dx^3
-        double dxdu   = calcQuinticBezierCurveDerivU(u, xpts, 1);
-        double dydu   = calcQuinticBezierCurveDerivU(u, ypts, 1);
+        double dxdu = calcQuinticBezierCurveDerivU(u, xpts, 1);
+        double dydu = calcQuinticBezierCurveDerivU(u, ypts, 1);
         double d2xdu2 = calcQuinticBezierCurveDerivU(u, xpts, 2);
         double d2ydu2 = calcQuinticBezierCurveDerivU(u, ypts, 2);
         double d3xdu3 = calcQuinticBezierCurveDerivU(u, xpts, 3);
         double d3ydu3 = calcQuinticBezierCurveDerivU(u, ypts, 3);
 
-        double t1     = 1 / dxdu;
-        double t3     = dxdu * dxdu; //(dxdu ^ 2);
-        double t4     = 1 / t3;
-        double t11    = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
-        double t14    = (dydu * t4);
+        double t1 = 1 / dxdu;
+        double t3 = dxdu * dxdu; //(dxdu ^ 2);
+        double t4 = 1 / t3;
+        double t11 = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
+        double t14 = (dydu * t4);
         double d3ydx3 = ((d3ydu3 * t1 - 2 * d2ydu2 * t4 * d2xdu2 + 2 * dydu / t3 / dxdu * t11 - t14 * d3xdu3) * t1 -
                          (d2ydu2 * t1 - t14 * d2xdu2) * t4 * d2xdu2) *
                         t1;
@@ -572,8 +572,8 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
     break;
     case 4:
     { // Calculate d^4y/dx^4
-        double dxdu   = calcQuinticBezierCurveDerivU(u, xpts, 1);
-        double dydu   = calcQuinticBezierCurveDerivU(u, ypts, 1);
+        double dxdu = calcQuinticBezierCurveDerivU(u, xpts, 1);
+        double dydu = calcQuinticBezierCurveDerivU(u, ypts, 1);
         double d2xdu2 = calcQuinticBezierCurveDerivU(u, xpts, 2);
         double d2ydu2 = calcQuinticBezierCurveDerivU(u, ypts, 2);
         double d3xdu3 = calcQuinticBezierCurveDerivU(u, xpts, 3);
@@ -581,18 +581,18 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
         double d4xdu4 = calcQuinticBezierCurveDerivU(u, xpts, 4);
         double d4ydu4 = calcQuinticBezierCurveDerivU(u, ypts, 4);
 
-        double t1     = 1 / dxdu;
-        double t3     = dxdu * dxdu; // dxdu ^ 2;
-        double t4     = 1 / t3;
-        double t9     = (0.1e1 / t3 / dxdu);
-        double t11    = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
-        double t14    = (d2ydu2 * t4);
-        double t17    = t3 * t3; //(t3 ^ 2);
-        double t23    = (dydu * t9);
-        double t27    = (dydu * t4);
-        double t37    = d3ydu3 * t1 - 2 * t14 * d2xdu2 + 2 * t23 * t11 - t27 * d3xdu3;
-        double t43    = d2ydu2 * t1 - t27 * d2xdu2;
-        double t47    = t43 * t4;
+        double t1 = 1 / dxdu;
+        double t3 = dxdu * dxdu; // dxdu ^ 2;
+        double t4 = 1 / t3;
+        double t9 = (0.1e1 / t3 / dxdu);
+        double t11 = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
+        double t14 = (d2ydu2 * t4);
+        double t17 = t3 * t3; //(t3 ^ 2);
+        double t23 = (dydu * t9);
+        double t27 = (dydu * t4);
+        double t37 = d3ydu3 * t1 - 2 * t14 * d2xdu2 + 2 * t23 * t11 - t27 * d3xdu3;
+        double t43 = d2ydu2 * t1 - t27 * d2xdu2;
+        double t47 = t43 * t4;
         double d4ydx4 = (((d4ydu4 * t1 - 3 * d3ydu3 * t4 * d2xdu2 + 6 * d2ydu2 * t9 * t11 - 3 * t14 * d3xdu3 -
                            6 * dydu / t17 * t11 * d2xdu2 + 6 * t23 * d2xdu2 * d3xdu3 - t27 * d4xdu4) *
                               t1 -
@@ -606,8 +606,8 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
     break;
     case 5:
     {
-        double dxdu   = calcQuinticBezierCurveDerivU(u, xpts, 1);
-        double dydu   = calcQuinticBezierCurveDerivU(u, ypts, 1);
+        double dxdu = calcQuinticBezierCurveDerivU(u, xpts, 1);
+        double dydu = calcQuinticBezierCurveDerivU(u, ypts, 1);
         double d2xdu2 = calcQuinticBezierCurveDerivU(u, xpts, 2);
         double d2ydu2 = calcQuinticBezierCurveDerivU(u, ypts, 2);
         double d3xdu3 = calcQuinticBezierCurveDerivU(u, xpts, 3);
@@ -617,10 +617,10 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
         double d5xdu5 = calcQuinticBezierCurveDerivU(u, xpts, 5);
         double d5ydu5 = calcQuinticBezierCurveDerivU(u, ypts, 5);
 
-        double t1  = 1 / dxdu;
-        double t3  = dxdu * dxdu; // dxdu ^ 2;
-        double t4  = 1 / t3;
-        double t9  = (0.1e1 / t3 / dxdu);
+        double t1 = 1 / dxdu;
+        double t3 = dxdu * dxdu; // dxdu ^ 2;
+        double t4 = 1 / t3;
+        double t9 = (0.1e1 / t3 / dxdu);
         double t11 = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
         double t14 = (d3ydu3 * t4);
         double t17 = t3 * t3; //(t3 ^ 2);
@@ -639,14 +639,14 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
                      36 * t36 * t11 * d3xdu3 + 6 * t40 * t41 + 8 * t40 * d2xdu2 * d4xdu4 - t47 * d5xdu5;
         double t63 = d4ydu4 * t1 - 3 * t14 * d2xdu2 + 6 * t23 * t11 - 3 * t27 * d3xdu3 - 6 * t36 * t20 + 6 * t40 * t24 -
                      t47 * d4xdu4;
-        double t73    = d3ydu3 * t1 - 2 * t27 * d2xdu2 + 2 * t40 * t11 - t47 * d3xdu3;
-        double t77    = t73 * t4;
-        double t82    = d2ydu2 * t1 - t47 * d2xdu2;
-        double t86    = t82 * t9;
-        double t89    = t82 * t4;
-        double t99    = t63 * t1 - 2 * t77 * d2xdu2 + 2 * t86 * t11 - t89 * d3xdu3;
-        double t105   = t73 * t1 - t89 * d2xdu2;
-        double t109   = t105 * t4;
+        double t73 = d3ydu3 * t1 - 2 * t27 * d2xdu2 + 2 * t40 * t11 - t47 * d3xdu3;
+        double t77 = t73 * t4;
+        double t82 = d2ydu2 * t1 - t47 * d2xdu2;
+        double t86 = t82 * t9;
+        double t89 = t82 * t4;
+        double t99 = t63 * t1 - 2 * t77 * d2xdu2 + 2 * t86 * t11 - t89 * d3xdu3;
+        double t105 = t73 * t1 - t89 * d2xdu2;
+        double t109 = t105 * t4;
         double d5ydx5 = (((t49 * t1 - 3 * t63 * t4 * d2xdu2 + 6 * t73 * t9 * t11 - 3 * t77 * d3xdu3 -
                            6 * t82 * t18 * t20 + 6 * t86 * t24 - t89 * d4xdu4) *
                               t1 -
@@ -660,8 +660,8 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
     break;
     case 6:
     {
-        double dxdu   = calcQuinticBezierCurveDerivU(u, xpts, 1);
-        double dydu   = calcQuinticBezierCurveDerivU(u, ypts, 1);
+        double dxdu = calcQuinticBezierCurveDerivU(u, xpts, 1);
+        double dydu = calcQuinticBezierCurveDerivU(u, ypts, 1);
         double d2xdu2 = calcQuinticBezierCurveDerivU(u, xpts, 2);
         double d2ydu2 = calcQuinticBezierCurveDerivU(u, ypts, 2);
         double d3xdu3 = calcQuinticBezierCurveDerivU(u, xpts, 3);
@@ -673,11 +673,11 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
         double d6xdu6 = calcQuinticBezierCurveDerivU(u, xpts, 6);
         double d6ydu6 = calcQuinticBezierCurveDerivU(u, ypts, 6);
 
-        double t1  = dxdu * dxdu; //(dxdu ^ 2);
-        double t3  = (0.1e1 / t1 / dxdu);
-        double t5  = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
-        double t8  = t1 * t1;         //(t1 ^ 2);
-        double t9  = 1 / t8;
+        double t1 = dxdu * dxdu; //(dxdu ^ 2);
+        double t3 = (0.1e1 / t1 / dxdu);
+        double t5 = d2xdu2 * d2xdu2; //(d2xdu2 ^ 2);
+        double t8 = t1 * t1;         //(t1 ^ 2);
+        double t9 = 1 / t8;
         double t11 = (t5 * d2xdu2);
         double t14 = (d3ydu3 * t3);
         double t15 = (d2xdu2 * d3xdu3);
@@ -727,13 +727,13 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivDYDX(double    
 
         double t179 = t116 * t56 - 2 * t136 * d2xdu2 + 2 * t148 * t5 - t153 * d3xdu3;
 
-        double t183   = t179 * t61;
-        double t188   = t129 * t56 - t153 * d2xdu2;
-        double t192   = t188 * t3;
-        double t195   = t188 * t61;
-        double t205   = t169 * t56 - 2 * t183 * d2xdu2 + 2 * t192 * t5 - t195 * d3xdu3;
-        double t211   = t179 * t56 - t195 * d2xdu2;
-        double t215   = t211 * t61;
+        double t183 = t179 * t61;
+        double t188 = t129 * t56 - t153 * d2xdu2;
+        double t192 = t188 * t3;
+        double t195 = t188 * t61;
+        double t205 = t169 * t56 - 2 * t183 * d2xdu2 + 2 * t192 * t5 - t195 * d3xdu3;
+        double t211 = t179 * t56 - t195 * d2xdu2;
+        double t215 = t211 * t61;
         double d6ydx6 = (((t155 * t56 - 3 * t169 * t61 * d2xdu2 + 6 * t179 * t3 * t5 - 3 * t183 * d3xdu3 -
                            6 * t188 * t9 * t11 + 6 * t192 * t15 - t195 * d4xdu4) *
                               t56 -
@@ -809,40 +809,40 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(double u, con
     {
     case 1:
     {
-        double t1  = u * u;   // u ^ 2;
-        double t2  = t1 * t1; // t1 ^ 2;
-        double t4  = t1 * u;
-        double t5  = t4 * 0.20e2;
-        double t6  = t1 * 0.30e2;
-        double t7  = u * 0.20e2;
+        double t1 = u * u;   // u ^ 2;
+        double t2 = t1 * t1; // t1 ^ 2;
+        double t4 = t1 * u;
+        double t5 = t4 * 0.20e2;
+        double t6 = t1 * 0.30e2;
+        double t7 = u * 0.20e2;
         double t10 = t2 * 0.25e2;
         double t11 = t4 * 0.80e2;
         double t12 = t1 * 0.90e2;
         double t16 = t2 * 0.50e2;
-        val        = p0 * (t2 * (-0.5e1) + t5 - t6 + t7 - 0.5e1) + p1 * (t10 - t11 + t12 + u * (-0.40e2) + 0.5e1) +
+        val = p0 * (t2 * (-0.5e1) + t5 - t6 + t7 - 0.5e1) + p1 * (t10 - t11 + t12 + u * (-0.40e2) + 0.5e1) +
               p2 * (-t16 + t4 * 0.120e3 - t12 + t7) + p3 * (t16 - t11 + t6) + p4 * (-t10 + t5) + p5 * t2 * 0.5e1;
     }
     break;
     case 2:
     {
-        double t1  = u * u; // u ^ 2;
-        double t2  = t1 * u;
-        double t4  = t1 * 0.60e2;
-        double t5  = u * 0.60e2;
-        double t8  = t2 * 0.100e3;
-        double t9  = t1 * 0.240e3;
+        double t1 = u * u; // u ^ 2;
+        double t2 = t1 * u;
+        double t4 = t1 * 0.60e2;
+        double t5 = u * 0.60e2;
+        double t8 = t2 * 0.100e3;
+        double t9 = t1 * 0.240e3;
         double t10 = u * 0.180e3;
         double t13 = t2 * 0.200e3;
-        val        = p0 * (t2 * (-0.20e2) + t4 - t5 + 0.20e2) + p1 * (t8 - t9 + t10 - 0.40e2) +
+        val = p0 * (t2 * (-0.20e2) + t4 - t5 + 0.20e2) + p1 * (t8 - t9 + t10 - 0.40e2) +
               p2 * (-t13 + t1 * 0.360e3 - t10 + 0.20e2) + p3 * (t13 - t9 + t5) + p4 * (-t8 + t4) + p5 * t2 * 0.20e2;
     }
     break;
     case 3:
     {
-        double t1  = u * u; // u ^ 2;
-        double t3  = u * 0.120e3;
-        double t6  = t1 * 0.300e3;
-        double t7  = u * 0.480e3;
+        double t1 = u * u; // u ^ 2;
+        double t3 = u * 0.120e3;
+        double t6 = t1 * 0.300e3;
+        double t7 = u * 0.480e3;
         double t10 = t1 * 0.600e3;
         val = p0 * (t1 * (-0.60e2) + t3 - 0.60e2) + p1 * (t6 - t7 + 0.180e3) + p2 * (-t10 + u * 0.720e3 - 0.180e3) +
               p3 * (t10 - t7 + 0.60e2) + p4 * (-t6 + t3) + p5 * t1 * 0.60e2;
@@ -852,7 +852,7 @@ double SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(double u, con
     {
         double t4 = u * 0.600e3;
         double t7 = u * 0.1200e4;
-        val       = p0 * (u * (-0.120e3) + 0.120e3) + p1 * (t4 - 0.480e3) + p2 * (-t7 + 0.720e3) + p3 * (t7 - 0.480e3) +
+        val = p0 * (u * (-0.120e3) + 0.120e3) + p1 * (t4 - 0.480e3) + p2 * (-t7 + 0.720e3) + p3 * (t7 - 0.480e3) +
               p4 * (-t4 + 0.120e3) + p5 * u * 0.120e3;
     }
     break;
@@ -983,12 +983,12 @@ double SegmentedQuinticBezierToolkit::calcU(double ax, const VectorNd &bezierPts
         }
     }
 
-    double df             = 0;
-    double du             = 0;
-    int    iter           = 0;
-    bool   pathologic     = false;
-    double fprev          = f;
-    double stepLength     = 1.0;
+    double df = 0;
+    double du = 0;
+    int iter = 0;
+    bool pathologic = false;
+    double fprev = f;
+    double stepLength = 1.0;
     double perturbation01 = 0.0;
     // Take Newton steps to the desired tolerance
     while ((abs(f) > min(tol, UTOL_DESIRED)) && (iter < maxIter) && (pathologic == false))
@@ -998,11 +998,11 @@ double SegmentedQuinticBezierToolkit::calcU(double ax, const VectorNd &bezierPts
 
         if (abs(df) > 0)
         {
-            du    = -f / df;
-            u     = u + stepLength * du;
-            u     = clampU(u);
+            du = -f / df;
+            u = u + stepLength * du;
+            u = clampU(u);
             fprev = f;
-            f     = calcQuinticBezierCurveVal(u, bezierPtsX) - ax;
+            f = calcQuinticBezierCurveVal(u, bezierPtsX) - ax;
         }
         else
         {
@@ -1010,8 +1010,8 @@ double SegmentedQuinticBezierToolkit::calcU(double ax, const VectorNd &bezierPts
             // purturb the current solution and continue until we run out of
             // iterations.
             perturbation01 = double(rand() % 100) / 100.0;
-            u              = u + perturbation01 * 0.1;
-            u              = clampU(u);
+            u = u + perturbation01 * 0.1;
+            u = clampU(u);
         }
 
         iter++;
@@ -1045,15 +1045,15 @@ Cost    3*n+2       1*n  3
 */
 int SegmentedQuinticBezierToolkit::calcIndex(double x, const MatrixNd &bezierPtsX)
 {
-    int  idx        = 0;
+    int idx = 0;
     bool flag_found = false;
 
     for (int i = 0; i < bezierPtsX.cols(); i++)
     {
         if (x >= bezierPtsX(0, i) && x < bezierPtsX(5, i))
         {
-            idx        = i;
-            i          = bezierPtsX.cols();
+            idx = i;
+            i = bezierPtsX.cols();
             flag_found = true;
         }
     }
@@ -1061,7 +1061,7 @@ int SegmentedQuinticBezierToolkit::calcIndex(double x, const MatrixNd &bezierPts
     // Check if the value x is identically the last point
     if (flag_found == false && x == bezierPtsX(5, bezierPtsX.cols() - 1))
     {
-        idx        = bezierPtsX.cols() - 1;
+        idx = bezierPtsX.cols() - 1;
         flag_found = true;
     }
 
@@ -1084,7 +1084,7 @@ int SegmentedQuinticBezierToolkit::calcIndex(double x, const MatrixNd &bezierPts
 
 int SegmentedQuinticBezierToolkit::calcIndex(double x, const std::vector<VectorNd> &bezierPtsX)
 {
-    int  idx        = 0;
+    int idx = 0;
     bool flag_found = false;
 
     int n = bezierPtsX.size();
@@ -1092,7 +1092,7 @@ int SegmentedQuinticBezierToolkit::calcIndex(double x, const std::vector<VectorN
     {
         if (x >= bezierPtsX[i][0] && x < bezierPtsX[i][5])
         {
-            idx        = i;
+            idx = i;
             flag_found = true;
             break;
         }
@@ -1101,7 +1101,7 @@ int SegmentedQuinticBezierToolkit::calcIndex(double x, const std::vector<VectorN
     // Check if the value x is identically the last point
     if (!flag_found && x == bezierPtsX[n - 1][5])
     {
-        idx        = n - 1;
+        idx = n - 1;
         flag_found = true;
     }
 

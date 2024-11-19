@@ -84,9 +84,9 @@ public:
 
   */
     static void createAnderson2007ActiveTorqueAngleCurve(
-        double                                                        c2,
-        double                                                        c3,
-        const std::string                                            &curveName,
+        double c2,
+        double c3,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -145,12 +145,12 @@ public:
 
     */
     static void createAnderson2007ActiveTorqueVelocityCurve(
-        double                                                        c4,
-        double                                                        c5,
-        double                                                        c6,
-        double                                                        minEccentricMultiplier,
-        double                                                        maxEccentricMultiplier,
-        const std::string                                            &curveName,
+        double c4,
+        double c5,
+        double c6,
+        double minEccentricMultiplier,
+        double maxEccentricMultiplier,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -213,13 +213,13 @@ public:
         the coefficients that are defined by this curve.
     */
     static void createAnderson2007PassiveTorqueAngleCurve(
-        double                                                        scale,
-        double                                                        c1,
-        double                                                        b1,
-        double                                                        k1,
-        double                                                        b2,
-        double                                                        k2,
-        const std::string                                            &curveName,
+        double scale,
+        double c1,
+        double b1,
+        double k1,
+        double b2,
+        double k2,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -266,9 +266,9 @@ public:
     */
 
     static void createTorqueVelocityCurve(
-        double                                                        tvAtEccentricOmegaMax,
-        double                                                        tvAtHalfConcentricOmegaMax,
-        const std::string                                            &curveName,
+        double tvAtEccentricOmegaMax,
+        double tvAtHalfConcentricOmegaMax,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -342,13 +342,13 @@ public:
 
     */
     static void createTorqueVelocityCurve(
-        double                                                        tvAtEccentricOmegaMax,
-        double                                                        tvAtHalfConcentricOmegaMax,
-        double                                                        slopeAtConcentricOmegaMax,
-        double                                                        slopeNearEccentricOmegaMax,
-        double                                                        slopeAtEccentricOmegaMax,
-        double                                                        eccentricCurviness,
-        const std::string                                            &curveName,
+        double tvAtEccentricOmegaMax,
+        double tvAtHalfConcentricOmegaMax,
+        double slopeAtConcentricOmegaMax,
+        double slopeNearEccentricOmegaMax,
+        double slopeAtEccentricOmegaMax,
+        double eccentricCurviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -390,9 +390,9 @@ public:
       - abs(angleAtOneNormTorque-angleAtZeroTorque) < sqrt(eps)
     */
     static void createPassiveTorqueAngleCurve(
-        double                                                        angleAtZeroTorque,
-        double                                                        angleAtOneNormTorque,
-        const std::string                                            &curveName,
+        double angleAtZeroTorque,
+        double angleAtOneNormTorque,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -464,12 +464,12 @@ public:
 
       */
     static void createPassiveTorqueAngleCurve(
-        double                                                        angleAtZeroTorque,
-        double                                                        angleAtOneNormTorque,
-        double                                                        stiffnessAtLowTorque,
-        double                                                        stiffnessAtOneNormTorque,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double angleAtZeroTorque,
+        double angleAtOneNormTorque,
+        double stiffnessAtLowTorque,
+        double stiffnessAtOneNormTorque,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -501,9 +501,9 @@ public:
       - angularWidthOfOneStandardDeviation < sqrt(eps)
     */
     static void createGaussianShapedActiveTorqueAngleCurve(
-        double                                                        angleAtOneNormTorque,
-        double                                                        angularStandardDeviation,
-        const std::string                                            &curveName,
+        double angleAtOneNormTorque,
+        double angularStandardDeviation,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -554,12 +554,12 @@ public:
 
       */
     static void createGaussianShapedActiveTorqueAngleCurve(
-        double                                                        angleAtOneNormTorque,
-        double                                                        angularStandardDeviation,
-        double                                                        minSlopeAtShoulders,
-        double                                                        minValueAtShoulders,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double angleAtOneNormTorque,
+        double angularStandardDeviation,
+        double minSlopeAtShoulders,
+        double minValueAtShoulders,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -590,8 +590,8 @@ public:
 
     */
     static void createTendonTorqueAngleCurve(
-        double                                                        angularStretchAtOneNormTorque,
-        const std::string                                            &curveName,
+        double angularStretchAtOneNormTorque,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -638,11 +638,11 @@ public:
 
     */
     static void createTendonTorqueAngleCurve(
-        double                                                        angularStretchAtOneNormTorque,
-        double                                                        stiffnessAtOneNormTorque,
-        double                                                        normTorqueAtToeEnd,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double angularStretchAtOneNormTorque,
+        double stiffnessAtOneNormTorque,
+        double normTorqueAtToeEnd,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -672,8 +672,8 @@ public:
           the coefficients that are defined by this curve.
     */
     static void createDampingBlendingCurve(
-        double                                                        normAngularVelocityAtMaximumDamping,
-        const std::string                                            &curveName,
+        double normAngularVelocityAtMaximumDamping,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 };
 } // namespace Muscle

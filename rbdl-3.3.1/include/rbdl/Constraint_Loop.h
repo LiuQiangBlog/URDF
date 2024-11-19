@@ -135,65 +135,65 @@ public:
                 equation with a penalty term proportional to error.
 
     */
-    LoopConstraint(const unsigned int            bodyIdPredecessor,
-                   const unsigned int            bodyIdSuccessor,
+    LoopConstraint(const unsigned int bodyIdPredecessor,
+                   const unsigned int bodyIdSuccessor,
                    const Math::SpatialTransform &XPredecessor,
                    const Math::SpatialTransform &XSuccessor,
-                   const Math::SpatialVector    &constraintAxisInPredessor,
-                   bool                          enableBaumgarteStabilization = false,
-                   double                        stabilizationTimeConstant    = 0.1,
-                   const char                   *loopConstraintName           = NULL,
-                   unsigned int                  userDefinedId           = std::numeric_limits<unsigned int>::max(),
-                   bool                          positionLevelConstraint = true,
-                   bool                          velocityLevelConstraint = true);
+                   const Math::SpatialVector &constraintAxisInPredessor,
+                   bool enableBaumgarteStabilization = false,
+                   double stabilizationTimeConstant = 0.1,
+                   const char *loopConstraintName = NULL,
+                   unsigned int userDefinedId = std::numeric_limits<unsigned int>::max(),
+                   bool positionLevelConstraint = true,
+                   bool velocityLevelConstraint = true);
 
     void bind(const Model &model) override;
 
-    void calcConstraintJacobian(Model                &model,
-                                const double          time,
+    void calcConstraintJacobian(Model &model,
+                                const double time,
                                 const Math::VectorNd &Q,
                                 const Math::VectorNd &QDot,
-                                Math::MatrixNd       &GSysUpd,
-                                ConstraintCache      &cache,
-                                bool                  updateKinematics = false) override;
+                                Math::MatrixNd &GSysUpd,
+                                ConstraintCache &cache,
+                                bool updateKinematics = false) override;
 
-    void calcGamma(Model                &model,
-                   const double          time,
+    void calcGamma(Model &model,
+                   const double time,
                    const Math::VectorNd &Q,
                    const Math::VectorNd &QDot,
                    const Math::MatrixNd &GSys,
-                   Math::VectorNd       &gammaSysUpd,
-                   ConstraintCache      &cache,
-                   bool                  updateKinematics = false) override;
+                   Math::VectorNd &gammaSysUpd,
+                   ConstraintCache &cache,
+                   bool updateKinematics = false) override;
 
-    void calcPositionError(Model                &model,
-                           const double          time,
+    void calcPositionError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
-                           Math::VectorNd       &errSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updateKinematics = false) override;
+                           Math::VectorNd &errSysUpd,
+                           ConstraintCache &cache,
+                           bool updateKinematics = false) override;
 
-    void calcVelocityError(Model                &model,
-                           const double          time,
+    void calcVelocityError(Model &model,
+                           const double time,
                            const Math::VectorNd &Q,
                            const Math::VectorNd &QDot,
                            const Math::MatrixNd &GSys,
-                           Math::VectorNd       &derrSysUpd,
-                           ConstraintCache      &cache,
-                           bool                  updateKinematics = false) override;
+                           Math::VectorNd &derrSysUpd,
+                           ConstraintCache &cache,
+                           bool updateKinematics = false) override;
 
-    void calcConstraintForces(Model                               &model,
-                              const double                         time,
-                              const Math::VectorNd                &Q,
-                              const Math::VectorNd                &QDot,
-                              const Math::MatrixNd                &GSys,
-                              const Math::VectorNd                &lagrangeMultipliersSys,
-                              std::vector<unsigned int>           &constraintBodiesUpd,
+    void calcConstraintForces(Model &model,
+                              const double time,
+                              const Math::VectorNd &Q,
+                              const Math::VectorNd &QDot,
+                              const Math::MatrixNd &GSys,
+                              const Math::VectorNd &lagrangeMultipliersSys,
+                              std::vector<unsigned int> &constraintBodiesUpd,
                               std::vector<Math::SpatialTransform> &constraintBodyFramesUpd,
-                              std::vector<Math::SpatialVector>    &constraintForcesUpd,
-                              ConstraintCache                     &cache,
-                              bool                                 resolveAllInRootFrame = false,
-                              bool                                 updateKinematics      = false) override;
+                              std::vector<Math::SpatialVector> &constraintForcesUpd,
+                              ConstraintCache &cache,
+                              bool resolveAllInRootFrame = false,
+                              bool updateKinematics = false) override;
 
     /**
       @return the vector of constraint axes which are resolved in the
@@ -213,14 +213,14 @@ public:
               for this constraint entry.
     */
     void appendConstraintAxis(const Math::SpatialVector &constraintAxis,
-                              bool                       positionLevelConstraint = true,
-                              bool                       velocityLevelConstraint = true);
+                              bool positionLevelConstraint = true,
+                              bool velocityLevelConstraint = true);
 
 private:
     /// Vector of constraint axis resolved in the predecessor frame
     std::vector<Math::SpatialVector> T;
     /// A local working double
-    double                           dblA;
+    double dblA;
 };
 
 } // namespace RigidBodyDynamics

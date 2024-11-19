@@ -18,7 +18,7 @@
 
 #ifdef __cplusplus
 
-#define JOIN(X, Y)  JOIN2(X, Y)
+#define JOIN(X, Y) JOIN2(X, Y)
 #define JOIN2(X, Y) X##Y
 
 namespace custom_static_assert

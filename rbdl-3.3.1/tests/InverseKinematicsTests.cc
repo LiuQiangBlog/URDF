@@ -37,10 +37,10 @@ void print_ik_set(const InverseKinematicsConstraintSet &cs)
 /// Checks whether a single point in a 3-link chain can be reached
 TEST_CASE_METHOD(Human36, __FILE__ "_ChainSinglePointConstraint", "")
 {
-    q[HipRightRY]   = 0.3;
-    q[HipRightRX]   = 0.3;
-    q[HipRightRZ]   = 0.3;
-    q[KneeRightRY]  = 0.3;
+    q[HipRightRY] = 0.3;
+    q[HipRightRX] = 0.3;
+    q[HipRightRZ] = 0.3;
+    q[KneeRightRY] = 0.3;
     q[AnkleRightRY] = 0.3;
     q[AnkleRightRZ] = 0.3;
 
@@ -119,10 +119,10 @@ TEST_CASE_METHOD(Human36, __FILE__ "_ManyPointConstraints", "")
 // orientation.
 TEST_CASE_METHOD(Human36, __FILE__ "_ChainSingleBodyOrientation", "")
 {
-    q[HipRightRY]   = 0.3;
-    q[HipRightRX]   = 0.3;
-    q[HipRightRZ]   = 0.3;
-    q[KneeRightRY]  = 0.3;
+    q[HipRightRY] = 0.3;
+    q[HipRightRX] = 0.3;
+    q[HipRightRZ] = 0.3;
+    q[KneeRightRY] = 0.3;
     q[AnkleRightRY] = 0.3;
     q[AnkleRightRZ] = 0.3;
 
@@ -184,17 +184,17 @@ TEST_CASE_METHOD(Human36, __FILE__ "_ManyBodyOrientations", "")
 
 TEST_CASE_METHOD(Human36, __FILE__ "_ChainSingleBodyFullConstraint", "")
 {
-    q[HipRightRY]   = 0.3;
-    q[HipRightRX]   = 0.3;
-    q[HipRightRZ]   = 0.3;
-    q[KneeRightRY]  = 0.3;
+    q[HipRightRY] = 0.3;
+    q[HipRightRX] = 0.3;
+    q[HipRightRZ] = 0.3;
+    q[KneeRightRY] = 0.3;
     q[AnkleRightRY] = 0.3;
     q[AnkleRightRZ] = 0.3;
     Vector3d local_point(1., 0., 0.);
 
     UpdateKinematicsCustom(*model, &q, NULL, NULL);
     Matrix3d target_orientation = CalcBodyWorldOrientation(*model, q, body_id_emulated[BodyFootRight], false);
-    Vector3d target_position    = CalcBodyToBaseCoordinates(*model, q, body_id_emulated[BodyFootRight], local_point);
+    Vector3d target_position = CalcBodyToBaseCoordinates(*model, q, body_id_emulated[BodyFootRight], local_point);
 
     InverseKinematicsConstraintSet cs;
     cs.AddFullConstraint(body_id_emulated[BodyFootRight], local_point, target_position, target_orientation);

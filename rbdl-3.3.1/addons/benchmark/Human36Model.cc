@@ -49,16 +49,16 @@ Body create_body(SegmentName segment)
 
 void generate_human36model(RigidBodyDynamics::Model *model)
 {
-    Body pelvis_body       = create_body(SegmentPelvis);
-    Body thigh_body        = create_body(SegmentThigh);
-    Body shank_body        = create_body(SegmentShank);
-    Body foot_body         = create_body(SegmentFoot);
+    Body pelvis_body = create_body(SegmentPelvis);
+    Body thigh_body = create_body(SegmentThigh);
+    Body shank_body = create_body(SegmentShank);
+    Body foot_body = create_body(SegmentFoot);
     Body middle_trunk_body = create_body(SegmentMiddleTrunk);
-    Body upper_trunk_body  = create_body(SegmentUpperTrunk);
-    Body upperarm_body     = create_body(SegmentUpperArm);
-    Body lowerarm_body     = create_body(SegmentLowerArm);
-    Body hand_body         = create_body(SegmentHand);
-    Body head_body         = create_body(SegmentHead);
+    Body upper_trunk_body = create_body(SegmentUpperTrunk);
+    Body upperarm_body = create_body(SegmentUpperArm);
+    Body lowerarm_body = create_body(SegmentLowerArm);
+    Body hand_body = create_body(SegmentHand);
+    Body head_body = create_body(SegmentHead);
 
     Joint free_flyer(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                      SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 1., 0., 0., 0., 0.),

@@ -60,7 +60,7 @@ static int NUM_SAMPLE_PTS = 100; // The number of knot points to use to sample
 static double SMOOTHING = 0; // The amount of smoothing to use when fitting
 // 3rd order splines to the quintic Bezier
 // functions
-static bool   DEBUG = true; // When this is set to true, each function's debug
+static bool DEBUG = true; // When this is set to true, each function's debug
 // routine will be called, which ususally results
 // in a text file of its output being produced
 
@@ -76,14 +76,14 @@ static int MAXITER = 20;
 //=============================================================================
 // MUSCLE CURVE FITTING FUNCTIONS
 //=============================================================================
-void MuscleFunctionFactory::createFiberActiveForceLengthCurve(double                   x0,
-                                                              double                   x1,
-                                                              double                   x2,
-                                                              double                   x3,
-                                                              double                   ylow,
-                                                              double                   dydx,
-                                                              double                   curviness,
-                                                              const std::string       &curveName,
+void MuscleFunctionFactory::createFiberActiveForceLengthCurve(double x0,
+                                                              double x1,
+                                                              double x2,
+                                                              double x3,
+                                                              double ylow,
+                                                              double dydx,
+                                                              double curviness,
+                                                              const std::string &curveName,
                                                               SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Ensure that the inputs are within a valid range
@@ -143,18 +143,18 @@ void MuscleFunctionFactory::createFiberActiveForceLengthCurve(double            
     double xs = (x2 - xDelta); // x1 + 0.75*(x2-x1);
 
     // Calculate the intermediate points located on the ascending limb
-    double y0    = 0;
+    double y0 = 0;
     double dydx0 = 0;
 
-    double y1     = 1 - dydx * (xs - x1);
+    double y1 = 1 - dydx * (xs - x1);
     double dydx01 = 1.25 * (y1 - y0) / (x1 - x0); //(y1-y0)/(x1-(x0+xDelta));
 
     double x01 = x0 + 0.5 * (x1 - x0); // x0 + xDelta + 0.5*(x1-(x0+xDelta));
     double y01 = y0 + 0.5 * (y1 - y0);
 
     // Calculate the intermediate points of the shallow ascending plateau
-    double x1s    = x1 + 0.5 * (xs - x1);
-    double y1s    = y1 + 0.5 * (1 - y1);
+    double x1s = x1 + 0.5 * (xs - x1);
+    double y1s = y1 + 0.5 * (1 - y1);
     double dydx1s = dydx;
 
     // double dydx01c0 = 0.5*(y1s-y01)/(x1s-x01) + 0.5*(y01-y0)/(x01-x0);
@@ -162,12 +162,12 @@ void MuscleFunctionFactory::createFiberActiveForceLengthCurve(double            
     // double dydx01(1-c)*dydx01c0 + c*dydx01c1;
 
     // x2 entered
-    double y2    = 1;
+    double y2 = 1;
     double dydx2 = 0;
 
     // Descending limb
     // x3 entered
-    double y3    = 0;
+    double y3 = 0;
     double dydx3 = 0;
 
     double x23 = (x2 + xDelta) + 0.5 * (x3 - (x2 + xDelta)); // x2 + 0.5*(x3-x2);
@@ -206,15 +206,15 @@ void MuscleFunctionFactory::createFiberActiveForceLengthCurve(double            
     smoothSegmentedFunctionToUpdate.updSmoothSegmentedFunction(mX, mY, x0, x3, ylow, ylow, 0, 0, curveName);
 }
 
-void MuscleFunctionFactory::createFiberForceVelocityCurve(double                   fmaxE,
-                                                          double                   dydxC,
-                                                          double                   dydxNearC,
-                                                          double                   dydxIso,
-                                                          double                   dydxE,
-                                                          double                   dydxNearE,
-                                                          double                   concCurviness,
-                                                          double                   eccCurviness,
-                                                          const std::string       &curveName,
+void MuscleFunctionFactory::createFiberForceVelocityCurve(double fmaxE,
+                                                          double dydxC,
+                                                          double dydxNearC,
+                                                          double dydxIso,
+                                                          double dydxE,
+                                                          double dydxNearE,
+                                                          double concCurviness,
+                                                          double eccCurviness,
+                                                          const std::string &curveName,
                                                           SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Ensure that the inputs are within a valid range
@@ -336,15 +336,15 @@ void MuscleFunctionFactory::createFiberForceVelocityCurve(double                
 }
 
 void MuscleFunctionFactory::createFiberForceVelocityInverseCurve(
-    double                   fmaxE,
-    double                   dydxC,
-    double                   dydxNearC,
-    double                   dydxIso,
-    double                   dydxE,
-    double                   dydxNearE,
-    double                   concCurviness,
-    double                   eccCurviness,
-    const std::string       &curveName,
+    double fmaxE,
+    double dydxC,
+    double dydxNearC,
+    double dydxIso,
+    double dydxE,
+    double dydxNearE,
+    double concCurviness,
+    double eccCurviness,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Ensure that the inputs are within a valid range
@@ -472,10 +472,10 @@ void MuscleFunctionFactory::createFiberForceVelocityInverseCurve(
 }
 
 void MuscleFunctionFactory::createFiberCompressiveForcePennationCurve(
-    double                   phi0,
-    double                   k,
-    double                   curviness,
-    const std::string       &curveName,
+    double phi0,
+    double k,
+    double curviness,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Check the input arguments
@@ -510,12 +510,12 @@ void MuscleFunctionFactory::createFiberCompressiveForcePennationCurve(
     name.append(".createFiberCompressiveForcePennationCurve");
 
     // Translate the user parameters to quintic Bezier points
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
-    double x0    = phi0;
-    double y0    = 0;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double x0 = phi0;
+    double y0 = 0;
     double dydx0 = 0;
-    double x1    = M_PI / 2.0;
-    double y1    = 1;
+    double x1 = M_PI / 2.0;
+    double y1 = 1;
     double dydx1 = k;
 
     RigidBodyDynamics::Math::MatrixNd ctrlPts =
@@ -529,10 +529,10 @@ void MuscleFunctionFactory::createFiberCompressiveForcePennationCurve(
 }
 
 void MuscleFunctionFactory::createFiberCompressiveForceCosPennationCurve(
-    double                   cosPhi0,
-    double                   k,
-    double                   curviness,
-    const std::string       &curveName,
+    double cosPhi0,
+    double k,
+    double curviness,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
     // Check the input arguments
@@ -566,12 +566,12 @@ void MuscleFunctionFactory::createFiberCompressiveForceCosPennationCurve(
     name.append(".createFiberCompressiveForceCosPennationCurve");
 
     // Translate the user parameters to quintic Bezier points
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
-    double x0    = 0;
-    double y0    = 1;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double x0 = 0;
+    double y0 = 1;
     double dydx0 = k;
-    double x1    = cosPhi0;
-    double y1    = 0;
+    double x1 = cosPhi0;
+    double y1 = 0;
     double dydx1 = 0;
 
     RigidBodyDynamics::Math::MatrixNd ctrlPts =
@@ -585,10 +585,10 @@ void MuscleFunctionFactory::createFiberCompressiveForceCosPennationCurve(
 }
 
 void MuscleFunctionFactory::createFiberCompressiveForceLengthCurve(
-    double                   lmax,
-    double                   k,
-    double                   curviness,
-    const std::string       &curveName,
+    double lmax,
+    double k,
+    double curviness,
+    const std::string &curveName,
     SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -622,12 +622,12 @@ void MuscleFunctionFactory::createFiberCompressiveForceLengthCurve(
     caller.append(".createFiberCompressiveForceLength");
 
     // Translate the user parameters to quintic Bezier points
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
-    double x0    = 0.0;
-    double y0    = 1;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double x0 = 0.0;
+    double y0 = 1;
     double dydx0 = k;
-    double x1    = lmax;
-    double y1    = 0;
+    double x1 = lmax;
+    double y1 = 0;
     double dydx1 = 0;
 
     RigidBodyDynamics::Math::MatrixNd ctrlPts =
@@ -640,12 +640,12 @@ void MuscleFunctionFactory::createFiberCompressiveForceLengthCurve(
     smoothSegmentedFunctionToUpdate.updSmoothSegmentedFunction(mX, mY, x0, x1, y0, y1, dydx0, dydx1, curveName);
 }
 
-void MuscleFunctionFactory::createFiberForceLengthCurve(double                   eZero,
-                                                        double                   eIso,
-                                                        double                   kLow,
-                                                        double                   kIso,
-                                                        double                   curviness,
-                                                        const std::string       &curveName,
+void MuscleFunctionFactory::createFiberForceLengthCurve(double eZero,
+                                                        double eIso,
+                                                        double kLow,
+                                                        double kIso,
+                                                        double curviness,
+                                                        const std::string &curveName,
                                                         SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -687,7 +687,7 @@ void MuscleFunctionFactory::createFiberForceLengthCurve(double                  
     callerName.append(".createFiberForceLength");
 
     // Translate the user parameters to quintic Bezier points
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
     double xZero = 1 + eZero;
     double yZero = 0;
 
@@ -696,10 +696,10 @@ void MuscleFunctionFactory::createFiberForceLengthCurve(double                  
 
     double deltaX = std::min(0.1 * (1.0 / kIso), 0.1 * (xIso - xZero));
 
-    double xLow  = xZero + deltaX;
+    double xLow = xZero + deltaX;
     double xfoot = xZero + 0.5 * (xLow - xZero);
     double yfoot = 0;
-    double yLow  = yfoot + kLow * (xLow - xfoot);
+    double yLow = yfoot + kLow * (xLow - xfoot);
 
     // Compute the Quintic Bezier control points
     RigidBodyDynamics::Math::MatrixNd p0 =
@@ -719,11 +719,11 @@ void MuscleFunctionFactory::createFiberForceLengthCurve(double                  
     smoothSegmentedFunctionToUpdate.updSmoothSegmentedFunction(mX, mY, xZero, xIso, yZero, yIso, 0.0, kIso, curveName);
 }
 
-void MuscleFunctionFactory::createTendonForceLengthCurve(double                   eIso,
-                                                         double                   kIso,
-                                                         double                   fToe,
-                                                         double                   curviness,
-                                                         const std::string       &curveName,
+void MuscleFunctionFactory::createTendonForceLengthCurve(double eIso,
+                                                         double kIso,
+                                                         double fToe,
+                                                         double curviness,
+                                                         const std::string &curveName,
                                                          SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
 {
 
@@ -767,13 +767,13 @@ void MuscleFunctionFactory::createTendonForceLengthCurve(double                 
     callerName.append(".createTendonForceLengthCurve");
 
     // Translate the user parameters to quintic Bezier points
-    double c     = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
-    double x0    = 1.0;
-    double y0    = 0;
+    double c = SegmentedQuinticBezierToolkit::scaleCurviness(curviness);
+    double x0 = 1.0;
+    double y0 = 0;
     double dydx0 = 0;
 
-    double xIso    = 1.0 + eIso;
-    double yIso    = 1;
+    double xIso = 1.0 + eIso;
+    double yIso = 1;
     double dydxIso = kIso;
 
     // Location where the curved section becomes linear
@@ -782,14 +782,14 @@ void MuscleFunctionFactory::createTendonForceLengthCurve(double                 
 
     // To limit the 2nd derivative of the toe region the line it tends to
     // has to intersect the x axis to the right of the origin
-    double xFoot   = 1.0 + (xToe - 1.0) / 10.0;
-    double yFoot   = 0;
+    double xFoot = 1.0 + (xToe - 1.0) / 10.0;
+    double yFoot = 0;
     double dydxToe = (yToe - yFoot) / (xToe - xFoot);
 
     // Compute the location of the corner formed by the average slope of the
     // toe and the slope of the linear section
-    double yToeMid    = yToe * 0.5;
-    double xToeMid    = (yToeMid - yIso) / kIso + xIso;
+    double yToeMid = yToe * 0.5;
+    double xToeMid = (yToeMid - yIso) / kIso + xIso;
     double dydxToeMid = (yToeMid - yFoot) / (xToeMid - xFoot);
 
     // Compute the location of the control point to the left of the corner

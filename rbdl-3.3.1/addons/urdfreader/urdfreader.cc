@@ -15,32 +15,32 @@
 #include <urdf_parser/urdf_parser.h>
 #include "Logging.h"
 
-typedef urdf::LinkSharedPtr            LinkPtr;
+typedef urdf::LinkSharedPtr LinkPtr;
 typedef const urdf::LinkConstSharedPtr ConstLinkPtr;
-typedef urdf::JointSharedPtr           JointPtr;
-typedef urdf::ModelInterfaceSharedPtr  ModelPtr;
-typedef urdf::Joint                    UrdfJointType;
+typedef urdf::JointSharedPtr JointPtr;
+typedef urdf::ModelInterfaceSharedPtr ModelPtr;
+typedef urdf::Joint UrdfJointType;
 
-#define LINKMAP          links_
-#define JOINTMAP         joints_
+#define LINKMAP links_
+#define JOINTMAP joints_
 #define PARENT_TRANSFORM parent_to_joint_origin_transform
-#define RPY              getRPY
+#define RPY getRPY
 
 #else
 #include <urdf/model.h>
 #include <urdf/link.h>
 #include <urdf/joint.h>
 
-typedef std::shared_ptr<urdf::Link>      LinkPtr;
-typedef std::shared_ptr<urdf::Link>      ConstLinkPtr;
-typedef std::shared_ptr<urdf::Joint>     JointPtr;
+typedef std::shared_ptr<urdf::Link> LinkPtr;
+typedef std::shared_ptr<urdf::Link> ConstLinkPtr;
+typedef std::shared_ptr<urdf::Joint> JointPtr;
 typedef std::shared_ptr<urdf::UrdfModel> ModelPtr;
-typedef urdf::JointType                  UrdfJointType;
+typedef urdf::JointType UrdfJointType;
 
-#define LINKMAP          link_map
-#define JOINTMAP         joint_map
+#define LINKMAP link_map
+#define JOINTMAP joint_map
 #define PARENT_TRANSFORM parent_to_joint_transform
-#define RPY              getRpy
+#define RPY getRpy
 #endif
 
 using namespace std;
@@ -54,9 +54,9 @@ namespace Addons
 using namespace Math;
 using namespace Errors;
 
-typedef vector<LinkPtr>       URDFLinkVector;
-typedef vector<JointPtr>      URDFJointVector;
-typedef map<string, LinkPtr>  URDFLinkMap;
+typedef vector<LinkPtr> URDFLinkVector;
+typedef vector<JointPtr> URDFJointVector;
+typedef map<string, LinkPtr> URDFLinkMap;
 typedef map<string, JointPtr> URDFJointMap;
 
 // =============================================================================
@@ -120,10 +120,10 @@ Body get_rbdl_body(ConstLinkPtr &urdf_link, bool is_root_link)
 {
     // assemble the body
     urdf::Vector3 link_inertial_rpy_temp;
-    Vector3d      link_inertial_position;
-    Vector3d      link_inertial_rpy;
-    Matrix3d      link_inertial_inertia = Matrix3d::Zero();
-    double        link_inertial_mass    = 0.;
+    Vector3d link_inertial_position;
+    Vector3d link_inertial_rpy;
+    Matrix3d link_inertial_inertia = Matrix3d::Zero();
+    double link_inertial_mass = 0.;
 
     // but only if we actually have inertial data
 #ifdef RBDL_USE_ROS_URDF_LIBRARY
@@ -186,18 +186,18 @@ Body get_rbdl_body(ConstLinkPtr &urdf_link, bool is_root_link)
     return rbdl_body;
 }
 
-void add_joints_to_rbdl_model(Model                *rbdl_model,
-                              const URDFLinkMap    &link_map,
-                              const URDFJointMap   &joint_map,
+void add_joints_to_rbdl_model(Model *rbdl_model,
+                              const URDFLinkMap &link_map,
+                              const URDFJointMap &joint_map,
                               const vector<string> &joint_names,
-                              bool                  verbose)
+                              bool verbose)
 {
     unsigned int j;
     for (j = 0; j < joint_names.size(); j++)
     {
-        JointPtr urdf_joint  = joint_map.at(joint_names.at(j));
-        LinkPtr  urdf_parent = link_map.at(urdf_joint->parent_link_name);
-        LinkPtr  urdf_child  = link_map.at(urdf_joint->child_link_name);
+        JointPtr urdf_joint = joint_map.at(joint_names.at(j));
+        LinkPtr urdf_parent = link_map.at(urdf_joint->parent_link_name);
+        LinkPtr urdf_child = link_map.at(urdf_joint->child_link_name);
 
         // determine where to add the current joint and child body
         unsigned int rbdl_parent_id = 0;
@@ -226,7 +226,7 @@ void add_joints_to_rbdl_model(Model                *rbdl_model,
         joint_rpy.set(joint_rpy_temp.x, joint_rpy_temp.y, joint_rpy_temp.z);
         joint_translation.set(urdf_joint->PARENT_TRANSFORM.position.x, urdf_joint->PARENT_TRANSFORM.position.y,
                               urdf_joint->PARENT_TRANSFORM.position.z);
-        auto t1 =  Xrotx(joint_rpy[0]);
+        auto t1 = Xrotx(joint_rpy[0]);
         t1 = t1 * Xroty(joint_rpy[1]);
         auto t2 = t1 * Xrotz(joint_rpy[2]);
         auto t3 = t2 * Xtrans(joint_translation);
@@ -255,9 +255,9 @@ void add_joints_to_rbdl_model(Model                *rbdl_model,
         if (urdf_joint->type == UrdfJointType::FLOATING)
         {
             Matrix3d zero_matrix = Matrix3d::Zero();
-            Body     null_body(0., Vector3d::Zero(), zero_matrix);
-            Joint    joint_txtytz(JointTypeTranslationXYZ);
-            string   trans_body_name = urdf_child->name + "_Translate";
+            Body null_body(0., Vector3d::Zero(), zero_matrix);
+            Joint joint_txtytz(JointTypeTranslationXYZ);
+            string trans_body_name = urdf_child->name + "_Translate";
             rbdl_model->AddBody(rbdl_parent_id, rbdl_joint_frame, joint_txtytz, null_body, trans_body_name);
 
             Joint joint_euler_zyx(JointTypeEulerXYZ);
@@ -275,7 +275,7 @@ void construct_model(Model *rbdl_model, ModelPtr urdf_model, const string &root_
 
     LinkPtr urdf_root_link;
 
-    URDFLinkMap  link_map  = urdf_model->LINKMAP;
+    URDFLinkMap link_map = urdf_model->LINKMAP;
     URDFJointMap joint_map = urdf_model->JOINTMAP;
 
     vector<string> joint_names;
@@ -284,7 +284,7 @@ void construct_model(Model *rbdl_model, ModelPtr urdf_model, const string &root_
     // with the top element being the current link.
     stack<LinkPtr> link_stack;
     // Holds the child joint index of the current link
-    stack<int>     joint_index_stack;
+    stack<int> joint_index_stack;
 
     // Check if the parsed root link is a valid one or not
     if (link_map.count(root_link) == 0)
@@ -297,8 +297,8 @@ void construct_model(Model *rbdl_model, ModelPtr urdf_model, const string &root_
     link_stack.push(link_map[root_link]);
 
     // add the root body
-    ConstLinkPtr root           = urdf_model->getLink(root_link);
-    Body         root_link_body = get_rbdl_body(root, true);
+    ConstLinkPtr root = urdf_model->getLink(root_link);
+    Body root_link_body = get_rbdl_body(root, true);
 
     Joint root_joint(JointTypeFixed);
     if (floating_base)
@@ -372,16 +372,16 @@ void construct_model(Model *rbdl_model, ModelPtr urdf_model, const string &root_
 }
 // =============================================================================
 
-void construct_partial_model(Model                *rbdl_model,
-                             ModelPtr              urdf_model,
-                             const string         &root_link,
+void construct_partial_model(Model *rbdl_model,
+                             ModelPtr urdf_model,
+                             const string &root_link,
                              const vector<string> &tip_links,
-                             bool                  floating_base,
-                             bool                  verbose)
+                             bool floating_base,
+                             bool verbose)
 {
     LinkPtr urdf_root_link;
 
-    URDFLinkMap  link_map  = urdf_model->LINKMAP;
+    URDFLinkMap link_map = urdf_model->LINKMAP;
     URDFJointMap joint_map = urdf_model->JOINTMAP;
 
     vector<string> joint_names;
@@ -390,7 +390,7 @@ void construct_partial_model(Model                *rbdl_model,
     // with the top element being the current link.
     stack<LinkPtr> link_stack;
     // Holds the child joint index of the current link
-    stack<int>     joint_index_stack;
+    stack<int> joint_index_stack;
 
     // Check if the parsed root link and tip links are valid or not
     if (link_map.count(root_link) == 0)
@@ -411,8 +411,8 @@ void construct_partial_model(Model                *rbdl_model,
     link_stack.push(link_map[(urdf_model->getLink(root_link)->name)]);
 
     // add the root body
-    ConstLinkPtr root           = urdf_model->getLink(root_link);
-    Body         root_link_body = get_rbdl_body(root, true);
+    ConstLinkPtr root = urdf_model->getLink(root_link);
+    Body root_link_body = get_rbdl_body(root, true);
 
     Joint root_joint(JointTypeFixed);
     if (floating_base)
@@ -447,7 +447,7 @@ void construct_partial_model(Model                *rbdl_model,
     for (const std::string &tip_link : tip_links)
     {
         vector<string> local_joint_names;
-        string         parent_link = tip_link;
+        string parent_link = tip_link;
         vector<string> links_verbose;
         while (parent_link.compare(root_link) != 0)
         {
@@ -514,24 +514,24 @@ RBDL_ADDON_DLLAPI bool URDFReadFromString(const char *model_xml_string, Model *m
     return true;
 }
 
-RBDL_ADDON_DLLAPI bool PartialURDFReadFromFile(const char                     *filename,
-                                               Model                          *model,
-                                               const std::string              &root_link,
+RBDL_ADDON_DLLAPI bool PartialURDFReadFromFile(const char *filename,
+                                               Model *model,
+                                               const std::string &root_link,
                                                const std::vector<std::string> &tip_links,
-                                               bool                            floating_base,
-                                               bool                            verbose)
+                                               bool floating_base,
+                                               bool verbose)
 {
     const string model_xml_string = get_model_xml_string_from_file(filename);
 
     return PartialURDFReadFromString(model_xml_string.c_str(), model, root_link, tip_links, floating_base, verbose);
 }
 
-RBDL_ADDON_DLLAPI bool PartialURDFReadFromString(const char                     *model_xml_string,
-                                                 Model                          *model,
-                                                 const std::string              &root_link,
+RBDL_ADDON_DLLAPI bool PartialURDFReadFromString(const char *model_xml_string,
+                                                 Model *model,
+                                                 const std::string &root_link,
                                                  const std::vector<std::string> &tip_links,
-                                                 bool                            floating_base,
-                                                 bool                            verbose)
+                                                 bool floating_base,
+                                                 bool verbose)
 {
     assert(model);
 

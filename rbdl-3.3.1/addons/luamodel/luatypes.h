@@ -320,12 +320,12 @@ LuaTableNode::getDefault<RigidBodyDynamics::Body>(const RigidBodyDynamics::Body 
     {
         LuaTable vector_table = LuaTable::fromLuaState(luaTable->L);
 
-        double                            mass = 0.;
+        double mass = 0.;
         RigidBodyDynamics::Math::Vector3d com(RigidBodyDynamics::Math::Vector3d::Zero());
         RigidBodyDynamics::Math::Matrix3d inertia(RigidBodyDynamics::Math::Matrix3d::Identity());
 
-        mass    = vector_table["mass"];
-        com     = vector_table["com"].getDefault<RigidBodyDynamics::Math::Vector3d>(com);
+        mass = vector_table["mass"];
+        com = vector_table["com"].getDefault<RigidBodyDynamics::Math::Vector3d>(com);
         inertia = vector_table["inertia"].getDefault<RigidBodyDynamics::Math::Matrix3d>(inertia);
 
         result = RigidBodyDynamics::Body(mass, com, inertia);
@@ -347,7 +347,7 @@ Point RBDL_ADDON_DLLAPI LuaTableNode::getDefault<Point>(const Point &default_val
     {
         LuaTable point_table = LuaTable::fromLuaState(luaTable->L);
 
-        result.name        = point_table["name"].get<std::string>();
+        result.name = point_table["name"].get<std::string>();
         result.point_local = point_table["point"].getDefault<RigidBodyDynamics::Math::Vector3d>(
             RigidBodyDynamics::Math::Vector3d::Zero());
         result.body_name = point_table["body"].get<std::string>();
@@ -370,7 +370,7 @@ LuaTableNode::getDefault<MotionCaptureMarker>(const MotionCaptureMarker &default
     {
         LuaTable marker_table = LuaTable::fromLuaState(luaTable->L);
 
-        result.name        = marker_table["name"].get<std::string>();
+        result.name = marker_table["name"].get<std::string>();
         result.point_local = marker_table["point"].getDefault<RigidBodyDynamics::Math::Vector3d>(
             RigidBodyDynamics::Math::Vector3d::Zero());
         result.body_name = marker_table["body"].get<std::string>();
@@ -392,7 +392,7 @@ LocalFrame RBDL_ADDON_DLLAPI LuaTableNode::getDefault<LocalFrame>(const LocalFra
     {
         LuaTable local_frame_table = LuaTable::fromLuaState(luaTable->L);
 
-        result.name      = local_frame_table["name"].get<std::string>();
+        result.name = local_frame_table["name"].get<std::string>();
         result.body_name = local_frame_table["body"].get<std::string>();
 
         result.r = local_frame_table["r"].getDefault<RigidBodyDynamics::Math::Vector3d>(
@@ -418,9 +418,9 @@ HumanMetaData RBDL_ADDON_DLLAPI LuaTableNode::getDefault<HumanMetaData>(const Hu
 
         result.gender = metadata_table["gender"].get<std::string>();
 
-        result.age       = metadata_table["age"];
-        result.height    = metadata_table["height"];
-        result.mass      = metadata_table["weight"];
+        result.age = metadata_table["age"];
+        result.height = metadata_table["height"];
+        result.mass = metadata_table["weight"];
         result.age_group = metadata_table["age_group"].get<std::string>();
     }
 
@@ -441,10 +441,10 @@ LuaTableNode::getDefault<Millard2016TorqueMuscleConfig>(const Millard2016TorqueM
         LuaTable mtg_table = LuaTable::fromLuaState(luaTable->L);
 
         // First read mandatory fields
-        result.name        = mtg_table["name"].get<std::string>();
-        result.angle_sign  = mtg_table["angle_sign"].get<double>();
+        result.name = mtg_table["name"].get<std::string>();
+        result.angle_sign = mtg_table["angle_sign"].get<double>();
         result.torque_sign = mtg_table["torque_sign"].get<double>();
-        result.body        = mtg_table["body"].get<std::string>();
+        result.body = mtg_table["body"].get<std::string>();
 
         if (mtg_table["joint_index"].exists())
         {

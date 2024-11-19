@@ -252,14 +252,14 @@ public:
 
     */
     static void createFiberActiveForceLengthCurve(
-        double                                                         lce0,
-        double                                                         lce1,
-        double                                                         lce2,
-        double                                                         lce3,
-        double                                                         minActiveForceLengthValue,
-        double                                                         plateauSlope,
-        double                                                         curviness,
-        const std::string                                             &curveName,
+        double lce0,
+        double lce1,
+        double lce2,
+        double lce3,
+        double minActiveForceLengthValue,
+        double plateauSlope,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry ::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -385,15 +385,15 @@ public:
     @endcode
     */
     static void createFiberForceVelocityCurve(
-        double                                                        fmaxE,
-        double                                                        dydxC,
-        double                                                        dydxNearC,
-        double                                                        dydxIso,
-        double                                                        dydxE,
-        double                                                        dydxNearE,
-        double                                                        concCurviness,
-        double                                                        eccCurviness,
-        const std::string                                            &curveName,
+        double fmaxE,
+        double dydxC,
+        double dydxNearC,
+        double dydxIso,
+        double dydxE,
+        double dydxNearE,
+        double concCurviness,
+        double eccCurviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -414,15 +414,15 @@ public:
 
     */
     static void createFiberForceVelocityInverseCurve(
-        double                                                        fmaxE,
-        double                                                        dydxC,
-        double                                                        dydxNearC,
-        double                                                        dydxIso,
-        double                                                        dydxE,
-        double                                                        dydxNearE,
-        double                                                        concCurviness,
-        double                                                        eccCurviness,
-        const std::string                                            &muscleName,
+        double fmaxE,
+        double dydxC,
+        double dydxNearC,
+        double dydxIso,
+        double dydxE,
+        double dydxNearE,
+        double concCurviness,
+        double eccCurviness,
+        const std::string &muscleName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -489,10 +489,10 @@ public:
     @endcode
     */
     static void createFiberCompressiveForcePennationCurve(
-        double                                                        phi0,
-        double                                                        kiso,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double phi0,
+        double kiso,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -565,10 +565,10 @@ public:
 
     */
     static void createFiberCompressiveForceCosPennationCurve(
-        double                                                        cosPhi0,
-        double                                                        kiso,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double cosPhi0,
+        double kiso,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -637,10 +637,10 @@ public:
 
     */
     static void createFiberCompressiveForceLengthCurve(
-        double                                                        l0,
-        double                                                        kiso,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double l0,
+        double kiso,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -717,12 +717,12 @@ public:
 
    */
     static void createFiberForceLengthCurve(
-        double                                                        eZero,
-        double                                                        eIso,
-        double                                                        kLow,
-        double                                                        kIso,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double eZero,
+        double eIso,
+        double kLow,
+        double kIso,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 
     /**
@@ -795,11 +795,11 @@ public:
 
     */
     static void createTendonForceLengthCurve(
-        double                                                        eIso,
-        double                                                        kIso,
-        double                                                        fToe,
-        double                                                        curviness,
-        const std::string                                            &curveName,
+        double eIso,
+        double kIso,
+        double fToe,
+        double curviness,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate);
 };
 

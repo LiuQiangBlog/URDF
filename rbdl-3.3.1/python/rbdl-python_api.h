@@ -31,9 +31,9 @@ static int (*__pyx_api_f_4rbdl_cy_call_jcalc_X_lambda_S)(PyObject *,
 #define __PYX_HAVE_RT_ImportModule
 static PyObject *__Pyx_ImportModule(const char *name)
 {
-    PyObject *py_name   = 0;
+    PyObject *py_name = 0;
     PyObject *py_module = 0;
-    py_name             = __Pyx_PyIdentifier_FromString(name);
+    py_name = __Pyx_PyIdentifier_FromString(name);
     if (!py_name)
         goto bad;
     py_module = PyImport_Import(py_name);
@@ -49,11 +49,11 @@ bad:
 #define __PYX_HAVE_RT_ImportFunction
 static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig)
 {
-    PyObject *d    = 0;
+    PyObject *d = 0;
     PyObject *cobj = 0;
     union
     {
-        void  (*fp)(void);
+        void (*fp)(void);
         void *p;
     } tmp;
     d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
@@ -110,7 +110,7 @@ bad:
 static int import_rbdl(void)
 {
     PyObject *module = 0;
-    module           = __Pyx_ImportModule("rbdl");
+    module = __Pyx_ImportModule("rbdl");
     if (!module)
         goto bad;
     if (__Pyx_ImportFunction(module, "cy_call_jcalc", (void (**)(void)) & __pyx_api_f_4rbdl_cy_call_jcalc,

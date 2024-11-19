@@ -39,10 +39,10 @@ struct ScrewJoint1DofFixedBase
 
         roller = model->AppendBody(Xtrans(Vector3d(0., 0., 0.)), joint, body, "Roller");
 
-        q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-        qdot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+        q = VectorNd::Constant((size_t)model->dof_count, 0.);
+        qdot = VectorNd::Constant((size_t)model->dof_count, 0.);
         qddot = VectorNd::Constant((size_t)model->dof_count, 0.);
-        tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+        tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
         epsilon = 1e-8;
 
@@ -61,13 +61,13 @@ struct ScrewJoint1DofFixedBase
     RigidBodyDynamics::Math::VectorNd tau;
 
     unsigned int roller;
-    double       epsilon;
+    double epsilon;
 };
 
 TEST_CASE_METHOD(ScrewJoint1DofFixedBase, __FILE__ "_UpdateKinematics", "")
 {
-    q[0]     = 1;
-    qdot[0]  = 2;
+    q[0] = 1;
+    qdot[0] = 2;
     qddot[0] = 0;
 
     UpdateKinematics(*model, q, qdot, qddot);
@@ -79,13 +79,13 @@ TEST_CASE_METHOD(ScrewJoint1DofFixedBase, __FILE__ "_UpdateKinematics", "")
     SpatialVector a0(model->a[roller]);
     SpatialVector v0(model->v[roller]);
 
-    q[0]     = 1 + 2 * epsilon;
-    qdot[0]  = 2;
+    q[0] = 1 + 2 * epsilon;
+    qdot[0] = 2;
     qddot[0] = 0;
 
     UpdateKinematics(*model, q, qdot, qddot);
 
-    v0  = model->v[roller] - v0;
+    v0 = model->v[roller] - v0;
     v0 /= epsilon;
 
     // finite diff vs. analytical derivative
@@ -94,13 +94,13 @@ TEST_CASE_METHOD(ScrewJoint1DofFixedBase, __FILE__ "_UpdateKinematics", "")
 
 TEST_CASE_METHOD(ScrewJoint1DofFixedBase, __FILE__ "_Jacobians", "")
 {
-    q[0]     = 1;
-    qdot[0]  = 0;
+    q[0] = 1;
+    qdot[0] = 0;
     qddot[0] = 9;
 
-    Vector3d refPt          = Vector3d(1, 0, 3);
-    MatrixNd GrefPt         = MatrixNd::Constant(3, 1, 0.);
-    MatrixNd Gexpected      = MatrixNd::Constant(3, 1, 0.);
+    Vector3d refPt = Vector3d(1, 0, 3);
+    MatrixNd GrefPt = MatrixNd::Constant(3, 1, 0.);
+    MatrixNd Gexpected = MatrixNd::Constant(3, 1, 0.);
     Vector3d refPtBaseCoord = Vector3d();
 
     refPtBaseCoord = CalcBodyToBaseCoordinates(*model, q, roller, refPt);

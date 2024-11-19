@@ -27,14 +27,14 @@ static double inRange(double angle)
 TEST_CASE(__FILE__ "_ForwardDynamicsConstraintsWithExternalForcesCorrectnessTest", "")
 {
     DoublePerpendicularPendulumAbsoluteCoordinates dba = DoublePerpendicularPendulumAbsoluteCoordinates();
-    DoublePerpendicularPendulumJointCoordinates    dbj = DoublePerpendicularPendulumJointCoordinates();
+    DoublePerpendicularPendulumJointCoordinates dbj = DoublePerpendicularPendulumJointCoordinates();
 
     // 1. Set the pendulum modeled using joint coordinates to a specific
     //     state and then compute the spatial acceleration of the body.
-    dbj.q[0]   = M_PI / 3.0; // About z0
-    dbj.q[1]   = M_PI / 6.0; // About y1
-    dbj.qd[0]  = M_PI;       // About z0
-    dbj.qd[1]  = M_PI / 2.0; // About y1
+    dbj.q[0] = M_PI / 3.0;  // About z0
+    dbj.q[1] = M_PI / 6.0;  // About y1
+    dbj.qd[0] = M_PI;       // About z0
+    dbj.qd[1] = M_PI / 2.0; // About y1
     dbj.tau[0] = 0.;
     dbj.tau[1] = 0.;
 
@@ -107,29 +107,29 @@ TEST_CASE(__FILE__ "_ForwardDynamicsConstraintsWithExternalForcesCorrectnessTest
     dba.qd[6]  = dbj.qd[0]+dbj.qd[1];
     */
 
-    dba.q[0]  = r010[0];
-    dba.q[1]  = r010[1];
-    dba.q[2]  = r010[2];
-    dba.q[3]  = dbj.q[0];
-    dba.q[4]  = 0;
-    dba.q[5]  = 0;
-    dba.q[6]  = r020[0];
-    dba.q[7]  = r020[1];
-    dba.q[8]  = r020[2];
-    dba.q[9]  = dbj.q[0];
+    dba.q[0] = r010[0];
+    dba.q[1] = r010[1];
+    dba.q[2] = r010[2];
+    dba.q[3] = dbj.q[0];
+    dba.q[4] = 0;
+    dba.q[5] = 0;
+    dba.q[6] = r020[0];
+    dba.q[7] = r020[1];
+    dba.q[8] = r020[2];
+    dba.q[9] = dbj.q[0];
     dba.q[10] = dbj.q[1];
     dba.q[11] = 0;
 
-    dba.qd[0]  = v010[3];
-    dba.qd[1]  = v010[4];
-    dba.qd[2]  = v010[5];
-    dba.qd[3]  = dbj.qd[0];
-    dba.qd[4]  = 0;
-    dba.qd[5]  = 0;
-    dba.qd[6]  = v020[3];
-    dba.qd[7]  = v020[4];
-    dba.qd[8]  = v020[5];
-    dba.qd[9]  = dbj.qd[0];
+    dba.qd[0] = v010[3];
+    dba.qd[1] = v010[4];
+    dba.qd[2] = v010[5];
+    dba.qd[3] = dbj.qd[0];
+    dba.qd[4] = 0;
+    dba.qd[5] = 0;
+    dba.qd[6] = v020[3];
+    dba.qd[7] = v020[4];
+    dba.qd[8] = v020[5];
+    dba.qd[9] = dbj.qd[0];
     dba.qd[10] = dbj.qd[1];
     dba.qd[11] = 0;
 

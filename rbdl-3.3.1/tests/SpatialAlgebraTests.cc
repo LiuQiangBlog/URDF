@@ -201,7 +201,7 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApply", "")
 
     SpatialMatrix X_66_matrix(SpatialMatrix::Zero(6, 6));
     X_66_matrix = Xrotz_mat(rot[2]) * Xroty_mat(rot[1]) * Xrotx_mat(rot[0]) * Xtrans_mat(trans);
-    X_st.E      = X_66_matrix.block<3, 3>(0, 0);
+    X_st.E = X_66_matrix.block<3, 3>(0, 0);
 
     // cout << X_66_matrix << endl;
     // cout << X_st.E << endl;
@@ -226,7 +226,7 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApplyTranspose", "")
 
     SpatialMatrix X_66_matrix(SpatialMatrix::Zero(6, 6));
     X_66_matrix = Xrotz_mat(rot[2]) * Xroty_mat(rot[1]) * Xrotx_mat(rot[0]) * Xtrans_mat(trans);
-    X_st.E      = X_66_matrix.block<3, 3>(0, 0);
+    X_st.E = X_66_matrix.block<3, 3>(0, 0);
 
     // cout << X_66_matrix << endl;
     // cout << X_st.E << endl;
@@ -248,7 +248,7 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApplyAdjoint", "")
     SpatialMatrix X_adjoint = X.toMatrixAdjoint();
 
     SpatialVector f(1.1, 2.1, 4.1, 9.2, 3.3, 0.8);
-    SpatialVector f_apply  = X.applyAdjoint(f);
+    SpatialVector f_apply = X.applyAdjoint(f);
     SpatialVector f_matrix = X_adjoint * f;
 
     CHECK_THAT(f_matrix, AllCloseVector(f_apply, TEST_PREC, TEST_PREC));
@@ -332,8 +332,8 @@ TEST_CASE(__FILE__ "_TestSpatialTransformMultiply", "")
     X_st_2.E = X_matrix_2.block<3, 3>(0, 0);
     X_st_2.r = trans;
 
-    SpatialTransform X_st_res     = X_st_1 * X_st_2;
-    SpatialMatrix    X_matrix_res = X_matrix_1 * X_matrix_2;
+    SpatialTransform X_st_res = X_st_1 * X_st_2;
+    SpatialMatrix X_matrix_res = X_matrix_1 * X_matrix_2;
 
     //	SpatialMatrix X_diff = X_st_res.toMatrix() - X_matrix_res;
     //	cout << "Error: " << endl << X_diff << endl;
@@ -360,9 +360,9 @@ TEST_CASE(__FILE__ "_TestSpatialTransformMultiplyEqual", "")
     X_st_2.E = X_matrix_2.block<3, 3>(0, 0);
     X_st_2.r = trans;
 
-    SpatialTransform X_st_res   = X_st_1;
-    X_st_res                   *= X_st_2;
-    SpatialMatrix X_matrix_res  = X_matrix_1 * X_matrix_2;
+    SpatialTransform X_st_res = X_st_1;
+    X_st_res *= X_st_2;
+    SpatialMatrix X_matrix_res = X_matrix_1 * X_matrix_2;
 
     //	SpatialMatrix X_diff = X_st_res.toMatrix() - X_matrix_res;
     //	cout << "Error: " << endl << X_diff << endl;
@@ -372,23 +372,23 @@ TEST_CASE(__FILE__ "_TestSpatialTransformMultiplyEqual", "")
 
 TEST_CASE(__FILE__ "_TestXrotAxis", "")
 {
-    SpatialTransform X_rotX      = Xrotx(M_PI * 0.15);
+    SpatialTransform X_rotX = Xrotx(M_PI * 0.15);
     SpatialTransform X_rotX_axis = Xrot(M_PI * 0.15, Vector3d(1., 0., 0.));
 
     CHECK_THAT(X_rotX.toMatrix(), AllCloseMatrix(X_rotX_axis.toMatrix(), TEST_PREC, TEST_PREC));
 
     // all the other axes
-    SpatialTransform X_rotX_90      = Xrotx(M_PI * 0.5);
+    SpatialTransform X_rotX_90 = Xrotx(M_PI * 0.5);
     SpatialTransform X_rotX_90_axis = Xrot(M_PI * 0.5, Vector3d(1., 0., 0.));
 
     CHECK_THAT(X_rotX_90.toMatrix(), AllCloseMatrix(X_rotX_90_axis.toMatrix(), TEST_PREC, TEST_PREC));
 
-    SpatialTransform X_rotY_90      = Xroty(M_PI * 0.5);
+    SpatialTransform X_rotY_90 = Xroty(M_PI * 0.5);
     SpatialTransform X_rotY_90_axis = Xrot(M_PI * 0.5, Vector3d(0., 1., 0.));
 
     CHECK_THAT(X_rotY_90.toMatrix(), AllCloseMatrix(X_rotY_90_axis.toMatrix(), TEST_PREC, TEST_PREC));
 
-    SpatialTransform X_rotZ_90      = Xrotz(M_PI * 0.5);
+    SpatialTransform X_rotZ_90 = Xrotz(M_PI * 0.5);
     SpatialTransform X_rotZ_90_axis = Xrot(M_PI * 0.5, Vector3d(0., 0., 1.));
 
     CHECK_THAT(X_rotZ_90.toMatrix(), AllCloseMatrix(X_rotZ_90_axis.toMatrix(), TEST_PREC, TEST_PREC));
@@ -398,8 +398,8 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApplySpatialRigidBodyInertiaAdd", "")
 {
     SpatialRigidBodyInertia rbi(1.1, Vector3d(1.2, 1.3, 1.4), Matrix3d(1.1, 0.5, 0.3, 0.5, 1.2, 0.4, 0.3, 0.4, 1.3));
 
-    SpatialMatrix           rbi_matrix_added = rbi.toMatrix() + rbi.toMatrix();
-    SpatialRigidBodyInertia rbi_added        = rbi + rbi;
+    SpatialMatrix rbi_matrix_added = rbi.toMatrix() + rbi.toMatrix();
+    SpatialRigidBodyInertia rbi_added = rbi + rbi;
 
     // cout << "rbi = " << endl << rbi.toMatrix() << endl;
     // cout << "rbi_added = " << endl << rbi_added.toMatrix() << endl;
@@ -416,8 +416,8 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApplySpatialRigidBodyInertiaFull", "")
 
     SpatialTransform X(Xrotz(0.5) * Xroty(0.9) * Xrotx(0.2) * Xtrans(Vector3d(1.1, 1.2, 1.3)));
 
-    SpatialRigidBodyInertia rbi_transformed        = X.apply(rbi);
-    SpatialMatrix           rbi_matrix_transformed = X.toMatrixAdjoint() * rbi.toMatrix() * X.inverse().toMatrix();
+    SpatialRigidBodyInertia rbi_transformed = X.apply(rbi);
+    SpatialMatrix rbi_matrix_transformed = X.toMatrixAdjoint() * rbi.toMatrix() * X.inverse().toMatrix();
 
     CHECK_THAT(rbi_matrix_transformed, AllCloseMatrix(rbi_transformed.toMatrix(), TEST_PREC, TEST_PREC));
 }
@@ -428,17 +428,17 @@ TEST_CASE(__FILE__ "_TestSpatialTransformApplyTransposeSpatialBodyInertiaFull")
 
     SpatialTransform X(Xrotz(0.5) * Xroty(0.9) * Xrotx(0.2) * Xtrans(Vector3d(1.1, 1.2, 1.3)));
 
-    SpatialRigidBodyInertia rbi_transformed        = X.applyTranspose(rbi);
-    SpatialMatrix           rbi_matrix_transformed = X.toMatrixTranspose() * rbi.toMatrix() * X.toMatrix();
+    SpatialRigidBodyInertia rbi_transformed = X.applyTranspose(rbi);
+    SpatialMatrix rbi_matrix_transformed = X.toMatrixTranspose() * rbi.toMatrix() * X.toMatrix();
 
     CHECK_THAT(rbi_matrix_transformed, AllCloseMatrix(rbi_transformed.toMatrix(), TEST_PREC, TEST_PREC));
 }
 
 TEST_CASE(__FILE__ "_TestSpatialRigidBodyInertiaCreateFromMatrix", "")
 {
-    double                  mass = 1.1;
-    Vector3d                com(0., 0., 0.);
-    Matrix3d                inertia(1.1, 0.5, 0.3, 0.5, 1.2, 0.4, 0.3, 0.4, 1.3);
+    double mass = 1.1;
+    Vector3d com(0., 0., 0.);
+    Matrix3d inertia(1.1, 0.5, 0.3, 0.5, 1.2, 0.4, 0.3, 0.4, 1.3);
     SpatialRigidBodyInertia body_rbi(mass, com, inertia);
 
     SpatialMatrix spatial_inertia = body_rbi.toMatrix();

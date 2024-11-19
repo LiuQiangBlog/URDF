@@ -31,9 +31,9 @@ public:
     @param r0K0 : contact point location in the root frame
     */
     static void calcSpherePlaneContactPointPosition(const RigidBodyDynamics::Math::Vector3d &r0S0,
-                                                    double                                   r,
+                                                    double r,
                                                     const RigidBodyDynamics::Math::Vector3d &eN0,
-                                                    RigidBodyDynamics::Math::Vector3d       &r0K0)
+                                                    RigidBodyDynamics::Math::Vector3d &r0K0)
     {
         r0K0 = r0S0 - r * eN0;
     }
@@ -73,22 +73,22 @@ public:
     {
         if (z < 0.0)
         {
-            hcInfo.springForce  = k * std::pow(-z, p);
+            hcInfo.springForce = k * std::pow(-z, p);
             hcInfo.dampingForce = hcInfo.springForce * (-beta * dz);
-            hcInfo.force        = hcInfo.springForce + hcInfo.dampingForce;
+            hcInfo.force = hcInfo.springForce + hcInfo.dampingForce;
 
             // Damper is generating suction forces
             if (hcInfo.force < 0.)
             {
-                hcInfo.force        = 0.;
-                hcInfo.springForce  = 0.;
+                hcInfo.force = 0.;
+                hcInfo.springForce = 0.;
                 hcInfo.dampingForce = 0.;
             }
         }
         else
         {
-            hcInfo.force        = 0.;
-            hcInfo.springForce  = 0.;
+            hcInfo.force = 0.;
+            hcInfo.springForce = 0.;
             hcInfo.dampingForce = 0.;
         }
     }
@@ -140,12 +140,12 @@ public:
       System Dynamics. 2004 Apr 1;11(3):209-33.
     */
     static void createRegularizedFrictionCoefficientCurve(
-        double                                                        staticFrictionSpeed,
-        double                                                        staticFrictionCoefficient,
-        double                                                        dynamicFrictionSpeed,
-        double                                                        dynamicFrictionCoefficient,
-        double                                                        viscousFrictionSlope,
-        const std::string                                            &curveName,
+        double staticFrictionSpeed,
+        double staticFrictionCoefficient,
+        double dynamicFrictionSpeed,
+        double dynamicFrictionCoefficient,
+        double viscousFrictionSlope,
+        const std::string &curveName,
         RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction &smoothSegmentedFunctionToUpdate)
     {
 
@@ -249,8 +249,8 @@ public:
                   to zero.
     */
     static void calcTangentialVelocityDirection(const RigidBodyDynamics::Math::Vector3d &vt,
-                                                double                                   veps,
-                                                RigidBodyDynamics::Math::Vector3d       &eT0)
+                                                double veps,
+                                                RigidBodyDynamics::Math::Vector3d &eT0)
     {
         double vtn = vt.norm();
 
@@ -262,9 +262,9 @@ public:
         {
             // RigidBodyDynamics::Math::Vector3d vte = vt*(1./veps);
             // I'm going to avoid creating a new Vector3d by using eT0
-            eT0        = vt * (1. / veps);
+            eT0 = vt * (1. / veps);
             double ste = vtn / veps;
-            eT0        = eT0 * ((3. / 2.) * (ste) - (1. / 2.) * (ste * ste * ste));
+            eT0 = eT0 * ((3. / 2.) * (ste) - (1. / 2.) * (ste * ste * ste));
         }
     }
 };

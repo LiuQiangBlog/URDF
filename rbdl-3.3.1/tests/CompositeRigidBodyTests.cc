@@ -19,7 +19,7 @@ struct CompositeRigidBodyFixture
     CompositeRigidBodyFixture()
     {
         ClearLogOutput();
-        model          = new Model;
+        model = new Model;
         model->gravity = Vector3d(0., -9.81, 0.);
     }
     ~CompositeRigidBodyFixture()
@@ -40,14 +40,14 @@ TEST_CASE_METHOD(CompositeRigidBodyFixture, __FILE__ "_TestCompositeRigidBodyFor
                    base_body);
 
     // Initialization of the input vectors
-    VectorNd Q      = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDot   = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd QDDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
-    VectorNd Tau    = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd TauInv = VectorNd::Constant((size_t)model->dof_count, 0.);
 
-    MatrixNd H          = MatrixNd::Constant((size_t)model->dof_count, (size_t)model->dof_count, 0.);
-    VectorNd C          = VectorNd::Constant((size_t)model->dof_count, 0.);
+    MatrixNd H = MatrixNd::Constant((size_t)model->dof_count, (size_t)model->dof_count, 0.);
+    VectorNd C = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot_zero = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot_crba = VectorNd::Constant((size_t)model->dof_count, 0.);
 
@@ -89,46 +89,46 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoF", "")
 {
     MatrixNd H = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
 
-    VectorNd C          = VectorNd::Constant((size_t)model->dof_count, 0.);
+    VectorNd C = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot_zero = VectorNd::Constant((size_t)model->dof_count, 0.);
     VectorNd QDDot_crba = VectorNd::Constant((size_t)model->dof_count, 0.);
 
-    Q[0]  = 1.1;
-    Q[1]  = 1.2;
-    Q[2]  = 1.3;
-    Q[3]  = 0.1;
-    Q[4]  = 0.2;
-    Q[5]  = 0.3;
-    Q[6]  = -1.3;
-    Q[7]  = -1.4;
-    Q[8]  = -1.5;
-    Q[9]  = -0.3;
+    Q[0] = 1.1;
+    Q[1] = 1.2;
+    Q[2] = 1.3;
+    Q[3] = 0.1;
+    Q[4] = 0.2;
+    Q[5] = 0.3;
+    Q[6] = -1.3;
+    Q[7] = -1.4;
+    Q[8] = -1.5;
+    Q[9] = -0.3;
     Q[10] = -0.4;
     Q[11] = -0.5;
 
-    QDot[0]  = 1.1;
-    QDot[1]  = -1.2;
-    QDot[2]  = 1.3;
-    QDot[3]  = -0.1;
-    QDot[4]  = 0.2;
-    QDot[5]  = -0.3;
-    QDot[6]  = -1.1;
-    QDot[7]  = 1.2;
-    QDot[8]  = -1.3;
-    QDot[9]  = 0.1;
+    QDot[0] = 1.1;
+    QDot[1] = -1.2;
+    QDot[2] = 1.3;
+    QDot[3] = -0.1;
+    QDot[4] = 0.2;
+    QDot[5] = -0.3;
+    QDot[6] = -1.1;
+    QDot[7] = 1.2;
+    QDot[8] = -1.3;
+    QDot[9] = 0.1;
     QDot[10] = -0.2;
     QDot[11] = 0.3;
 
-    Tau[0]  = -1.1;
-    Tau[1]  = 1.2;
-    Tau[2]  = -1.3;
-    Tau[3]  = 1.1;
-    Tau[4]  = -1.2;
-    Tau[5]  = 1.3;
-    Tau[6]  = 0.1;
-    Tau[7]  = -0.2;
-    Tau[8]  = 0.3;
-    Tau[9]  = -0.1;
+    Tau[0] = -1.1;
+    Tau[1] = 1.2;
+    Tau[2] = -1.3;
+    Tau[3] = 1.1;
+    Tau[4] = -1.2;
+    Tau[5] = 1.3;
+    Tau[6] = 0.1;
+    Tau[7] = -0.2;
+    Tau[8] = 0.3;
+    Tau[9] = -0.1;
     Tau[10] = 0.2;
     Tau[11] = -0.3;
 
@@ -145,18 +145,18 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoF", "")
 TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseDynamics", "")
 {
     MatrixNd H_crba = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
-    MatrixNd H_id   = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
+    MatrixNd H_id = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
 
-    Q[0]  = 1.1;
-    Q[1]  = 1.2;
-    Q[2]  = 1.3;
-    Q[3]  = 0.1;
-    Q[4]  = 0.2;
-    Q[5]  = 0.3;
-    Q[6]  = -1.3;
-    Q[7]  = -1.4;
-    Q[8]  = -1.5;
-    Q[9]  = -0.3;
+    Q[0] = 1.1;
+    Q[1] = 1.2;
+    Q[2] = 1.3;
+    Q[3] = 0.1;
+    Q[4] = 0.2;
+    Q[5] = 0.3;
+    Q[6] = -1.3;
+    Q[7] = -1.4;
+    Q[8] = -1.5;
+    Q[9] = -0.3;
     Q[10] = -0.4;
     Q[11] = -0.5;
 
@@ -167,7 +167,7 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseD
     UpdateKinematicsCustom(*model, &Q, NULL, NULL);
     CompositeRigidBodyAlgorithm(*model, Q, H_crba, false);
 
-    VectorNd H_col      = VectorNd::Zero(model->dof_count);
+    VectorNd H_col = VectorNd::Zero(model->dof_count);
     VectorNd QDDot_zero = VectorNd::Zero(model->dof_count);
 
     unsigned int i;
@@ -175,7 +175,7 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseD
     {
         // compute each column
         VectorNd delta_a = VectorNd::Zero(model->dof_count);
-        delta_a[i]       = 1.;
+        delta_a[i] = 1.;
         // cout << delta_a << endl;
 
         // compute ID (model, q, qdot, delta_a)
@@ -200,7 +200,7 @@ TEST_CASE_METHOD(FloatingBase12DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseD
 TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseDynamics2", "")
 {
     MatrixNd H_crba = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
-    MatrixNd H_id   = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
+    MatrixNd H_id = MatrixNd::Zero((size_t)model->dof_count, (size_t)model->dof_count);
 
     Q[0] = 1.1;
     Q[1] = 1.2;
@@ -216,7 +216,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseDynam
     UpdateKinematicsCustom(*model, &Q, NULL, NULL);
     CompositeRigidBodyAlgorithm(*model, Q, H_crba, false);
 
-    VectorNd H_col      = VectorNd::Zero(model->dof_count);
+    VectorNd H_col = VectorNd::Zero(model->dof_count);
     VectorNd QDDot_zero = VectorNd::Zero(model->dof_count);
 
     unsigned int i;
@@ -224,7 +224,7 @@ TEST_CASE_METHOD(FixedBase6DoF, __FILE__ "_TestCRBAFloatingBase12DoFInverseDynam
     {
         // compute each column
         VectorNd delta_a = VectorNd::Zero(model->dof_count);
-        delta_a[i]       = 1.;
+        delta_a[i] = 1.;
 
         ClearLogOutput();
         // compute ID (model, q, qdot, delta_a)

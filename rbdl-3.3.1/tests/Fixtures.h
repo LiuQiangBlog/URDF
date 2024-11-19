@@ -22,27 +22,27 @@ struct FixedBase3DoF
          *      Y
          */
 
-        body_a  = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+        body_a = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
         joint_a = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_a_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-        body_b  = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        body_b = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         joint_b = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
 
         body_b_id = model->AddBody(1, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
-        body_c  = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+        body_c = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
         joint_c = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_c_id = model->AddBody(2, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-        QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+        QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
         QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
-        Tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
-        point_position     = Vector3d::Zero(3);
+        point_position = Vector3d::Zero(3);
         point_acceleration = Vector3d::Zero(3);
 
         ref_body_id = 0;
@@ -56,8 +56,8 @@ struct FixedBase3DoF
 
     RigidBodyDynamics::Model *model;
 
-    unsigned int             body_a_id, body_b_id, body_c_id, ref_body_id;
-    RigidBodyDynamics::Body  body_a, body_b, body_c;
+    unsigned int body_a_id, body_b_id, body_c_id, ref_body_id;
+    RigidBodyDynamics::Body body_a, body_b, body_c;
     RigidBodyDynamics::Joint joint_a, joint_b, joint_c;
 
     RigidBodyDynamics::Math::VectorNd Q;
@@ -93,39 +93,39 @@ struct FixedBase6DoF
          */
 
         // base body (3 DoF)
-        base_rot_z       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        base_rot_z = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_base_rot_z = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
-        base_rot_z_id    = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_z, base_rot_z);
+        base_rot_z_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_z, base_rot_z);
 
-        base_rot_y       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        base_rot_y = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_base_rot_y = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
-        base_rot_y_id    = model->AppendBody(Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_y, base_rot_y);
+        base_rot_y_id = model->AppendBody(Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_y, base_rot_y);
 
-        base_rot_x       = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
+        base_rot_x = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
         joint_base_rot_x = Joint(SpatialVector(1., 0., 0., 0., 0., 0.));
-        base_rot_x_id    = model->AddBody(base_rot_y_id, Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_x, base_rot_x);
+        base_rot_x_id = model->AddBody(base_rot_y_id, Xtrans(Vector3d(0., 0., 0.)), joint_base_rot_x, base_rot_x);
 
         // child body (3 DoF)
-        child_rot_z       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_rot_z = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_rot_z = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
-        child_rot_z_id    = model->AddBody(base_rot_x_id, Xtrans(Vector3d(1., 0., 0.)), joint_child_rot_z, child_rot_z);
+        child_rot_z_id = model->AddBody(base_rot_x_id, Xtrans(Vector3d(1., 0., 0.)), joint_child_rot_z, child_rot_z);
 
-        child_rot_y       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_rot_y = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_rot_y = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
         child_rot_y_id = model->AddBody(child_rot_z_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_rot_y, child_rot_y);
 
-        child_rot_x       = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child_rot_x = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         joint_child_rot_x = Joint(SpatialVector(1., 0., 0., 0., 0., 0.));
         child_rot_x_id = model->AddBody(child_rot_y_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_rot_x, child_rot_x);
 
-        Q     = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        QDot  = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Q = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        QDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
         QDDot = VectorNd::Constant(model->mBodies.size() - 1, 0.);
-        Tau   = VectorNd::Constant(model->mBodies.size() - 1, 0.);
+        Tau = VectorNd::Constant(model->mBodies.size() - 1, 0.);
 
         contact_body_id = child_rot_x_id;
-        contact_point   = Vector3d(0.5, 0.5, 0.);
-        contact_normal  = Vector3d(0., 1., 0.);
+        contact_point = Vector3d(0.5, 0.5, 0.);
+        contact_normal = Vector3d(0., 1., 0.);
 
         ClearLogOutput();
     }
@@ -149,10 +149,10 @@ struct FixedBase6DoF
     RigidBodyDynamics::Math::VectorNd QDDot;
     RigidBodyDynamics::Math::VectorNd Tau;
 
-    unsigned int                      contact_body_id;
+    unsigned int contact_body_id;
     RigidBodyDynamics::Math::Vector3d contact_point;
     RigidBodyDynamics::Math::Vector3d contact_normal;
-    RigidBodyDynamics::ConstraintSet  constraint_set;
+    RigidBodyDynamics::ConstraintSet constraint_set;
 };
 
 struct FloatingBase12DoF
@@ -188,38 +188,38 @@ struct FloatingBase12DoF
                            base_rot_x);
 
         // child body 1 (3 DoF)
-        child_rot_z       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_rot_z = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_rot_z = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
-        child_rot_z_id    = model->AddBody(base_rot_x_id, Xtrans(Vector3d(1., 0., 0.)), joint_child_rot_z, child_rot_z);
+        child_rot_z_id = model->AddBody(base_rot_x_id, Xtrans(Vector3d(1., 0., 0.)), joint_child_rot_z, child_rot_z);
 
-        child_rot_y       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_rot_y = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_rot_y = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
         child_rot_y_id = model->AddBody(child_rot_z_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_rot_y, child_rot_y);
 
-        child_rot_x       = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child_rot_x = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         joint_child_rot_x = Joint(SpatialVector(1., 0., 0., 0., 0., 0.));
         child_rot_x_id = model->AddBody(child_rot_y_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_rot_x, child_rot_x);
 
         // child body (3 DoF)
-        child_2_rot_z       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_2_rot_z = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_2_rot_z = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
         child_2_rot_z_id =
             model->AddBody(child_rot_x_id, Xtrans(Vector3d(1., 0., 0.)), joint_child_2_rot_z, child_2_rot_z);
 
-        child_2_rot_y       = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
+        child_2_rot_y = Body(0., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
         joint_child_2_rot_y = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
         child_2_rot_y_id =
             model->AddBody(child_2_rot_z_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_2_rot_y, child_2_rot_y);
 
-        child_2_rot_x       = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child_2_rot_x = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         joint_child_2_rot_x = Joint(SpatialVector(1., 0., 0., 0., 0., 0.));
         child_2_rot_x_id =
             model->AddBody(child_2_rot_y_id, Xtrans(Vector3d(0., 0., 0.)), joint_child_2_rot_x, child_2_rot_x);
 
-        Q     = VectorNd::Constant(model->dof_count, 0.);
-        QDot  = VectorNd::Constant(model->dof_count, 0.);
+        Q = VectorNd::Constant(model->dof_count, 0.);
+        QDot = VectorNd::Constant(model->dof_count, 0.);
         QDDot = VectorNd::Constant(model->dof_count, 0.);
-        Tau   = VectorNd::Constant(model->dof_count, 0.);
+        Tau = VectorNd::Constant(model->dof_count, 0.);
 
         ClearLogOutput();
     }
@@ -250,7 +250,7 @@ struct SimpleFixture
     SimpleFixture()
     {
         ClearLogOutput();
-        model          = new RigidBodyDynamics::Model;
+        model = new RigidBodyDynamics::Model;
         model->gravity = RigidBodyDynamics::Math::Vector3d(0., -9.81, 0.);
     }
     ~SimpleFixture()
@@ -259,10 +259,10 @@ struct SimpleFixture
     }
     void ResizeVectors()
     {
-        Q     = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
-        QDot  = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
+        Q = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
+        QDot = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
         QDDot = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
-        Tau   = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
+        Tau = RigidBodyDynamics::Math::VectorNd::Zero(model->dof_count);
     }
 
     RigidBodyDynamics::Model *model;
@@ -295,26 +295,26 @@ struct FixedJoint2DoF
          *      Y
          */
 
-        body_a  = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+        body_a = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
         joint_a = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_a_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-        body_b  = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        body_b = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         joint_b = Joint(JointTypeFixed);
 
         body_b_id = model->AddBody(body_a_id, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
-        body_c  = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+        body_c = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
         joint_c = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_c_id = model->AddBody(body_b_id, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        Q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-        QDot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+        Q = VectorNd::Constant((size_t)model->dof_count, 0.);
+        QDot = VectorNd::Constant((size_t)model->dof_count, 0.);
         QDDot = VectorNd::Constant((size_t)model->dof_count, 0.);
 
-        point_position     = Vector3d::Zero(3);
+        point_position = Vector3d::Zero(3);
         point_acceleration = Vector3d::Zero(3);
 
         ref_body_id = 0;
@@ -328,8 +328,8 @@ struct FixedJoint2DoF
 
     RigidBodyDynamics::Model *model;
 
-    unsigned int             body_a_id, body_b_id, body_c_id, ref_body_id;
-    RigidBodyDynamics::Body  body_a, body_b, body_c;
+    unsigned int body_a_id, body_b_id, body_c_id, ref_body_id;
+    RigidBodyDynamics::Body body_a, body_b, body_c;
     RigidBodyDynamics::Joint joint_a, joint_b, joint_c;
 
     RigidBodyDynamics::Math::VectorNd Q;
@@ -363,25 +363,25 @@ struct FixedAndMovableJoint
          *      Y
          */
 
-        body_a  = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
+        body_a = Body(1., Vector3d(1., 0., 0.), Vector3d(1., 1., 1.));
         joint_a = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_a_id = model_movable->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_a, body_a);
 
-        body_b  = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
+        body_b = Body(1., Vector3d(0., 1., 0.), Vector3d(1., 1., 1.));
         joint_b = Joint(SpatialVector(0., 1., 0., 0., 0., 0.));
 
         body_b_id = model_movable->AddBody(body_a_id, Xtrans(Vector3d(1., 0., 0.)), joint_b, body_b);
 
-        body_c  = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
+        body_c = Body(1., Vector3d(0., 0., 1.), Vector3d(1., 1., 1.));
         joint_c = Joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
         body_c_id = model_movable->AddBody(body_b_id, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        Q         = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
-        QDot      = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
-        QDDot     = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
-        Tau       = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
+        Q = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
+        QDot = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
+        QDDot = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
+        Tau = VectorNd::Constant((size_t)model_movable->dof_count, 0.);
         C_movable = VectorNd::Zero((size_t)model_movable->dof_count);
         H_movable = MatrixNd::Zero((size_t)model_movable->dof_count, (size_t)model_movable->dof_count);
 
@@ -393,14 +393,14 @@ struct FixedAndMovableJoint
         body_b_fixed_id = model_fixed->AddBody(body_a_fixed_id, Xtrans(Vector3d(1., 0., 0.)), joint_fixed, body_b);
         body_c_fixed_id = model_fixed->AddBody(body_b_fixed_id, Xtrans(Vector3d(0., 1., 0.)), joint_c, body_c);
 
-        Q_fixed     = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
-        QDot_fixed  = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
+        Q_fixed = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
+        QDot_fixed = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
         QDDot_fixed = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
-        Tau_fixed   = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
-        C_fixed     = VectorNd::Zero((size_t)model_fixed->dof_count);
-        H_fixed     = MatrixNd::Zero((size_t)model_fixed->dof_count, (size_t)model_fixed->dof_count);
+        Tau_fixed = VectorNd::Constant((size_t)model_fixed->dof_count, 0.);
+        C_fixed = VectorNd::Zero((size_t)model_fixed->dof_count);
+        H_fixed = MatrixNd::Zero((size_t)model_fixed->dof_count, (size_t)model_fixed->dof_count);
 
-        point_position     = Vector3d::Zero(3);
+        point_position = Vector3d::Zero(3);
         point_acceleration = Vector3d::Zero(3);
 
         ref_body_id = 0;
@@ -446,7 +446,7 @@ struct FixedAndMovableJoint
     unsigned int body_a_id, body_b_id, body_c_id, ref_body_id;
     unsigned int body_a_fixed_id, body_b_fixed_id, body_c_fixed_id;
 
-    RigidBodyDynamics::Body  body_a, body_b, body_c;
+    RigidBodyDynamics::Body body_a, body_b, body_c;
     RigidBodyDynamics::Joint joint_a, joint_b, joint_c;
 
     RigidBodyDynamics::Math::VectorNd Q;
@@ -488,12 +488,12 @@ struct RotZRotZYXFixed
         Body body_fixed(10., RigidBodyDynamics::Math::Vector3d(1., 0.4, 0.4),
                         RigidBodyDynamics::Math::Vector3d(1., 1., 1.));
 
-        fixture_transform_a     = Xtrans(RigidBodyDynamics::Math::Vector3d(1., 2., 3.));
-        fixture_transform_b     = Xtrans(RigidBodyDynamics::Math::Vector3d(4., 5., 6.));
+        fixture_transform_a = Xtrans(RigidBodyDynamics::Math::Vector3d(1., 2., 3.));
+        fixture_transform_b = Xtrans(RigidBodyDynamics::Math::Vector3d(4., 5., 6.));
         fixture_transform_fixed = Xtrans(RigidBodyDynamics::Math::Vector3d(-1., -2., -3.));
 
-        body_a_id     = model->AddBody(0, fixture_transform_a, joint_rot_z, body_a);
-        body_b_id     = model->AppendBody(fixture_transform_b, joint_rot_zyx, body_b);
+        body_a_id = model->AddBody(0, fixture_transform_a, joint_rot_z, body_a);
+        body_b_id = model->AppendBody(fixture_transform_b, joint_rot_zyx, body_b);
         body_fixed_id = model->AppendBody(fixture_transform_fixed, Joint(JointTypeFixed), body_fixed);
 
         ClearLogOutput();
@@ -545,10 +545,10 @@ struct TwoArms12DoF
         left_upper_arm = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.3)), joint_zyx, body_upper, "LeftUpper");
         //		model->AppendBody (Xtrans (Vector3d (0., -0.4, 0.)), joint_zyx, body_lower, "LeftLower");
 
-        q     = VectorNd::Constant((size_t)model->dof_count, 0.);
-        qdot  = VectorNd::Constant((size_t)model->dof_count, 0.);
+        q = VectorNd::Constant((size_t)model->dof_count, 0.);
+        qdot = VectorNd::Constant((size_t)model->dof_count, 0.);
         qddot = VectorNd::Constant((size_t)model->dof_count, 0.);
-        tau   = VectorNd::Constant((size_t)model->dof_count, 0.);
+        tau = VectorNd::Constant((size_t)model->dof_count, 0.);
 
         ClearLogOutput();
     }
@@ -592,7 +592,7 @@ struct FixedBase6DoF12DoFFloatingBase
          */
 
         // base body (3 DoF)
-        base    = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
+        base = Body(1., Vector3d(0.5, 0., 0.), Vector3d(1., 1., 1.));
         base_id = model->AddBody(0, SpatialTransform(),
                                  Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.),
                                        SpatialVector(0., 0., 0., 0., 0., 1.), SpatialVector(0., 0., 1., 0., 0., 0.),
@@ -600,23 +600,23 @@ struct FixedBase6DoF12DoFFloatingBase
                                  base);
 
         // child body 1 (3 DoF)
-        child        = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         joint_rotzyx = Joint(SpatialVector(0., 0., 1., 0., 0., 0.), SpatialVector(0., 1., 0., 0., 0., 0.),
                              SpatialVector(1., 0., 0., 0., 0., 0.));
-        child_id     = model->AddBody(base_id, Xtrans(Vector3d(1., 0., 0.)), joint_rotzyx, child);
+        child_id = model->AddBody(base_id, Xtrans(Vector3d(1., 0., 0.)), joint_rotzyx, child);
 
         // child body (3 DoF)
-        child_2    = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
+        child_2 = Body(1., Vector3d(0., 0.5, 0.), Vector3d(1., 1., 1.));
         child_2_id = model->AddBody(child_id, Xtrans(Vector3d(1., 0., 0.)), joint_rotzyx, child_2);
 
-        Q     = VectorNd::Constant(model->dof_count, 0.);
-        QDot  = VectorNd::Constant(model->dof_count, 0.);
+        Q = VectorNd::Constant(model->dof_count, 0.);
+        QDot = VectorNd::Constant(model->dof_count, 0.);
         QDDot = VectorNd::Constant(model->dof_count, 0.);
-        Tau   = VectorNd::Constant(model->dof_count, 0.);
+        Tau = VectorNd::Constant(model->dof_count, 0.);
 
         contact_body_id = child_id;
-        contact_point   = Vector3d(0.5, 0.5, 0.);
-        contact_normal  = Vector3d(0., 1., 0.);
+        contact_point = Vector3d(0.5, 0.5, 0.);
+        contact_normal = Vector3d(0., 1., 0.);
 
         ClearLogOutput();
     }
@@ -638,10 +638,10 @@ struct FixedBase6DoF12DoFFloatingBase
     RigidBodyDynamics::Math::VectorNd QDDot;
     RigidBodyDynamics::Math::VectorNd Tau;
 
-    unsigned int                      contact_body_id;
+    unsigned int contact_body_id;
     RigidBodyDynamics::Math::Vector3d contact_point;
     RigidBodyDynamics::Math::Vector3d contact_normal;
-    RigidBodyDynamics::ConstraintSet  constraint_set;
+    RigidBodyDynamics::ConstraintSet constraint_set;
 };
 
 struct LinearInvertedPendulumModel
@@ -667,15 +667,15 @@ struct LinearInvertedPendulumModel
 
         // point mass
         point_mass_body = Body(1., Vector3d(0., 0., 0.), Vector3d(0., 0., 0.));
-        joint_trans_xy  = Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.));
-        point_mass_id   = model->AddBody(0, Xtrans(Vector3d(0., 0., 1.)), joint_trans_xy, point_mass_body);
+        joint_trans_xy = Joint(SpatialVector(0., 0., 0., 1., 0., 0.), SpatialVector(0., 0., 0., 0., 1., 0.));
+        point_mass_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 1.)), joint_trans_xy, point_mass_body);
 
-        Q     = VectorNd::Constant(model->dof_count, 0.);
-        QDot  = VectorNd::Constant(model->dof_count, 0.);
+        Q = VectorNd::Constant(model->dof_count, 0.);
+        QDot = VectorNd::Constant(model->dof_count, 0.);
         QDDot = VectorNd::Constant(model->dof_count, 0.);
-        Tau   = VectorNd::Constant(model->dof_count, 0.);
+        Tau = VectorNd::Constant(model->dof_count, 0.);
 
-        contact_point  = Vector3d(0.0, 0.0, 0.);
+        contact_point = Vector3d(0.0, 0.0, 0.);
         contact_normal = Vector3d(0., 0., 1.);
 
         ClearLogOutput();

@@ -32,11 +32,11 @@ struct FourBarLinkage
           idB5(0), X_p(Xtrans(Vector3d(l2, 0., 0.))), X_s(Xtrans(Vector3d(0., 0., 0.)))
     {
 
-        Body     link1         = Body(m1, Vector3d(0.5 * l1, 0., 0.), Vector3d(0., 0., m1 * l1 * l1 / 3.));
-        Body     link2         = Body(m2, Vector3d(0.5 * l2, 0., 0.), Vector3d(0., 0., m2 * l2 * l2 / 3.));
+        Body link1 = Body(m1, Vector3d(0.5 * l1, 0., 0.), Vector3d(0., 0., m1 * l1 * l1 / 3.));
+        Body link2 = Body(m2, Vector3d(0.5 * l2, 0., 0.), Vector3d(0., 0., m2 * l2 * l2 / 3.));
         Vector3d vector3d_zero = Vector3d::Zero();
-        Body     virtual_body(0., vector3d_zero, vector3d_zero);
-        Joint    joint_rev_z(JointTypeRevoluteZ);
+        Body virtual_body(0., vector3d_zero, vector3d_zero);
+        Joint joint_rev_z(JointTypeRevoluteZ);
 
         idB1 = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rev_z, link1);
         idB2 = model.AddBody(idB1, Xtrans(Vector3d(l1, 0., 0.)), joint_rev_z, link2);
@@ -44,7 +44,7 @@ struct FourBarLinkage
         idB4 = model.AddBody(idB3, Xtrans(Vector3d(l1, 0., 0.)), joint_rev_z, link2);
         idB5 = model.AddBody(idB4, Xtrans(Vector3d(l2, 0., 0.)), joint_rev_z, virtual_body);
 
-        bool         bgStab        = true;
+        bool bgStab = true;
         unsigned int userDefinedId = 7;
         cs.AddLoopConstraint(idB2, idB5, X_p, X_s, SpatialVector(0, 0, 0, 1, 0, 0), bgStab, 0.1, "LoopXY_Rz",
                              userDefinedId);
@@ -56,13 +56,13 @@ struct FourBarLinkage
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
 
     VectorNd q;
@@ -93,12 +93,12 @@ struct FloatingFourBarLinkage
           idB4(0), idB5(0), X_p(Xtrans(Vector3d(l2, 0., 0.))), X_s(Xtrans(Vector3d(0., 0., 0.)))
     {
 
-        link1                  = Body(m1, Vector3d(0.5 * l1, 0., 0.), Vector3d(0., 0., m1 * l1 * l1 / 3.));
-        link2                  = Body(m2, Vector3d(0.5 * l2, 0., 0.), Vector3d(0., 0., m2 * l2 * l2 / 3.));
+        link1 = Body(m1, Vector3d(0.5 * l1, 0., 0.), Vector3d(0., 0., m1 * l1 * l1 / 3.));
+        link2 = Body(m2, Vector3d(0.5 * l2, 0., 0.), Vector3d(0., 0., m2 * l2 * l2 / 3.));
         Vector3d vector3d_zero = Vector3d::Zero();
-        Body     virtual_body(0., vector3d_zero, vector3d_zero);
-        Joint    joint_trans(JointTypeTranslationXYZ);
-        Joint    joint_rev_z(JointTypeRevoluteZ);
+        Body virtual_body(0., vector3d_zero, vector3d_zero);
+        Joint joint_trans(JointTypeTranslationXYZ);
+        Joint joint_rev_z(JointTypeRevoluteZ);
 
         idB0 = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_trans, virtual_body);
         idB1 = model.AddBody(idB0, Xtrans(Vector3d(0., 0., 0.)), joint_rev_z, link1);
@@ -121,13 +121,13 @@ struct FloatingFourBarLinkage
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
 
     Body link1, link2;
@@ -159,11 +159,11 @@ struct SliderCrank3D
     SliderCrank3D() : model(), cs(), q(), qd(), id_p(0), id_s(0), X_p(), X_s()
     {
 
-        double slider_mass        = 5.;
-        double slider_height      = 0.1;
-        double crank_link1_mass   = 3.;
+        double slider_mass = 5.;
+        double slider_height = 0.1;
+        double crank_link1_mass = 3.;
         double crank_link1_length = 1.;
-        double crank_link2_mass   = 1.;
+        double crank_link2_mass = 1.;
         double crank_link2_radius = 0.2;
         double crank_link2_length = 3.;
         double crank_link1_height = crank_link2_length - crank_link1_length + slider_height;
@@ -184,7 +184,7 @@ struct SliderCrank3D
         Joint joint_sphere(JointTypeEulerZYX);
         Joint joint_prs_x(SpatialVector(0., 0., 0., 1., 0., 0.));
 
-        id_p               = model.AddBody(0, SpatialTransform(), joint_prs_x, slider);
+        id_p = model.AddBody(0, SpatialTransform(), joint_prs_x, slider);
         unsigned int id_b1 = model.AddBody(0, Xroty(-0.5 * M_PI) * Xtrans(Vector3d(0., 0., crank_link1_height)),
                                            joint_rev_z, crankLink1);
         id_s =
@@ -203,8 +203,8 @@ struct SliderCrank3D
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.dof_count);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.dof_count);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
 
@@ -223,7 +223,7 @@ struct SliderCrank3D
                     .norm() < TEST_PREC);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
 
     VectorNd q;
@@ -231,8 +231,8 @@ struct SliderCrank3D
     VectorNd qdd;
     VectorNd tau;
 
-    unsigned int     id_p;
-    unsigned int     id_s;
+    unsigned int id_p;
+    unsigned int id_s;
     SpatialTransform X_p;
     SpatialTransform X_s;
 };
@@ -243,11 +243,11 @@ struct SliderCrank3DSphericalJoint
     SliderCrank3DSphericalJoint() : model(), cs(), q(), qd(), id_p(0), id_s(0), X_p(), X_s()
     {
 
-        double slider_mass        = 5.;
-        double slider_height      = 0.1;
-        double crank_link1_mass   = 3.;
+        double slider_mass = 5.;
+        double slider_height = 0.1;
+        double crank_link1_mass = 3.;
         double crank_link1_length = 1.;
-        double crank_link2_mass   = 1.;
+        double crank_link2_mass = 1.;
         double crank_link2_radius = 0.2;
         double crank_link2_length = 3.;
         double crank_link1_height = crank_link2_length - crank_link1_length + slider_height;
@@ -268,7 +268,7 @@ struct SliderCrank3DSphericalJoint
         Joint joint_sphere(JointTypeSpherical);
         Joint joint_prs_x(SpatialVector(0., 0., 0., 1., 0., 0.));
 
-        id_p               = model.AddBody(0, SpatialTransform(), joint_prs_x, slider);
+        id_p = model.AddBody(0, SpatialTransform(), joint_prs_x, slider);
         unsigned int id_b1 = model.AddBody(0, Xroty(-0.5 * M_PI) * Xtrans(Vector3d(0., 0., crank_link1_height)),
                                            joint_rev_z, crankLink1);
         id_s =
@@ -288,8 +288,8 @@ struct SliderCrank3DSphericalJoint
 
         cs.Bind(model);
 
-        q   = VectorNd::Zero(model.q_size);
-        qd  = VectorNd::Zero(model.dof_count);
+        q = VectorNd::Zero(model.q_size);
+        qd = VectorNd::Zero(model.dof_count);
         qdd = VectorNd::Zero(model.dof_count);
         tau = VectorNd::Zero(model.dof_count);
 
@@ -308,7 +308,7 @@ struct SliderCrank3DSphericalJoint
                     .norm() < TEST_PREC);
     }
 
-    Model         model;
+    Model model;
     ConstraintSet cs;
 
     VectorNd q;
@@ -316,8 +316,8 @@ struct SliderCrank3DSphericalJoint
     VectorNd qdd;
     VectorNd tau;
 
-    unsigned int     id_p;
-    unsigned int     id_s;
+    unsigned int id_p;
+    unsigned int id_s;
     SpatialTransform X_p;
     SpatialTransform X_s;
 };
@@ -350,44 +350,44 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsLoop", "")
     //    equivalent state as the pendulum modelled using joint
     //    coordinates. Next
 
-    double r010xErr  = 1.0;
+    double r010xErr = 1.0;
     double dr010xErr = 2.0;
 
     VectorNd qErr, qdErr;
 
-    dba.q[0]  = r010[0];
-    dba.q[1]  = r010[1];
-    dba.q[2]  = r010[2];
-    dba.q[3]  = dbj.q[0];
-    dba.q[4]  = 0;
-    dba.q[5]  = 0;
-    dba.q[6]  = r020[0];
-    dba.q[7]  = r020[1];
-    dba.q[8]  = r020[2];
-    dba.q[9]  = dbj.q[0];
+    dba.q[0] = r010[0];
+    dba.q[1] = r010[1];
+    dba.q[2] = r010[2];
+    dba.q[3] = dbj.q[0];
+    dba.q[4] = 0;
+    dba.q[5] = 0;
+    dba.q[6] = r020[0];
+    dba.q[7] = r020[1];
+    dba.q[8] = r020[2];
+    dba.q[9] = dbj.q[0];
     dba.q[10] = dbj.q[1];
     dba.q[11] = 0;
 
-    qErr     = dba.q;
+    qErr = dba.q;
     qErr[0] += r010xErr;
 
     dba.qd.setZero();
 
-    qdErr     = dba.qd;
+    qdErr = dba.qd;
     qdErr[0] += dr010xErr;
 
     dba.qdd.setZero();
 
-    dba.tau[0]  = 0.;         // tx
-    dba.tau[1]  = 0.;         // ty
-    dba.tau[2]  = 0.;         // tz
-    dba.tau[3]  = dbj.tau[0]; // rz
-    dba.tau[4]  = 0.;         // ry
-    dba.tau[5]  = 0.;         // rx
-    dba.tau[6]  = 0.;         // tx
-    dba.tau[7]  = 0.;         // ty
-    dba.tau[8]  = 0.;         // tz
-    dba.tau[9]  = 0.;         // rz
+    dba.tau[0] = 0.;          // tx
+    dba.tau[1] = 0.;          // ty
+    dba.tau[2] = 0.;          // tz
+    dba.tau[3] = dbj.tau[0];  // rz
+    dba.tau[4] = 0.;          // ry
+    dba.tau[5] = 0.;          // rx
+    dba.tau[6] = 0.;          // tx
+    dba.tau[7] = 0.;          // ty
+    dba.tau[8] = 0.;          // tz
+    dba.tau[9] = 0.;          // rz
     dba.tau[10] = dbj.tau[1]; // ry
     dba.tau[11] = 0.;         // rx
 
@@ -518,9 +518,9 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsLoop", "")
 
     unsigned int idxRyLink1 = dba.cs.getGroupIndexByName("RyLink1");
 
-    std::vector<unsigned int>     bodyIds;
+    std::vector<unsigned int> bodyIds;
     std::vector<SpatialTransform> bodyFrames;
-    std::vector<SpatialVector>    conForces;
+    std::vector<SpatialVector> conForces;
 
     // Run the tests when the wrenches are resolved in the frame of
     // the local coordinates
@@ -539,7 +539,7 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsLoop", "")
     fp = dba.m2 * dba.model.gravity;
 
     Matrix3d r2C0x = Matrix3d(0, -r2C0[2], r2C0[1], r2C0[2], 0, -r2C0[0], -r2C0[1], r2C0[0], 0);
-    tp             = r2C0x * fp;
+    tp = r2C0x * fp;
 
     // This is the total wrench applied to link 2 to hold it static.
     // We need to subtract off the generalized torque applied to it
@@ -553,9 +553,9 @@ TEST_CASE(__FILE__ "_TestExtendedConstraintFunctionsLoop", "")
     Matrix3d Ep0 = CalcBodyWorldOrientation(dba.model, dba.q, dba.idB1).transpose() * bodyFrames[0].E;
     Matrix3d Es0 = CalcBodyWorldOrientation(dba.model, dba.q, dba.idB2).transpose() * bodyFrames[1].E;
 
-    fpP.block(0, 0, 3, 1)  = Ep0.transpose() * fp0.block(0, 0, 3, 1);
-    fpP.block(3, 0, 3, 1)  = Ep0.transpose() * fp0.block(3, 0, 3, 1);
-    fpP[1]                += dba.tau[10];
+    fpP.block(0, 0, 3, 1) = Ep0.transpose() * fp0.block(0, 0, 3, 1);
+    fpP.block(3, 0, 3, 1) = Ep0.transpose() * fp0.block(3, 0, 3, 1);
+    fpP[1] += dba.tau[10];
 
     fp0.block(0, 0, 3, 1) = Ep0 * fpP.block(0, 0, 3, 1);
     fp0.block(3, 0, 3, 1) = Ep0 * fpP.block(3, 0, 3, 1);
@@ -653,12 +653,12 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageConstraintErrors",
     Vector3d pos2;
     Vector3d posErr;
     Matrix3d rot_p;
-    double   angleErr;
+    double angleErr;
 
     unsigned int loopIndex = cs.getGroupIndexByName("LoopXY_Rz");
     CHECK(loopIndex == 0);
     unsigned int userDefinedId = 7;
-    loopIndex                  = cs.getGroupIndexById(userDefinedId);
+    loopIndex = cs.getGroupIndexById(userDefinedId);
     CHECK(loopIndex == 0);
     loopIndex = cs.getGroupIndexByAssignedId(0);
     CHECK(loopIndex == 0);
@@ -677,16 +677,16 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageConstraintErrors",
     CHECK_THAT(0., IsClose(err[2], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = M_PI * 3 / 4;
-    q[1]     = -M_PI;
-    q[2]     = M_PI - q[0];
-    q[3]     = -q[1];
-    q[4]     = 0.;
+    q[0] = M_PI * 3 / 4;
+    q[1] = -M_PI;
+    q[2] = M_PI - q[0];
+    q[3] = -q[1];
+    q[4] = 0.;
     angleErr = sin(-0.5 * M_PI);
 
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     REQUIRE(std::fabs(posErr[1]) < TEST_PREC);
@@ -699,16 +699,16 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageConstraintErrors",
     CHECK_THAT(angleErr, IsClose(err[2], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = 0.;
-    q[1]     = 0.;
-    q[2]     = M_PI + 0.1;
-    q[3]     = 0.;
-    q[4]     = 0.;
+    q[0] = 0.;
+    q[1] = 0.;
+    q[2] = M_PI + 0.1;
+    q[3] = 0.;
+    q[4] = 0.;
     angleErr = sin(-q[0] - q[1] + q[2] + q[3] + q[4]);
 
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     CalcConstraintsPositionError(model, q, cs, err);
@@ -718,16 +718,16 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageConstraintErrors",
     CHECK_THAT(angleErr, IsClose(err[2], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = 0.8;
-    q[1]     = -0.4;
-    q[2]     = M_PI - q[0];
-    q[3]     = -q[1];
-    q[4]     = 0.;
+    q[0] = 0.8;
+    q[1] = -0.4;
+    q[2] = M_PI - q[0];
+    q[3] = -q[1];
+    q[4] = 0.;
     angleErr = sin(-q[0] - q[1] + q[2] + q[3] + q[4]);
 
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     CalcConstraintsPositionError(model, q, cs, err);
@@ -872,18 +872,18 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageQAssembly", "")
     weights[4] = 0.;
 
     VectorNd qRef = VectorNd::Zero(q.size());
-    qRef[0]       = M_PI * 3 / 4;
-    qRef[1]       = -0.5 * M_PI;
-    qRef[2]       = M_PI - qRef[0];
-    qRef[3]       = -qRef[1];
-    qRef[4]       = qRef[0] + qRef[1] - qRef[2] - qRef[3];
+    qRef[0] = M_PI * 3 / 4;
+    qRef[1] = -0.5 * M_PI;
+    qRef[2] = M_PI - qRef[0];
+    qRef[3] = -qRef[1];
+    qRef[4] = qRef[0] + qRef[1] - qRef[2] - qRef[3];
     REQUIRE(qRef[0] + qRef[1] - qRef[2] - qRef[3] - qRef[4] == 0.);
 
     bool success;
 
     // Feasible initial guess.
     VectorNd qInit = VectorNd::Zero(q.size());
-    qInit          = qRef;
+    qInit = qRef;
 
     success = CalcAssemblyQ(model, qInit, cs, q, weights, 1.e-12);
     CalcConstraintsPositionError(model, q, cs, err);
@@ -971,11 +971,11 @@ TEST_CASE_METHOD(FourBarLinkage, __FILE__ "_TestFourBarLinkageQDotAssembly", "")
         TEST_PREC);
 
     VectorNd qdInit = VectorNd::Zero(q.size());
-    qdInit[0]       = 0.01;
-    qdInit[1]       = 0.5;
-    qdInit[2]       = -0.7;
-    qdInit[3]       = -0.5;
-    qdInit[4]       = 0.3;
+    qdInit[0] = 0.01;
+    qdInit[1] = 0.5;
+    qdInit[2] = -0.7;
+    qdInit[3] = -0.5;
+    qdInit[4] = 0.3;
 
     CalcAssemblyQDot(model, q, qdInit, cs, qd, weights);
     MatrixNd G(MatrixNd::Zero(cs.size(), q.size()));
@@ -1152,15 +1152,15 @@ TEST_CASE_METHOD(SliderCrank3D, __FILE__ "_TestSliderCrank3DConstraintErrors", "
 
     CalcConstraintsPositionError(model, q, cs, err);
 
-    pos_p  = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
-    pos_s  = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
-    rot_s  = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
+    pos_p = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
+    pos_s = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
+    rot_s = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
     rot_ps = rot_p.transpose() * rot_s;
     rotationVec =
         -0.5 * Vector3d(rot_ps(1, 2) - rot_ps(2, 1), rot_ps(2, 0) - rot_ps(0, 2), rot_ps(0, 1) - rot_ps(1, 0));
     errRef.block<3, 1>(0, 0) = pos_s - pos_p;
-    errRef[3]                = rotationVec[2];
+    errRef[3] = rotationVec[2];
 
     CHECK_THAT(errRef, AllCloseVector(err, TEST_PREC, TEST_PREC));
 }
@@ -1187,7 +1187,7 @@ TEST_CASE_METHOD(SliderCrank3D, __FILE__ "_TestSliderCrank3DConstraintsVelocityE
     MatrixNd G(cs.size(), model.dof_count);
     VectorNd qWeights(q.size());
     VectorNd qInit(q.size());
-    bool     success;
+    bool success;
 
     // Compute assembled configuration.
     qWeights[0] = 1.;
@@ -1245,11 +1245,11 @@ TEST_CASE_METHOD(SliderCrank3D, __FILE__ "_TestSliderCrank3DAssemblyQ", "")
     qInit[4] = 0.1;
 
     success = CalcAssemblyQ(model, qInit, cs, q, weights, TEST_PREC);
-    pos_p   = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
-    pos_s   = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
-    rot_p   = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
-    rot_s   = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
-    rot_ps  = rot_p.transpose() * rot_s;
+    pos_p = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
+    pos_s = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
+    rot_s = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
+    rot_ps = rot_p.transpose() * rot_s;
 
     CHECK(success);
     CHECK_THAT(pos_p, AllCloseVector(pos_s, TEST_PREC, TEST_PREC));
@@ -1509,7 +1509,7 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageCo
     Vector3d pos2;
     Vector3d posErr;
     Matrix3d rot_p;
-    double   angleErr;
+    double angleErr;
 
     // Test in zero position.
     q[0] = 0.;
@@ -1531,20 +1531,20 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageCo
     CHECK_THAT(0., IsClose(err[5], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = 1.;
-    q[1]     = 2.;
-    q[2]     = 3.;
-    q[3]     = M_PI * 3 / 4;
-    q[4]     = -M_PI;
-    q[5]     = M_PI - q[3];
-    q[6]     = -q[4];
-    q[7]     = 0.;
+    q[0] = 1.;
+    q[1] = 2.;
+    q[2] = 3.;
+    q[3] = M_PI * 3 / 4;
+    q[4] = -M_PI;
+    q[5] = M_PI - q[3];
+    q[6] = -q[4];
+    q[7] = 0.;
     angleErr = sin(-0.5 * M_PI);
 
-    pos0   = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos0 = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     REQUIRE(std::fabs(posErr[1]) < TEST_PREC);
@@ -1558,20 +1558,20 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageCo
     CHECK_THAT(angleErr, IsClose(err[5], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = 1.;
-    q[1]     = 2.;
-    q[2]     = 3.;
-    q[3]     = 0.;
-    q[4]     = 0.;
-    q[5]     = M_PI + 0.1;
-    q[6]     = 0.;
-    q[7]     = 0.;
+    q[0] = 1.;
+    q[1] = 2.;
+    q[2] = 3.;
+    q[3] = 0.;
+    q[4] = 0.;
+    q[5] = M_PI + 0.1;
+    q[6] = 0.;
+    q[7] = 0.;
     angleErr = sin(-q[3] - q[4] + q[5] + q[6] + q[7]);
 
-    pos0   = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos0 = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     CalcConstraintsPositionError(model, q, cs, err);
@@ -1582,20 +1582,20 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageCo
     CHECK_THAT(angleErr, IsClose(err[5], TEST_PREC, TEST_PREC));
 
     // Test in non-zero position.
-    q[0]     = 1.;
-    q[1]     = 2.;
-    q[2]     = 3.;
-    q[3]     = 0.8;
-    q[4]     = -0.4;
-    q[5]     = M_PI - q[3];
-    q[6]     = -q[4];
-    q[7]     = 0.;
+    q[0] = 1.;
+    q[1] = 2.;
+    q[2] = 3.;
+    q[3] = 0.8;
+    q[4] = -0.4;
+    q[5] = M_PI - q[3];
+    q[6] = -q[4];
+    q[7] = 0.;
     angleErr = sin(-q[3] - q[4] + q[5] + q[6] + q[7]);
 
-    pos0   = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
-    pos1   = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
-    pos2   = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
+    pos0 = CalcBodyToBaseCoordinates(model, q, idB0, Vector3d::Zero());
+    pos1 = CalcBodyToBaseCoordinates(model, q, idB2, X_p.r);
+    pos2 = CalcBodyToBaseCoordinates(model, q, idB5, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, idB2).transpose() * X_p.E;
     posErr = rot_p.transpose() * (pos2 - pos1);
 
     CalcConstraintsPositionError(model, q, cs, err);
@@ -1772,14 +1772,14 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageQA
     weights[7] = 0.;
 
     VectorNd qRef = VectorNd::Zero(q.size());
-    qRef[0]       = 1.;
-    qRef[1]       = 2.;
-    qRef[2]       = 3.;
-    qRef[3]       = M_PI * 3 / 4;
-    qRef[4]       = -0.5 * M_PI;
-    qRef[5]       = M_PI - qRef[3];
-    qRef[6]       = -qRef[4];
-    qRef[7]       = qRef[3] + qRef[4] - qRef[5] - qRef[6];
+    qRef[0] = 1.;
+    qRef[1] = 2.;
+    qRef[2] = 3.;
+    qRef[3] = M_PI * 3 / 4;
+    qRef[4] = -0.5 * M_PI;
+    qRef[5] = M_PI - qRef[3];
+    qRef[6] = -qRef[4];
+    qRef[7] = qRef[3] + qRef[4] - qRef[5] - qRef[6];
 
     REQUIRE(qRef[3] + qRef[4] - qRef[5] - qRef[6] - qRef[7] == 0.);
     REQUIRE((CalcBodyToBaseCoordinates(model, qRef, idB2, X_p.r) - CalcBodyToBaseCoordinates(model, qRef, idB5, X_s.r))
@@ -1789,7 +1789,7 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageQA
 
     // Feasible initial guess.
     VectorNd qInit = VectorNd::Zero(q.size());
-    qInit          = qRef;
+    qInit = qRef;
 
     success = CalcAssemblyQ(model, qInit, cs, q, weights, 1.e-12);
     CalcConstraintsPositionError(model, q, cs, err);
@@ -1884,14 +1884,14 @@ TEST_CASE_METHOD(FloatingFourBarLinkage, __FILE__ "_TestFloatingFourBarLinkageQD
         TEST_PREC);
 
     VectorNd qdInit = VectorNd::Zero(q.size());
-    qdInit[0]       = 1.;
-    qdInit[1]       = 2.;
-    qdInit[2]       = 3.;
-    qdInit[3]       = 0.01;
-    qdInit[4]       = 0.5;
-    qdInit[5]       = -0.7;
-    qdInit[6]       = -0.5;
-    qdInit[7]       = 0.3;
+    qdInit[0] = 1.;
+    qdInit[1] = 2.;
+    qdInit[2] = 3.;
+    qdInit[3] = 0.01;
+    qdInit[4] = 0.5;
+    qdInit[5] = -0.7;
+    qdInit[6] = -0.5;
+    qdInit[7] = 0.3;
 
     CalcAssemblyQDot(model, q, qdInit, cs, qd, weights);
     MatrixNd G(MatrixNd::Zero(cs.size(), q.size()));
@@ -2076,21 +2076,21 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
 
     // Test in another configuration.
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.01, 0.01));
-    q[0]            = 0.4;
-    q[1]            = 0.25 * M_PI;
+    q[0] = 0.4;
+    q[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, q);
 
     CalcConstraintsPositionError(model, q, cs, err);
 
-    pos_p  = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
-    pos_s  = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
-    rot_p  = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
-    rot_s  = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
+    pos_p = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
+    pos_s = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
+    rot_s = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
     rot_ps = rot_p.transpose() * rot_s;
     rotationVec =
         -0.5 * Vector3d(rot_ps(1, 2) - rot_ps(2, 1), rot_ps(2, 0) - rot_ps(0, 2), rot_ps(0, 1) - rot_ps(1, 0));
     errRef.block<3, 1>(0, 0) = pos_s - pos_p;
-    errRef[3]                = rotationVec[2];
+    errRef[3] = rotationVec[2];
 
     CHECK_THAT(errRef, AllCloseVector(err, TEST_PREC, TEST_PREC));
 }
@@ -2117,7 +2117,7 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     MatrixNd G(cs.size(), model.dof_count);
     VectorNd qWeights(model.dof_count);
     VectorNd qInit(model.q_size);
-    bool     success;
+    bool success;
 
     // Compute assembled configuration.
     qWeights[0] = 1.;
@@ -2127,8 +2127,8 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     qWeights[4] = 1.;
 
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.1, 0.1));
-    qInit[0]        = 0.4;
-    qInit[1]        = 0.25 * M_PI;
+    qInit[0] = 0.4;
+    qInit[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, qInit);
 
     success = CalcAssemblyQ(model, qInit, cs, q, qWeights, 1e-14, 800);
@@ -2168,16 +2168,16 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     weights[4] = 1.;
 
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.1, 0.1));
-    qInit[0]        = 0.4;
-    qInit[1]        = 0.25 * M_PI;
+    qInit[0] = 0.4;
+    qInit[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, qInit);
 
     success = CalcAssemblyQ(model, qInit, cs, q, weights, 1e-14, 800);
-    pos_p   = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
-    pos_s   = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
-    rot_p   = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
-    rot_s   = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
-    rot_ps  = rot_p.transpose() * rot_s;
+    pos_p = CalcBodyToBaseCoordinates(model, q, id_p, X_p.r);
+    pos_s = CalcBodyToBaseCoordinates(model, q, id_s, X_s.r);
+    rot_p = CalcBodyWorldOrientation(model, q, id_p).transpose() * X_p.E;
+    rot_s = CalcBodyWorldOrientation(model, q, id_s).transpose() * X_s.E;
+    rot_ps = rot_p.transpose() * rot_s;
 
     CHECK(success);
     CHECK_THAT(pos_p, AllCloseVector(pos_s, TEST_PREC, TEST_PREC));
@@ -2203,8 +2203,8 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     qWeights[4] = 1.;
 
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.1, 0.1));
-    qInit[0]        = 0.4;
-    qInit[1]        = 0.25 * M_PI;
+    qInit[0] = 0.4;
+    qInit[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, qInit);
 
     qdWeights[0] = 1.;
@@ -2292,8 +2292,8 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     qWeights[4] = 1.;
 
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.1, 0.1));
-    qInit[0]        = 0.4;
-    qInit[1]        = 0.25 * M_PI;
+    qInit[0] = 0.4;
+    qInit[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, qInit);
 
     qdWeights[0] = 1.;
@@ -2375,8 +2375,8 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
     qWeights[4] = 1.;
 
     Quaternion quat = Quaternion::fromZYXAngles(Vector3d(-0.25 * M_PI, 0.1, 0.1));
-    qInit[0]        = 0.4;
-    qInit[1]        = 0.25 * M_PI;
+    qInit[0] = 0.4;
+    qInit[1] = 0.25 * M_PI;
     model.SetQuaternion(id_s, quat, qInit);
 
     bool success = CalcAssemblyQ(model, qInit, cs, q, qWeights, 1e-14, 800);
@@ -2430,14 +2430,14 @@ TEST_CASE_METHOD(SliderCrank3DSphericalJoint, __FILE__ "_TestSliderCrank3DSpheri
 TEST_CASE(__FILE__ "_ConstraintCorrectnessTest", "")
 {
     DoublePerpendicularPendulumAbsoluteCoordinates dba = DoublePerpendicularPendulumAbsoluteCoordinates();
-    DoublePerpendicularPendulumJointCoordinates    dbj = DoublePerpendicularPendulumJointCoordinates();
+    DoublePerpendicularPendulumJointCoordinates dbj = DoublePerpendicularPendulumJointCoordinates();
 
     // 1. Set the pendulum modeled using joint coordinates to a specific
     //     state and then compute the spatial acceleration of the body.
-    dbj.q[0]   = M_PI / 3.0; // About z0
-    dbj.q[1]   = M_PI / 6.0; // About y1
-    dbj.qd[0]  = M_PI;       // About z0
-    dbj.qd[1]  = M_PI / 2.0; // About y1
+    dbj.q[0] = M_PI / 3.0;  // About z0
+    dbj.q[1] = M_PI / 6.0;  // About y1
+    dbj.qd[0] = M_PI;       // About z0
+    dbj.qd[1] = M_PI / 2.0; // About y1
     dbj.tau[0] = 0.;
     dbj.tau[1] = 0.;
 
@@ -2462,29 +2462,29 @@ TEST_CASE(__FILE__ "_ConstraintCorrectnessTest", "")
     //    equivalent state as the pendulum modelled using joint
     //    coordinates.
 
-    dba.q[0]  = r010[0];
-    dba.q[1]  = r010[1];
-    dba.q[2]  = r010[2];
-    dba.q[3]  = dbj.q[0];
-    dba.q[4]  = 0;
-    dba.q[5]  = 0;
-    dba.q[6]  = r020[0];
-    dba.q[7]  = r020[1];
-    dba.q[8]  = r020[2];
-    dba.q[9]  = dbj.q[0];
+    dba.q[0] = r010[0];
+    dba.q[1] = r010[1];
+    dba.q[2] = r010[2];
+    dba.q[3] = dbj.q[0];
+    dba.q[4] = 0;
+    dba.q[5] = 0;
+    dba.q[6] = r020[0];
+    dba.q[7] = r020[1];
+    dba.q[8] = r020[2];
+    dba.q[9] = dbj.q[0];
     dba.q[10] = dbj.q[1];
     dba.q[11] = 0;
 
-    dba.qd[0]  = v010[3];
-    dba.qd[1]  = v010[4];
-    dba.qd[2]  = v010[5];
-    dba.qd[3]  = dbj.qd[0];
-    dba.qd[4]  = 0;
-    dba.qd[5]  = 0;
-    dba.qd[6]  = v020[3];
-    dba.qd[7]  = v020[4];
-    dba.qd[8]  = v020[5];
-    dba.qd[9]  = dbj.qd[0];
+    dba.qd[0] = v010[3];
+    dba.qd[1] = v010[4];
+    dba.qd[2] = v010[5];
+    dba.qd[3] = dbj.qd[0];
+    dba.qd[4] = 0;
+    dba.qd[5] = 0;
+    dba.qd[6] = v020[3];
+    dba.qd[7] = v020[4];
+    dba.qd[8] = v020[5];
+    dba.qd[9] = dbj.qd[0];
     dba.qd[10] = dbj.qd[1];
     dba.qd[11] = 0;
 

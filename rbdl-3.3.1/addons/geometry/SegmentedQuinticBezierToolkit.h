@@ -501,10 +501,10 @@ public:
       @endcode
 
     */
-    static double calcQuinticBezierCurveDerivDYDX(double                                   u,
+    static double calcQuinticBezierCurveDerivDYDX(double u,
                                                   const RigidBodyDynamics::Math::VectorNd &xpts,
                                                   const RigidBodyDynamics::Math::VectorNd &ypts,
-                                                  int                                      order);
+                                                  int order);
 
     /**
     Calculates the location of quintic Bezier curve control points to
@@ -738,7 +738,7 @@ private:
     */
     static void printMatrixToFile(const RigidBodyDynamics::Math::VectorNd &col0,
                                   const RigidBodyDynamics::Math::MatrixNd &data,
-                                  std::string                             &filename);
+                                  std::string &filename);
 
     /**
       @param curveFit a function that evaluates a curve
@@ -748,11 +748,11 @@ private:
       @param filename of the output file.
 
     */
-    static void printBezierSplineFitCurves(const Function_<double>           &curveFit,
+    static void printBezierSplineFitCurves(const Function_<double> &curveFit,
                                            RigidBodyDynamics::Math::MatrixNd &ctrlPts,
                                            RigidBodyDynamics::Math::VectorNd &xVal,
                                            RigidBodyDynamics::Math::VectorNd &yVal,
-                                           std::string                       &filename);
+                                           std::string &filename);
 
     /**
     This function will return a value that is equal to u, except when u is
@@ -779,16 +779,16 @@ private:
         inverse function of x(u), namely u(x)*/
         // std::vector< std::vector<double> > _aArraySplineUX;
         /**The initial value of the integral*/
-        double                            _initalValue;
+        double _initalValue;
         /**The tolerance to use when computing u. Solving u(x) can only be done
         numerically at the moment, first by getting a good guess (using the
         splines) and then using Newton's method to polish the value up. This
         is the tolerance that is used in the polishing stage*/
-        double                            _uTol;
+        double _uTol;
         /**The maximum number of interations allowed when evaluating u(x) using
         Newton's method. In practice the guesses are usually very close to the
         actual solution, so only 1-3 iterations are required.*/
-        int                               _uMaxIter;
+        int _uMaxIter;
         /**If this flag is true the function is integrated from its left most
         control point to its right most. If this flag is false, the function
         is integrated from its right most control point to its left most.*/

@@ -21,7 +21,7 @@ struct ModelFixture
     ModelFixture()
     {
         ClearLogOutput();
-        model          = new Model;
+        model = new Model;
         model->gravity = Vector3d(0., -9.81, 0.);
     }
     ~ModelFixture()
@@ -62,11 +62,11 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestInit", "")
 
 TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodyDimensions", "")
 {
-    Body  body;
+    Body body;
     Joint joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     unsigned int body_id = 0;
-    body_id              = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body);
+    body_id = model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body);
 
     CHECK(1u == body_id);
     CHECK(2u == model->lambda.size());
@@ -98,7 +98,7 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodyDimensions", "")
 
 TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestFloatingBodyDimensions", "")
 {
-    Body  body;
+    Body body;
     Joint float_base_joint(JointTypeFloatingBase);
 
     model->AppendBody(SpatialTransform(), float_base_joint, body);
@@ -134,7 +134,7 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestFloatingBodyDimensions", "")
  */
 TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodySpatialValues", "")
 {
-    Body  body;
+    Body body;
     Joint joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body);
@@ -147,7 +147,7 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodySpatialValues", "")
 
 TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodyTestBodyName", "")
 {
-    Body  body;
+    Body body;
     Joint joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint, body, "mybody");
@@ -160,12 +160,12 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestAddBodyTestBodyName", "")
 
 TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestjcalcSimple", "")
 {
-    Body  body;
+    Body body;
     Joint joint(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     model->AddBody(0, Xtrans(Vector3d(1., 0., 0.)), joint, body);
 
-    VectorNd Q    = VectorNd::Zero(model->q_size);
+    VectorNd Q = VectorNd::Zero(model->q_size);
     VectorNd QDot = VectorNd::Zero(model->q_size);
 
     QDot[0] = 1.;
@@ -179,7 +179,7 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestjcalcSimple", "")
     CHECK(SpatialVectorCompareEpsilon(test_vector, model->v_J[1], 1.0e-16));
     CHECK(test_joint_axis == model->S[1]);
 
-    Q[0]    = M_PI * 0.5;
+    Q[0] = M_PI * 0.5;
     QDot[0] = 1.;
 
     jcalc(*model, 1, Q, QDot);
@@ -202,17 +202,17 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestTransformBaseToLocal", "")
                              SpatialVector(0., 1., 0., 0., 0., 0.), SpatialVector(1., 0., 0., 0., 0., 0.)),
                        body);
 
-    VectorNd q     = VectorNd::Zero(model->dof_count);
-    VectorNd qdot  = VectorNd::Zero(model->dof_count);
+    VectorNd q = VectorNd::Zero(model->dof_count);
+    VectorNd qdot = VectorNd::Zero(model->dof_count);
     VectorNd qddot = VectorNd::Zero(model->dof_count);
-    VectorNd tau   = VectorNd::Zero(model->dof_count);
+    VectorNd tau = VectorNd::Zero(model->dof_count);
 
     Vector3d base_coords(0., 0., 0.);
     Vector3d body_coords;
     Vector3d base_coords_back;
 
     UpdateKinematics(*model, q, qdot, qddot);
-    body_coords      = CalcBaseToBodyCoordinates(*model, q, body_id, base_coords, false);
+    body_coords = CalcBaseToBodyCoordinates(*model, q, body_id, base_coords, false);
     base_coords_back = CalcBodyToBaseCoordinates(*model, q, body_id, body_coords, false);
 
     CHECK_THAT(base_coords, AllCloseVector(base_coords_back, TEST_PREC, TEST_PREC));
@@ -225,7 +225,7 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestTransformBaseToLocal", "")
     q[5] = -0.23;
 
     UpdateKinematics(*model, q, qdot, qddot);
-    body_coords      = CalcBaseToBodyCoordinates(*model, q, body_id, base_coords, false);
+    body_coords = CalcBaseToBodyCoordinates(*model, q, body_id, base_coords, false);
     base_coords_back = CalcBodyToBaseCoordinates(*model, q, body_id, body_coords, false);
 
     CHECK_THAT(base_coords, AllCloseVector(base_coords_back, TEST_PREC, TEST_PREC));
@@ -234,8 +234,8 @@ TEST_CASE_METHOD(ModelFixture, __FILE__ "_TestTransformBaseToLocal", "")
 TEST_CASE(__FILE__ "_Model2DoFJoint", "")
 {
     // the standard modeling using a null body
-    Body  null_body;
-    Body  body(1., Vector3d(1., 0.4, 0.4), Vector3d(1., 1., 1.));
+    Body null_body;
+    Body body(1., Vector3d(1., 0.4, 0.4), Vector3d(1., 1., 1.));
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
     Joint joint_rot_x(SpatialVector(1., 0., 0., 0., 0., 0.));
 
@@ -253,11 +253,11 @@ TEST_CASE(__FILE__ "_Model2DoFJoint", "")
 
     model_2.AddBody(0, Xtrans(Vector3d(1., 0., 0.)), joint_rot_zx, body);
 
-    VectorNd Q    = VectorNd::Zero(model_std.dof_count);
+    VectorNd Q = VectorNd::Zero(model_std.dof_count);
     VectorNd QDot = VectorNd::Zero(model_std.dof_count);
-    VectorNd Tau  = VectorNd::Zero(model_std.dof_count);
+    VectorNd Tau = VectorNd::Zero(model_std.dof_count);
 
-    VectorNd QDDot_2   = VectorNd::Zero(model_std.dof_count);
+    VectorNd QDDot_2 = VectorNd::Zero(model_std.dof_count);
     VectorNd QDDot_std = VectorNd::Zero(model_std.dof_count);
 
     ForwardDynamics(model_std, Q, QDot, Tau, QDDot_std);
@@ -303,11 +303,11 @@ TEST_CASE(__FILE__ "_Model3DoFJoint", "")
     body_id = model_2.AddBody(0, Xtrans(Vector3d(1., 0., 0.)), joint_rot_zyx, body);
     body_id = model_2.AddBody(body_id, Xtrans(Vector3d(1., 0., 0.)), joint_rot_zyx, body);
 
-    VectorNd Q    = VectorNd::Zero(model_std.dof_count);
+    VectorNd Q = VectorNd::Zero(model_std.dof_count);
     VectorNd QDot = VectorNd::Zero(model_std.dof_count);
-    VectorNd Tau  = VectorNd::Zero(model_std.dof_count);
+    VectorNd Tau = VectorNd::Zero(model_std.dof_count);
 
-    VectorNd QDDot_2   = VectorNd::Zero(model_std.dof_count);
+    VectorNd QDDot_2 = VectorNd::Zero(model_std.dof_count);
     VectorNd QDDot_std = VectorNd::Zero(model_std.dof_count);
 
     ForwardDynamics(model_std, Q, QDot, Tau, QDDot_std);
@@ -352,11 +352,11 @@ TEST_CASE(__FILE__ "_Model6DoFJoint", "")
     body_id = model_2.AddBody(0, Xtrans(Vector3d(1., 0., 0.)), joint_floating_base, body);
     body_id = model_2.AddBody(body_id, Xtrans(Vector3d(1., 0., 0.)), joint_rot_zyx, body);
 
-    VectorNd Q    = VectorNd::Zero(model_std.dof_count);
+    VectorNd Q = VectorNd::Zero(model_std.dof_count);
     VectorNd QDot = VectorNd::Zero(model_std.dof_count);
-    VectorNd Tau  = VectorNd::Zero(model_std.dof_count);
+    VectorNd Tau = VectorNd::Zero(model_std.dof_count);
 
-    VectorNd QDDot_2   = VectorNd::Zero(model_std.dof_count);
+    VectorNd QDDot_2 = VectorNd::Zero(model_std.dof_count);
     VectorNd QDDot_std = VectorNd::Zero(model_std.dof_count);
 
     assert(model_std.q_size == model_2.q_size);
@@ -400,7 +400,7 @@ TEST_CASE(__FILE__ "_ModelAppendToFixedBody", "")
 
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
 
-    unsigned int movable_body     = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
+    unsigned int movable_body = model.AddBody(0, Xtrans(Vector3d(0., 0., 0.)), joint_rot_z, body);
     unsigned int appended_body_id = model.AppendBody(Xtrans(Vector3d(0., 1., 0.)), joint_rot_z, body, "appended_body");
 
     CHECK(movable_body + 1 == appended_body_id);
@@ -412,10 +412,10 @@ TEST_CASE(__FILE__ "_ModelAppendFixedToFixedBody", "")
 {
     Body null_body;
 
-    double   movable_mass = 1.1;
+    double movable_mass = 1.1;
     Vector3d movable_com(1., 0.4, 0.4);
 
-    double   fixed_mass = 1.2;
+    double fixed_mass = 1.2;
     Vector3d fixed_com(1.1, 0.5, 0.5);
 
     Vector3d fixed_displacement(0., 1., 0.);
@@ -441,8 +441,8 @@ TEST_CASE(__FILE__ "_ModelAppendFixedToFixedBody", "")
     CHECK(movable_body == model.mFixedBodies[fixed_body_id - model.fixed_body_discriminator].mMovableParent);
     CHECK(movable_body == model.mFixedBodies[fixed_body_2_id - model.fixed_body_discriminator].mMovableParent);
 
-    double   new_mass = 3.5;
-    Vector3d new_com  = (1. / new_mass) * (movable_mass * movable_com + fixed_mass * (fixed_com + fixed_displacement) +
+    double new_mass = 3.5;
+    Vector3d new_com = (1. / new_mass) * (movable_mass * movable_com + fixed_mass * (fixed_com + fixed_displacement) +
                                           fixed_mass * (fixed_com + fixed_displacement * 2.));
 
     CHECK_THAT(new_com, AllCloseVector(model.mBodies[movable_body].mCenterOfMass, TEST_PREC, TEST_PREC));
@@ -462,14 +462,14 @@ TEST_CASE(__FILE__ "_ModelFixedJointRotationOrderTranslationRotation", "")
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
 
     SpatialTransform trans_x = Xtrans(Vector3d(1., 0., 0.));
-    SpatialTransform rot_z   = Xrotz(45. * M_PI / 180.);
+    SpatialTransform rot_z = Xrotz(45. * M_PI / 180.);
 
     model.AddBody(0, trans_x, joint_rot_z, body);
     model.AppendBody(rot_z, Joint(JointTypeFixed), fixed_body, "fixed_body");
     unsigned int body_after_fixed = model.AppendBody(trans_x, joint_rot_z, body);
 
     VectorNd Q(VectorNd::Zero(model.dof_count));
-    Q[0]           = 45 * M_PI / 180.;
+    Q[0] = 45 * M_PI / 180.;
     Vector3d point = CalcBodyToBaseCoordinates(model, Q, body_after_fixed, Vector3d(0., 1., 0.));
 
     CHECK_THAT(Vector3d(0., 1., 0.), AllCloseVector(point, TEST_PREC, TEST_PREC));
@@ -488,7 +488,7 @@ TEST_CASE(__FILE__ "_ModelFixedJointRotationOrderRotationTranslation", "")
 
     Joint joint_rot_z(SpatialVector(0., 0., 1., 0., 0., 0.));
 
-    SpatialTransform rot_z   = Xrotz(45. * M_PI / 180.);
+    SpatialTransform rot_z = Xrotz(45. * M_PI / 180.);
     SpatialTransform trans_x = Xtrans(Vector3d(1., 0., 0.));
 
     model.AddBody(0, rot_z, joint_rot_z, body);
@@ -496,7 +496,7 @@ TEST_CASE(__FILE__ "_ModelFixedJointRotationOrderRotationTranslation", "")
     unsigned int body_after_fixed = model.AppendBody(trans_x, joint_rot_z, body);
 
     VectorNd Q(VectorNd::Zero(model.dof_count));
-    Q[0]           = 45 * M_PI / 180.;
+    Q[0] = 45 * M_PI / 180.;
     Vector3d point = CalcBodyToBaseCoordinates(model, Q, body_after_fixed, Vector3d(0., 1., 0.));
 
     CHECK_THAT(Vector3d(-1., 2., 0.), AllCloseVector(point, TEST_PREC, TEST_PREC));
@@ -536,8 +536,8 @@ TEST_CASE_METHOD(RotZRotZYXFixed, __FILE__ "_ModelGetParentIdFixed", "")
 
 TEST_CASE_METHOD(RotZRotZYXFixed, __FILE__ "_ModelGetJointFrame", "")
 {
-    SpatialTransform transform_a    = model->GetJointFrame(body_a_id);
-    SpatialTransform transform_b    = model->GetJointFrame(body_b_id);
+    SpatialTransform transform_a = model->GetJointFrame(body_a_id);
+    SpatialTransform transform_b = model->GetJointFrame(body_b_id);
     SpatialTransform transform_root = model->GetJointFrame(0);
 
     CHECK_THAT(fixture_transform_a.r, AllCloseVector(transform_a.r, 0., 0.));
@@ -554,16 +554,16 @@ TEST_CASE_METHOD(RotZRotZYXFixed, __FILE__ "_ModelGetJointFrameFixed", "")
 
 TEST_CASE_METHOD(RotZRotZYXFixed, __FILE__ "_ModelSetJointFrame", "")
 {
-    SpatialTransform new_transform_a    = Xtrans(Vector3d(-1., -2., -3.));
-    SpatialTransform new_transform_b    = Xtrans(Vector3d(-4., -5., -6.));
+    SpatialTransform new_transform_a = Xtrans(Vector3d(-1., -2., -3.));
+    SpatialTransform new_transform_b = Xtrans(Vector3d(-4., -5., -6.));
     SpatialTransform new_transform_root = Xtrans(Vector3d(-99, -99., -99.));
 
     model->SetJointFrame(body_a_id, new_transform_a);
     model->SetJointFrame(body_b_id, new_transform_b);
     model->SetJointFrame(0, new_transform_root);
 
-    SpatialTransform transform_a    = model->GetJointFrame(body_a_id);
-    SpatialTransform transform_b    = model->GetJointFrame(body_b_id);
+    SpatialTransform transform_a = model->GetJointFrame(body_a_id);
+    SpatialTransform transform_b = model->GetJointFrame(body_b_id);
     SpatialTransform transform_root = model->GetJointFrame(0);
 
     CHECK_THAT(new_transform_a.r, AllCloseVector(transform_a.r, 0., 0.));
@@ -576,7 +576,7 @@ TEST_CASE(__FILE__ "_CalcBodyWorldOrientationFixedJoint", "")
     Model model_fixed;
     Model model_movable;
 
-    Body  body(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
+    Body body(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
     Joint joint_fixed(JointTypeFixed);
     Joint joint_rot_x = (SpatialVector(1., 0., 0., 0., 0., 0.));
 
@@ -589,7 +589,7 @@ TEST_CASE(__FILE__ "_CalcBodyWorldOrientationFixedJoint", "")
     VectorNd q_fixed(VectorNd::Zero(model_fixed.q_size));
     VectorNd q_movable(VectorNd::Zero(model_movable.q_size));
 
-    Matrix3d E_fixed   = CalcBodyWorldOrientation(model_fixed, q_fixed, body_id_fixed);
+    Matrix3d E_fixed = CalcBodyWorldOrientation(model_fixed, q_fixed, body_id_fixed);
     Matrix3d E_movable = CalcBodyWorldOrientation(model_movable, q_movable, body_id_movable);
 
     CHECK_THAT(E_movable, AllCloseMatrix(E_fixed, TEST_PREC, TEST_PREC));
@@ -599,7 +599,7 @@ TEST_CASE(__FILE__ "_TestAddFixedBodyToRoot", "")
 {
     Model model;
 
-    Body  body(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
+    Body body(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
     Joint joint_fixed(JointTypeFixed);
 
     // Add a fixed body
@@ -630,18 +630,18 @@ TEST_CASE(__FILE__ "_TestUpdateBodyInertiaParameters", "")
 {
     // create a model with a floating base and 2 revolute joints
     Model model;
-    Body  body_root;
+    Body body_root;
     Joint float_base_joint(JointTypeFloatingBase);
     model.AppendBody(SpatialTransform(), float_base_joint, body_root);
 
     // floating base joint type add 3 bodies
     CHECK(3 == model.mBodies.size());
 
-    Body               body1(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
+    Body body1(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
     const unsigned int id_body_1 = model.AppendBody(Xrotx(45 * M_PI / 180), JointTypeRevoluteX, body1, "body1");
-    Body               body2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
+    Body body2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
     const unsigned int id_body_2 = model.AppendBody(Xroty(90 * M_PI / 180), JointTypeRevoluteY, body2, "body2");
-    const Matrix3d     inertia_body_2_init(body2.mInertia);
+    const Matrix3d inertia_body_2_init(body2.mInertia);
     CHECK(5 == model.mBodies.size());
     CHECK(0 == model.mFixedBodies.size());
     CHECK(5 == model.Ic.size());
@@ -720,20 +720,20 @@ TEST_CASE(__FILE__ "_TestUpdateFixedBodyInertiaParameters", "")
 {
     // create a model with a floating base and 2 revolute joints
     Model model;
-    Body  body_root;
+    Body body_root;
     Joint float_base_joint(JointTypeFloatingBase);
     model.AppendBody(SpatialTransform(), float_base_joint, body_root);
 
     // floating base joint type add 3 bodies
     CHECK(3 == model.mBodies.size());
 
-    Body               body1(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
+    Body body1(1., Vector3d(1., 1., 1.), Vector3d(1., 1., 1.));
     const unsigned int id_body_1 = model.AppendBody(Xrotx(45 * M_PI / 180), JointTypeRevoluteX, body1, "body1");
-    Body               body2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
-    const Matrix3d     inertia_body_2_init(body2.mInertia);
+    Body body2(0.4, Vector3d(0.7, 1.2, 0.9), Vector3d(0.6, 0.7, 0.2));
+    const Matrix3d inertia_body_2_init(body2.mInertia);
     const unsigned int id_fixedbody_2 =
         model.AppendBody(Xtrans(Vector3d(0., 1., 0.)), Joint(JointTypeFixed), body2, "fixedbody2");
-    Body               body3(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
+    Body body3(0.7, Vector3d(1.1, 0.8, 1.6), Vector3d(1.5, 1.2, 1.3));
     const unsigned int id_fixedbody_3 =
         model.AppendBody(Xtrans(Vector3d(0., 0., 0.5)), Joint(JointTypeFixed), body3, "fixedbody3");
 
@@ -742,13 +742,13 @@ TEST_CASE(__FILE__ "_TestUpdateFixedBodyInertiaParameters", "")
     CHECK(4 == model.Ic.size());
     CHECK(4 == model.I.size());
 
-    const Body  &body1_merged(model.mBodies[id_body_1]);
+    const Body &body1_merged(model.mBodies[id_body_1]);
     const double init_total_mass = body1.mMass + body2.mMass + body3.mMass;
     CHECK(fabs(init_total_mass - body1_merged.mMass) < TEST_PREC);
     CHECK(fabs(init_total_mass - model.I[id_body_1].m) < TEST_PREC);
-    const Vector3d                      initial_com_body1_merged     = body1_merged.mCenterOfMass;
-    const Matrix3d                      initial_inertia_body1_merged = body1_merged.mInertia;
-    const Math::SpatialRigidBodyInertia initial_rbi_body1_merged     = model.I[id_body_1];
+    const Vector3d initial_com_body1_merged = body1_merged.mCenterOfMass;
+    const Matrix3d initial_inertia_body1_merged = body1_merged.mInertia;
+    const Math::SpatialRigidBodyInertia initial_rbi_body1_merged = model.I[id_body_1];
     // update mass of fixed body 2 and check that:
     // 1) the fixed body mass is updated
     // 2) the mass of the merged body 1 is updated
@@ -760,7 +760,7 @@ TEST_CASE(__FILE__ "_TestUpdateFixedBodyInertiaParameters", "")
     CHECK(fabs(total_mass - model.mBodies[id_body_1].mMass) < TEST_PREC);
     CHECK(fabs(total_mass - model.I[id_body_1].m) < TEST_PREC);
 
-    Vector3d com_body1_merged     = model.mBodies[id_body_1].mCenterOfMass;
+    Vector3d com_body1_merged = model.mBodies[id_body_1].mCenterOfMass;
     Matrix3d inertia_body1_merged = model.mBodies[id_body_1].mInertia;
 
     model.SetBodyCenterOfMass(id_fixedbody_2, Vector3d(1., 1., 1.));

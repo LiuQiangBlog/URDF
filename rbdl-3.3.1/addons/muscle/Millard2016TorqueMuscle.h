@@ -87,31 +87,31 @@ const static struct JointTorqueSet
 {
     enum item
     {
-        HipExtension                = 0,
-        HipFlexion                  = 1,
-        KneeExtension               = 2,
-        KneeFlexion                 = 3,
-        AnkleExtension              = 4,
-        AnkleFlexion                = 5,
-        ElbowExtension              = 6,
-        ElbowFlexion                = 7,
-        ShoulderExtension           = 8,
-        ShoulderFlexion             = 9,
-        WristExtension              = 10,
-        WristFlexion                = 11,
+        HipExtension = 0,
+        HipFlexion = 1,
+        KneeExtension = 2,
+        KneeFlexion = 3,
+        AnkleExtension = 4,
+        AnkleFlexion = 5,
+        ElbowExtension = 6,
+        ElbowFlexion = 7,
+        ShoulderExtension = 8,
+        ShoulderFlexion = 9,
+        WristExtension = 10,
+        WristFlexion = 11,
         ShoulderHorizontalAdduction = 12,
         ShoulderHorizontalAbduction = 13,
-        ShoulderInternalRotation    = 14,
-        ShoulderExternalRotation    = 15,
-        WristUlnarDeviation         = 16,
-        WristRadialDeviation        = 17,
-        WristPronation              = 18,
-        WristSupination             = 19,
-        LumbarExtension             = 20,
-        LumbarFlexion               = 21,
-        UnitExtensor                = 22,
-        UnitFlexor                  = 23,
-        Last                        = 24
+        ShoulderInternalRotation = 14,
+        ShoulderExternalRotation = 15,
+        WristUlnarDeviation = 16,
+        WristRadialDeviation = 17,
+        WristPronation = 18,
+        WristSupination = 19,
+        LumbarExtension = 20,
+        LumbarFlexion = 21,
+        UnitExtensor = 22,
+        UnitFlexor = 23,
+        Last = 24
     };
     const static char *names[];
     JointTorqueSet() {}
@@ -128,25 +128,25 @@ const static struct Anderson2007
 {
     enum Gender
     {
-        Male   = GenderSet::Male,
+        Male = GenderSet::Male,
         Female = GenderSet::Female,
         LastGender
     };
     enum AgeGroup
     {
-        Young18To25  = AgeGroupSet::Young18To25,
+        Young18To25 = AgeGroupSet::Young18To25,
         Middle55To65 = AgeGroupSet::Middle55To65,
         SeniorOver65 = AgeGroupSet::SeniorOver65,
         LastAgeGroup
     };
     enum JointTorque
     {
-        HipExtension   = JointTorqueSet::HipExtension,
-        HipFlexion     = JointTorqueSet::HipFlexion,
-        KneeExtension  = JointTorqueSet::KneeExtension,
-        KneeFlexion    = JointTorqueSet::KneeFlexion,
+        HipExtension = JointTorqueSet::HipExtension,
+        HipFlexion = JointTorqueSet::HipFlexion,
+        KneeExtension = JointTorqueSet::KneeExtension,
+        KneeFlexion = JointTorqueSet::KneeFlexion,
         AnkleExtension = JointTorqueSet::AnkleExtension,
-        AnkleFlexion   = JointTorqueSet::AnkleFlexion,
+        AnkleFlexion = JointTorqueSet::AnkleFlexion,
         LastJointTorque
     };
     const static char *GenderNames[];
@@ -192,30 +192,30 @@ const static struct Gymnast
 
     enum JointTorque
     {
-        HipExtension                = JointTorqueSet::HipExtension,
-        HipFlexion                  = JointTorqueSet::HipFlexion,
-        KneeExtension               = JointTorqueSet::KneeExtension,
-        KneeFlexion                 = JointTorqueSet::KneeFlexion,
-        AnkleExtension              = JointTorqueSet::AnkleExtension,
-        AnkleFlexion                = JointTorqueSet::AnkleFlexion,
-        ElbowExtension              = JointTorqueSet::ElbowExtension,
-        ElbowFlexion                = JointTorqueSet::ElbowFlexion,
-        ShoulderExtension           = JointTorqueSet::ShoulderExtension,
-        ShoulderFlexion             = JointTorqueSet::ShoulderFlexion,
-        WristExtension              = JointTorqueSet::WristExtension,
-        WristFlexion                = JointTorqueSet::WristFlexion,
+        HipExtension = JointTorqueSet::HipExtension,
+        HipFlexion = JointTorqueSet::HipFlexion,
+        KneeExtension = JointTorqueSet::KneeExtension,
+        KneeFlexion = JointTorqueSet::KneeFlexion,
+        AnkleExtension = JointTorqueSet::AnkleExtension,
+        AnkleFlexion = JointTorqueSet::AnkleFlexion,
+        ElbowExtension = JointTorqueSet::ElbowExtension,
+        ElbowFlexion = JointTorqueSet::ElbowFlexion,
+        ShoulderExtension = JointTorqueSet::ShoulderExtension,
+        ShoulderFlexion = JointTorqueSet::ShoulderFlexion,
+        WristExtension = JointTorqueSet::WristExtension,
+        WristFlexion = JointTorqueSet::WristFlexion,
         ShoulderHorizontalAdduction = JointTorqueSet::ShoulderHorizontalAdduction,
         ShoulderHorizontalAbduction = JointTorqueSet::ShoulderHorizontalAbduction,
-        ShoulderInternalRotation    = JointTorqueSet::ShoulderInternalRotation,
-        ShoulderExternalRotation    = JointTorqueSet::ShoulderExternalRotation,
-        WristUlnarDeviation         = JointTorqueSet::WristUlnarDeviation,
-        WristRadialDeviation        = JointTorqueSet::WristRadialDeviation,
-        WristPronation              = JointTorqueSet::WristPronation,
-        WristSupination             = JointTorqueSet::WristSupination,
-        LumbarExtension             = JointTorqueSet::LumbarExtension,
-        LumbarFlexion               = JointTorqueSet::LumbarFlexion,
-        UnitExtensor                = JointTorqueSet::UnitExtensor,
-        UnitFlexor                  = JointTorqueSet::UnitFlexor,
+        ShoulderInternalRotation = JointTorqueSet::ShoulderInternalRotation,
+        ShoulderExternalRotation = JointTorqueSet::ShoulderExternalRotation,
+        WristUlnarDeviation = JointTorqueSet::WristUlnarDeviation,
+        WristRadialDeviation = JointTorqueSet::WristRadialDeviation,
+        WristPronation = JointTorqueSet::WristPronation,
+        WristSupination = JointTorqueSet::WristSupination,
+        LumbarExtension = JointTorqueSet::LumbarExtension,
+        LumbarFlexion = JointTorqueSet::LumbarFlexion,
+        UnitExtensor = JointTorqueSet::UnitExtensor,
+        UnitFlexor = JointTorqueSet::UnitFlexor,
         LastJointTorque
     };
     const static char *GenderNames[];
@@ -253,10 +253,10 @@ const static struct Gymnast
 */
 struct SubjectInformation
 {
-    GenderSet::item   gender;
+    GenderSet::item gender;
     AgeGroupSet::item ageGroup;
-    double            heightInMeters;
-    double            massInKg;
+    double heightInMeters;
+    double massInKg;
 };
 
 struct TorqueMuscleSummary
@@ -1009,13 +1009,13 @@ public:
         -# abs(signOfJointTorque)-1 > epsilon
 
     */
-    Millard2016TorqueMuscle(DataSet::item             dataSet,
+    Millard2016TorqueMuscle(DataSet::item dataSet,
                             const SubjectInformation &subjectInfo,
-                            int                       jointTorque,
-                            double                    jointAngleOffsetRelativeToDoxygenFigures,
-                            double                    signOfJointAngleRelativeToDoxygenFigures,
-                            double                    signOfJointTorqueToDoxygenFigures,
-                            const std::string        &name);
+                            int jointTorque,
+                            double jointAngleOffsetRelativeToDoxygenFigures,
+                            double signOfJointAngleRelativeToDoxygenFigures,
+                            double signOfJointTorqueToDoxygenFigures,
+                            const std::string &name);
 
     /**
     Calculates the signed joint torque developed by the
@@ -1078,9 +1078,9 @@ public:
            value that it does. See the TorqueMuscleSummary
            (in this file) for details.
     */
-    void calcActivation(double               jointAngle,
-                        double               jointAngularVelocity,
-                        double               jointTorque,
+    void calcActivation(double jointAngle,
+                        double jointAngularVelocity,
+                        double jointTorque,
                         TorqueMuscleSummary &updTorqueMuscleSummaryStruct) const;
 
     /**
@@ -1138,9 +1138,9 @@ public:
 
     @param updTorqueMuscleInfoStruct: A torque muscle struct
     */
-    void calcTorqueMuscleInfo(double            jointAngle,
-                              double            jointAngularVelocity,
-                              double            activation,
+    void calcTorqueMuscleInfo(double jointAngle,
+                              double jointAngularVelocity,
+                              double activation,
                               TorqueMuscleInfo &updTorqueMuscleInfoStruct) const;
 
     /**
@@ -1259,7 +1259,7 @@ public:
     void setPassiveCurveAngleOffset(double passiveCurveAngleOffsetVal);
 
     double getTorqueVelocityMultiplierAtHalfOmegaMax() const;
-    void   setTorqueVelocityMultiplierAtHalfOmegaMax(double tvAtHalfOmegaMax);
+    void setTorqueVelocityMultiplierAtHalfOmegaMax(double tvAtHalfOmegaMax);
 
     /**
       This function iteratively solves for the scaling
@@ -1408,32 +1408,32 @@ public:
     */
     void printJointTorqueProfileToFile(const std::string &path,
                                        const std::string &fileNameWithoutExtension,
-                                       int                numberOfSamplePoints);
+                                       int numberOfSamplePoints);
 
     std::string getName();
-    void        setName(std::string &name);
+    void setName(std::string &name);
 
-    DataSet::item        getDataSet();
-    GenderSet::item      getGender();
-    AgeGroupSet::item    getAgeGroup();
+    DataSet::item getDataSet();
+    GenderSet::item getGender();
+    AgeGroupSet::item getAgeGroup();
     JointTorqueSet::item getJointTorque();
-    double               getSubjectMass();
-    double               getSubjectHeight();
+    double getSubjectMass();
+    double getSubjectHeight();
 
 private:
-    bool                mMuscleCurvesAreDirty;
-    void                updateTorqueMuscleCurves();
-    TorqueMuscleInfo    mTmInfo;
+    bool mMuscleCurvesAreDirty;
+    void updateTorqueMuscleCurves();
+    TorqueMuscleInfo mTmInfo;
     TorqueMuscleSummary mTmSummary;
 
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction mTaCurve;
-    double                                                       mTaLambda;
-    static const double                                          mTaLambdaMax; // = 1.0 -> defined in the cc file
+    double mTaLambda;
+    static const double mTaLambdaMax; // = 1.0 -> defined in the cc file
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction mTpCurve;
-    double                                                       mTpLambda;
-    static const double                                          mTpLambdaMax; // = 0.0 -> defined in the cc file
+    double mTpLambda;
+    static const double mTpLambdaMax; // = 0.0 -> defined in the cc file
     RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction mTvCurve;
-    double                                                       mTvLambda;
+    double mTvLambda;
 
     /// This is set to the maximum eccentric value of the
     ///  torque-velocity curve so that the optimization problem
@@ -1446,9 +1446,9 @@ private:
     RigidBodyDynamics::Math::VectorNd mAnderson2007b1k1b2k2;
     RigidBodyDynamics::Math::VectorNd mGymnastParams;
 
-    DataSet::item        mDataSet;
-    GenderSet::item      mGender;
-    AgeGroupSet::item    mAgeGroup;
+    DataSet::item mDataSet;
+    GenderSet::item mGender;
+    AgeGroupSet::item mAgeGroup;
     JointTorqueSet::item mJointTorque;
 
     bool mUseTabularOmegaMax;
@@ -1493,15 +1493,15 @@ private:
     void calcTorqueMuscleDataFeatures(RigidBodyDynamics::Math::VectorNd const &jointTorque,
                                       RigidBodyDynamics::Math::VectorNd const &jointAngle,
                                       RigidBodyDynamics::Math::VectorNd const &jointAangularVelocity,
-                                      double                                   activeTorqueAngleBlendingVariable,
-                                      double                                   passiveTorqueAngleBlendingVariable,
-                                      double                                   torqueVelocityBlendingVariable,
-                                      double                                   activeTorqueAngleAngleScaling,
-                                      double                                   activeTorqueAngleAtOneNormTorque,
-                                      double                                   passiveTorqueAngleCurveOffset,
-                                      double                                   maxAngularVelocity,
-                                      double                                   maxActiveIsometricTorque,
-                                      TorqueMuscleDataFeatures                &tmf) const;
+                                      double activeTorqueAngleBlendingVariable,
+                                      double passiveTorqueAngleBlendingVariable,
+                                      double torqueVelocityBlendingVariable,
+                                      double activeTorqueAngleAngleScaling,
+                                      double activeTorqueAngleAtOneNormTorque,
+                                      double passiveTorqueAngleCurveOffset,
+                                      double maxAngularVelocity,
+                                      double maxActiveIsometricTorque,
+                                      TorqueMuscleDataFeatures &tmf) const;
 
     /**
       This function will calculate the angle at which the blendable
@@ -1559,9 +1559,9 @@ private:
 
     @returns the value of the blended curve or its derivative
     */
-    double calcBlendedCurveDerivative(double       curveArgument,
-                                      double       blendingVariable,
-                                      double       maximumBlendingValue,
+    double calcBlendedCurveDerivative(double curveArgument,
+                                      double blendingVariable,
+                                      double maximumBlendingValue,
                                       unsigned int derivativeOrderArgument,
                                       unsigned int derivativeOrderBlendingVariable,
                                       RigidBodyDynamics::Addons::Geometry::SmoothSegmentedFunction const &curve) const;
@@ -1642,17 +1642,17 @@ private:
       @param updTms: the torque-muscle-summary structure to be
              updated.
     */
-    void updTorqueMuscleSummary(double               activation,
-                                double               jointAngle,
-                                double               jointAngularVelocity,
-                                double               activeTorqueAngleBlendingVariable,
-                                double               passiveTorqueAngleBlendingVariable,
-                                double               activeTorqueAngularVelocityBlendingVariable,
-                                double               activeTorqueAngleAngleScaling,
-                                double               activeTorqueAngleAtOneNormTorque,
-                                double               passiveTorqueAngleCurveOffset,
-                                double               maxAngularVelocity,
-                                double               maxActiveIsometricTorque,
+    void updTorqueMuscleSummary(double activation,
+                                double jointAngle,
+                                double jointAngularVelocity,
+                                double activeTorqueAngleBlendingVariable,
+                                double passiveTorqueAngleBlendingVariable,
+                                double activeTorqueAngularVelocityBlendingVariable,
+                                double activeTorqueAngleAngleScaling,
+                                double activeTorqueAngleAtOneNormTorque,
+                                double passiveTorqueAngleCurveOffset,
+                                double maxAngularVelocity,
+                                double maxActiveIsometricTorque,
                                 TorqueMuscleSummary &updTms) const;
     /**
       This function evaluates the curves values that are a part of the
@@ -1682,14 +1682,14 @@ private:
       @param updTms: the torque-muscle-summary structure to be
              updated.
     */
-    void updTorqueMuscleSummaryCurveValues(double               fiberAngle,
-                                           double               normFiberAngularVelocity,
-                                           double               activeTorqueAngleBlendingVariable,
-                                           double               passiveTorqueAngleBlendingVariable,
-                                           double               activeTorqueAngularVelocityBlendingVariable,
-                                           double               activeTorqueAngleAngleScaling,
-                                           double               activeTorqueAngleAtOneNormTorque,
-                                           double               passiveTorqueAngleCurveOffset,
+    void updTorqueMuscleSummaryCurveValues(double fiberAngle,
+                                           double normFiberAngularVelocity,
+                                           double activeTorqueAngleBlendingVariable,
+                                           double passiveTorqueAngleBlendingVariable,
+                                           double activeTorqueAngularVelocityBlendingVariable,
+                                           double activeTorqueAngleAngleScaling,
+                                           double activeTorqueAngleAtOneNormTorque,
+                                           double passiveTorqueAngleCurveOffset,
                                            TorqueMuscleSummary &updTms) const;
 
     /**
@@ -1729,17 +1729,17 @@ private:
       @param updTmi: the torque-muscle-info structure to be
              updated.
     */
-    void updTorqueMuscleInfo(double            activation,
-                             double            jointAngle,
-                             double            jointAngularVelocity,
-                             double            activeTorqueAngleBlendingVariable,
-                             double            passiveTorqueAngleBlendingVariable,
-                             double            activeTorqueAngularVelocityBlendingVariable,
-                             double            activeTorqueAngleAngleScaling,
-                             double            activeTorqueAngleAtOneNormTorque,
-                             double            passiveTorqueAngleCurveOffset,
-                             double            maxAngularVelocity,
-                             double            maxActiveIsometricTorque,
+    void updTorqueMuscleInfo(double activation,
+                             double jointAngle,
+                             double jointAngularVelocity,
+                             double activeTorqueAngleBlendingVariable,
+                             double passiveTorqueAngleBlendingVariable,
+                             double activeTorqueAngularVelocityBlendingVariable,
+                             double activeTorqueAngleAngleScaling,
+                             double activeTorqueAngleAtOneNormTorque,
+                             double passiveTorqueAngleCurveOffset,
+                             double maxAngularVelocity,
+                             double maxActiveIsometricTorque,
                              TorqueMuscleInfo &updTmi) const;
 
     /**
@@ -1780,17 +1780,17 @@ private:
              updated.
 
     */
-    void updInvertTorqueMuscleSummary(double               jointTorque,
-                                      double               jointAngle,
-                                      double               jointAngularVelocity,
-                                      double               activeTorqueAngleBlendingVariable,
-                                      double               passiveTorqueAngleBlendingVariable,
-                                      double               activeTorqueAngularVelocityBlendingVariable,
-                                      double               activeTorqueAngleAngleScaling,
-                                      double               activeTorqueAngleAtOneNormTorque,
-                                      double               passiveTorqueAngleCurveOffset,
-                                      double               maxAngularVelocity,
-                                      double               maxActiveIsometricTorque,
+    void updInvertTorqueMuscleSummary(double jointTorque,
+                                      double jointAngle,
+                                      double jointAngularVelocity,
+                                      double activeTorqueAngleBlendingVariable,
+                                      double passiveTorqueAngleBlendingVariable,
+                                      double activeTorqueAngularVelocityBlendingVariable,
+                                      double activeTorqueAngleAngleScaling,
+                                      double activeTorqueAngleAtOneNormTorque,
+                                      double passiveTorqueAngleCurveOffset,
+                                      double maxAngularVelocity,
+                                      double maxActiveIsometricTorque,
                                       TorqueMuscleSummary &updTms) const;
 };
 

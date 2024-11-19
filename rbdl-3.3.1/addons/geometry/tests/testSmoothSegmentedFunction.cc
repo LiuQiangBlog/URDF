@@ -72,7 +72,7 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
 {
     // cout <<"**************************************************"<<endl;
     // cout << "   TEST: Bezier Curve Derivative DU" << endl;
-    string                            name = "testSegmentedQuinticBezierDerivatives()";
+    string name = "testSegmentedQuinticBezierDerivatives()";
     RigidBodyDynamics::Math::VectorNd xPts(6);
     RigidBodyDynamics::Math::VectorNd yPts(6);
     xPts[0] = 0;
@@ -90,12 +90,12 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
     yPts[5] = 1;
 
     double val = 0;
-    double d1  = 0;
-    double d2  = 0;
-    double d3  = 0;
-    double d4  = 0;
-    double d5  = 0;
-    double d6  = 0;
+    double d1 = 0;
+    double d2 = 0;
+    double d3 = 0;
+    double d4 = 0;
+    double d5 = 0;
+    double d6 = 0;
 
     double u = 0;
 
@@ -107,16 +107,16 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
     for (int i = 0; i < steps; i++)
     {
         // int i = 10;
-        u     = (double)i / (steps - 1);
+        u = (double)i / (steps - 1);
         uV[i] = u;
 
         val = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, xPts);
-        d1  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 1);
-        d2  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 2);
-        d3  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 3);
-        d4  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 4);
-        d5  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 5);
-        d6  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 6);
+        d1 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 1);
+        d2 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 2);
+        d3 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 3);
+        d4 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 4);
+        d5 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 5);
+        d6 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, xPts, 6);
 
         analyticDerXU(i, 0) = u;
         analyticDerXU(i, 1) = val;
@@ -128,12 +128,12 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
         analyticDerXU(i, 7) = d6;
 
         val = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveVal(u, yPts);
-        d1  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 1);
-        d2  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 2);
-        d3  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 3);
-        d4  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 4);
-        d5  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 5);
-        d6  = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 6);
+        d1 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 1);
+        d2 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 2);
+        d3 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 3);
+        d4 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 4);
+        d5 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 5);
+        d6 = SegmentedQuinticBezierToolkit::calcQuinticBezierCurveDerivU(u, yPts, 6);
 
         analyticDerYU(i, 0) = u;
         analyticDerYU(i, 1) = val;
@@ -145,18 +145,18 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
         analyticDerYU(i, 7) = d6;
     }
 
-    int                               mxDU = 6 - 1;
+    int mxDU = 6 - 1;
     RigidBodyDynamics::Math::MatrixNd numericDer(analyticDerXU.rows(), mxDU);
     RigidBodyDynamics::Math::MatrixNd errorDer(analyticDerXU.rows(), mxDU);
 
     double tol = (double)(1.0 / steps);
-    tol        = tol * tol * 50;
+    tol = tol * tol * 50;
     // Numerical error in a central difference increases with the
     // square of h.
     // http://en.wikipedia.org/wiki/Finite_difference
 
     RigidBodyDynamics::Math::VectorNd domainX = RigidBodyDynamics::Math::VectorNd::Zero(analyticDerXU.rows());
-    RigidBodyDynamics::Math::VectorNd rangeY  = RigidBodyDynamics::Math::VectorNd::Zero(analyticDerXU.rows());
+    RigidBodyDynamics::Math::VectorNd rangeY = RigidBodyDynamics::Math::VectorNd::Zero(analyticDerXU.rows());
 
     RigidBodyDynamics::Math::VectorNd analyticDerYX = RigidBodyDynamics::Math::VectorNd::Zero(analyticDerXU.rows());
     for (int j = 0; j < analyticDerXU.rows(); j++)
@@ -169,7 +169,7 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
 
         for (int j = 0; j < analyticDerXU.rows(); j++)
         {
-            rangeY[j]        = analyticDerXU(j, i + 1);
+            rangeY[j] = analyticDerXU(j, i + 1);
             analyticDerYX[j] = analyticDerXU(j, i + 2);
         }
 
@@ -253,7 +253,7 @@ void testSegmentedQuinticBezierDerivatives(int maximumNumberOfToleranceViolation
         {
             errorDerXYNum(i, j) = abs(analyticDerXY(i, j) - numericDerXY(i, j));
             errorDerXYDen(i, j) = abs(analyticDerXY(i, j) + numericDerXY(i, j));
-            errorDerXY(i, j)    = errorDerXYNum(i, j) / errorDerXYDen(i, j);
+            errorDerXY(i, j) = errorDerXYNum(i, j) / errorDerXYDen(i, j);
         }
     }
 
@@ -310,8 +310,8 @@ TEST_CASE(__FILE__ "_SmoothSegmentedFunctionProperties", "")
     RigidBodyDynamics::Math::VectorNd dydx(5);
     for (int i = 0; i < x.size(); ++i)
     {
-        x[i]    = i * 0.5 * M_PI / (x.size() - 1);
-        y[i]    = sin(x[i]) + x[i];
+        x[i] = i * 0.5 * M_PI / (x.size() - 1);
+        y[i] = sin(x[i]) + x[i];
         dydx[i] = cos(x[i]) + 1.0;
     }
     double c = 0.5;
@@ -321,8 +321,8 @@ TEST_CASE(__FILE__ "_SmoothSegmentedFunctionProperties", "")
 
     for (int i = 0; i < 4; ++i)
     {
-        p0        = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x[i], y[i], dydx[i], x[i + 1],
-                                                                                        y[i + 1], dydx[i + 1], c);
+        p0 = SegmentedQuinticBezierToolkit::calcQuinticBezierCornerControlPoints(x[i], y[i], dydx[i], x[i + 1],
+                                                                                 y[i + 1], dydx[i + 1], c);
         mX.col(i) = p0.col(0);
         mY.col(i) = p0.col(1);
     }
@@ -334,7 +334,7 @@ TEST_CASE(__FILE__ "_SmoothSegmentedFunctionProperties", "")
     RigidBodyDynamics::Math::VectorNd dydxErr(5);
     for (int i = 0; i < x.size(); ++i)
     {
-        yErr[i]    = testCurve.calcValue(x[i]) - y[i];
+        yErr[i] = testCurve.calcValue(x[i]) - y[i];
         dydxErr[i] = testCurve.calcDerivative(x[i], 1) - dydx[i];
 
         CHECK(abs(yErr[i]) < TOL_SMALL);
@@ -365,8 +365,8 @@ TEST_CASE(__FILE__ "_ShiftScale", "")
     RigidBodyDynamics::Math::VectorNd dydxV(5);
     for (int i = 0; i < xV.size(); ++i)
     {
-        xV[i]    = i * 0.5 * M_PI / (xV.size() - 1);
-        yV[i]    = sin(xV[i]) + xV[i];
+        xV[i] = i * 0.5 * M_PI / (xV.size() - 1);
+        yV[i] = sin(xV[i]) + xV[i];
         dydxV[i] = cos(xV[i]) + 1.0;
     }
     double c = 0.5;
@@ -384,9 +384,9 @@ TEST_CASE(__FILE__ "_ShiftScale", "")
     SmoothSegmentedFunction curve = SmoothSegmentedFunction();
     curve.updSmoothSegmentedFunction(mX, mY, xV[0], xV[4], yV[0], yV[4], dydxV[0], dydxV[4], "testCurve");
     SmoothSegmentedFunction shiftedCurve = SmoothSegmentedFunction();
-    shiftedCurve                         = curve;
-    double xShift                        = 1.0 / 3.0;
-    double yShift                        = 2.0 / 3.0;
+    shiftedCurve = curve;
+    double xShift = 1.0 / 3.0;
+    double yShift = 2.0 / 3.0;
 
     shiftedCurve.shift(xShift, yShift);
 
@@ -399,14 +399,14 @@ TEST_CASE(__FILE__ "_ShiftScale", "")
 
     for (int i = 0; i < xV.size(); ++i)
     {
-        x      = xmin + i * (xmax - xmin) / (xV.size() - 1);
-        y      = curve.calcValue(x);
-        dydx   = curve.calcDerivative(x, 1);
+        x = xmin + i * (xmax - xmin) / (xV.size() - 1);
+        y = curve.calcValue(x);
+        dydx = curve.calcDerivative(x, 1);
         d2ydx2 = curve.calcDerivative(x, 2);
 
-        xS      = x + xShift;
-        yS      = shiftedCurve.calcValue(xS) - yShift;
-        dydxS   = shiftedCurve.calcDerivative(xS, 1);
+        xS = x + xShift;
+        yS = shiftedCurve.calcValue(xS) - yShift;
+        dydxS = shiftedCurve.calcDerivative(xS, 1);
         d2ydx2S = shiftedCurve.calcDerivative(xS, 2);
 
         CHECK(abs(y - yS) < TOL_SMALL);
@@ -416,23 +416,23 @@ TEST_CASE(__FILE__ "_ShiftScale", "")
 
     // Test scale
     SmoothSegmentedFunction scaledCurve = SmoothSegmentedFunction();
-    scaledCurve                         = curve;
-    double xScale                       = 1.0 / 2.0;
-    double yScale                       = 5.0 / 3.0;
-    double dydxScale                    = yScale / xScale;
+    scaledCurve = curve;
+    double xScale = 1.0 / 2.0;
+    double yScale = 5.0 / 3.0;
+    double dydxScale = yScale / xScale;
 
     scaledCurve.scale(xScale, yScale);
 
     for (int i = 0; i < xV.size(); ++i)
     {
-        x      = xmin + i * (xmax - xmin) / (xV.size() - 1);
-        y      = curve.calcValue(x);
-        dydx   = curve.calcDerivative(x, 1);
+        x = xmin + i * (xmax - xmin) / (xV.size() - 1);
+        y = curve.calcValue(x);
+        dydx = curve.calcDerivative(x, 1);
         d2ydx2 = curve.calcDerivative(x, 2);
 
-        xS      = x * xScale;
-        yS      = scaledCurve.calcValue(xS) / yScale;
-        dydxS   = scaledCurve.calcDerivative(xS, 1) / dydxScale;
+        xS = x * xScale;
+        yS = scaledCurve.calcValue(xS) / yScale;
+        dydxS = scaledCurve.calcDerivative(xS, 1) / dydxScale;
         d2ydx2S = scaledCurve.calcDerivative(xS, 2) * xScale / (dydxScale);
 
         CHECK(abs(y - yS) < TOL_SMALL);
@@ -444,19 +444,19 @@ TEST_CASE(__FILE__ "_ShiftScale", "")
 TEST_CASE(__FILE__ "_CalcFunctionInverseValue", "")
 {
     // 1. Make a curve with multiple maxima
-    unsigned int                      n = 10;
+    unsigned int n = 10;
     RigidBodyDynamics::Math::VectorNd xV(n);
     RigidBodyDynamics::Math::VectorNd yV(n);
     RigidBodyDynamics::Math::VectorNd dydxV(n);
     for (int i = 0; i < xV.size(); ++i)
     {
-        xV[i]    = i * 2 * M_PI / (xV.size() - 1);
-        yV[i]    = sin(xV[i]);
+        xV[i] = i * 2 * M_PI / (xV.size() - 1);
+        yV[i] = sin(xV[i]);
         dydxV[i] = cos(xV[i]);
     }
     double c = 0.5;
 
-    unsigned int                      m = n - 1;
+    unsigned int m = n - 1;
     RigidBodyDynamics::Math::MatrixNd mX(6, m), mY(6, m);
     RigidBodyDynamics::Math::MatrixNd p0(6, 2);
 
@@ -473,33 +473,33 @@ TEST_CASE(__FILE__ "_CalcFunctionInverseValue", "")
     // Testing within the curve: make sure it returns an x value that
     // evaluates to the desired y and that it is the correct x.
     double xGuess = M_PI * 0.25;
-    double y0     = sin(xGuess);
-    double x0     = curve.calcInverseValue(y0, xGuess);
-    double err    = curve.calcValue(x0) - y0;
+    double y0 = sin(xGuess);
+    double x0 = curve.calcInverseValue(y0, xGuess);
+    double err = curve.calcValue(x0) - y0;
     CHECK(abs(err) < TOL_SMALL);
     CHECK(abs(x0 - xGuess) < 0.1);
 
     // Testing within the curve: test the other x.
     xGuess = M_PI * (0.25) + M_PI * (0.5);
-    y0     = sin(xGuess);
-    x0     = curve.calcInverseValue(y0, xGuess);
-    err    = curve.calcValue(x0) - y0;
+    y0 = sin(xGuess);
+    x0 = curve.calcInverseValue(y0, xGuess);
+    err = curve.calcValue(x0) - y0;
     CHECK(abs(err) < TOL_SMALL);
     CHECK(abs(x0 - xGuess) < 0.1);
 
     // Test outside of the interval.
     xGuess = -1.0;
-    y0     = dydxV[0] * xGuess;
-    x0     = curve.calcInverseValue(y0, xGuess);
-    err    = curve.calcValue(x0) - y0;
+    y0 = dydxV[0] * xGuess;
+    x0 = curve.calcInverseValue(y0, xGuess);
+    err = curve.calcValue(x0) - y0;
     CHECK(abs(err) < TOL_SMALL);
     CHECK(abs(x0 - xGuess) < 0.1);
 
     // Test outside of the interval.
     xGuess = M_PI * 2.0 + 1.0;
-    y0     = dydxV[n - 1] * 1.0;
-    x0     = curve.calcInverseValue(y0, xGuess);
-    err    = curve.calcValue(x0) - y0;
+    y0 = dydxV[n - 1] * 1.0;
+    x0 = curve.calcInverseValue(y0, xGuess);
+    err = curve.calcValue(x0) - y0;
     CHECK(abs(err) < TOL_SMALL);
     CHECK(abs(x0 - xGuess) < 0.1);
 }

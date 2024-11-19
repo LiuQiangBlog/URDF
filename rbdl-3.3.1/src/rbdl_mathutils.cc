@@ -51,7 +51,7 @@ RBDL_DLLAPI bool LinSolveGaussElimPivot(MatrixNd A, VectorNd b, VectorNd &x)
 
     for (j = 0; j < n; j++)
     {
-        pi        = j;
+        pi = j;
         Scalar pv = fabs(A(j, pivot[j]));
 
         // LOG << "j = " << j << " pv = " << pv << std::endl;
@@ -61,11 +61,11 @@ RBDL_DLLAPI bool LinSolveGaussElimPivot(MatrixNd A, VectorNd b, VectorNd &x)
             Scalar pt = fabs(A(j, pivot[k]));
             if (pt > pv)
             {
-                pv                  = pt;
-                pi                  = k;
+                pv = pt;
+                pi = k;
                 unsigned int p_swap = pivot[j];
-                pivot[j]            = pivot[pi];
-                pivot[pi]           = p_swap;
+                pivot[j] = pivot[pi];
+                pivot[pi] = p_swap;
                 //	LOG << "swap " << j << " with " << pi << std::endl;
                 //	LOG << "j = " << j << " pv = " << pv << std::endl;
             }
@@ -132,15 +132,15 @@ SpatialMatrixSetSubmatrix(SpatialMatrix &dest, unsigned int row, unsigned int co
 {
     assert(row < 2 && col < 2);
 
-    dest(row * 3, col * 3)     = matrix(0, 0);
+    dest(row * 3, col * 3) = matrix(0, 0);
     dest(row * 3, col * 3 + 1) = matrix(0, 1);
     dest(row * 3, col * 3 + 2) = matrix(0, 2);
 
-    dest(row * 3 + 1, col * 3)     = matrix(1, 0);
+    dest(row * 3 + 1, col * 3) = matrix(1, 0);
     dest(row * 3 + 1, col * 3 + 1) = matrix(1, 1);
     dest(row * 3 + 1, col * 3 + 2) = matrix(1, 2);
 
-    dest(row * 3 + 2, col * 3)     = matrix(2, 0);
+    dest(row * 3 + 2, col * 3) = matrix(2, 0);
     dest(row * 3 + 2, col * 3 + 1) = matrix(2, 1);
     dest(row * 3 + 2, col * 3 + 2) = matrix(2, 2);
 }
@@ -253,11 +253,11 @@ RBDL_DLLAPI void SparseFactorizeLTL(Model &model, Math::MatrixNd &H)
     for (unsigned int k = model.qdot_size; k > 0; k--)
     {
         H(k - 1, k - 1) = sqrt(H(k - 1, k - 1));
-        unsigned int i  = model.lambda_q[k];
+        unsigned int i = model.lambda_q[k];
         while (i != 0)
         {
             H(k - 1, i - 1) = H(k - 1, i - 1) / H(k - 1, k - 1);
-            i               = model.lambda_q[i];
+            i = model.lambda_q[i];
         }
 
         i = model.lambda_q[k];
@@ -267,7 +267,7 @@ RBDL_DLLAPI void SparseFactorizeLTL(Model &model, Math::MatrixNd &H)
             while (j != 0)
             {
                 H(i - 1, j - 1) = H(i - 1, j - 1) - H(k - 1, i - 1) * H(k - 1, j - 1);
-                j               = model.lambda_q[j];
+                j = model.lambda_q[j];
             }
             i = model.lambda_q[i];
         }
@@ -297,7 +297,7 @@ RBDL_DLLAPI void SparseSolveLx(Model &model, Math::MatrixNd &L, Math::VectorNd &
         while (j != 0)
         {
             x[i - 1] = x[i - 1] - L(i - 1, j - 1) * x[j - 1];
-            j        = model.lambda_q[j];
+            j = model.lambda_q[j];
         }
         x[i - 1] = x[i - 1] / L(i - 1, i - 1);
     }
@@ -307,12 +307,12 @@ RBDL_DLLAPI void SparseSolveLTx(Model &model, Math::MatrixNd &L, Math::VectorNd 
 {
     for (unsigned int i = model.qdot_size; i > 0; i--)
     {
-        x[i - 1]       = x[i - 1] / L(i - 1, i - 1);
+        x[i - 1] = x[i - 1] / L(i - 1, i - 1);
         unsigned int j = model.lambda_q[i];
         while (j != 0)
         {
             x[j - 1] = x[j - 1] - L(i - 1, j - 1) * x[i - 1];
-            j        = model.lambda_q[j];
+            j = model.lambda_q[j];
         }
     }
 }

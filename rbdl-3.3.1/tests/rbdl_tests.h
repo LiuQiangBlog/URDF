@@ -28,7 +28,7 @@ struct IsCloseMatcher : Catch::MatcherBase<T>
         return "is approx: " + ::Catch::Detail::stringify(m_comparator);
     }
 
-    T      m_comparator;
+    T m_comparator;
     double m_atol;
     double m_rtol;
 };
@@ -69,8 +69,8 @@ struct AllCloseVectorMatcher : Catch::MatcherBase<T>
     }
 
     T const &m_comparator;
-    double   m_atol;
-    double   m_rtol;
+    double m_atol;
+    double m_rtol;
 };
 
 template <typename T>
@@ -109,8 +109,8 @@ struct AllCloseMatrixMatcher : Catch::MatcherBase<T>
     }
 
     T const &m_comparator;
-    double   m_atol;
-    double   m_rtol;
+    double m_atol;
+    double m_rtol;
 };
 
 template <typename T>

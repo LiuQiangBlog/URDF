@@ -224,13 +224,13 @@ RBDL_DLLAPI inline Vector3d angular_acceleration_from_angle_rates(const Vector3d
                                                                   const Vector3d &zyx_angle_rates,
                                                                   const Vector3d &zyx_angle_rates_dot)
 {
-    Scalar sy    = sin(zyx_angles[1]);
-    Scalar cy    = cos(zyx_angles[1]);
-    Scalar sx    = sin(zyx_angles[2]);
-    Scalar cx    = cos(zyx_angles[2]);
-    Scalar xdot  = zyx_angle_rates[2];
-    Scalar ydot  = zyx_angle_rates[1];
-    Scalar zdot  = zyx_angle_rates[0];
+    Scalar sy = sin(zyx_angles[1]);
+    Scalar cy = cos(zyx_angles[1]);
+    Scalar sx = sin(zyx_angles[2]);
+    Scalar cx = cos(zyx_angles[2]);
+    Scalar xdot = zyx_angle_rates[2];
+    Scalar ydot = zyx_angle_rates[1];
+    Scalar zdot = zyx_angle_rates[0];
     Scalar xddot = zyx_angle_rates_dot[2];
     Scalar yddot = zyx_angle_rates_dot[1];
     Scalar zddot = zyx_angle_rates_dot[0];

@@ -29,16 +29,16 @@ std::vector<std::vector<double>> readMatrixFromFile(const std::string &filename)
 
     // SimTK::Matrix data;
     std::vector<std::vector<double>> dataMatrix;
-    std::vector<double>              rowVector;
+    std::vector<double> rowVector;
 
     if (datafile.is_open())
     {
         std::string line;
         std::string entry;
-        int         row = 0;
+        int row = 0;
         // int col = 0;
         // int matrixRowNum = 0;
-        int         matrixColNum = 1;
+        int matrixColNum = 1;
 
         // 1. Size the matrix
         getline(datafile, line); // get a line of text
@@ -76,7 +76,7 @@ std::vector<std::vector<double>> readMatrixFromFile(const std::string &filename)
                 if (pos2 == std::string::npos)
                     pos2 = line.length();
                 entry = line.substr(pos1, pos2 - pos1);
-                pos1  = pos2 + 1;
+                pos1 = pos2 + 1;
                 // data(row,i) = atof(entry.c_str());
                 rowVector[i] = atof(entry.c_str());
             }
@@ -98,8 +98,8 @@ std::vector<std::vector<double>> readMatrixFromFile(const std::string &filename)
 }
 
 void printMatrixToFile(const std::vector<std::vector<double>> &dataMatrix,
-                       const std::string                      &header,
-                       const std::string                      &filename)
+                       const std::string &header,
+                       const std::string &filename)
 {
 
     std::ofstream datafile;

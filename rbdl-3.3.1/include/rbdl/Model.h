@@ -127,10 +127,10 @@ struct RBDL_DLLAPI Model
     // Structural information
 
     /// \brief The id of the parents body
-    std::vector<unsigned int>              lambda;
+    std::vector<unsigned int> lambda;
     /** \brief The index of the parent degree of freedom that is directly
       influencing the current one*/
-    std::vector<unsigned int>              lambda_q;
+    std::vector<unsigned int> lambda_q;
     /// \brief Contains the ids of all the children of a given body
     std::vector<std::vector<unsigned int>> mu;
 
@@ -175,7 +175,7 @@ struct RBDL_DLLAPI Model
 
     /// \brief All joints
 
-    std::vector<Joint>               mJoints;
+    std::vector<Joint> mJoints;
     /// \brief The joint axis for joint i
     std::vector<Math::SpatialVector> S;
 
@@ -190,7 +190,7 @@ struct RBDL_DLLAPI Model
     std::vector<Math::SpatialTransform> X_T;
     /// \brief The number of fixed joints that have been declared before
     ///  each joint.
-    std::vector<unsigned int>           mFixedJointCount;
+    std::vector<unsigned int> mFixedJointCount;
 
     ////////////////////////////////////
     /// Special variables for joints with 3 degrees of freedom
@@ -199,7 +199,7 @@ struct RBDL_DLLAPI Model
     std::vector<Math::Matrix63> multdof3_U;
     std::vector<Math::Matrix3d> multdof3_Dinv;
     std::vector<Math::Vector3d> multdof3_u;
-    std::vector<unsigned int>   multdof3_w_index;
+    std::vector<unsigned int> multdof3_w_index;
 
     std::vector<CustomJoint *> mCustomJoints;
 
@@ -207,25 +207,25 @@ struct RBDL_DLLAPI Model
     // Dynamics variables
 
     /// \brief The velocity dependent spatial acceleration
-    std::vector<Math::SpatialVector>           c;
+    std::vector<Math::SpatialVector> c;
     /// \brief The spatial inertia of the bodies
-    std::vector<Math::SpatialMatrix>           IA;
+    std::vector<Math::SpatialMatrix> IA;
     /// \brief The spatial bias force
-    std::vector<Math::SpatialVector>           pA;
+    std::vector<Math::SpatialVector> pA;
     /// \brief Temporary variable U_i (RBDA p. 130)
-    std::vector<Math::SpatialVector>           U;
+    std::vector<Math::SpatialVector> U;
     /// \brief Temporary variable D_i (RBDA p. 130)
-    Math::VectorNd                             d;
+    Math::VectorNd d;
     /// \brief Temporary variable u (RBDA p. 130)
-    Math::VectorNd                             u;
+    Math::VectorNd u;
     /// \brief Internal forces on the body (used only InverseDynamics())
-    std::vector<Math::SpatialVector>           f;
+    std::vector<Math::SpatialVector> f;
     /// \brief The spatial inertia of body i (used only in
     ///  CompositeRigidBodyAlgorithm())
     std::vector<Math::SpatialRigidBodyInertia> I;
     std::vector<Math::SpatialRigidBodyInertia> Ic;
-    std::vector<Math::SpatialVector>           hc;
-    std::vector<Math::SpatialVector>           hdotc;
+    std::vector<Math::SpatialVector> hc;
+    std::vector<Math::SpatialVector> hdotc;
 
     ////////////////////////////////////
     // Bodies
@@ -253,7 +253,7 @@ struct RBDL_DLLAPI Model
      * On normal systems max (unsigned int) is 4294967294 which means there
      * could be a total of 2147483646 movable and / or fixed bodies.
      */
-    unsigned int           fixed_body_discriminator;
+    unsigned int fixed_body_discriminator;
 
     /** \brief All bodies 0 ... N_B, including the base
      *
@@ -287,7 +287,7 @@ struct RBDL_DLLAPI Model
      * again simply contained in the Joint class.
      *
      * \param parent_id   id of the parent body
-     * \param joint_frame the transformation from the parent frame to the origin
+     * \param joint_frame the transformation from the parent body frame to the origin
      *                    of the joint frame (represents X_T in RBDA)
      * \param joint       specification for the joint that describes the
      *                    connection
@@ -297,17 +297,17 @@ struct RBDL_DLLAPI Model
      *
      * \returns id of the added body
      */
-    unsigned int AddBody(unsigned int                  parent_id,
+    unsigned int AddBody(unsigned int parent_id,
                          const Math::SpatialTransform &joint_frame,
-                         const Joint                  &joint,
-                         const Body                   &body,
-                         const std::string            &body_name = "");
+                         const Joint &joint,
+                         const Body &body,
+                         const std::string &body_name = "");
 
-    unsigned int AddBodySphericalJoint(const unsigned int            parent_id,
+    unsigned int AddBodySphericalJoint(const unsigned int parent_id,
                                        const Math::SpatialTransform &joint_frame,
-                                       const Joint                  &joint,
-                                       const Body                   &body,
-                                       std::string                   body_name = "");
+                                       const Joint &joint,
+                                       const Body &body,
+                                       std::string body_name = "");
 
     /** \brief Adds a Body to the model such that the previously added Body
      * is the Parent.
@@ -316,15 +316,15 @@ struct RBDL_DLLAPI Model
      * most recently added body (or body 0) is taken as parent.
      */
     unsigned int AppendBody(const Math::SpatialTransform &joint_frame,
-                            const Joint                  &joint,
-                            const Body                   &body,
-                            std::string                   body_name = "");
+                            const Joint &joint,
+                            const Body &body,
+                            std::string body_name = "");
 
-    unsigned int AddBodyCustomJoint(unsigned int                  parent_id,
+    unsigned int AddBodyCustomJoint(unsigned int parent_id,
                                     const Math::SpatialTransform &joint_frame,
-                                    CustomJoint                  *custom_joint,
-                                    const Body                   &body,
-                                    std::string                   body_name = "");
+                                    CustomJoint *custom_joint,
+                                    const Body &body,
+                                    std::string body_name = "");
 
     /** \brief Returns the id of a body that was passed to AddBody()
      *
@@ -427,13 +427,13 @@ struct RBDL_DLLAPI Model
             return mFixedBodies[id - fixed_body_discriminator].mParentTransform;
         }
 
-        unsigned int child_id  = id;
+        unsigned int child_id = id;
         unsigned int parent_id = lambda[id];
         if (mBodies[parent_id].mIsVirtual)
         {
             while (mBodies[parent_id].mIsVirtual)
             {
-                child_id  = parent_id;
+                child_id = parent_id;
                 parent_id = lambda[child_id];
             }
             return X_T[child_id];
@@ -454,13 +454,13 @@ struct RBDL_DLLAPI Model
             throw Errors::RBDLError("Error: setting of parent transform not supported for fixed bodies!");
         }
 
-        unsigned int child_id  = id;
+        unsigned int child_id = id;
         unsigned int parent_id = lambda[id];
         if (mBodies[parent_id].mIsVirtual)
         {
             while (mBodies[parent_id].mIsVirtual)
             {
-                child_id  = parent_id;
+                child_id = parent_id;
                 parent_id = lambda[child_id];
             }
             X_T[child_id] = transform;
@@ -493,9 +493,9 @@ struct RBDL_DLLAPI Model
         assert(mJoints[i].mJointType == JointTypeSpherical);
         unsigned int q_index = mJoints[i].q_index;
 
-        Q[q_index]             = quat[0];
-        Q[q_index + 1]         = quat[1];
-        Q[q_index + 2]         = quat[2];
+        Q[q_index] = quat[0];
+        Q[q_index + 1] = quat[1];
+        Q[q_index + 2] = quat[2];
         Q[multdof3_w_index[i]] = quat[3];
     }
 
@@ -539,8 +539,8 @@ struct RBDL_DLLAPI Model
      * @param inertia the new inertia matrix
      * @param com the new center of mass position
      */
-    void SetBodyInertialParameters(const unsigned int    id,
-                                   const double          mass,
+    void SetBodyInertialParameters(const unsigned int id,
+                                   const double mass,
                                    const Math::Matrix3d &inertia,
                                    const Math::Vector3d &com);
 };
