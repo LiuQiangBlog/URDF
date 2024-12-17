@@ -82,7 +82,7 @@ struct RBDL_DLLAPI Body
      *  1. Transform the inertia from the initial body origin to it's COM
      *  2. Rotate the inertia of the given transform
      *  3. Transform inertia of initial_body of the given transform
-     * @param transform the transformation from tje target body to the initial body
+     * @param transform the transformation from the target body to the initial body
      * @param initial_body
      * @return the inertia of initial body transformed
      */
