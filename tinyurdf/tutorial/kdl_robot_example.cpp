@@ -13,10 +13,10 @@
 int main(int argc, char* argv[]) {
     // Check the program call.
 
-    std::string urdf_file = std::string("D:\\VideoNotes\\Handbook_For_Robot_Beginners\\Code\\Thirdparty\\tinyurdf\\tutorial\\panda.urdf");
+    std::string urdf_file = std::string("D:\\VideoNotes\\URDF\\wbc\\models\\kuka\\urdf\\kuka_iiwa.urdf");
 
     // Create a KDL Robot object, with a kinematic chain starting at "panda_link0" and ending at "panda_tip"
-    KDLRobot kdl_robot(urdf_file, "panda_link0", "panda_tip", Eigen::VectorXd::Zero(7), Eigen::VectorXd::Zero(7));
+    KDLRobot kdl_robot(urdf_file, "kuka_lbr_l_link_0", "kuka_lbr_l_tcp", Eigen::VectorXd::Zero(7), Eigen::VectorXd::Zero(7));
 
     kdl_robot.printChain();
 
