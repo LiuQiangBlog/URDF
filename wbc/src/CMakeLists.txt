@@ -1,3 +1,5 @@
+add_subdirectory(base-logging)
+add_subdirectory(base)
 add_subdirectory(core)
 add_subdirectory(robot_models)
 add_subdirectory(tasks)
