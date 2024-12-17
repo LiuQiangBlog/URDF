@@ -27,6 +27,7 @@ add_subdirectory(orwell)
 add_subdirectory(gafro)
 add_subdirectory(SpaceVecAlg)
 add_subdirectory(RBDyn)
+add_subdirectory(wbc)
 
 add_executable(main main.cpp)
 
