@@ -47,7 +47,7 @@ public:
             joint.forward(forward);
         }
 
-        sva::PTransformd X;         ///< Position of the joint in body coordinate.
+        sva::PTransformd X;         ///< Position of the joint in body coordinate. e.g. joint1 position in body1
         Joint joint;                ///< Joint with right direction.
         std::shared_ptr<Node> next; ///< successor node.
     };

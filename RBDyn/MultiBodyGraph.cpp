@@ -89,7 +89,7 @@ void MultiBodyGraph::addJoint(const Joint &J)
 void MultiBodyGraph::linkBodies(const std::string &b1Name,
                                 const sva::PTransformd &tB1,
                                 const std::string &b2Name,
-                                const sva::PTransformd &tB2,
+                                const sva::PTransformd &tB2, // forward means is identity
                                 const std::string &jointName,
                                 bool isB1toB2)
 {
@@ -164,7 +164,7 @@ MultiBody MultiBodyGraph::makeMultiBody(const std::string &rootBodyName,
         makeTree;
 
     makeTree = [&](const std::shared_ptr<Node> curNode, const std::shared_ptr<Node> fromNode, const Joint &joint, int p,
-                   int s, int par, const sva::PTransformd &Xti, const sva::PTransformd &Xbase)
+                   int s, int par, const sva::PTransformd &Xti, const sva::PTransformd &Xbase) //Xti is base to joint i
     {
         // looking for transformation that go to fromNode
         sva::PTransformd XFrom = Xbase;

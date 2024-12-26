@@ -185,7 +185,7 @@ public:
 
     void printChain();
 
-protected:
+public:
     bool initialize(const KDL::Chain &chain);
 
     /**
