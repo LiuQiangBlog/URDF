@@ -4,5 +4,13 @@
 
 #ifndef SCENE_JOINT_H
 #define SCENE_JOINT_H
+#include "Types.h"
+#include <iostream>
+
+class Joint
+{
+public:
+
+};
 
 #endif // SCENE_JOINT_H

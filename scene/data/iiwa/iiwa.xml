@@ -2,19 +2,20 @@
 <SceneModel name="IIWARobotSceneModel">
     <Assets>
         <!--default unit is m if not specified, if tris file exported as unit m, scale is (1,1,1)-->
-        <Mesh name="BaseModel"  scale="1,1,1" path="tris/base.tris"/>
-        <Mesh name="Link1Model" scale="1,1,1" path="tris/link1.tris"/>
-        <Mesh name="Link2Model" scale="1,1,1" path="tris/link2.tris"/>
-        <Mesh name="Link3Model" scale="1,1,1" path="tris/link3.tris"/>
-        <Mesh name="Link4Model" scale="1,1,1" path="tris/link4.tris"/>
-        <Mesh name="Link5Model" scale="1,1,1" path="tris/link5.tris"/>
-        <Mesh name="Link6Model" scale="1,1,1" path="tris/link6.tris"/>
-        <Mesh name="Link7Model" scale="1,1,1" path="tris/link7.tris"/>
-        <Box name="BoxModel" scale="1,1,1" length="" width="" height=""/>
-        <Cone name="ConeModel" scale="1,1,1" height="" radius="" slices=""/>
-        <Cylinder name="CylinderModel" scale="1,1,1" height="" radius="" slices=""/>
-        <Sphere name="SphereModel" scale="1,1,1" radius="" slices="" stacks=""/>
-        <Frustum name="FrustumModel" scale="1,1,1" fov="" ratio="" near="" far=""/>
+        <Mesh name="Base"  unit="MM" path="tris/base.tris"/>
+        <Mesh name="Link1" unit="MM" path="tris/link1.tris"/>
+        <Mesh name="Link2" unit="MM" path="tris/link2.tris"/>
+        <Mesh name="Link3" unit="MM" path="tris/link3.tris"/>
+        <Mesh name="Link4" unit="MM" path="tris/link4.tris"/>
+        <Mesh name="Link5" unit="MM" path="tris/link5.tris"/>
+        <Mesh name="Link6" unit="MM" path="tris/link6.tris"/>
+        <Mesh name="Link7" unit="MM" path="tris/link7.tris"/>
+        <Box name="Box" unit="MM" length="" width="" height=""/>
+        <Cone name="Cone" unit="MM" height="" radius="" slices=""/>
+        <Capsule name="Capsule" unit="MM" height="" radius="" slices=""/>
+        <Cylinder name="Cylinder" unit="MM" height="" radius="" slices=""/>
+        <Sphere name="Sphere" unit="MM" radius="" slices="" stacks=""/>
+        <Frustum name="Frustum" unit="MM" fov="" ratio="" near="" far=""/>
         <Material name="gray" color="0,0,0,1" texture="image/file/path.png"/>
     </Assets>
     <Frame name="BaseFrame">
@@ -58,7 +59,7 @@
         <Rpy>0,0,0</Rpy>
     </Frame>
     <Body name="BaseBody" frame="BaseFrame">
-        <TriMesh name="BaseTriMesh" data="BaseModel" material="gray" query="true" >
+        <TriMesh name="BaseTriMesh" data="Base" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -70,7 +71,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link1Body" frame="Link1Frame">
-        <TriMesh name="Link1TriMesh" data="Link1Model" material="gray" query="true" >
+        <TriMesh name="Link1TriMesh" data="Link1" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -82,7 +83,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link2Body" frame="Link2Frame">
-        <TriMesh name="Link2TriMesh" data="Link2Model" material="gray" query="true" >
+        <TriMesh name="Link2TriMesh" data="Link2" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -94,7 +95,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link3Body" frame="Link3Frame">
-        <TriMesh name="Link3TriMesh" data="Link3Model" material="gray" query="true" >
+        <TriMesh name="Link3TriMesh" data="Link3" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -106,7 +107,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link4Body" frame="Link4Frame">
-        <TriMesh name="Link4TriMesh" data="Link4Model" material="gray" query="true" >
+        <TriMesh name="Link4TriMesh" data="Link4" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -118,7 +119,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link5Body" frame="Link5Frame">
-        <TriMesh name="Link5TriMesh" data="Link5Model" material="gray" query="true" >
+        <TriMesh name="Link5TriMesh" data="Link5" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -130,7 +131,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link6Body" frame="Link6Frame">
-        <TriMesh name="Link6TriMesh" data="Link3Model" material="gray" query="true" >
+        <TriMesh name="Link6TriMesh" data="Link6" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
@@ -142,7 +143,7 @@
         <Friction coulomb="" viscous="" load=""/>
     </Body>
     <Body name="Link7Body" frame="Link7Frame">
-        <TriMesh name="Link7TriMesh" data="Link7Model" material="gray" query="true" >
+        <TriMesh name="Link7TriMesh" data="Link7" material="gray" query="true" >
             <Pos>0,0,0</Pos>
             <Rot>1,0,0,0,1,0,0,0,1</Rot>
         </TriMesh>
